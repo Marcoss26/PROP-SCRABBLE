@@ -30,4 +30,12 @@ public class Player
     {
         if(password.equals(new_pw))
     }
+    public void placeLetter(char l) //De momento void, si hay que devolver cosas se cambia
+    {
+        //Aqui haria algo tipo board.place(l) para poner la letra en el tablero.
+    }
+    public void refreshRack()
+    {
+        //Aqui haria rack.refresh();
+    }
 }
