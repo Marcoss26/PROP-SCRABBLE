@@ -6,7 +6,6 @@ public class Board
     {
         int a;
         int b;
-        int c;
 
         // Create a new board
     }
