@@ -47,4 +47,5 @@ public class Profile {
     public void addGamePlayed() {
         this.gamesPlayed++;
     }
+    //s
 }
