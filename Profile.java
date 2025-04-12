@@ -40,7 +40,7 @@ public class Profile {
     public boolean isPublic() {
         return this.public;
     }
-
+e
     public void addScore(int score) {
         this.score += score;
     }
