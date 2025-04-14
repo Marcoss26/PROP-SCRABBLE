@@ -5,7 +5,6 @@ public class Dictionary
 
     //Atributos del diccionario
     String name; // Nombre del diccionario
-    String language; // Idioma del diccionario
     Dawg dawg; // Estructura de datos que contiene el DAWG
 
     public Dictionary()
@@ -25,6 +24,12 @@ public class Dictionary
         // Create a new dictionary with the specified language
         new Dictionary(language);
         ///////// leer el archivo de texto y añadir las palabras al DAWG
+    }
+
+    public String getLanguage()
+    {
+        // Get the language of the dictionary
+        return dawg.getLanguage();
     }
 
     public void addWord(String word)

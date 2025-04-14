@@ -49,6 +49,11 @@ public class Dawg
         addWordRec(root, word, 0);
     }
 
+    public String getLanguage()
+    {
+        return language;
+    }
+
     // pre: word es la palabra a introducir al DAWG
     // post: devuelve true si la siguiente letra puede ser un caracter especial, false en caso contrario
     private boolean specialCharacter(String word, int index) 
