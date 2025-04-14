@@ -5,7 +5,8 @@ public class Match
     private String id;
     private int turn; // 0 for player1, 1 for player2
     private int score;
-    private boolean finished;
+    private boolean finished = false;;
+    private boolean started = false;
 
     public Match(String id) 
     {
@@ -28,5 +29,21 @@ public class Match
     public int getScore() 
     {
         return score;
+    }
+    public void startMatch() 
+    {
+        this.started = true;
+    }
+    public boolean isStarted()
+    {
+        return started;
+    }
+    public boolean isFinished() 
+    {
+        return finished;
+    }
+    public void setFinished(boolean finished) 
+    {
+        this.finished = finished;
     }
 }
