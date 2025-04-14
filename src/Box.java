@@ -2,8 +2,13 @@ import java.util.*;
 
 public class Box
 {
-    private int x;
-    private int y;
+    protected int x;
+    protected int y;
+    public Box(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
     private boolean isOccupied; //pendiente de borrar, con idFicha ya
                                 //sabemos si está ocupada o no
     private String idFicha;
