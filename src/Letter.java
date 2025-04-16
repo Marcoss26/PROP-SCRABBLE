@@ -4,7 +4,9 @@ public class Letter
 {
     //Atributos de una ficha
     private String symbol;
+    private String idPlayer;
     private int value;
+    
 
     public Letter(String symbol, int value){
         this.symbol = symbol;
@@ -15,18 +17,29 @@ public class Letter
         return symbol;
     }
     
-    public String getValue(){
+    public int getValue(){
         return value;
     }
 
+    public String getIdPlayer(){
+        return idPlayer;
+    }
+
+   
+
     public void setSymbol(String symbol){
         this.symbol = symbol;
+    }
+
+    public void setIdPlayer(String idPlayer){
+        this.idPlayer = idPlayer;
     }
 
     public void setValue(int value){
         this.value = value;
     }
 
+  
     //
     public String printLetter(){
         int size = symbol.length();
