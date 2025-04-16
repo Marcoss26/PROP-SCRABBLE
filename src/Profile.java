@@ -7,10 +7,10 @@ public class Profile {
     private int gamesPlayed;
     private boolean public;
 
-    public Player(String username, String password) {
-        setUsername(username);
-        setPassword(password);
-        setPublic(true); //true by default
+    public Profile(String username, String password) {
+        this.setUsername(username);
+        this.setPassword(password);
+        this.setVisibility(true); //true by default
     }
 
     public void setUsername(String username) {
@@ -19,8 +19,8 @@ public class Profile {
     private void setPassword(int password) {
         this.password = password;
     }
-    public void changePassword(String new_pw) {
-        if(password.equals(new_pw)) {
+    public void changePassword(String old_pw, String new_pw) {
+        if (old_pw.equals(this.password)) {
             this.password = new_pw;
         }
     }
@@ -40,12 +40,11 @@ public class Profile {
     public boolean isPublic() {
         return this.public;
     }
-e
+
     public void addScore(int score) {
         this.score += score;
     }
-    public void addGamePlayed() {
+    public void incrementGamePlayed() {
         this.gamesPlayed++;
     }
-    //s
 }
