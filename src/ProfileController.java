@@ -2,10 +2,21 @@ import java.util.*;
 
 public class ProfileController {
     private Map<String, Profile> matches = new HashMap<>();
+    private static ProfileController c;
 
-    public ProfileController() {
+    private ProfileController() {
 
     }
+
+    public static ProfileController getInstance()
+    {
+        if (c == null)
+        {
+            c = new ProfileController();
+        }
+        return c;
+    }
+
 
     public void addProfile(String username, String password) {
         Profile profile = new Profile("username", "password");
