@@ -5,21 +5,17 @@ public class ProfileController {
     private static ProfileController c;
 
     private ProfileController() {
-
+        
     }
 
-    public static ProfileController getInstance()
-    {
-        if (c == null)
-        {
-            c = new ProfileController();
-        }
+    public static ProfileController getInstance() {
+        if (c == null) c = new ProfileController();
         return c;
     }
 
 
     public void addProfile(String username, String password) {
-        Profile profile = new Profile("username", "password");
+        Profile profile = new Profile(username, password);
         matches.put(profile.getUsername(), profile);
     }
     public void removeProfile(String username) {
