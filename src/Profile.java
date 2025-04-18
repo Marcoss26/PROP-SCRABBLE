@@ -3,9 +3,10 @@ import java.util.*;
 public class Profile {
     private String username;
     private String password;
-    private int score;
-    private int gamesPlayed;
     private boolean public;
+
+    private int wins;
+    private int gamesPlayed;
 
     public Profile(String username, String password) {
         this.setUsername(username);
@@ -31,8 +32,8 @@ public class Profile {
     public void getUsername() {
         return this.username;
     }
-    public getScore() {
-        return this.score;
+    public getWins() {
+        return this.wins;
     }
     public getGamesPlayed() {
         return this.gamesPlayed;
