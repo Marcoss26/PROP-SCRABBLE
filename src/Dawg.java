@@ -36,17 +36,11 @@ public class Dawg
     //Atributos del DAWG
     private String language; // Idioma del DAWG
     private Node root; // Nodo raíz del DAWG
-    //... faltan funciones y atributos 
 
-    public Dawg()
+    public Dawg(String language)
     {
+        this.language = language; // Inicializamos el idioma
         root = new Node(false); // Inicializamos el nodo raíz
-    }
-
-    public void addWord(String word)
-    {
-        // Añadimos una palabra al DAWG recursivamente
-        addWordRec(root, word, 0);
     }
 
     public String getLanguage()
@@ -74,6 +68,12 @@ public class Dawg
         }
 
         return false;
+    }
+
+    public void addWord(String word)
+    {
+        // Añadimos una palabra al DAWG recursivamente
+        addWordRec(root, word, 0);
     }
 
     private void addWordRec(Node node, String word, int index)

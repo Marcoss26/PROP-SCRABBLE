@@ -7,40 +7,33 @@ public class Dictionary
     String name; // Nombre del diccionario
     Dawg dawg; // Estructura de datos que contiene el DAWG
 
+    // pre: True
+    // post: creadora por defecto
     public Dictionary()
     {
         // Create a new dictionary
     }
 
-    public Dictionary(String language)
-    {
-        // Create a new dictionary with the specified language
-        this.language = language;
-        this.dawg = new Dawg();
-    }
 
-    public createDictionary(String language)
+    public Dictionary(String name, String language)
     {
         // Create a new dictionary with the specified language
-        new Dictionary(language);
-        ///////// leer el archivo de texto y añadir las palabras al DAWG
+        this.name = name;
+        this.dawg = new Dawg(language);
     }
 
     public String getLanguage()
     {
-        // Get the language of the dictionary
         return dawg.getLanguage();
     }
 
     public void addWord(String word)
     {
-        // Add a word to the dictionary
         dawg.addWord(word);
     }
 
     public void removeWord(String word)
     {
-        // Remove a word from the dictionary
         dawg.removeWord(word);
     }
 
