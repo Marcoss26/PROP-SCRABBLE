@@ -10,9 +10,13 @@ public class Rack {
         }
     }
 
-    public void addLetter(Letter letter) {
+    private void addLetter(Letter letter) {
+        if (letters.size() >= NUM_LETTERS) {
+            throw new IllegalStateException("Rack is full");
+        }
         letters.add(letter);
     }
+
     public void removeLetter(Letter letter) {
         letters.remove(letter);
     }
