@@ -6,29 +6,44 @@ public class Dawg
     public class Node
     {
         private Map<String, Node> children ; // Mapa identificador del nodo actual y puntero que apunta a los siguientes nodos
-        private boolean isFinalNode; // Indica si el nodo es terminal
+        private boolean isFinalNode; // Indica si el nodo es final
 
-        public Node(boolean isFinalNode)
+        // pre: True
+        // post: crea un nuevo nodo con el mapa de hijos vacío y el estado de isFinalNode inicializado a false
+        public Node()
         {
-            // Esta constructora necesita como parámetros el id del nodo y un booleano, no sé si son necesarios los dos parámetros.
             this.children = new HashMap<String, Node>();
-            this.isFinalNode = isFinalNode;
+            this.isFinalNode = false;
         }
 
+        //pre: True
+        //post: devuelve el valor de isFinalNode
         public boolean isFinal()
         {
             return isFinalNode;
         }
 
+        //pre: nextLetter es la siguiente letra que se quiere añadir al DAWG y node es el nodo que se quiere añadir
+        //     no existe el nodo con el id nextLetter
+        //post: añade el nodo al mapa de hijos del nodo actual
         public void addNextNode(String nextLetter, Node node)
         {
-            // Añadimos un nodo al conjunto de nodos siguientes
-            children.put(nextLetter, node);
-        } //añdairé remove solo si es necesario
 
+            children.put(nextLetter, node);
+        }
+
+        //pre: True
+        //post: hace un toggle de isFinalNode
         public void changeState()
         {
             isFinalNode = !isFinalNode;
+        }
+
+        //pre: True
+        //post: cambia isFinalNode a lo que valga b
+        public void setState(boolean b)
+        {
+            isFinalNode = b;
         }
 
     }
@@ -43,6 +58,8 @@ public class Dawg
         root = new Node(false); // Inicializamos el nodo raíz
     }
 
+    //pre: True
+    //post: devuelve el idioma del DAWG
     public String getLanguage()
     {
         return language;
@@ -70,6 +87,8 @@ public class Dawg
         return false;
     }
 
+    //pre: word es la palabra a introducir al DAWG
+    //post: añade la palabra al DAWG, si ya existe se queda igual
     public void addWord(String word)
     {
         // Añadimos una palabra al DAWG recursivamente
@@ -81,7 +100,7 @@ public class Dawg
         // Caso Base
         if (index == word.length())
         {
-            node.changeState(); // Cambiamos el estado del nodo a final
+            node.setState(true); // Cambiamos el estado del nodo a final
             return;
         }
 
@@ -95,11 +114,11 @@ public class Dawg
             Node nextNode1 = node.children.get(c1);
             Node nextNode2 = node.children.get(c1 + c2);
             if(nextNode1 == null) {
-                nextNode1 = new Node(false);
+                nextNode1 = new Node();
                 node.addNextNode(c1, nextNode1);
             }
             if(nextNode2 == null) {
-                nextNode2 = new Node(false);
+                nextNode2 = new Node();
                 node.addNextNode(c1 + c2, nextNode2);
             }
             addWordRec(nextNode1, word, index + 1);
@@ -110,7 +129,7 @@ public class Dawg
             if(word.charAt(index) == 'l') {
                 Node nextNode = node.children.get("l·l");
                 if(nextNode == null) {
-                    nextNode = new Node(false);
+                    nextNode = new Node();
                     node.addNextNode("l·l", nextNode);
                 }
                 addWordRec(nextNode, word, index + 3);
@@ -119,11 +138,11 @@ public class Dawg
                 Node nextNode1 = node.children.get("n");
                 Node nextNode2 = node.children.get("ny");
                 if(nextNode1 == null) {
-                    nextNode1 = new Node(false);
+                    nextNode1 = new Node();
                     node.addNextNode("n", nextNode1);
                 }
                 if(nextNode2 == null) {
-                    nextNode2 = new Node(false);
+                    nextNode2 = new Node();
                     node.addNextNode("ny", nextNode2);
                 }
                 addWordRec(nextNode1, word, index + 1);
@@ -136,11 +155,41 @@ public class Dawg
 
             if (nextNode == null)
             {
-                nextNode = new Node(false);
+                nextNode = new Node();
                 node.addNextNode(letter, nextNode);
             }
 
             addWordRec(nextNode, word, index + 1);
         }
+    }
+
+    //pre: word es la palabra a buscar en el DAWG
+    //post: devuelve true si la palabra existe en el DAWG, false en caso contrario
+    public boolean existsWord(String word)
+    {
+        // Comprobamos si la palabra existe en el DAWG
+        return existsWordRec(root, word, 0);
+    }
+
+    //pre: node es el nodo actual, word es la palabra a buscar y index es el índice de la letra que se está buscando
+    //post: devuelve true si la palabra existe en el DAWG, false en caso contrario
+    private boolean existsWordRec(Node node, String word, int index)
+    {
+        // Caso Base
+        if (index == word.length())
+        {
+            return node.isFinal(); // Comprobamos si el nodo es final
+        }
+
+        // Caso Recursivo
+        String letter = String.valueOf(word.charAt(index));
+        Node nextNode = node.children.get(letter);
+
+        if (nextNode == null)
+        {
+            return false;
+        }
+
+        return existsWordRec(nextNode, word, index + 1);
     }
 }

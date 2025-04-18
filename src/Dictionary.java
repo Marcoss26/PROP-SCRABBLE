@@ -22,11 +22,14 @@ public class Dictionary
         this.dawg = new Dawg(language);
     }
 
+    //pre: True
+    //post: devuelve el lenguaje del diccionario
     public String getLanguage()
     {
         return dawg.getLanguage();
     }
 
+    //pre: word es
     public void addWord(String word)
     {
         dawg.addWord(word);
