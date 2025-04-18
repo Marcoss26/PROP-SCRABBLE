@@ -4,8 +4,13 @@ public class IA extends Player
     {
         super();
     }
-    public IA(String id)
+    public IA(String id,Match match, int i)
     {
-        super(id);
+        super(id,match);
+        this.name = "IA" + i; //Set the name of the player to IA + i
+    }
+    public boolean isHuman()
+    {
+        return false;
     }
 }

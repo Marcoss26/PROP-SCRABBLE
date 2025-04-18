@@ -3,12 +3,11 @@ public class MP_Controller
 {
     private static MP_Controller c;
     private Map<String, Match> matches = new HashMap<>();
-    private Map<String,Set<Player>> MatchPlayers = new HashMap<>();
-    private Map<String,Player> players = new HashMap<>();
     private MP_Controller()
     {
 
     }
+
     public static MP_Controller getInstance()
     {
         if (c == null)
@@ -17,13 +16,35 @@ public class MP_Controller
         }
         return c;
     }
-    public void createMatch(String id, int human, int ai)
+
+    public void createMatch(String id, set<Profile> profiles)
     {
         Match match = new Match(id);
         matches.put(id, match);
-        MatchPlayers.put(id, new HashSet<>());
-        MatchPlayers.get(id).addAll(createPlayers(id, human, ai));
+        createPlayersForMatch(match,profiles);
         System.out.println("Match created with ID: " + match.getId());
+    }
+
+    public void createPlayersForMatch(Match match, set<Profile> profiles)
+    {
+        int match_size = match.getSize();
+        int profile_size = profiles.size();
+        String match_id = match.getId();
+        for (int i = 0; i < profile_size; i++)
+        {
+            Profile profile = profiles.get(i); //Get the profile from the set
+            String human_id = profiles.get(i).getID(); //Get the ID of the profile
+            Player player = new Human(human_id+match_id,profile,match);    //Creating a new human player with this profile
+            match.setPlayer(player);  //Adding the human player to the match
+            player.setMatch(match);   //Setting the match for the player
+        }
+        for (int i = 0; i < match_size - profile_size; i++)
+        {
+            bot_id = match_id+"BOT"+i; //Creating a bot ID
+            Player player = new IA(bot_id,match,i); //Creating a new AI player
+            match.setPlayer(player);    //Adding the AI player to the match
+            player.setMatch(match);  //Setting the match for the player
+        }
     }
 
     public void deleteMatch(String id)
@@ -49,52 +70,38 @@ public class MP_Controller
         return matches.containsKey(id);
     }
 
-    public Set<Player> createPlayers(String id, int num_human, int num_ai)
+    public void leaveMatch(String match_id, String p_id)
     {
-        Set<Player> created_p = new HashSet<>();
-        for (int i = 0; i < num_human; i++)
+        if(existMatch(match_id))
         {
-            Player player = new Human();
-            players.put("HumanID", player);
-            created_p.add(player);
-        }
-        for (int i = 0; i < num_ai; i++)
-        {
-            Player player = new IA();
-            players.put("BotID", player);
-            created_p.add(player);
-        }
-        return created_p;
-    }
-    public void addPlayerToMatch(String id, Player player)
-    {
-        if (matches.containsKey(id))
-        {
-            MatchPlayers.get(id).add(player);
+            players.remove(p_id);
+            MatchPlayer.get(match_id).remove(p_id);
+            System.out.println("Player with ID: " + p_id + " left match with ID: " + match_id);
         }
         else
         {
-            //Excepciones a implementar
+            System.out.println("Match with ID: " + match_id + " does not exist.");
         }
     }
-    public void displayPlayers()
+
+    public void displayPlayers(String match_id)
     {
-        for (Map.Entry<String, Player> entry : players.entrySet())
+        if(existsMatch(match_id))
         {
-            String key = entry.getKey();
-            Player value = entry.getValue();
-            System.out.println("ID: " + key + ", Score: " + value.getScore());
+            match.displayPlayers();
+        }
+        else
+        {
+            System.out.println("Match with ID: " + match_id + " does not exist.");
         }
     }
+
     public void displayMatch(String id)
     {
         if(existMatch(id))
         {
             Match match = matches.get(id);
-            System.out.println("Match ID: " + match.getId());
-            System.out.println("Turn: " + match.getTurn());
-            System.out.println("Score: " + match.getScore());
-            System.out.println("Finished: " + match.isFinished());
+            match.displayMatch();
         }
         else
         {
@@ -122,10 +129,30 @@ public class MP_Controller
             finished = match.isFinished();
             if (match.isStarted())
             {
+                Map<String, Player> players = match.getPlayers();
                 while(!finished)
                 {
+                    for(String playerId : players.keySet())
+                    {
+                        Player player = players.get(playerId);
+                        if (player.isHuman())
+                        {
+                            // Human player's turn
+                            System.out.println("It's your turn, " + player.getName() + ". Enter your move:");
+                            // Get move from human player (e.g., through console input)
+                            // For example: String move = scanner.nextLine();
+                            // player.makeMove(move);
+                        }
+                        else
+                        {
+                            // AI player's turn
+                            System.out.println("AI player's turn: " + player.getName());
+                            // AI makes a move automatically
+                            // player.makeMove(aiMove);
+                        }
+                    }
                     System.out.println("Match with ID: " + id + " is in progress.");
-                    // Simulate game logic here
+                    
                     // For example, update score, change turn, etc.
                     match.setTurn((match.getTurn() + 1) % 4); // Change turn between player1 and player2
                     match.endMatch();

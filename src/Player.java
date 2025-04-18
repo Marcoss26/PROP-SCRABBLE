@@ -4,14 +4,32 @@ public abstract class Player
 {
     protected String id;
     protected int score;
+    protected String name;
+    protected Match match;
+    private Rack rack;
 
     public Player()
+    {
+    }
+
+    public Player(String id,Match match)
+    {
+        this.setID(id);
+        this.setScore(0);
+        this.setMatch(match);
+    }
+
+    public void displayPlayer()
+    {
+        System.out.println("Player username: " + name + ", Score: " + score);
+    }
+
+    public boolean isHuman()
     {}
 
-    public Player(String id)
+    public setMatch(Match match)
     {
-        this.id = id;
-        this.score = 0;
+        this.match = match;
     }
     
     public void setID(String id)
@@ -37,4 +55,7 @@ public abstract class Player
     {
         return score;
     }
+
+    public void makeMove()
+    {}
 }
