@@ -25,7 +25,7 @@ public class MP_Controller
         System.out.println("Match created with ID: " + match.getId());
     }
 
-    public void createPlayersForMatch(Match match, set<Profile> profiles)
+    private void createPlayersForMatch(Match match, set<Profile> profiles)
     {
         int match_size = match.getSize();
         int profile_size = profiles.size();
@@ -121,46 +121,24 @@ public class MP_Controller
             System.out.println("Match with ID: " + id + " does not exist.");
         }
     }
-    public void playsMatch(String id)
+    public String playsMatch(String id)
     {
         if (existMatch(id))
         {
             Match match = matches.get(id);
             finished = match.isFinished();
-            if (match.isStarted())
+            if (!match.isPaused())
             {
-                Map<String, Player> players = match.getPlayers();
-                while(!finished)
-                {
-                    for(String playerId : players.keySet())
-                    {
-                        Player player = players.get(playerId);
-                        if (player.isHuman())
-                        {
-                            // Human player's turn
-                            System.out.println("It's your turn, " + player.getName() + ". Enter your move:");
-                            // Get move from human player (e.g., through console input)
-                            // For example: String move = scanner.nextLine();
-                            // player.makeMove(move);
-                        }
-                        else
-                        {
-                            // AI player's turn
-                            System.out.println("AI player's turn: " + player.getName());
-                            // AI makes a move automatically
-                            // player.makeMove(aiMove);
-                        }
-                    }
-                    System.out.println("Match with ID: " + id + " is in progress.");
-                    
-                    // For example, update score, change turn, etc.
-                    match.setTurn((match.getTurn() + 1) % 4); // Change turn between player1 and player2
-                    match.endMatch();
-                }
+                List<Player> list_players = match.getListPlayers();
+                int turn = match.getTurn();
+                match.setTurn(turn + 1);
+                Player player = list_players.get(turn);
+                String decision = player.getDecision();
+                return decision;
             }
             else
             {
-                System.out.println("Match with ID: " + id + " has not started yet.");
+                throw new IllegalStateException("Match with ID: " + id + " has not started yet.");
             }
         }
         else
@@ -177,21 +155,13 @@ public class MP_Controller
         }
         return matchIDs;
     }
-    public Vector<String> getPlayerIDs()
-    {
-        Vector<String> playerIDs = new Vector<>();
-        for (String id : players.keySet())
-        {
-            playerIDs.add(id);
-        }
-        return playerIDs;
-    }
-    public void endMatch(String id)
+
+    public void pauseMatch(String id)
     {
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            match.setFinished(true);
+            match.setPaused(true);
             System.out.println("Match with ID: " + id + " finished.");
         }
         else
@@ -212,4 +182,7 @@ public class MP_Controller
             System.out.println("Player with ID: " + id_player + " does not exist.");
         }
     }
+
+    public void decideWinner(String id)
+
 }

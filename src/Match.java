@@ -3,13 +3,13 @@ import java.util.*;
 public class Match
 {
     private String id;
-    private int turn; // 0 for player1, 1 for player2
+    private int turn = 0; // 0 for player1, 1 for player2
     private int score;
     private boolean finished = false;
     private boolean paused = true;
     private int size;
     private Map<String,Player> players = new LinkedHashMap<>();
-    private Map<String,Rack> racks = new HashMap<>();
+    private List<Player> playerList = new ArrayList<>(); //Access by index without looping through all players
     private Dictionary dictionary;
     private Bag bag;
     private Board board;
@@ -69,6 +69,12 @@ public class Match
     public void setPlayer(Player player)
     {
         players.put(player.getID(), player);
+        playerList.add(player); // Add the player to the list for easy access by index
+    }
+
+    public List<Player> getListPlayers()
+    {
+        return playerList;
     }
 
     public player getPlayer(String id)
@@ -107,9 +113,14 @@ public class Match
         System.out.println("Turn: " + turn);
         System.out.println("Score: " + score);
         System.out.println("Finished: " + finished);
-        System.out.println("Started: " + started);
+        System.out.println("Paused: " + paused);
         System.out.println("Size: " + size);
         displayPlayers();
+    }
+
+    public boolean isPaused() 
+    {
+        return paused;
     }
 
     public String getId() 
@@ -127,7 +138,7 @@ public class Match
 
     public void setTurn(int turn) 
     {
-        this.turn = turn;
+        this.turn = turn%size;
     }
 
     public int getScore() 
@@ -143,6 +154,11 @@ public class Match
     public boolean isPaused() 
     {
         return paused;
+    }
+
+    public void setPaused(boolean paused)
+    {
+        this.paused = paused;
     }
 
     public boolean isFinished() 

@@ -27,14 +27,28 @@ public abstract class Player
     public boolean isHuman()
     {}
 
-    public setMatch(Match match)
+    
+    public void setMatch(Match match)
     {
         this.match = match;
+    }
+
+    public void setRack(Rack rack)
+    {
+        this.rack = rack;
     }
     
     public void setID(String id)
     {
         this.id = id;
+    }
+
+    public char getDecision()
+    {
+        scanner = new Scanner(System.in);
+        System.out.println("r to refresh rack, 1-7 to play a tile, p to pass");
+        char decision = scanner.next();
+        return decision;
     }
 
     public String getID()
@@ -48,7 +62,6 @@ public abstract class Player
 
     public void addScore(int score)
     {
-        this.score += score;
     }
 
     public int getScore()
