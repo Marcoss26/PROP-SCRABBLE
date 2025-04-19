@@ -29,24 +29,22 @@ public class Dictionary
         return dawg.getLanguage();
     }
 
-    //pre: word es
+    //pre: word es la palabra a añadir al diccionario
+    //post: añade la palabra al diccionario
     public void addWord(String word)
     {
         dawg.addWord(word);
     }
 
+    //pre: word existe dentro del diccionario y es la palabra a eliminar del diccionario
+    //post: elimina la palabra del diccionario
     public void removeWord(String word)
     {
         dawg.removeWord(word);
     }
 
-    //pre: rack es una cadena de caracteres que representa las letras disponibles
-    //post: devuelve una cadena de caracteres que representa la palabra encontrada en el diccionario
-    //       o null si no se encuentra ninguna palabra
-    //       (en caso de que haya más de una palabra, devuelve la primera que encuentra)
-    public String searchWord(String rack)
+    public boolean existsWord(String word)
     {
-        // Search for a word in the dictionary
-        return dawg.findWord(rack);
+        return dawg.existsWord(word);
     }
 }
