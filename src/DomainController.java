@@ -2,11 +2,17 @@ import java.util.*;
 
 public class DomainController {
     private ProfileController profileController;
-    private MatchController MP_Controller;
+    private MP_Controller MP_Controller;
+    private static DomainController c;
 
-    public DomainController() {
+    private DomainController() {
         this.profileController = new ProfileController();
         this.MP_Controller = new MatchController();
+    }
+
+    public static DomainController getInstance() {
+        if (c == null) c = new DomainController();
+        return c;
     }
 
     /* ---------------------------------------------------------------------
