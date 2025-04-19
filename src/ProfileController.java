@@ -21,13 +21,22 @@ public class ProfileController {
     public void removeProfile(String username) {
         matches.remove(username);
     }
-    public Profile getProfile(String username) {
-        return matches.get(username);
+    public Profile profileExists(String username,) {
+        return matches.get(username) != null;
+    }
+    public Profile getProfile(String username, String password) {
+        Profile profile = matches.get(username);
+        return profile.authenticate(password) ? profile : null;
     }
     public void updateProfile(String username, String password) {
         Profile profile = matches.get(username);
         if (profile != null) {
             profile.changePassword(profile.getPassword(), password);
+        }
+    }
+    void printProfiles() {
+        for (Profile profile : matches.values()) {
+            profile.printProfile();
         }
     }
 }
