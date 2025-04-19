@@ -38,7 +38,7 @@ public class BagController {
     //letters es el mapa de letras y su cantidad
     //Post: crea una bolsa y la asocia a la partida con el id matchId
     //Post: la bolsa se crea con las letras y cantidades que se le pasaron como parámetro
-    public void createBag(String matchId, List<Letter> letters, String language) {
+    public void createBag(String matchId, Map<Letter, Integer> letters) {
         Bag bag = new Bag(letters); 
         bags.put(matchId, bag); 
     }
