@@ -28,6 +28,10 @@ public class Profile {
     public void setVisibility(boolean isPublic) {
         this.public = isPublic;
     }
+    void authenticate(String password) {
+        if (this.password.equals(password)) return true;
+        return false;
+    }
 
     public void getUsername() {
         return this.username;
@@ -47,5 +51,13 @@ public class Profile {
     }
     public void incrementGamePlayed() {
         this.gamesPlayed++;
+    }
+
+    public printProfile() {
+        System.out.println("------------------------------");
+        System.out.println("Username: " + this.username);
+        System.out.println("Public: " + this.public);
+        System.out.println("Games Played: " + this.gamesPlayed);
+        System.out.println("------------------------------");
     }
 }
