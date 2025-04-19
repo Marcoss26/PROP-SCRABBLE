@@ -55,6 +55,7 @@ public class Box
         this.symbol = lletra;
         this.value = valor;
     }
+
     public String getSymbol()
     {
         return symbol;
@@ -67,9 +68,15 @@ public class Box
     @Override
     public String toString() {
         if (getSymbol() != null) {
-            return Color.GREEN + "(" + getSymbol() + ", " + getValue() + ")" + Color.RESET;
+            if (getSymbol().length() == 3) {
+                return Color.GREEN + "(" + getSymbol() + getValue() + ")" + Color.RESET;
+            }
+            else if (getSymbol().length() == 2) {
+                return Color.GREEN + "(" + getSymbol() + "_" + getValue() + ")" + Color.RESET;
+            }
+            return Color.GREEN + "(" + getSymbol() + "__" + getValue() + ")" + Color.RESET;
         }
-        return Color.GREEN + "()" + Color.RESET;
+        return Color.GREEN + "(____)" + Color.RESET;
     }
 
 
@@ -83,9 +90,15 @@ public class Box
         @Override
         public String toString() {
             if (getSymbol() != null) {
-                return Color.CYAN + "(" + getSymbol() + ", " + getValue() + ")" + Color.RESET;
+                if (getSymbol().length() == 3) {
+                    return Color.CYAN + "(" + getSymbol() + getValue() + ")" + Color.RESET;
+                }
+                else if (getSymbol().length() == 2) {
+                    return Color.CYAN + "(" + getSymbol() + "_" + getValue() + ")" + Color.RESET;
+                }
+                return Color.CYAN + "(" + getSymbol() + "__" + getValue() + ")" + Color.RESET;
             }
-            return Color.CYAN + "()" + Color.RESET;
+            return Color.CYAN + "(____)" + Color.RESET;
         }
     }
     public static class TripleLetter extends Box
@@ -98,9 +111,15 @@ public class Box
         @Override
         public String toString() {
             if (getSymbol() != null) {
-                return Color.BLUE + "(" + getSymbol() + ", " + getValue() + ")" + Color.RESET;
+                if (getSymbol().length() == 3) {
+                    return Color.BLUE + "(" + getSymbol() + getValue() + ")" + Color.RESET;
+                }
+                else if (getSymbol().length() == 2) {
+                    return Color.BLUE + "(" + getSymbol() + "_" + getValue() + ")" + Color.RESET;
+                }
+                return Color.BLUE + "(" + getSymbol() + "__" + getValue() + ")" + Color.RESET;
             }
-            return Color.BLUE + "()" + Color.RESET;
+            return Color.BLUE + "(____)" + Color.RESET;
         }
     }
     public static class DoubleWord extends Box
@@ -113,9 +132,15 @@ public class Box
         @Override
         public String toString() {
             if (getSymbol() != null) {
-                return Color.MAGENTA + "(" + getSymbol() + ", " + getValue() + ")" + Color.RESET;
+                if (getSymbol().length() == 3) {
+                    return Color.MAGENTA + "(" + getSymbol() + getValue() + ")" + Color.RESET;
+                }
+                else if (getSymbol().length() == 2) {
+                    return Color.MAGENTA + "(" + getSymbol() + "_" + getValue() + ")" + Color.RESET;
+                }
+                return Color.MAGENTA + "(" + getSymbol() + "__" + getValue() + ")" + Color.RESET;
             }
-            return Color.MAGENTA + "()" + Color.RESET;
+            return Color.MAGENTA + "(____)" + Color.RESET;
         }
     }
     public static class TripleWord extends Box
@@ -128,9 +153,15 @@ public class Box
         @Override
         public String toString() {
             if (getSymbol() != null) {
-                return Color.RED + "(" + getSymbol() + ", " + getValue() + ")" + Color.RESET;
+                if (getSymbol().length() == 3) {
+                    return Color.RED + "(" + getSymbol() + getValue() + ")" + Color.RESET;
+                }
+                else if (getSymbol().length() == 2) {
+                    return Color.RED + "(" + getSymbol() + "_" + getValue() + ")" + Color.RESET;
+                }
+                return Color.RED + "(" + getSymbol() + "__" + getValue() + ")" + Color.RESET;
             }
-            return Color.RED + "()" + Color.RESET;
+            return Color.RED + "(____)" + Color.RESET;
         }
     }
 }

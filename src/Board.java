@@ -30,7 +30,7 @@ public class Board
         else if (this.size == 25) {
             doubleLetter = new int[]{1,8, 1,16, 3,11, 3,13, 4,12, 5,8, 5,16, 7,11, 7,13, 8,12, 8,1, 8,5, 8,19, 8,23, 11,3, 11,7, 11,11, 11,13, 11,17, 11,21, 12,4, 12,8, 12,16, 12,20, 23,8, 23,16, 21,11, 21,13, 20,12, 19,8, 19,16, 17,11, 17,13, 16,12, 16,1, 16,5, 16,19, 16,23, 13,3, 13,7, 13,11, 13,13, 13,17, 13,21};
             tripleLetter = new int[]{2,10, 2,14, 6,10, 6,14, 10,10, 10,14, 14,10, 14,14, 18,10, 18,14, 22,10, 22,14, 10,2, 10,6, 14,2, 14,6, 10,18, 10,22, 14,18, 14,22};
-            doubleWord = new int[]{1,1, 2,2, 3,3, 4,4, 5,5, 6,6, 7,7, 9,9, 12,12, 15,15, 16,16, 17,17, 18,18, 19,19, 20,20, 21,21, 22,22, 23,23, 1,23, 2,22, 3,21, 4,20, 5,19, 6,18, 7,17, 8,16, 9,15, 15,9, 16,8, 17,7, 18,6, 19,5, 20,4, 21,3, 22,2, 23,1};
+            doubleWord = new int[]{1,1, 2,2, 3,3, 4,4, 5,5, 6,6, 7,7, 8,8, 9,9, 12,12, 15,15, 16,16, 17,17, 18,18, 19,19, 20,20, 21,21, 22,22, 23,23, 1,23, 2,22, 3,21, 4,20, 5,19, 6,18, 7,17, 8,16, 9,15, 15,9, 16,8, 17,7, 18,6, 19,5, 20,4, 21,3, 22,2, 23,1};
             tripleWord = new int[]{0,0, 0,12, 0,24, 12,0, 12,24, 24,0, 24,12, 24,24};
         }
         
@@ -67,11 +67,20 @@ public class Board
         }
     }
 
+    public void placeLetter(int x, int y, String letter, int value) {
+        if (x >= 0 && x < size && y >= 0 && y < size) {
+            this.board[x][y].setLetter(letter, value);
+            clearScreen();
+            printBoard();
+        }
+    }
+
     public void printBoard() {
         // Imprimir los índices de las columnas
-        System.out.print("   "); // Espacio inicial para alinear con los índices de las filas
+        System.out.print("     "); // Espacio inicial para alinear con los índices de las filas
         for (int j = 0; j < this.size; j++) {
-            System.out.print(j + "  "); // Imprime el índice de la columna con espacio
+            if (j < 10) System.out.print(" "); // Alineación para índices de una cifra
+            System.out.print(j + "      "); // Imprime el índice de la columna con espacio
         }
         System.out.println(); // Salto de línea después de los índices de las columnas
     
@@ -80,10 +89,16 @@ public class Board
             System.out.print(i + " "); // Imprime el índice de la fila
             if (i < 10) System.out.print(" "); // Alineación para índices de una cifra
             for (int j = 0; j < this.size; j++) {
-                System.out.print(this.board[i][j].toString() + " "); // Imprime la casilla
+                System.out.print(this.board[i][j].toString() + "  "); // Imprime la casilla
             }
+            System.out.println();
             System.out.println(); // Salto de línea al final de cada fila
         }
+    }
+
+    public void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
     
 }
