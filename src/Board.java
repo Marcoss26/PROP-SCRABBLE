@@ -66,11 +66,23 @@ public class Board
     }
 
     public void printBoard() {
-        for (int i = 0; i < size; ++i) {
-            for (int j = 0; j < size; ++j) {
-                System.out.print(board[i][j].toString() + " ");
+        public void printBoard() {
+            // Imprimir los índices de las columnas
+            System.out.print("   "); // Espacio inicial para alinear con los índices de las filas
+            for (int j = 0; j < size; j++) {
+                System.out.print(j + "  "); // Imprime el índice de la columna con espacio
             }
-            System.out.println();
+            System.out.println(); // Salto de línea después de los índices de las columnas
+        
+            // Imprimir las filas con sus índices
+            for (int i = 0; i < size; i++) {
+                System.out.print(i + " "); // Imprime el índice de la fila
+                if (i < 10) System.out.print(" "); // Alineación para índices de una cifra
+                for (int j = 0; j < size; j++) {
+                    System.out.print(board[i][j].toString() + " "); // Imprime la casilla
+                }
+                System.out.println(); // Salto de línea al final de cada fila
+            }
         }
     }
 }
