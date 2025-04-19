@@ -38,10 +38,6 @@ public class DictionaryController {
         // Elimina el diccionario del mapa
         dictionaries.remove(dictionaryName);
     }
-    public void removeDictionary(String dictionaryName) {
-
-        dictionaries.remove(dictionaryName);
-    }
 
     // pre: dictionaryName es el nombre del diccionario que se va a buscar
     // post: devuelve el diccionario con el nombre especificado
@@ -83,9 +79,9 @@ public class DictionaryController {
 
         // Construye la ruta al archivo que esta en la carpeta 'data'
         String fileName = dictionaryName + ".txt";
-        File file = new File("../data/" + fileName);
+        File file = new File("../data/dictionaries/" + fileName);
         if (!file.exists()) {
-            throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data'.");
+            throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data/dictionaries'.");
         }
 
         // Lee el archivo línea por línea y añade las palabras al diccionario

@@ -50,29 +50,17 @@ public class Dawg
         {
             return children;
         }
-        
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null || getClass() != obj.getClass()) return false;
-            Node other = (Node) obj;
-            return isFinalNode == other.isFinalNode && children.equals(other.children);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(children, isFinalNode);
-        }
     }
 
     //Atributos del DAWG
     private String language; // Idioma del DAWG
     private Node root; // Nodo raíz del DAWG
+    private Map<Node, Node> minimizedNodes = new HashMap<>(); // Mapa para nodos únicos
 
     public Dawg(String language)
     {
         this.language = language; // Inicializamos el idioma
-        root = new Node(false); // Inicializamos el nodo raíz
+        root = new Node(); // Inicializamos el nodo raíz
     }
 
     //pre: True
@@ -83,93 +71,86 @@ public class Dawg
     }
 
     // pre: word es la palabra a introducir al DAWG
+    // post: devuelve true si el siguiente caracter es "l·l" y el idioma es catalán false en caso contrario
+    private boolean isSpecialCharacterL_L(String word, int index) {
+        return (language.equals("ca") && index + 2 < word.length() && word.charAt(index) == 'l' && word.charAt(index + 1) == '·' && word.charAt(index + 2) == 'l');
+    }
+    
+    // pre: word es la palabra a introducir al DAWG
     // post: devuelve el carácter especial que se encuentra en la palabra en la posicion index o null si no hay ninguno
     private String getSpecialCharacter(String word, int index) {
         if (index >= word.length() - 1) return null;
 
         if (language.equals("es")) {
             if (index + 1 < word.length()) {
-                if (word.charAt(index) == 'c' && word.charAt(index + 1) == 'h') return "ch";
-                if (word.charAt(index) == 'l' && word.charAt(index + 1) == 'l') return "ll";
-                if (word.charAt(index) == 'r' && word.charAt(index + 1) == 'r') return "rr";
+                if (word.charAt(index) == 'C' && word.charAt(index + 1) == 'H') return "CH";
+                if (word.charAt(index) == 'L' && word.charAt(index + 1) == 'L') return "LL";
+                if (word.charAt(index) == 'R' && word.charAt(index + 1) == 'R') return "RR";
             }
         } else if (language.equals("ca")) {
             if (index + 1 < word.length()) {
-                if (word.charAt(index) == 'n' && word.charAt(index + 1) == 'y') return "ny";
+                if (word.charAt(index) == 'N' && word.charAt(index + 1) == 'Y') return "NY";
             }
             if (index + 2 < word.length()) {
-                if (word.charAt(index) == 'l' && word.charAt(index + 1) == '·' && word.charAt(index + 2) == 'l') return "l·l";
+                if (word.charAt(index) == 'L' && word.charAt(index + 1) == '·' && word.charAt(index + 2) == 'L') return "L·L";
             }
         }
 
         return null; // No es un carácter especial
     }
 
-    //pre: word es la palabra a introducir al DAWG
-    //post: añade la palabra al DAWG, si ya existe se queda igual
-    public void addWord(String word) {
-        root = addWordRec(root, word, 0);
+    public void addWord(String word)
+    {
+        // Añadimos una palabra al DAWG recursivamente
+        addWordRec(root, word, 0);
     }
 
-    private Node addWordRec(Node node, String word, int index) {
-
+    private void addWordRec(Node node, String word, int index)
+    {
         // Caso Base
-        if (index == word.length()) {
-            node.setFinal(true);
-            return minimize(node);
+        if (index == word.length())
+        {
+            node.changeState(); // Cambiamos el estado del nodo a final
+            return;
         }
 
         // Caso Recursivo
-        String specialChar = getSpecialCharacter(word, index);
-        if (specialChar != null) {
-            // Camino con carácter especial
-            Node specialNode = node.getChildren().get(specialChar);
-            if (specialNode == null) {
-                specialNode = new Node();
-                node.getChildren().put(specialChar, specialNode);
+        String specialCharacter = getSpecialCharacter(word, index);
+        if (specialCharacter != null)
+        {
+            Node nextNode = node.children.get(specialCharacter);
+            if (nextNode == null)
+            {
+                nextNode = new Node();
+                node.addNextNode(specialCharacter, nextNode);
             }
-            specialNode = addWordRec(specialNode, word, index + specialChar.length());
-            node.getChildren().put(specialChar, specialNode);
-
-            // Camino con letras separadas
-            if( ! (language == "ca" && specialChar.charAt(index) == 'l')) {
-                for (int i = 0; i < specialChar.length(); i++) {
-                    String letter = String.valueOf(specialChar.charAt(i));
-                    Node child = node.getChildren().get(letter);
-                    if (child == null) {
-                        child = new Node();
-                        node.getChildren().put(letter, child);
-                    }
-                    node = child;
+            addWordRec(nextNode, word, index + specialCharacter.length());
+            
+            if(!isSpecialCharacterL_L(word, index)) {
+                String nextLetter = String.valueOf(word.charAt(index));
+                Node nextNode2 = node.children.get(nextLetter);
+                if (nextNode2 == null)
+                {
+                    nextNode2 = new Node();
+                    node.addNextNode(nextLetter, nextNode2);
                 }
-                node = addWordRec(node, word, index + specialChar.length());
+                addWordRec(nextNode2, word, index + 1);
             }
-        } else {
-            // Camino sin carácter especial
+        }
+        
+        else {
             String letter = String.valueOf(word.charAt(index));
-            Node child = node.getChildren().get(letter);
-            if (child == null) {
-                child = new Node();
-                node.getChildren().put(letter, child);
+            Node nextNode = node.children.get(letter);
+
+            if (nextNode == null)
+            {
+                nextNode = new Node();
+                node.addNextNode(letter, nextNode);
             }
-            child = addWordRec(child, word, index + 1);
-            node.getChildren().put(letter, child);
-        }
 
-        return minimize(node);
-    }
-
-    //pre: node es el nodo a minimizar
-    //post: devuelve el nodo minimizado o reutiliza el nodo si ya existe
-    private Node minimize(Node node) {
-        if (minimizedNodes.containsKey(node)) {
-            return minimizedNodes.get(node); // Reutiliza el nodo existente
-        } else {
-            minimizedNodes.put(node, node); // Agrega el nodo al mapa
-            return node;
+            addWordRec(nextNode, word, index + 1);
         }
     }
-
     //pre: word es la palabra a buscar en el DAWG
     //post: devuelve true si la palabra existe en el DAWG, false en caso contrario
     public boolean existsWord(String word)
@@ -189,7 +170,9 @@ public class Dawg
         }
 
         // Caso Recursivo
-        String letter = String.valueOf(word.charAt(index));
+        String letter;
+        if(isSpecialCharacterL_L(word, index)) letter = "L·L";
+        else letter = String.valueOf(word.charAt(index));
         Node nextNode = node.children.get(letter);
 
         if (nextNode == null)
@@ -197,6 +180,27 @@ public class Dawg
             return false;
         }
 
-        return existsWordRec(nextNode, word, index + 1);
+        return existsWordRec(nextNode, word, index + letter.length());
+    }
+
+    public void removeWord(String word) {
+
+        if (existsWord(word)) {
+            removeWordRec(root, word, 0);
+        }
+    }
+
+    private void removeWordRec(Node node, String word, int index) {
+        // Caso Base
+        if (index == word.length()) {
+            node.setState(false); // Marca el nodo como no final
+            return;
+        }
+
+        // Caso Recursivo
+        if(isSpecialCharacterL_L(word, index)) {
+            removeWordRec(node.children.get("L·L"), word, index + 3);
+        }
+        else removeWordRec(node.children.get(String.valueOf(word.charAt(index))), word, index + 1);
     }
 }

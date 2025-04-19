@@ -15,11 +15,11 @@ public class Dictionary
     }
 
 
-    public Dictionary(String name, String language)
+    public Dictionary(String name)
     {
         // Create a new dictionary with the specified language
         this.name = name;
-        this.dawg = new Dawg(language);
+        this.dawg = new Dawg(name);
     }
 
     //pre: True
