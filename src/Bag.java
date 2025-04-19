@@ -5,13 +5,17 @@ public class Bag
     //Atributos de la bolsa
     private List<Letter> letters = new ArrayList<>(); // Conjunto de fichas que hay en la bolsa
     private int totalLetters; // Total de fichas en la 
-    public Bag() {
-
-        this.totalLetters = 0; // Inicializamos el total de fichas
+    public Bag(List<Letter> letters) {
+        this.letters = letters; // Inicializamos el conjunto de letras
+        this.totalLetters = letters.size(); // Inicializamos el total de fichas
     }
 
     public int getNumLetters(){
         return totalLetters;
+    }
+
+    public List<Letter> getLetters() {
+        return letters; // Devolvemos el conjunto de letras
     }
 
     public void setLetters(List<Letter> letters) {
@@ -42,8 +46,30 @@ public class Bag
             addLetter(letter); // Añadimos cada letra al conjunto de letras
         }
     }
+    //pre: La bolsa tiene al menos 7 fichas
+    //post: devuelve un conjunto de letras extraídas de la bolsa
+    //       y las elimina de la bolsa
+    public Set<Letter> extractSetOfLetters(String playerId) {
+        Set<Letter> extractedLetters = new HashSet<>(); 
+        for (int i = 0; i < 7 && !isEmpty(); i++) {    //aqui puedo poner una excepción que diga que la bolsa no tiene suficientes fichas para hacer el cambio 
+            extractedLetters.add(extractLetter(playerId)); //añadimos al conjunto a devolver
+        }
+        return extractedLetters; // Devolvemos el conjunto de letras extraídas
+    }
+
+    
 
     public boolean isEmpty() {
         return totalLetters == 0; // Comprobamos si la bolsa está vacía
+    }
+
+    public void displayBag() {
+        System.out.println("Total letters in bag: " + totalLetters + "\n");
+        System.out.println("Letters inside the bag: \n"); 
+        
+        for (Letter letter : letters) {
+            letter.displayLetter(); 
+            System.out.println("\n");
+        }
     }
 }

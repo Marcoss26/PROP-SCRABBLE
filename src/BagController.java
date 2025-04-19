@@ -39,8 +39,7 @@ public class BagController {
     //Post: crea una bolsa y la asocia a la partida con el id matchId
     //Post: la bolsa se crea con las letras y cantidades que se le pasaron como parámetro
     public void createBag(String matchId, List<Letter> letters, String language) {
-        Bag bag = new Bag(); 
-        bag.setLetters(letters);
+        Bag bag = new Bag(letters); 
         bags.put(matchId, bag); 
     }
 
@@ -64,11 +63,6 @@ public class BagController {
     public Set<Letter> changeLetters(String matchId, Set<Letter> letters, String playerId) {
         Bag bag = bags.get(matchId); 
         bag.addSetOfLetters(letters); 
-        Set<Letter> newLetters = new HashSet<>(); 
-        for (int i = 0; i < 7; ++i) { //Solo se pueden cambiar todas las fichas del rack de golpe, por eso el indice es 7
-            Letter newLetter = bag.extractLetter(playerId); 
-            newLetters.add(newLetter); 
-        }
-        return newLetters; // Devolvemos el conjunto de letras que se van a devolver al jugador
+        return bag.extractSetOfLetters(playerId); // Devolvemos el conjunto de letras que se van a devolver al jugador
     }
 }

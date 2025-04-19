@@ -41,14 +41,17 @@ public class Letter
 
   
     //
-    public String printLetter(){
+
+    public void displayLetter(){
+        System.out.println("[" + symbol + ", " + value + "]");
+    }
+    public void printLetter(){
         int size = symbol.length();
         String top = "┌" + "─".repeat(size+2) + "┐" + "\n";
         String middle = "│" + ' ' + symbol + ' ' + "│" + "\n";
         String middle2 = "│" + " " + value + " ".repeat(size) +  "│" + "\n";
         String bottom = "└" + "─".repeat(size+2) + "┘" + "\n";
-        return top + middle + middle2 + bottom;
-
+        System.out.println(top + middle + middle2 + bottom); 
     }
 
 
