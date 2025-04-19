@@ -8,10 +8,10 @@ public class Board
     public Board(int size)
     {
         board = new Box[size][size];
-        int[] doubleLetter;
-        int[] tripleLetter;
-        int[] doubleWord;
-        int[] tripleWord;
+        int[] doubleLetter = new int[0];
+        int[] tripleLetter = new int[0];
+        int[] doubleWord = new int[0];
+        int[] tripleWord = new int[0];
 
         if (size == 7) {
             doubleLetter = new int[]{0,1, 0,5, 1,0, 1,6, 2,3, 3,2, 3,4, 4,3, 5,0, 5,6, 6,1, 6,5};
@@ -50,39 +50,38 @@ public class Board
             int y = posicions[i + 1];
             switch (type) {
                 case "doubleLetter":
-                    board[x][y] = new DoubleLetter(x, y);
+                    board[x][y] = new Box.DoubleLetter(x, y);
                     break;
                 case "tripleLetter":
-                    board[x][y] = new TripleLetter(x, y);
+                    board[x][y] = new Box.TripleLetter(x, y);
                     break;
                 case "doubleWord":
-                    board[x][y] = new DoubleWord(x, y);
+                    board[x][y] = new Box.DoubleWord(x, y);
                     break;
                 case "tripleWord":
-                    board[x][y] = new TripleWord(x, y);
+                    board[x][y] = new Box.TripleWord(x, y);
                     break;
             }
         }
     }
 
     public void printBoard() {
-        public void printBoard() {
-            // Imprimir los índices de las columnas
-            System.out.print("   "); // Espacio inicial para alinear con los índices de las filas
+        // Imprimir los índices de las columnas
+        System.out.print("   "); // Espacio inicial para alinear con los índices de las filas
+        for (int j = 0; j < size; j++) {
+            System.out.print(j + "  "); // Imprime el índice de la columna con espacio
+        }
+        System.out.println(); // Salto de línea después de los índices de las columnas
+    
+        // Imprimir las filas con sus índices
+        for (int i = 0; i < size; i++) {
+            System.out.print(i + " "); // Imprime el índice de la fila
+            if (i < 10) System.out.print(" "); // Alineación para índices de una cifra
             for (int j = 0; j < size; j++) {
-                System.out.print(j + "  "); // Imprime el índice de la columna con espacio
+                System.out.print(board[i][j].toString() + " "); // Imprime la casilla
             }
-            System.out.println(); // Salto de línea después de los índices de las columnas
-        
-            // Imprimir las filas con sus índices
-            for (int i = 0; i < size; i++) {
-                System.out.print(i + " "); // Imprime el índice de la fila
-                if (i < 10) System.out.print(" "); // Alineación para índices de una cifra
-                for (int j = 0; j < size; j++) {
-                    System.out.print(board[i][j].toString() + " "); // Imprime la casilla
-                }
-                System.out.println(); // Salto de línea al final de cada fila
-            }
+            System.out.println(); // Salto de línea al final de cada fila
         }
     }
+    
 }

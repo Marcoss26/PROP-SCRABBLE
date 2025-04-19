@@ -12,7 +12,7 @@ enum Color {
     BLUE("\033[0;34m"),     // BLUE
     MAGENTA("\033[0;35m"),  // MAGENTA
     CYAN("\033[0;36m"),     // CYAN
-    WHITE("\033[0;37m"),    // WHITE
+    WHITE("\033[0;37m");    // WHITE
 
     private final String code;
 
@@ -25,17 +25,9 @@ enum Color {
         return code;
     }
 }
-And now we will make a small example:
+
 class RunApp {
     public static void main(String[] args) {
-
-        System.out.print(Color.BLACK_BOLD);
-        System.out.println("Black_Bold");
-        System.out.print(Color.RESET);
-
-        System.out.print(Color.YELLOW);
-        System.out.print(Color.BLUE_BACKGROUND);
-        System.out.println("YELLOW & BLUE");
         System.out.print(Color.RESET);
 
         System.out.print(Color.YELLOW);
@@ -80,16 +72,12 @@ public class Box
         return Color.GREEN + "()" + Color.RESET;
     }
 
-    public void applyMultiplicator();
 
-    public class DoubleLetter extends Box
+    public static class DoubleLetter extends Box
     {
-        private int multiplicator = 2;
-
-        @Override
-        public void applyMultiplicator()
+        public DoubleLetter(int x, int y)
         {
-            // Implementación del multiplicador de letra doble
+            super(x, y);
         }
 
         @Override
@@ -100,14 +88,11 @@ public class Box
             return Color.CYAN + "()" + Color.RESET;
         }
     }
-    public class TripleLetter extends Box
+    public static class TripleLetter extends Box
     {
-        private int multiplicator = 3;
-
-        @Override
-        public void applyMultiplicator()
+        public TripleLetter(int x, int y)
         {
-            // Implementación del multiplicador de letra triple
+            super(x, y);
         }
 
         @Override
@@ -118,14 +103,11 @@ public class Box
             return Color.BLUE + "()" + Color.RESET;
         }
     }
-    public class DoubleWord extends Box
+    public static class DoubleWord extends Box
     {
-        private int multiplicator = 2;
-
-        @Override
-        public void applyMultiplicator()
+        public DoubleWord(int x, int y)
         {
-            // Implementación del multiplicador de palabra doble
+            super(x, y);
         }
 
         @Override
@@ -136,14 +118,11 @@ public class Box
             return Color.MAGENTA + "()" + Color.RESET;
         }
     }
-    public class TripleWord extends Box
+    public static class TripleWord extends Box
     {
-        private int multiplicator = 3;
-
-        @Override
-        public void applyMultiplicator()
+        public TripleWord(int x, int y)
         {
-            // Implementación del multiplicador de palabra triple
+            super(x, y);
         }
 
         @Override
