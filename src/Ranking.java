@@ -64,7 +64,11 @@ public class Ranking {
     }
 
     public void displayRanking() {
-        
+        //Excpepción si no hay jugadores en el ranking
+        if(profiles.isEmpty()) {
+            throw new IllegalStateException("There are no players in the ranking");
+            
+        }
         System.out.println("Players Ranking" + "\n" + "----------------" + "\n");
         System.out.println("#" + "\t" + "PlayersId" + "\t" + "Total Wins" + "\n");
         System.out.println("──────────────────────" + "\n");
@@ -87,14 +91,14 @@ public class Ranking {
         System.out.println(profile.getUsername() + "\n" + "───────────────" + "\n");
         if(!publicProfile){
             System.out.println("This profile is private, you are not allowed to see this information" + "\n");
-        }
+        } 
         else{
             int wins = profile.getWins();
             int gamesPlayed = profile.getGamesPlayed();
             System.out.println("Total Games: " + gamesPlayed + "\n" 
             + "Total Wins: " + wins + "\n" + 
             "Total Loses: " + (gamesPlayed - wins) + "\n" 
-            + "Win Rate: " + ((wins/gamesPlayed)*100) + "\n" 
+            + "Win Rate: " + ((wins/gamesPlayed)*100) + "%" + "\n" 
             + "PPG (Points per Game): " + (profiles.getScore()/gamesPlayed) + "\n"
             + "Preferred Dictionary: " + profile.getPreferredDictionary() + "\n")
 
