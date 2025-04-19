@@ -31,7 +31,31 @@ public class DomainController {
     public void manageMatches() {
         return this.MP_Controller;
     }
-    public void newMatch(matchID, int humanCount, int aiCount) {
-        this.MP_Controller.createMatch(matchID, humanCount, aiCount);
+    public void newMatch(int humanCount, int aiCount) {
+        Set<Profile> profiles = new HashSet<>();
+        const MIN_HOMAN_PLAYERS = 1;
+        Scanner myObj = new Scanner(System.in);
+
+        system.out.println("Enter the number of total players");
+        int players = myObj.nextLine();
+        while(profiles.size() < players) {
+            system.out.println("Enter the username of the player");
+            String userName = myObj.nextLine();
+            if (userName == "" && profiles.size() >= MIN_HOMAN_PLAYERS) break;
+            Profile p = profileController.getProfile(userName);
+            if (p == null) {
+                System.out.println("Profile not found.");
+                return;
+            } else {
+                if (p.authenticate(password)) {
+                    profiles.add(p);
+                } else {
+                    System.out.println("Invalid password");
+                    return;
+                }
+            }
+        }
+
+        this.MP_Controller.createMatch(matchID, profiles);
     }
 }
