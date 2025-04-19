@@ -5,8 +5,11 @@ public class Profile {
     private String password;
     private boolean public;
 
+    private int score;
     private int wins;
     private int gamesPlayed;
+    private static final Map<String, Int> dictionaryUsage = new HashMap<>();
+
 
     public Profile(String username, String password) {
         this.setUsername(username);
@@ -39,12 +42,19 @@ public class Profile {
     public getWins() {
         return this.wins;
     }
+    public getScore() {
+        return this.score;
+    }
     public getGamesPlayed() {
         return this.gamesPlayed;
+    }
+    public Map<String, Int> getDictionaryUsage() {
+        return this.dictionaryUsage;
     }
     public boolean isPublic() {
         return this.public;
     }
+    
 
     public void addScore(int score) {
         this.score += score;
@@ -52,7 +62,17 @@ public class Profile {
     public void incrementGamePlayed() {
         this.gamesPlayed++;
     }
-
+    public void incrementWins() {
+        this.wins++;
+    }
+    public void incrementDictionaryUsage(String lang) {
+        if (dictionaryUsage.containsKey(lang)) {
+            dictionaryUsage.put(lang, dictionaryUsage.get(lang) + 1);
+        } else {
+            dictionaryUsage.put(lang, 1);
+        }
+    }
+    
     public printProfile() {
         System.out.println("------------------------------");
         System.out.println("Username: " + this.username);
