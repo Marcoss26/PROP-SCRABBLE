@@ -1,5 +1,10 @@
 import java.util.*;
 
+/**
+ * ProfileController is a singleton class that manages user profiles.
+ * It allows adding, removing, and retrieving profiles, as well as checking if a profile exists.
+ * @author Kai Knox
+ */
 public class DomainController {
     private ProfileController profileController;
     private MP_Controller MP_Controller;
@@ -10,6 +15,10 @@ public class DomainController {
         this.MP_Controller = new MatchController();
     }
 
+    /**
+     * Returns the singleton instance of DomainController.
+     * @return The instance of DomainController.
+     */
     public static DomainController getInstance() {
         if (c == null) c = new DomainController();
         return c;
@@ -37,6 +46,21 @@ public class DomainController {
     public void manageMatches() {
         return this.MP_Controller;
     }
+
+    /**
+     * Creates a new match with the given number of human and AI players.
+     * @param humanCount The number of human players.
+     * @param aiCount The number of AI players.
+     * @throws IllegalArgumentException if the total number of players is less than 2.
+     * @throws IllegalArgumentException if the number of human players is less than 1.
+     * @throws IllegalArgumentException if the number of AI players is less than 0.
+     * @throws IllegalArgumentException if the number of human players exceeds the total number of players.
+     * @throws IllegalArgumentException if the number of AI players exceeds the total number of players.
+     * @throws IllegalArgumentException if the number of human players is greater than the number of AI players.
+     * @throws IllegalArgumentException if the number of AI players is greater than the number of human players.
+     * @throws IllegalArgumentException if the number of players is not a positive integer.
+     * @throws IllegalArgumentException if the number of players is not a valid integer.
+     */
     public void newMatch(int humanCount, int aiCount) {
         Set<Profile> profiles = new HashSet<>();
         const MIN_HOMAN_PLAYERS = 1;

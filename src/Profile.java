@@ -1,5 +1,10 @@
 import java.util.*;
 
+/**
+ * Profile class represents a user profile in the game.
+ * It contains the username, password, visibility status, and game statistics.
+ * @author Kai Knox
+ */
 public class Profile {
     private String username;
     private String password;
@@ -10,35 +15,72 @@ public class Profile {
     private int gamesPlayed;
     private static final Map<String, Int> dictionaryUsage = new HashMap<>();
 
-
+    /**
+     * Constructor for Profile class.
+     * @param username The username of the profile.
+     * @param password The password of the profile.
+     */
     public Profile(String username, String password) {
         this.setUsername(username);
         this.setPassword(password);
         this.setVisibility(true); //true by default
     }
 
+    /**
+     * Sets the username for the profile.
+     * @param username The username to be set.
+     */
     public void setUsername(String username) {
         this.username = username;
     }
+    /**
+     * Sets the password for the profile.
+     * @param password The password to be set.
+     */
     private void setPassword(int password) {
         this.password = password;
     }
+
+    /**
+     * Changes the password of the profile.
+     * @param old_pw The old password.
+     * @param new_pw The new password.
+     */
     public void changePassword(String old_pw, String new_pw) {
         if (old_pw.equals(this.password)) {
             this.password = new_pw;
         }
     }
+
+    /**
+     * Sets the visibility of the profile.
+     * @param isPublic The visibility status to be set.
+     */
     public void setVisibility(boolean isPublic) {
         this.public = isPublic;
     }
+
+    /**
+     * Authenticates the profile with the given password.
+     * @param password The password to be authenticated.
+     * @return true if authentication is successful, false otherwise.
+     */
     void authenticate(String password) {
         if (this.password.equals(password)) return true;
         return false;
     }
 
+    /**
+     * Retrieves the username of the profile.
+     * @return The username of the profile.
+     */
     public void getUsername() {
         return this.username;
     }
+    /**
+     * Retrieves the password of the profile.
+     * @return The password of the profile.
+     */
     public getWins() {
         return this.wins;
     }
@@ -65,6 +107,11 @@ public class Profile {
     public void incrementWins() {
         this.wins++;
     }
+
+    /**
+     * Increments the usage count of a specific dictionary.
+     * @param lang The language of the dictionary.
+     */
     public void incrementDictionaryUsage(String lang) {
         if (dictionaryUsage.containsKey(lang)) {
             dictionaryUsage.put(lang, dictionaryUsage.get(lang) + 1);
@@ -73,6 +120,9 @@ public class Profile {
         }
     }
     
+    /**
+     * Prints the profile information.
+     */
     public printProfile() {
         System.out.println("------------------------------");
         System.out.println("Username: " + this.username);
