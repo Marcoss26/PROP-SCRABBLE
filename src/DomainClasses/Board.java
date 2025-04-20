@@ -153,6 +153,21 @@ public class Board
     }
 
     /**
+     * Destructora de casilla
+     * Pre: ya existe un tablero con una letra en una casilla
+     * @param x
+     * @param y
+     * Post: se elimina la letra de la casilla correspondiente
+     */
+
+    public void removeLetter(int x, int y) {
+        if (x >= 0 && x < size && y >= 0 && y < size) {
+            this.board[x][y].setLetter(null, 0);
+            printBoard();
+        }
+    }
+
+    /**
      * Imprime el tablero en la consola
      * Pre: ya existe un tablero
      * Post: se imprime el tablero en la consola
