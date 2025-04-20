@@ -1,6 +1,7 @@
 package DomainClasses;
 import java.util.*;
 
+
 public class Letter
 {
     //Atributos de una ficha
