@@ -135,14 +135,5 @@ public class BagController {
 
     
 
-    //función para cambiar las 7 letras del rack cuando el jugador lo pida
-    //Pre: matchId es el id de la partida a la que pertenece la bolsa
-    //letters es el conjunto de letras que el jugador quiere cambiar
-    //Post: devuelve un conjunto de letras que el jugador ha cambiado por las letras que ha devuelto
-    //Post: el jugador ha devuelto las letras que ha cambiado a la bolsa   
-    public Set<Letter> changeLetters(String matchId, Set<Letter> letters) {
-        Bag bag = bags.get(matchId); 
-        bag.addSetOfLetters(letters); 
-        return bag.extractSetOfLetters(); // Devolvemos el conjunto de letras que se van a devolver al jugador
-    }
+    
 }

@@ -5,6 +5,7 @@ import DomainClasses.BagController;
 import DomainClasses.Letter;
 
 public class BagDriver {
+    
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         BagController bagController = BagController.getInstance();

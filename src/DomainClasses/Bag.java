@@ -65,17 +65,28 @@ public class Bag
     //pre: La bolsa tiene al menos 7 fichas
     //post: devuelve un conjunto de letras extraídas de la bolsa
     //       y las elimina de la bolsa
-    public Set<Letter> extractSetOfLetters() {
-        if(totalLetters < 7) { 
-            throw new IllegalStateException("Not enough letters in the bag to extract."); 
-        }
+    public Set<Letter> extractSetOfLetters(Integer quantity) {
+        
         Set<Letter> extractedLetters = new HashSet<>(); 
-        for (int i = 0; i < 7 ;++i) {    //aqui puedo poner una excepción que diga que la bolsa no tiene suficientes fichas para hacer el cambio 
+        for (int i = 0; i < quantity ;++i) {    //aqui puedo poner una excepción que diga que la bolsa no tiene suficientes fichas para hacer el cambio 
             extractedLetters.add(extractLetter()); //añadimos al conjunto a devolver
         }
         return extractedLetters; // Devolvemos el conjunto de letras extraídas
     }
 
+    //función para cambiar las 7 letras del rack cuando el jugador lo pida
+    //Pre: matchId es el id de la partida a la que pertenece la bolsa
+    //letters es el conjunto de letras que el jugador quiere cambiar
+    //Post: devuelve un conjunto de letras que el jugador ha cambiado por las letras que ha devuelto
+    //Post: el jugador ha devuelto las letras que ha cambiado a la bolsa   
+    public Set<Letter> changeRackLetters(Set<Letter> letters) {
+        //si no hay 7 letras en el rack es porque ya no quedan mas en la bolsa y por lo tanto no se pueden cambiar
+        if(letters.size() != 7) { 
+            throw new IllegalStateException("Not enough letters in the bag to extract."); 
+        }
+        addSetOfLetters(letters); 
+        return extractSetOfLetters(7); // Devolvemos el conjunto de letras que se van a devolver al jugador
+    }
     
 
     public boolean isEmpty() {
