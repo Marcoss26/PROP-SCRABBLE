@@ -4,11 +4,19 @@ import java.io.*;
 
 
 public class BagController {
-
+    //Los controladores son clases Singleton
+    private static BagController instance; 
     private Map<String, Bag> bags = new HashMap<>(); // Bolsas del sistema, relacionadas con la partida a la que pertencen con el string de la partida
 
-    public BagController() {
-        this.bags = new HashMap<>();
+    private BagController() {
+        //constructor privado porque es Singleton
+    }
+
+    public static BagController getInstance() {
+        if (instance == null) {
+            instance = new BagController(); 
+        }
+        return instance; 
     }
 
     public int getTotalLetters(String matchId){
@@ -35,6 +43,11 @@ public class BagController {
 
     public boolean bagIsEmpty(String matchId) {
         return bags.get(matchId).isEmpty();
+    }
+
+    public void displayBag(String matchId) {
+        Bag bag = bags.get(matchId); 
+        bag.displayBag();
     }
 
     public void createBag(String matchId, Map<Letter, Integer> letters, int totalLettersInTheBag) {

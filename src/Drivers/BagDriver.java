@@ -2,13 +2,12 @@ package Drivers;
 import java.util.*;
 import java.io.*;
 import DomainClasses.BagController;
-import DomainClasses.Bag;
 import DomainClasses.Letter;
 
 public class BagDriver {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        BagController bagController = new BagController();
+        BagController bagController = BagController.getInstance();
         
         //crea todas las bolsas que quieras hasta que quieras salir;
         boolean inputDone = false;
@@ -81,8 +80,7 @@ public class BagDriver {
                     System.out.println("¿Existe la bolsa? " + bagController.bagExists(matchId2));
                     break;
                 case 2:
-                    Bag bag = bagController.getBag(matchId2);
-                    bag.displayBag();
+                    bagController.displayBag(matchId2);
                     break;
                 case 3:
                     /*System.out.print("Ingresa el ID del jugador: ");
