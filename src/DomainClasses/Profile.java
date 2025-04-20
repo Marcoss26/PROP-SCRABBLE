@@ -1,3 +1,4 @@
+package DomainClasses;
 import java.util.*;
 
 /**
@@ -13,7 +14,7 @@ public class Profile {
     private int score;
     private int wins;
     private int gamesPlayed;
-    private static final Map<String, Int> dictionaryUsage = new HashMap<>();
+    private Map<String, Integer> dictionaryUsage = new HashMap<>();
 
     /**
      * Constructor for Profile class.
@@ -37,7 +38,7 @@ public class Profile {
      * Sets the password for the profile.
      * @param password The password to be set.
      */
-    private void setPassword(int password) {
+    private void setPassword(String password) {
         this.password = password;
     }
 
@@ -65,7 +66,7 @@ public class Profile {
      * @param password The password to be authenticated.
      * @return true if authentication is successful, false otherwise.
      */
-    void authenticate(String password) {
+    public boolean authenticate(String password) {
         if (this.password.equals(password)) return true;
         return false;
     }
@@ -74,23 +75,23 @@ public class Profile {
      * Retrieves the username of the profile.
      * @return The username of the profile.
      */
-    public void getUsername() {
+    public String getUsername() {
         return this.username;
     }
     /**
      * Retrieves the password of the profile.
      * @return The password of the profile.
      */
-    public getWins() {
+    public int getWins() {
         return this.wins;
     }
-    public getScore() {
+    public int getScore() {
         return this.score;
     }
-    public getGamesPlayed() {
+    public int getGamesPlayed() {
         return this.gamesPlayed;
     }
-    public Map<String, Int> getDictionaryUsage() {
+    public Map<String, Integer> getDictionaryUsage() {
         return this.dictionaryUsage;
     }
     public boolean isPublic() {
@@ -123,7 +124,7 @@ public class Profile {
     /**
      * Prints the profile information.
      */
-    public printProfile() {
+    public void printProfile() {
         System.out.println("------------------------------");
         System.out.println("Username: " + this.username);
         System.out.println("Public: " + this.public);
