@@ -54,7 +54,7 @@ public class ProfileController {
      * @param username The username of the profile to check.
      * @return true if the profile exists, false otherwise.
      */
-    public Profile profileExists(String username,) {
+    public boolean profileExists(String username) {
         return profiles.get(username) != null;
     }
 
@@ -75,7 +75,7 @@ public class ProfileController {
      * @param password The new password for the profile.
      */
     public void updateProfile(String username, String password) {
-e1cmxwaklm
+
     }
 
     /**
