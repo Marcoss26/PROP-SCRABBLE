@@ -142,7 +142,7 @@ public class DictionaryController {
         
         // Construye la ruta al archivo que esta en la carpeta 'data'
         String fileName = wordsFile + ".txt";
-        File file = new File("../../data/dictionaries/" + fileName);
+        File file = new File("data/dictionaries/" + fileName);
         if (!file.exists()) {
             throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data/dictionaries'.");
         }
