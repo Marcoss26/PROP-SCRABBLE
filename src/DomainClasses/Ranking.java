@@ -1,3 +1,4 @@
+package DomainClasses;
 import java.util.*;
 
 
@@ -86,6 +87,20 @@ public class Ranking {
         System.out.println("──────────────────────" + "\n");
     }
 
+    private double computeWR(int wins, int gamesPlayed) {
+        if (gamesPlayed == 0) {
+            return 0; // Así no se puede dividir entre 0, aunque no va a pasar pero por si acaso
+        }
+        double wr = (double) ((wins/gamesPlayed)*100);
+        return Math.round(wr*100.0)/100.0; 
+    }
+
+    private String computePD(Map<String, Integer> dictionaryUsage) {
+        
+        String preferredDictionary = Collections.max(dictionaryUsage.entrySet(), Map.Entry.comparingByValue()).getKey();
+        return preferredDictionary;
+    }
+
     public void displayProfilesInfo(Profile profile) {
         boolean publicProfile = profile.isPublic();
         System.out.println(profile.getUsername() + "\n" + "───────────────" + "\n");
@@ -98,9 +113,9 @@ public class Ranking {
             System.out.println("Total Games: " + gamesPlayed + "\n" 
             + "Total Wins: " + wins + "\n" + 
             "Total Loses: " + (gamesPlayed - wins) + "\n" 
-            + "Win Rate: " + ((wins/gamesPlayed)*100) + "%" + "\n" 
-            + "PPG (Points per Game): " + (profiles.getScore()/gamesPlayed) + "\n"
-            + "Preferred Dictionary: " + profile.getPreferredDictionary() + "\n")
+            + "Win Rate: " + computeWR(wins, gamesPlayed) + "%" + "\n" 
+            + "PPG (Points per Game): " + (profile.getScore()/gamesPlayed) + "\n"
+            + "Preferred Dictionary: " + computePD(profile.getDictionaryUsage()) + "\n");
 
         }
     }

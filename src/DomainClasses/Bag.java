@@ -1,3 +1,4 @@
+package DomainClasses;
 import java.util.*;
 
 public class Bag
@@ -6,9 +7,9 @@ public class Bag
     //private List<Letter> letters = new ArrayList<>(); // Conjunto de fichas que hay en la bolsa
     private Map<Letter, Integer> lettersMap = new HashMap<>(); 
     private int totalLetters; // Total de fichas en la 
-    public Bag(Map<Letter, Integer> letters) {
+    public Bag(Map<Letter, Integer> letters, int totalLetters) {
         this.lettersMap = letters; // Inicializamos el conjunto de letras
-        this.totalLetters = letters.size(); // Inicializamos el total de fichas
+        this.totalLetters = totalLetters; // Inicializamos el total de fichas
     }
 
     public int getNumLetters(){
@@ -27,7 +28,7 @@ public class Bag
         this.totalLetters = 100;
     }
 
-    public Letter extractLetter(String playerId){
+    public Letter extractLetter(){
         if (isEmpty()) { // Comprobamos si la bolsa está vacía
             throw new IllegalStateException("The bag is empty, you cannot take more letters."); 
         }
@@ -39,7 +40,7 @@ public class Bag
         if(lettersMap.get(extletter) == 0) { 
             lettersMap.remove(extletter); 
         }
-        extletter.setIdPlayer(playerId); 
+        
         totalLetters--; 
         return extletter; 
        
@@ -64,13 +65,13 @@ public class Bag
     //pre: La bolsa tiene al menos 7 fichas
     //post: devuelve un conjunto de letras extraídas de la bolsa
     //       y las elimina de la bolsa
-    public Set<Letter> extractSetOfLetters(String playerId) {
+    public Set<Letter> extractSetOfLetters() {
         if(totalLetters < 7) { 
             throw new IllegalStateException("Not enough letters in the bag to extract."); 
         }
         Set<Letter> extractedLetters = new HashSet<>(); 
         for (int i = 0; i < 7 ;++i) {    //aqui puedo poner una excepción que diga que la bolsa no tiene suficientes fichas para hacer el cambio 
-            extractedLetters.add(extractLetter(playerId)); //añadimos al conjunto a devolver
+            extractedLetters.add(extractLetter()); //añadimos al conjunto a devolver
         }
         return extractedLetters; // Devolvemos el conjunto de letras extraídas
     }

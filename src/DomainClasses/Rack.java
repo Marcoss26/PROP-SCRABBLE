@@ -1,0 +1,84 @@
+package DomainClasses;
+import java.util.*;
+
+/**
+ * Rack.java
+ * This class represents a player's rack in a match. It contains a set of letters that the player can use to form words
+ * @author Kai Knox
+ */
+public class Rack {
+    private List<Letter> letters = new ArrayList<>();
+    static final int NUM_LETTERS = 7;
+    private Bag bag; // The bag of letters from which letters are drawn
+
+    public Rack() {
+    }
+
+    /**
+     * Constructor for the Rack class.
+     * Initializes the rack with a set of letters.
+     * @param bag The bag of letters from which letters are drawn.
+     */
+    public Rack(Bag bag) {
+        this.bag = bag;
+        for (int i = 0; i < NUM_LETTERS; i++) {
+            Letter letter = bag.extractLetter();
+            this.addLetter(letter);
+        }
+    }
+
+    /**
+     * Adds a letter to the rack.
+     * @param letter The letter to be added.
+     * @throws IllegalStateException if the rack is full.
+     */
+    private void addLetter(Letter letter) {
+        if (letters.size() >= NUM_LETTERS) {
+            throw new IllegalStateException("Rack is full");
+        }
+        letters.add(letter);
+    }
+
+    /**
+     * Gets a letter from the rack, removing it from the rack, and replacing it with a new letter from the bag.
+     * @param symbol The symbol of the letter to get.
+     * @return The letter that was removed, or null if no such letter exists.
+     */
+    public Letter getLetter(String symbol) {
+        for (int i = 0; i < letters.size(); i++) {
+            if (letters.get(i).getSymbol().equals(symbol)) {
+                Letter letter = letters.remove(i); // Remove the letter from the list
+                Letter newLetter = bag.extractLetter();
+                this.addLetter(newLetter);
+                return letter;
+            }
+        }
+        return null; // Return null if no such letter exists
+    }
+
+    /**
+     * Shuffles the letters in the rack.
+     */
+    public void shuffle() {
+        Collections.shuffle(letters);
+    }
+
+    /**
+     * Clears the rack.
+     */
+    public void clear() {
+        letters.clear();
+    }
+
+    /**
+     * Prints the letters in the rack.
+     */
+    public void print() {
+        System.out.print("Rack: ");
+        for (Letter letter : letters) {
+            System.out.print(letter.getSymbol() + " ");
+        }
+        System.out.println();
+        System.out.println("------------------------------");
+    }
+}

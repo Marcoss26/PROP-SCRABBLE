@@ -1,10 +1,10 @@
+package DomainClasses;
 import java.util.*;
 
 public class Letter
 {
     //Atributos de una ficha
     private String symbol;
-    private String idPlayer;
     private int value;
     
 
@@ -20,20 +20,12 @@ public class Letter
     public int getValue(){
         return value;
     }
-
-    public String getIdPlayer(){
-        return idPlayer;
-    }
-
    
 
     public void setSymbol(String symbol){
         this.symbol = symbol;
     }
 
-    public void setIdPlayer(String idPlayer){
-        this.idPlayer = idPlayer;
-    }
 
     public void setValue(int value){
         this.value = value;
@@ -43,7 +35,7 @@ public class Letter
     //
 
     public void displayLetter(){
-        System.out.println("[" + symbol + ", " + value + "]");
+        System.out.print("[" + symbol + ", " + value + "]");
     }
     public void printLetter(){
         int size = symbol.length();

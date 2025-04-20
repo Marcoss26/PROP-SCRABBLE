@@ -1,13 +1,23 @@
+package DomainClasses;
 import java.util.*;
 
+/**
+ * ProfileController is a singleton class that manages user profiles.
+ * It allows adding, removing, and retrieving profiles, as well as checking if a profile exists.
+ * @author Kai Knox
+ */
 public class ProfileController {
     private Map<String, Profile> profiles = new HashMap<>();
     private static ProfileController c;
 
     private ProfileController() {
-        
+        Ranking.getInstance().setProfiles(new HashSet<>(profiles.values()));
     }
 
+    /**
+     * Returns the singleton instance of ProfileController.
+     * @return The instance of ProfileController.
+     */
     public static ProfileController getInstance() {
         if (c == null) c = new ProfileController();
         return c;
@@ -20,11 +30,24 @@ public class ProfileController {
      * @param password The password of the new profile.
      */
     public void addProfile(String username, String password) {
+        if (profiles.containsKey(username)) {
+            throw new IllegalArgumentException("Profile with this username already exists.");
+        }
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty.");
+        }
         Profile profile = new Profile(username, password);
         profiles.put(profile.getUsername(), profile);
+        Ranking.getInstance().setProfiles(new HashSet<>(profiles.values()));
     }
+
+    /**
+     * Removes a profile from the profiles map.
+     * @param username The username of the profile to be removed.
+     */
     public void removeProfile(String username) {
         profiles.remove(username);
+        Ranking.getInstance().setProfiles(new HashSet<>(profiles.values()));
     }
 
     /**
@@ -32,7 +55,7 @@ public class ProfileController {
      * @param username The username of the profile to check.
      * @return true if the profile exists, false otherwise.
      */
-    public Profile profileExists(String username,) {
+    public boolean profileExists(String username) {
         return profiles.get(username) != null;
     }
 
@@ -47,13 +70,19 @@ public class ProfileController {
         return profile.authenticate(password) ? profile : null;
     }
 
+    /**
+     * Updates the password of a profile.
+     * @param username The username of the profile.
+     * @param password The new password for the profile.
+     */
     public void updateProfile(String username, String password) {
-        Profile profile = profiles.get(username);
-        if (profile != null) {
-            profile.changePassword(profile.getPassword(), password);
-        }
+
     }
-    void printProfiles() {
+
+    /**
+     * Prints all the profiles
+     */
+    public void printProfiles() {
         for (Profile profile : profiles.values()) {
             profile.printProfile();
         }

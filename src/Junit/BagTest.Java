@@ -1,3 +1,4 @@
+package Junit;
 import Bag.java;
 import BagController.java;
 import Letter.java;
@@ -48,7 +49,7 @@ public class BagTest {
     @Test
     //Comprobamos que la bolsa se ha creado correctamente y tiene el conjunto inicial de fichas que le hemos pasado
     public void testBagInitialization() {
-        assertEquals(3, bag.getNumLetters()); 
+        assertEquals(20, bag.getNumLetters()); 
         assertEquals(inilLetters, bag.getLetters());
     }
 

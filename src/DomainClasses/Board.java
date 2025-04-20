@@ -1,9 +1,26 @@
+package DomainClasses;
 import java.util.*;
+
+/**
+ * Board.java
+ * @author Alvaro Perez 
+ * Esta clase se encarga de la configuracion y manipulacion del tablero,
+ * constituido por una matriz de casillas (Box)
+ */
 
 public class Board
 {
     private Box[][] board;
     private int size;
+
+    /**
+     * Constructor de la clase Board.
+     * Inicializa el tablero con el tamaño especificado y asigna las casillas especiales
+     * Pre: true
+     * @param size El tamaño del tablero (7, 15 o 25).
+     * Post: se ha creado un tablero con las dimensiones de size x size
+     * @throws IllegalArgumentException si el tamaño no es 7, 15 o 25
+     */
 
     public Board(int size)
     {
@@ -46,6 +63,58 @@ public class Board
         } 
     }
 
+    /**
+     * Consultora del parametro size
+     * Pre: true
+     * Post: se devuelve el parametro size
+     * @return size
+     */
+
+    public int getSize() {
+        return this.size;
+    }
+    
+    /**
+     * Consultora del tablero
+     * Pre: true
+     * Post: se devuelve el tablero
+     * @return board
+     */
+
+    public Box[][] getBoard() {
+        return this.board;
+    }
+
+    /**
+     * Modificadora del tablero
+     * Pre: ya existe un tablero
+     * @param board El nuevo tablero
+     * Post: se modifica el tablero
+     */
+
+    public void setBoard(Box[][] board) {
+        this.board = board;
+    }
+
+    /**
+     * Modificadora del parametro size
+     * Pre: ya existe un size
+     * @param size El nuevo tamaño del tablero
+     * Post: se modifica el tamaño del tablero
+     */
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    /**
+     * Asigna las casillas especiales al tablero
+     * Pre: ya existe un tablero
+     * @param posicions Las posiciones de las casillas especiales encapsuladas en un vector
+     * @param type El tipo de casilla especial (doubleLetter, tripleLetter, doubleWord, tripleWord)
+     * Post: se asignan las casillas especiales al tablero
+     */
+
     private void assignSpecialBoxes(int[] posicions, String type) {
         for (int i = 0; i < posicions.length; i += 2) {
             int x = posicions[i];
@@ -67,15 +136,46 @@ public class Board
         }
     }
 
+    /**
+     * Coloca una letra en el tablero
+     * Pre: ya existe un tablero
+     * @param x La coordenada x de la casilla
+     * @param y La coordenada y de la casilla
+     * @param letter La letra a colocar
+     * @param value El valor de la letra
+     * Post: se coloca la letra en la casilla correspondiente
+     */
+
     public void placeLetter(int x, int y, String letter, int value) {
         if (x >= 0 && x < size && y >= 0 && y < size) {
             this.board[x][y].setLetter(letter, value);
-            clearScreen();
             printBoard();
         }
     }
 
+    /**
+     * Destructora de casilla
+     * Pre: ya existe un tablero
+     * @param x
+     * @param y
+     * Post: se elimina la letra de la casilla correspondiente
+     */
+
+    public void removeLetter(int x, int y) {
+        if (x >= 0 && x < size && y >= 0 && y < size) {
+            this.board[x][y].setLetter(null, 0);
+            printBoard();
+        }
+    }
+
+    /**
+     * Imprime el tablero en la consola
+     * Pre: ya existe un tablero
+     * Post: se imprime el tablero en la consola
+     */
+
     public void printBoard() {
+        clearScreen();
         // Imprimir los índices de las columnas
         System.out.print("     "); // Espacio inicial para alinear con los índices de las filas
         for (int j = 0; j < this.size; j++) {
@@ -96,9 +196,14 @@ public class Board
         }
     }
 
+    /**
+     * Limpia la pantalla de la consola
+     * Pre: ya existe un tablero
+     * Post: se limpia la pantalla de la consola
+     */
+
     public void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
-    }
-    
+    } 
 }
