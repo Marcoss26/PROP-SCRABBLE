@@ -9,7 +9,7 @@ import java.util.*;
 public class Profile {
     private String username;
     private String password;
-    private boolean public;
+    private boolean isPublic;
 
     private int score;
     private int wins;
@@ -58,7 +58,7 @@ public class Profile {
      * @param isPublic The visibility status to be set.
      */
     public void setVisibility(boolean isPublic) {
-        this.public = isPublic;
+        this.isPublic = isPublic;
     }
 
     /**
@@ -95,7 +95,7 @@ public class Profile {
         return this.dictionaryUsage;
     }
     public boolean isPublic() {
-        return this.public;
+        return this.isPublic;
     }
     
 
@@ -127,7 +127,7 @@ public class Profile {
     public void printProfile() {
         System.out.println("------------------------------");
         System.out.println("Username: " + this.username);
-        System.out.println("Public: " + this.public);
+        System.out.println("Public: " + this.isPublic);
         System.out.println("Games Played: " + this.gamesPlayed);
         System.out.println("------------------------------");
     }
