@@ -26,17 +26,22 @@ public class Match
         this.setSize(size);
     }
 
-    public getBag() 
+    public void printBoard()
+    {
+        this.board.printBoard(); // Call the printBoard method from the Board class
+    }
+
+    public Bag getBag() 
     {
         return bag;
     }
 
-    public getBoard() 
+    public Board getBoard() 
     {
         return board;
     }
 
-    public getDictionary() 
+    public Dictionary getDictionary() 
     {
         return dictionary;
     }

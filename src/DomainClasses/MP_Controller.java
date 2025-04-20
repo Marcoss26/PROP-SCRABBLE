@@ -108,6 +108,7 @@ public class MP_Controller
             System.out.println("Match with ID: " + id + " does not exist.");
         }
     }
+    
     public void startMatch(String id)
     {
         if (existMatch(id))
@@ -121,6 +122,9 @@ public class MP_Controller
             System.out.println("Match with ID: " + id + " does not exist.");
         }
     }
+
+
+
     public String playsMatch(String id)
     {
         if (existMatch(id))
@@ -131,10 +135,43 @@ public class MP_Controller
             {
                 List<Player> list_players = match.getListPlayers();
                 int turn = match.getTurn();
-                match.setTurn(turn + 1);
                 Player player = list_players.get(turn);
-                String decision = player.getDecision();
-                return decision;
+                match.printBoard();
+                if(player.isHuman())
+                {
+                    player.printRack();
+                    boolean valid = false;
+                    while(!valid)
+                    {
+                        String decision = player.getDecision();
+                        if(decision == borrarLetras)
+                        {
+                        
+                        }
+                        else if(decision == AñadirLetra)
+                        {
+                        
+                        }
+                        else if(decision == refresar)
+                        {
+
+                        }
+
+                        if(decision.equals("validar"))
+                        {
+                            //El desplazamiento de los objetos de letter solo se hacen una vez que se haya validado la plabra para no hacer rollbacks constantemente
+                            valid = match.getDictionary.Validate(match.getBoard().getNewestWord());
+                        }
+                    }
+                }
+                
+                else
+                {
+
+                }
+                
+                //caso 1: decison: Coge letra 1, 3 y ponlos en las casillas 4,5
+                match.setTurn(turn + 1);
             }
             else
             {

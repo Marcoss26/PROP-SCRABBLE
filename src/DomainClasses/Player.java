@@ -19,6 +19,8 @@ public abstract class Player
         this.setMatch(match);
     }
 
+    public void makeMove();
+
     public void displayPlayer()
     {
         System.out.println("Player username: " + name + ", Score: " + score);
