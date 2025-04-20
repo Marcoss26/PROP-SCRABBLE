@@ -105,10 +105,15 @@ public class Profile {
     public void incrementGamePlayed() {
         this.gamesPlayed++;
     }
+    public void setGamesPlayed(int gamesPlayed) {
+        this.gamesPlayed += gamesPlayed;
+    }
     public void incrementWins() {
         this.wins++;
     }
-
+    public void setWins(int wins) {
+        this.wins += wins;
+    }
     /**
      * Increments the usage count of a specific dictionary.
      * @param lang The language of the dictionary.
@@ -121,6 +126,7 @@ public class Profile {
         }
     }
     
+
     /**
      * Prints the profile information.
      */
