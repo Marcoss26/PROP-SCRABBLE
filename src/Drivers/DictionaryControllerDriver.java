@@ -1,6 +1,5 @@
 package Drivers;
 import DomainClasses.DictionaryController;
-import DomainClasses.Dictionary;
 import java.io.IOException;
 import java.util.Scanner;
 
