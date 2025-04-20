@@ -1,5 +1,12 @@
 import java.util.*;
 
+/**
+ * Box.java
+ * @author Alvaro Perez
+ * Clase Box que representa una casilla del juego
+ * Una casilla se constituye por sus coordenadas x e y, la letra y puntuacion de la misma
+ */
+
 enum Color {
     //Color end string, color reset
     RESET("\033[0m"),
@@ -42,6 +49,16 @@ public class Box
     protected int y;
     private String symbol;
     private int value;
+    
+    /**
+     * Constructor de la clase Box
+     * Pre: no hay ninguna casilla creada
+     * @param x
+     * @param y
+     * Post: se crea una casilla con coordenadas x e y y sin letra ni puntuacion
+     * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
+     */
+
     public Box(int x, int y)
     {
         this.x = x;
@@ -50,20 +67,52 @@ public class Box
         this.value = 0;
     }
 
+    /**
+     * Modificadora de la letra y el valor
+     * Pre: ya existe una casilla
+     * @param lletra La letra a colocar
+     * @param valor El valor de la letra
+     * Post: se asigna la letra y el valor a la casilla
+     * @throws IllegalArgumentException si la letra es null/no es del abecedario de ese idioma o el valor es negativo/no
+     * es ninguno de los valores posibles
+     */
+
     public void setLetter(String lletra, int valor)
     {
         this.symbol = lletra;
         this.value = valor;
     }
 
+    /**
+     * Consultora de la letra
+     * Pre: ya existe una casilla
+     * Post: se retorna la letra de la casilla
+     * @return La letra de la casilla
+     */
+
     public String getSymbol()
     {
         return symbol;
     }
+
+    /**
+     * Consultora de la puntuacion
+     * Pre: ya existe una casilla
+     * Post: se retorna la puntuacion de la casilla
+     * @return La puntuacion de la casilla
+     */
+
     public int getValue()
     {
         return value;
     }
+
+    /**
+     * Consultora de 1 casilla
+     * Pre: ya existe una casilla
+     * Post: se retorna la casilla con el sistema de () y colores
+     * @return La casilla con el sistema de () y colores
+     */
 
     @Override
     public String toString() {
@@ -79,13 +128,33 @@ public class Box
         return Color.GREEN + "(____)" + Color.RESET;
     }
 
+    /**
+     * Subclase DoubleLetter,
+     * encargada de la gestion de las casillas de doble letra
+     */
 
     public static class DoubleLetter extends Box
     {
+        /**
+         * Constructor de la clase DoubleLetter
+         * Pre: no hay ninguna casilla creada
+         * @param x
+         * @param y
+         * Post: se crea una casilla double letter con coordenadas x e y
+         * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
+         */
+
         public DoubleLetter(int x, int y)
         {
             super(x, y);
         }
+
+        /**
+         * Consultora de 1 casilla double letter
+         * Pre: ya existe una casilla
+         * Post: se retorna la casilla con el sistema de () y colores
+         * @return La casilla con el sistema de () y colores
+         */
 
         @Override
         public String toString() {
@@ -101,12 +170,34 @@ public class Box
             return Color.CYAN + "(____)" + Color.RESET;
         }
     }
+
+    /**
+     * Subclase TripleLetter,
+     * encargada de la gestion de las casillas de triple letra
+     */
+
     public static class TripleLetter extends Box
     {
+        /**
+         * Constructor de la clase TripleLetter
+         * Pre: no hay ninguna casilla creada
+         * @param x
+         * @param y
+         * Post: se crea una casilla triple letter con coordenadas x e y
+         * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
+         */
+
         public TripleLetter(int x, int y)
         {
             super(x, y);
         }
+
+        /**
+         * Consultora de 1 casilla triple letter
+         * Pre: ya existe una casilla
+         * Post: se retorna la casilla con el sistema de () y colores
+         * @return La casilla con el sistema de () y colores
+         */
 
         @Override
         public String toString() {
@@ -122,12 +213,34 @@ public class Box
             return Color.BLUE + "(____)" + Color.RESET;
         }
     }
+
+    /**
+     * Subclase DoubleWord,
+     * encargada de la gestion de las casillas de doble palabra
+     */
+
     public static class DoubleWord extends Box
     {
+        /**
+         * Constructor de la clase DoubleWord
+         * Pre: no hay ninguna casilla creada
+         * @param x
+         * @param y
+         * Post: se crea una casilla double word con coordenadas x e y
+         * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
+         */
+
         public DoubleWord(int x, int y)
         {
             super(x, y);
         }
+
+        /**
+         * Consultora de 1 casilla double word
+         * Pre: ya existe una casilla
+         * Post: se retorna la casilla con el sistema de () y colores
+         * @return La casilla con el sistema de () y colores
+         */
 
         @Override
         public String toString() {
@@ -143,12 +256,34 @@ public class Box
             return Color.MAGENTA + "(____)" + Color.RESET;
         }
     }
+
+    /**
+     * Subclase TripleWord,
+     * encargada de la gestion de las casillas de triple palabra
+     */
+
     public static class TripleWord extends Box
     {
+        /**
+         * Constructor de la clase TripleWord
+         * Pre: no hay ninguna casilla creada
+         * @param x
+         * @param y
+         * Post: se crea una casilla triple word con coordenadas x e y
+         * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
+         */
+
         public TripleWord(int x, int y)
         {
             super(x, y);
         }
+
+        /**
+         * Consultora de 1 casilla triple word
+         * Pre: ya existe una casilla
+         * Post: se retorna la casilla con el sistema de () y colores
+         * @return La casilla con el sistema de () y colores
+         */
 
         @Override
         public String toString() {
