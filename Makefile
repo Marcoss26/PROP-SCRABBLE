@@ -16,6 +16,7 @@ DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/BagController.java \
 					$(DOMAIN_CLASSES)/DictionaryController.java \
 					$(DOMAIN_CLASSES)/Dictionary.java \
 					$(DOMAIN_CLASSES)/Board.java \
+					$(DOMAIN_CLASSES)/Box.java \
 					$(DOMAIN_CLASSES)/Dawg.java
 
 BOARD_DRIVER_SRC = $(DRIVERS)/BoardBoxDriver.java
