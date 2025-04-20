@@ -34,13 +34,13 @@ public class DictionaryController {
      * post: añade un nuevo diccionario al controlador o lanza una excepción si ya existe
      * @throws IllegalArgumentException si el diccionario ya existe
      */
-    public void addDictionary(String dictionaryName) {
+    public void addDictionary(String dictionaryName, String language) {
         
         if (dictionaryExists(dictionaryName)) {
             throw new IllegalArgumentException("El diccionario con el nombre '" + dictionaryName + "' ya existe.");
         }
 
-        Dictionary dictionary = new Dictionary(dictionaryName);
+        Dictionary dictionary = new Dictionary(dictionaryName, language);
         dictionaries.put(dictionaryName, dictionary);
     }
 
@@ -131,7 +131,7 @@ public class DictionaryController {
      * @throws IllegalArgumentException si el diccionario no existe o el archivo no se encuentra
      * @throws FileNotFoundException si el archivo no se encuentra
      */
-    public void addWordsToDictionary(String dictionaryName) throws IOException {
+    public void addWordsToDictionary(String dictionaryName, String wordsFile) throws IOException {
         // Verifica si el diccionario existe
         if (!dictionaryExists(dictionaryName)) {
             throw new IllegalArgumentException("El diccionario con el nombre '" + dictionaryName + "' no existe.");
@@ -141,7 +141,7 @@ public class DictionaryController {
         Dictionary dictionary = getDictionary(dictionaryName);
         
         // Construye la ruta al archivo que esta en la carpeta 'data'
-        String fileName = dictionaryName + ".txt";
+        String fileName = wordsFile + ".txt";
         File file = new File("../../data/dictionaries/" + fileName);
         if (!file.exists()) {
             throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data/dictionaries'.");

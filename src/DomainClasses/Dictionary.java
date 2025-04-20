@@ -1,5 +1,5 @@
 package DomainClasses;
-import java.util.*;
+//import java.util.*;
 
 /**
  * Dictionary.java
@@ -24,11 +24,11 @@ public class Dictionary
      * post: crea un nuevo diccionario con el nombre especificado y un DAWG vacío con el idioma correspondiente
      * @param name Nombre del diccionario a crear
      */
-    public Dictionary(String name)
+    public Dictionary(String name, String language)
     {
         // Create a new dictionary with the specified language
         this.name = name;
-        this.dawg = new Dawg(name);
+        this.dawg = new Dawg(language);
     }
 
     /**

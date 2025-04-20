@@ -27,18 +27,20 @@ public class DictionaryControllerDriver {
                 case 1:
                     System.out.print("Introduce el nombre del diccionario: ");
                     String dictionaryName = scanner.nextLine();
-                    controller.addDictionary(dictionaryName);
+                    System.out.print("Introduce el idioma del diccionario: ");
+                    String language = scanner.nextLine();
+                    controller.addDictionary(dictionaryName, language);
                     System.out.println("Diccionario '" + dictionaryName + "' creado.");
                     break;
 
                 case 2:
                     System.out.print("Introduce el nombre del diccionario: ");
                     String dictNameForFile = scanner.nextLine();
-                    System.out.print("Introduce el nombre del archivo (debe estar en la carpeta 'data'): ");
-                    String fileName = scanner.nextLine();
+                    System.out.print("Introduce el nombre del archivo (debe estar en la carpeta 'data/dictionaries'): ");
+                    String languageForFile = scanner.nextLine();
                     try {
-                        controller.addWordsToDictionary(dictNameForFile);
-                        System.out.println("Palabras cargadas desde el archivo '" + fileName + "' al diccionario '" + dictNameForFile + "'.");
+                        controller.addWordsToDictionary(dictNameForFile, languageForFile);
+                        System.out.println("Palabras cargadas desde el archivo '" + languageForFile + ".txt ' al diccionario '" + dictNameForFile + "'.");
                     } catch (IOException e) {
                         System.out.println("Error al cargar palabras desde el archivo: " + e.getMessage());
                     } catch (IllegalArgumentException e) {
@@ -76,8 +78,8 @@ public class DictionaryControllerDriver {
                     System.out.print("Introduce el nombre del diccionario: ");
                     String dictNameForLanguage = scanner.nextLine();
                     try {
-                        String language = controller.getDictionaryLanguage(dictNameForLanguage);
-                        System.out.println("El idioma del diccionario '" + dictNameForLanguage + "' es: " + language);
+                        String languageForLanguage = controller.getDictionaryLanguage(dictNameForLanguage);
+                        System.out.println("El idioma del diccionario '" + dictNameForLanguage + "' es: " + languageForLanguage);
                     } catch (IllegalArgumentException e) {
                         System.out.println("Error: " + e.getMessage());
                     }
