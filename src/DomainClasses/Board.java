@@ -154,7 +154,7 @@ public class Board
 
     /**
      * Destructora de casilla
-     * Pre: ya existe un tablero con una letra en una casilla
+     * Pre: ya existe un tablero
      * @param x
      * @param y
      * Post: se elimina la letra de la casilla correspondiente
