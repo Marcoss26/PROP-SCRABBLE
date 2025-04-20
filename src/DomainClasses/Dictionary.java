@@ -1,3 +1,4 @@
+package DomainClasses;
 import java.util.*;
 
 /**
@@ -16,16 +17,6 @@ public class Dictionary
      */
     String name; // Nombre del diccionario
     Dawg dawg; // Estructura de datos que contiene el DAWG
-
-    /**
-     * Constructor de la clase Dictionary.
-     * pre: True
-     * post: crea un nuevo diccionario.
-     */
-    public Dictionary()
-    {
-        // Create a new dictionary
-    }
 
     /**
      * Constructor de la clase Dictionary.

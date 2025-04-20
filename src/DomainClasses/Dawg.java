@@ -1,3 +1,4 @@
+package DomainClasses;
 import java.util.*;
 
 /**
@@ -104,7 +105,6 @@ public class Dawg
      */
     private String language; // Idioma del DAWG
     private Node root; // Nodo raíz del DAWG
-    private Map<Node, Node> minimizedNodes = new HashMap<>(); // Mapa para nodos únicos
 
     /**
      * Constructor de la clase Dawg.
