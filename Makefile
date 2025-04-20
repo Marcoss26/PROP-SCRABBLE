@@ -27,36 +27,39 @@ DICTIONARY_CONTROLLER_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/DictionaryControlle
 					$(DOMAIN_CLASSES)/Dawg.java
 
 PROFILE_CONTROLLER_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/ProfileController.java \
+					$(DOMAIN_CLASSES)/Ranking.java \
 					$(DOMAIN_CLASSES)/Profile.java
 
-BOARD_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Board.java \
+BOARDBOX_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Board.java \
 					$(DOMAIN_CLASSES)/Box.java
 
 BAG_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/BagController.java \
+					$(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/Letter.java
 
 RACK_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Rack.java \
+					$(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/BagController.java \
 					$(DOMAIN_CLASSES)/Letter.java
 
 # Driver source files
 					
 PROFILE_CONTROLLER_DRIVER_SRC = $(DRIVERS)/ProfileControllerDriver.java
-BOARD_DRIVER_SRC = $(DRIVERS)/BoardBoxDriver.java
+BOARDBOX_DRIVER_SRC = $(DRIVERS)/BoardBoxDriver.java
 BAG_DRIVER_SRC = $(DRIVERS)/BagDriver.java
 RACK_DRIVER_SRC = $(DRIVERS)/RackDriver.java
 DICTIONARY_CONTROLLER_DRIVER_SRC = $(DRIVERS)/DictionaryControllerDriver.java
 
 # Targets
 # Compilar todos los drivers
-all: BagDriver RackDriver DictionaryControllerDriver
+all: BagDriver RackDriver DictionaryControllerDriver ProfileControllerDriver BoardBoxDriver
 
 # Compilar los drivers individualmente
 ProfileControllerDriver: $(PROFILE_CONTROLLER_DRIVER_CLASSES_SRC) $(PROFILE_CONTROLLER_DRIVER_SRC)
 	$(JAVAC) $(JFLAGS) $(PROFILE_CONTROLLER_DRIVER_CLASSES_SRC) $(PROFILE_CONTROLLER_DRIVER_SRC)
 
-BoardDriver: $(BOARD_DRIVER_CLASSES_SRC) $(BOARD_DRIVER_SRC)
-	$(JAVAC) $(JFLAGS) $(BOARD_DRIVER_CLASSES_SRC) $(BOARD_DRIVER_SRC)
+BoardBoxDriver: $(BOARDBOX_DRIVER_CLASSES_SRC) $(BOARDBOX_DRIVER_SRC)
+	$(JAVAC) $(JFLAGS) $(BOARDBOX_DRIVER_CLASSES_SRC) $(BOARDBOX_DRIVER_SRC)
 
 BagDriver: $(BAG_DRIVER_CLASSES_SRC) $(BAG_DRIVER_SRC)
 	$(JAVAC) $(JFLAGS) $(BAG_DRIVER_CLASSES_SRC) $(BAG_DRIVER_SRC)
@@ -78,7 +81,7 @@ run-RackDriver: RackDriver
 	java -cp $(BIN_DIR) Drivers.RackDriver
 run-ProfileControllerDriver: ProfileControllerDriver
 	java -cp $(BIN_DIR) Drivers.ProfileControllerDriver
-run-BoardDriver: BoardDriver
+run-BoardBoxDriver: BoardBoxDriver
 	java -cp $(BIN_DIR) Drivers.BoardBoxDriver
 run-DictionaryControllerDriver: DictionaryControllerDriver
 	java -cp $(BIN_DIR) Drivers.DictionaryControllerDriver
