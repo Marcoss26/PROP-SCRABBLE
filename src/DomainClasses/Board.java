@@ -114,6 +114,22 @@ public class Board
     }
 
     /**
+     * Verifica si una posición del tablero tiene una ficha
+     * Pre: ya existe un tablero
+     * @param x
+     * @param y
+     * @return true si la casilla tiene una ficha, false en caso contrario
+    */
+
+    public boolean hasLetter(int x, int y) {
+        if (x >= 0 && x < size && y >= 0 && y < size) {
+            return this.board[x][y].getSymbol() != null;
+        } else {
+            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+        }
+    }
+
+    /**
      * Asigna las casillas especiales al tablero
      * Pre: ya existe un tablero
      * @param posicions Las posiciones de las casillas especiales encapsuladas en un vector
@@ -174,7 +190,7 @@ public class Board
         }
         else {
             System.out.println("Coordenadas fuera de rango.");
-        }
+        }   
     }
 
     /**
