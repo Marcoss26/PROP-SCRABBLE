@@ -48,7 +48,7 @@ public class BagDriver {
                     
                     break;
                 case 5:
-                    System.out.println("Saliendo del programa...");
+                    System.out.println("...");
                     inputDone = true; // Cambiamos la variable para salir del bucle
                     break;
                 default:
