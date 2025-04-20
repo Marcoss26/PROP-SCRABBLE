@@ -19,7 +19,8 @@ DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/BagController.java \
 					$(DOMAIN_CLASSES)/Box.java \
 					$(DOMAIN_CLASSES)/Profile.java \
 					$(DOMAIN_CLASSES)/ProfileController.java \
-					$(DOMAIN_CLASSES)/Dawg.java
+					$(DOMAIN_CLASSES)/Dawg.java \
+					$(DOMAIN_CLASSES)/Ranking.java 
 
 # Driver classes source files
 DICTIONARY_CONTROLLER_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/DictionaryController.java \
@@ -42,6 +43,10 @@ RACK_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Rack.java \
 					$(DOMAIN_CLASSES)/BagController.java \
 					$(DOMAIN_CLASSES)/Letter.java
 
+RANKING_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Ranking.java \
+					$(DOMAIN_CLASSES)/Profile.java \
+					$(DOMAIN_CLASSES)/ProfileController.java
+
 # Driver source files
 					
 PROFILE_CONTROLLER_DRIVER_SRC = $(DRIVERS)/ProfileControllerDriver.java
@@ -49,10 +54,11 @@ BOARDBOX_DRIVER_SRC = $(DRIVERS)/BoardBoxDriver.java
 BAG_DRIVER_SRC = $(DRIVERS)/BagDriver.java
 RACK_DRIVER_SRC = $(DRIVERS)/RackDriver.java
 DICTIONARY_CONTROLLER_DRIVER_SRC = $(DRIVERS)/DictionaryControllerDriver.java
+RANKING_DRIVER_CLASSES_SRC = $(DRIVERS)/RankingDriver.java
 
 # Targets
 # Compilar todos los drivers
-all: BagDriver RackDriver DictionaryControllerDriver ProfileControllerDriver BoardBoxDriver
+all: BagDriver RackDriver DictionaryControllerDriver ProfileControllerDriver BoardBoxDriver RankingDriver
 
 # Compilar los drivers individualmente
 ProfileControllerDriver: $(PROFILE_CONTROLLER_DRIVER_CLASSES_SRC) $(PROFILE_CONTROLLER_DRIVER_SRC)
@@ -70,6 +76,9 @@ RackDriver: $(RACK_DRIVER_CLASSES_SRC) $(RACK_DRIVER_SRC)
 DictionaryControllerDriver: $(DICTIONARY_CONTROLLER_DRIVER_CLASSES_SRC) $(DICTIONARY_CONTROLLER_DRIVER_SRC)
 	$(JAVAC) $(JFLAGS) $(DICTIONARY_CONTROLLER_DRIVER_CLASSES_SRC) $(DICTIONARY_CONTROLLER_DRIVER_SRC)
 
+RankingDriver: $(RANKING_DRIVER_CLASSES_SRC) $(RANKING_DRIVER_SRC)
+	$(JAVAC) $(JFLAGS) $(RANKING_DRIVER_CLASSES_SRC) $(RANKING_DRIVER_SRC)
+
 # Compilar solo las clases de DomainClasses
 DomainClasses: $(BIN_DIR) $(DOMAIN_CLASSES_SRC)
 	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC)
@@ -85,6 +94,9 @@ run-BoardBoxDriver: BoardBoxDriver
 	java -cp $(BIN_DIR) Drivers.BoardBoxDriver
 run-DictionaryControllerDriver: DictionaryControllerDriver
 	java -cp $(BIN_DIR) Drivers.DictionaryControllerDriver
+
+run-RankingDriver: RankingDriver
+	java -cp $(BIN_DIR) Drivers.RankingDriver
 
 # Borrar los archivos compilados
 
