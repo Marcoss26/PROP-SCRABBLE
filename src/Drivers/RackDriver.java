@@ -21,6 +21,7 @@ public class RackDriver {
         while (!exit) {
             System.out.println("\n--- Rack Driver Menu ---");
             System.out.println("1. Display Rack");
+            System.out.println("2. Shuffle Rack");
             System.out.println("3. Get a Letter from Rack");
             System.out.println("4. Clear Rack");
             System.out.println("5. Exit");
@@ -31,6 +32,11 @@ public class RackDriver {
 
             switch (option) {
                 case 1:
+                    System.out.println("Current Rack:");
+                    rack.print();
+                    break;
+                case 2:
+                    rack.shuffle();
                     System.out.println("Current Rack:");
                     rack.print();
                     break;
