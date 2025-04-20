@@ -206,4 +206,20 @@ public class DictionaryController {
         // Busca la palabra en el diccionario
         return dictionary.existsWord(word);
     }
+
+    public void removeWordFromDictionary(String dictionaryName, String word) {
+        // Verifica si el diccionario existe
+        if (!dictionaryExists(dictionaryName)) {
+            throw new IllegalArgumentException("El diccionario con el nombre '" + dictionaryName + "' no existe.");
+        }
+        if (word == null || word.isEmpty()) {
+            throw new IllegalArgumentException("La palabra no puede ser nula o vacía.");
+        }
+
+        // Obtén el diccionario
+        Dictionary dictionary = getDictionary(dictionaryName);
+
+        // Elimina la palabra del diccionario
+        dictionary.removeWord(word);
+    }
 }

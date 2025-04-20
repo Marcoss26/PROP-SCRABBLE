@@ -18,9 +18,10 @@ public class DictionaryControllerDriver {
             System.out.println("1. Crear un nuevo diccionario");
             System.out.println("2. Cargar palabras desde un archivo");
             System.out.println("3. Agregar una palabra manualmente");
-            System.out.println("4. Buscar una palabra en el diccionario");
-            System.out.println("5. Mostrar el idioma del diccionario");
-            System.out.println("6. Salir");
+            System.out.println("4. Eliminar una palabra");
+            System.out.println("5. Buscar una palabra en el diccionario");
+            System.out.println("6. Mostrar el idioma del diccionario");
+            System.out.println("7. Salir");
             System.out.println("-----------------------------------------------");
             System.out.print("\nElige una opción: ");
             int option = scanner.nextInt();
@@ -66,6 +67,19 @@ public class DictionaryControllerDriver {
 
                 case 4:
                     System.out.print("Introduce el nombre del diccionario: ");
+                    String dictNameForRemove = scanner.nextLine();
+                    System.out.print("Introduce la palabra que deseas eliminar: ");
+                    String wordToRemove = scanner.nextLine();
+                    try {
+                        controller.removeWordFromDictionary(dictNameForRemove, wordToRemove);
+                        System.out.println("Palabra '" + wordToRemove + "' eliminada del diccionario '" + dictNameForRemove + "'.");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                    break;
+
+                case 5:
+                    System.out.print("Introduce el nombre del diccionario: ");
                     String dictNameForSearch = scanner.nextLine();
                     System.out.print("Introduce la palabra que deseas buscar: ");
                     String searchWord = scanner.nextLine();
@@ -77,7 +91,7 @@ public class DictionaryControllerDriver {
                     }
                     break;
 
-                case 5:
+                case 6:
                     System.out.print("Introduce el nombre del diccionario: ");
                     String dictNameForLanguage = scanner.nextLine();
                     try {
@@ -88,9 +102,9 @@ public class DictionaryControllerDriver {
                     }
                     break;
 
-                case 6:
+                case 7:
                     exit = true;
-                    System.out.println("Saliendo del driver. ¡Adiós!");
+                    System.out.println("Saliendo del driver.");
                     break;
 
                 default:

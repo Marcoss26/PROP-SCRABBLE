@@ -195,7 +195,7 @@ public class Dawg
         // Caso Base
         if (index == word.length())
         {
-            node.changeState(); // Cambiamos el estado del nodo a final
+            node.setState(true); // Cambiamos el estado del nodo a final
             return;
         }
 
