@@ -9,16 +9,19 @@ public class DictionaryControllerDriver {
         DictionaryController controller = new DictionaryController();
         boolean exit = false;
 
-        System.out.println("Bienvenido al driver de DictionaryController.");
-        System.out.println("Opciones disponibles:");
-        System.out.println("1. Crear un nuevo diccionario");
-        System.out.println("2. Cargar palabras desde un archivo");
-        System.out.println("3. Agregar una palabra manualmente");
-        System.out.println("4. Buscar una palabra en el diccionario");
-        System.out.println("5. Mostrar el idioma del diccionario");
-        System.out.println("6. Salir");
-
+        System.out.println("\n--- Dictionary Controller Driver ---");
+        System.out.println("\nBienvenido al driver de DictionaryController.");
+        
         while (!exit) {
+            System.out.println("\n-----------------------------------------------");
+            System.out.println("Opciones disponibles:");
+            System.out.println("1. Crear un nuevo diccionario");
+            System.out.println("2. Cargar palabras desde un archivo");
+            System.out.println("3. Agregar una palabra manualmente");
+            System.out.println("4. Buscar una palabra en el diccionario");
+            System.out.println("5. Mostrar el idioma del diccionario");
+            System.out.println("6. Salir");
+            System.out.println("-----------------------------------------------");
             System.out.print("\nElige una opción: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // Consumir el salto de línea
