@@ -7,12 +7,13 @@ import java.util.*;
  * @author Kai Knox
  */
 public class Rack {
-    private Map<String, List<Letter>> letters = new HashMap<>();
+    private List<Letter> letters = new ArrayList<>();
     static final int NUM_LETTERS = 7;
-    private static Bag bag; // The bag of letters from which letters are drawn
+    private Bag bag; // The bag of letters from which letters are drawn
 
     public Rack() {
     }
+
     /**
      * Constructor for the Rack class.
      * Initializes the rack with a set of letters.
@@ -26,18 +27,16 @@ public class Rack {
         }
     }
 
-
     /**
      * Adds a letter to the rack.
      * @param letter The letter to be added.
      * @throws IllegalStateException if the rack is full.
      */
     private void addLetter(Letter letter) {
-        if (letters.values().stream().mapToInt(List::size).sum() >= NUM_LETTERS) {
+        if (letters.size() >= NUM_LETTERS) {
             throw new IllegalStateException("Rack is full");
         }
-
-        letters.computeIfAbsent(letter.getSymbol(), k -> new ArrayList<>()).add(letter);
+        letters.add(letter);
     }
 
     /**
@@ -46,44 +45,40 @@ public class Rack {
      * @return The letter that was removed, or null if no such letter exists.
      */
     public Letter getLetter(String symbol) {
-        List<Letter> letterList = letters.get(symbol);
-        if (letterList != null && !letterList.isEmpty()) {
-            Letter letter = letterList.remove(0); // Remove the first letter from the list
-            if (letterList.isEmpty()) {
-                letters.remove(symbol); // Remove the key if the list is empty
+        for (int i = 0; i < letters.size(); i++) {
+            if (letters.get(i).getSymbol().equals(symbol)) {
+                Letter letter = letters.remove(i); // Remove the letter from the list
+                Letter newLetter = bag.extractLetter();
+                this.addLetter(newLetter);
+                return letter;
             }
-
-            Letter newLetter = bag.extractLetter();
-            this.addLetter(newLetter);
-            return letter;
         }
         return null; // Return null if no such letter exists
     }
 
-
+    /**
+     * Shuffles the letters in the rack.
+     */
+    public void shuffle() {
+        Collections.shuffle(letters);
+    }
 
     /**
-     * Checks if the rack is empty.
-     * @return true if the rack is empty, false otherwise.
+     * Clears the rack.
      */
     public void clear() {
         letters.clear();
     }
 
     /**
-     * Returns the letters in the rack.
-     * @return A set of letters in the rack.
+     * Prints the letters in the rack.
      */
     public void print() {
-        for (Map.Entry<String, List<Letter>> entry : letters.entrySet()) {
-            String symbol = entry.getKey();
-            List<Letter> letterList = entry.getValue();
-            System.out.print("Symbol: " + symbol + " -> ");
-            for (Letter letter : letterList) {
-                System.out.print(letter.getSymbol() + " ");
-            }
-            System.out.println();
+        System.out.print("Rack: ");
+        for (Letter letter : letters) {
+            System.out.print(letter.getSymbol() + " ");
         }
+        System.out.println();
         System.out.println("------------------------------");
     }
 }
