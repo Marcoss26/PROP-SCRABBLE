@@ -17,8 +17,11 @@ DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/BagController.java \
 					$(DOMAIN_CLASSES)/Dictionary.java \
 					$(DOMAIN_CLASSES)/Board.java \
 					$(DOMAIN_CLASSES)/Box.java \
+					$(DOMAIN_CLASSES)/Profile.java \
+					$(DOMAIN_CLASSES)/ProfileController.java \
 					$(DOMAIN_CLASSES)/Dawg.java
-
+					
+PROFILE_CONTROLLER_DRIVER_SRC = $(DRIVERS)/ProfileControllerDriver.java
 BOARD_DRIVER_SRC = $(DRIVERS)/BoardBoxDriver.java
 BAG_DRIVER_SRC = $(DRIVERS)/BagDriver.java
 RACK_DRIVER_SRC = $(DRIVERS)/RackDriver.java
@@ -29,6 +32,9 @@ DICTIONARY_CONTROLLER_DRIVER_SRC = $(DRIVERS)/DictionaryControllerDriver.java
 all: BagDriver RackDriver DictionaryControllerDriver
 
 # Compilar los drivers individualmente
+ProfileControllerDriver: $(DOMAIN_CLASSES_SRC) $(PROFILE_CONTROLLER_DRIVER_SRC)
+	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC) $(PROFILE_CONTROLLER_DRIVER_SRC)
+
 BoardDriver: $(DOMAIN_CLASSES_SRC) $(BOARD_DRIVER_SRC)
 	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC) $(BOARD_DRIVER_SRC)
 
