@@ -1,4 +1,6 @@
+package DomainClasses;
 import java.util.*;
+import java.io.*;
 
 /**
  * ProfileController is a singleton class that manages user profiles.

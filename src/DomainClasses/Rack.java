@@ -1,3 +1,4 @@
+package DomainClasses;
 import java.util.*;
 
 /**
@@ -6,16 +7,18 @@ import java.util.*;
  * @author Kai Knox
  */
 public class Rack {
-    private Map<String, Set<Letter>> letters = new HashMap<>();
-    static const int NUM_LETTERS = 7;
+    private Map<String, List<Letter>> letters = new HashMap<>();
+    static final int NUM_LETTERS = 7;
     private static Bag bag; // The bag of letters from which letters are drawn
 
+    public Rack() {
+    }
     /**
      * Constructor for the Rack class.
      * Initializes the rack with a set of letters.
      * @param bag The bag of letters from which letters are drawn.
      */
-    public void Rack(Bag bag) {
+    public Rack(Bag bag) {
         this.bag = bag;
         for (int i = 0; i < NUM_LETTERS; i++) {
             Letter letter = bag.extractLetter();
@@ -30,11 +33,11 @@ public class Rack {
      * @throws IllegalStateException if the rack is full.
      */
     private void addLetter(Letter letter) {
-        if (letters.values().stream().mapToInt(Set::size).sum() >= NUM_LETTERS) {
+        if (letters.values().stream().mapToInt(List::size).sum() >= NUM_LETTERS) {
             throw new IllegalStateException("Rack is full");
         }
 
-        letters.computeIfAbsent(letter.getSymbol(), k -> new HashSet<>()).add(letter);
+        letters.computeIfAbsent(letter.getSymbol(), k -> new ArrayList<>()).add(letter);
     }
 
     /**
@@ -43,21 +46,20 @@ public class Rack {
      * @return The letter that was removed, or null if no such letter exists.
      */
     public Letter getLetter(String symbol) {
-        Set<Letter> letterSet = letters.get(symbol);
-        if (letterSet != null && !letterSet.isEmpty()) {
-            Iterator<Letter> iterator = letterSet.iterator();
-            Letter letter = iterator.next();
-            iterator.remove(); // Remove the letter from the set
-            if (letterSet.isEmpty()) {
-                letters.remove(symbol); // Remove the key if the set is empty
+        List<Letter> letterList = letters.get(symbol);
+        if (letterList != null && !letterList.isEmpty()) {
+            Letter letter = letterList.remove(0); // Remove the first letter from the list
+            if (letterList.isEmpty()) {
+                letters.remove(symbol); // Remove the key if the list is empty
             }
 
-            Letter letter2 = bag.extractLetter();
-            this.addLetter(letter2);
+            Letter newLetter = bag.extractLetter();
+            this.addLetter(newLetter);
             return letter;
         }
         return null; // Return null if no such letter exists
     }
+
 
 
     /**
@@ -72,9 +74,16 @@ public class Rack {
      * Returns the letters in the rack.
      * @return A set of letters in the rack.
      */
-    public print() {
-        System.out.println("------------------------------");
-        System.out.println("Rack: " + letters);
+    public void print() {
+        for (Map.Entry<String, List<Letter>> entry : letters.entrySet()) {
+            String symbol = entry.getKey();
+            List<Letter> letterList = entry.getValue();
+            System.out.print("Symbol: " + symbol + " -> ");
+            for (Letter letter : letterList) {
+                System.out.print(letter.getSymbol() + " ");
+            }
+            System.out.println();
+        }
         System.out.println("------------------------------");
     }
 }
