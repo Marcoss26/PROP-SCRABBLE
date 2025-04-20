@@ -1,21 +1,38 @@
 import java.io.*;
 import java.util.*;
 
+/** 
+ * DictionaryController.java
+ * @author: Ivan Alcubierre
+ * Esta clase es el controlador de los diccionarios.
+ * Se encarga de gestionar la creación, eliminación y acceso a los diccionarios.
+ * También permite añadir palabras a los diccionarios desde archivos de texto.
+ */
 public class DictionaryController {
 
     //Atributos del controlador
+    /**
+     * @param dictionaries Mapa que almacena los diccionarios con su nombre como clave.
+     */
     private Map<String, Dictionary> dictionaries = new HashMap<>();
 
-    // pre: True
-    // post: crea un nuevo controlador de diccionarios
+    /**
+     * Constructor de la clase DictionaryController.
+     * pre: True
+     * post: crea un nuevo controlador de diccionarios.
+     */
     public DictionaryController() {
 
         this.dictionaries = new HashMap<>();
     }
 
-    // pre: dictionaryName es el nombre del diccionario que se va a añadir
-    // post: añade un nuevo diccionario al controlador
-    //       o lanza una excepción si ya existe
+    /**
+     * Añade un nuevo diccionario al controlador.
+     * @param dictionaryName Nombre del diccionario a añadir.
+     * pre: dictionaryName es el nombre del diccionario que se va a añadir
+     * post: añade un nuevo diccionario al controlador o lanza una excepción si ya existe
+     * @throws IllegalArgumentException si el diccionario ya existe
+     */
     public void addDictionary(String dictionaryName) {
         
         if (dictionaryExists(dictionaryName)) {
@@ -26,9 +43,13 @@ public class DictionaryController {
         dictionaries.put(dictionaryName, dictionary);
     }
 
-    // pre: dictionaryName es el nombre del diccionario que se va a eliminar
-    // post: elimina el diccionario con el nombre especificado
-    //       o lanza una excepción si no existe
+    /**
+     * Elimina un diccionario del controlador.
+     * @param dictionaryName Nombre del diccionario a eliminar.
+     * pre: dictionaryName es el nombre del diccionario que se va a eliminar
+     * post: elimina el diccionario con el nombre especificado o lanza una excepción si no existe
+     * @throws IllegalArgumentException si el diccionario no existe
+     */
     public void removeDictionary(String dictionaryName) {
 
         if (!dictionaryExists(dictionaryName)) {
@@ -39,9 +60,14 @@ public class DictionaryController {
         dictionaries.remove(dictionaryName);
     }
 
-    // pre: dictionaryName es el nombre del diccionario que se va a buscar
-    // post: devuelve el diccionario con el nombre especificado
-    //       o lanza una excepción si no existe
+    /**
+     * Obtiene un diccionario del controlador.
+     * @param dictionaryName Nombre del diccionario a obtener.
+     * pre: dictionaryName es el nombre del diccionario que se va a buscar
+     * post: devuelve el diccionario con el nombre especificado o lanza una excepción si no existe
+     * @throws IllegalArgumentException si el diccionario no existe
+     * @return El diccionario con el nombre especificado.
+     */
     public Dictionary getDictionary(String dictionaryName) {
 
         if (!dictionaryExists(dictionaryName)) {
@@ -51,23 +77,37 @@ public class DictionaryController {
         return dictionaries.get(dictionaryName);
     }
 
-    // pre: dictionaryName es el nombre del diccionario que se va a buscar
-    // post: devuelve true si el diccionario existe, false en caso contrario
+    /**
+     * Verifica si un diccionario existe en el controlador.
+     * @param dictionaryName Nombre del diccionario a verificar.
+     * pre: dictionaryName es el nombre del diccionario que se va a buscar
+     * post: devuelve true si el diccionario existe, false en caso contrario
+     * @return true si el diccionario existe, false en caso contrario
+     */
     public boolean dictionaryExists(String dictionaryName) {
 
         return dictionaries.containsKey(dictionaryName);
     }
 
-    // pre: True
-    // post: elimina todos los diccionarios del controlador
+    /**
+     * Elimina todos los diccionarios del controlador.
+     * pre: True
+     * post: elimina todos los diccionarios del controlador
+     */
     public void clearDictionaries() {
 
         dictionaries.clear();
     }
 
-    // pre: dictionaryName es el nombre del diccionario donde se van a añadir las palabras
-    //      fileName es el nombre del archivo .txt que contiene las palabras a añadir
-    // post: añade las palabras del archivo al diccionario especificado
+    /**
+     * Añade palabras a un diccionario desde un archivo de texto.
+     * @param dictionaryName Nombre del diccionario al que se van a añadir las palabras y del archivo de texto.
+     * pre: dictionaryName es el nombre del diccionario donde se van a añadir las palabras y el nombre del archivo de texto
+     * post: añade las palabras del archivo al diccionario especificado
+     * @throws IOException si ocurre un error al leer el archivo
+     * @throws IllegalArgumentException si el diccionario no existe o el archivo no se encuentra
+     * @throws FileNotFoundException si el archivo no se encuentra
+     */
     public void addWordsToDictionary(String dictionaryName) throws IOException {
         // Verifica si el diccionario existe
         if (!dictionaryExists(dictionaryName)) {
@@ -79,7 +119,7 @@ public class DictionaryController {
 
         // Construye la ruta al archivo que esta en la carpeta 'data'
         String fileName = dictionaryName + ".txt";
-        File file = new File("../data/dictionaries/" + fileName);
+        File file = new File("../../data/dictionaries/" + fileName);
         if (!file.exists()) {
             throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data/dictionaries'.");
         }
