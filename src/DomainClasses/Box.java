@@ -62,6 +62,9 @@ public class Box
 
     public Box(int x, int y)
     {
+        if (x < 0 || y < 0) {
+            throw new IllegalArgumentException("Las coordenadas no pueden ser negativas");
+        }
         this.x = x;
         this.y = y;
         this.symbol = null;

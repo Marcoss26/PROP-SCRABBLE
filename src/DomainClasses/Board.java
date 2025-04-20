@@ -24,6 +24,9 @@ public class Board
 
     public Board(int size)
     {
+        if (size != 7 && size != 15 && size != 25) {
+            throw new IllegalArgumentException("El tamaño del tablero debe ser 7, 15 o 25.");  
+        }
         this.size = size;
 
         this.board = new Box[size][size];
@@ -104,6 +107,9 @@ public class Board
      */
 
     public void setSize(int size) {
+        if (size != 7 && size != 15 && size != 25) {
+            throw new IllegalArgumentException("El tamaño del tablero debe ser 7, 15 o 25.");  
+        }
         this.size = size;
     }
 
@@ -165,6 +171,9 @@ public class Board
         if (x >= 0 && x < size && y >= 0 && y < size) {
             this.board[x][y].setLetter(null, 0);
             printBoard();
+        }
+        else {
+            System.out.println("Coordenadas fuera de rango.");
         }
     }
 
