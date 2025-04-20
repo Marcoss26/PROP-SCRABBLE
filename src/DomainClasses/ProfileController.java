@@ -75,10 +75,7 @@ public class ProfileController {
      * @param password The new password for the profile.
      */
     public void updateProfile(String username, String password) {
-        Profile profile = profiles.get(username);
-        if (profile != null) {
-            profile.changePassword(profile.getPassword(), password);
-        }
+e1cmxwaklm
     }
 
     /**
