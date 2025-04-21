@@ -19,12 +19,67 @@ public class MP_Controller
         return c;
     }
 
-    public void createMatch(String id, Set<Profile> profiles)
+    public void createMatch(String id, Set<Profile> profiles, String language, String name)
     {
-        Match match = new Match(id);
-        matches.put(id, match);
-        createPlayersForMatch(match,profiles);
-        System.out.println("Match created with ID: " + match.getId());
+        try
+        {
+            Match match = new Match(id);
+            matches.put(id, match);
+            createPlayersForMatch(match,profiles);
+            createDictionaryForMatch(match,language,name);
+            createBagForMatch(match,"letras"+language);
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter the size of the match (can only be 7,15 or 25): ");
+            int size = scanner.nextInt();
+            createBoardForMatch(match,size);
+            System.out.println("Match created with ID: " + match.getId());
+        }
+        catch (IOException e)
+        {
+            System.out.println("Error creating match: " + e.getMessage());
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println("Error creating match: " + e.getMessage());
+        }
+    }
+
+    private void createBoardForMatch(Match match, int size)
+    {
+        match.setBoard(new Board(size)); //Creating a new board with the size given by the user
+    }
+    
+    private void createBagForMatch(Match match,String fileName) throws IOException
+    {
+        Map<Letter, Integer> letters = new HashMap<>();
+        String file = fileName + ".txt"; 
+        File filePath = new File("data/Letters/" + file); 
+        int totalLettersInTheBag = 0;
+        if (!filePath.exists()) 
+        {
+            throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data/Letters'.");
+        }
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        String line;
+        while ((line = br.readLine()) != null) 
+        {
+            String[] parts = line.split(" "); 
+            if (parts.length == 3) 
+            {
+                String symbol = parts[0];
+                int quantity = Integer.parseInt(parts[1]); 
+                totalLettersInTheBag += quantity;
+                int value = Integer.parseInt(parts[2]); 
+                Letter letter = new Letter(symbol, value); 
+                letters.put(letter, quantity); 
+            }
+        }
+        match.setBag(new Bag(letters, totalLettersInTheBag));
+    }
+
+    private void createDictionaryForMatch(Match match, String language, String name)
+    {
+        match.setDictionary(new Dictionary(name,language));
     }
 
     private void createPlayersForMatch(Match match, Set<Profile> profiles)
@@ -118,15 +173,12 @@ public class MP_Controller
                     boolean valid = false;
                     
                     System.out.println("Options:");
-                    System.out.println("1. Add letter to board");
-                    System.out.println("2. Delete letter");
-                    System.out.println("3. Confirm play");
-                    System.out.println("4. Refresh rack");
+                    System.out.println("1. Give a word you want to form");
+                    System.out.println("2. Refresh rack");
                     while(!valid)
                     {
                         System.out.println("Enter your option: ");
                         int option = scanner.nextInt();
-                        int validOperation = 0;
                         switch(option)
                         {
                             case 1:
@@ -147,12 +199,8 @@ public class MP_Controller
                                 {
                                     throw new IllegalArgumentException("There is already a letter in that position. Please choose another position.");
                                 }
-                                if(!(x >= 0 && x < board.getSize() && y >= 0 && y < board.getSize()))
-                                {
-                                    throw new IllegalArgumentException("Invalid coordinates. Please enter coordinates between 0 and " + (board.getSize()-1) + ".");
-                                }
                                 ++validOperation;
-                                board.addLetter(x,y,letter);
+                                board.placeLetter(x,y,letter.getSymbol(),letter.getValue()); //Add the letter to the board
                                 break;
                             case 2:
                                 System.out.println("Give me the coordinates of the letter:");
@@ -168,12 +216,19 @@ public class MP_Controller
                                 break;
                             case 3:
                                 System.out.println("Confirming play...");
-                                valid = algorithm(board,dictionary);
+                                //valid = validBoard(board,match.getDictionary());
+                                //Esto deberia de ir al tablero y que lo compruebe
+                                if(!valid)
+                                {
+                                    System.out.println("Invalid play. Please try again.");
+                                    break;
+                                }
+                                System.out.println("Play confirmed.");
                                 int quantity = 7 - player.getRack().getSize();
                                 List<Letter> letters = match.getBag().extractSetOfLetters(quantity);
                                 player.getRack().addLetters(letters);
-                                int score = board.calculateScore();
-                                player.addScore(score);
+                                //int score = board.calculateScore();
+                                //player.addScore(score);
                                 break;
                             case 4:
                                 if(validOperation == 0) 

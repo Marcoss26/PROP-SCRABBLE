@@ -17,7 +17,7 @@ public abstract class Player
     {
         this.setID(id);
         this.setScore(0);
-        this.setMatch(match);
+        //this.setMatch(match);
     }
 
 
