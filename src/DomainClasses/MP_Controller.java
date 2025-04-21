@@ -156,17 +156,10 @@ public class MP_Controller
         return c;
     }
 
-    public void createMatch(int size, Set<Profile> profiles, String language, String name,int board_size)
+    public String createMatch(int size, Set<Profile> profiles, String language, String name,int board_size) throws IOException, IllegalArgumentException
     {
-        try
-        {
-            boolean contains = true;
-            String id = "";
-            while(contains)
-            {
-                id = UUID.randomUUID().toString(); //Generating a random ID for the match
-                if(matches.containsKey(id)) contains = true;
-            }
+            String id = UUID.randomUUID().toString(); //Generating a random ID for the match
+            if(matches.containsKey(id))  throw new IllegalArgumentException("Match with ID: " + id + " already exists.");
             Match match = new Match(id,size);
             matches.put(id, match);
             createPlayersForMatch(match,profiles);
@@ -174,15 +167,7 @@ public class MP_Controller
             createBagForMatch(match,"letras"+language);
             createBoardForMatch(match,board_size);
             System.out.println("Match created with ID: " + match.getId());
-        }
-        catch (IOException e)
-        {
-            System.out.println("Error creating match: " + e.getMessage());
-        }
-        catch (IllegalArgumentException e)
-        {
-            System.out.println("Error creating match: " + e.getMessage());
-        }
+            return id;
     }
 
     private void createBoardForMatch(Match match, int size)
@@ -251,6 +236,17 @@ public class MP_Controller
         return matches.containsKey(id);
     }
 
+    public Match getMatch(String id) throws IllegalArgumentException
+    {
+        if (existMatch(id))
+        {
+            return matches.get(id);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
+        }
+    }
 
     public void displayPlayers(String match_id) throws IllegalArgumentException
     {
@@ -320,17 +316,17 @@ public class MP_Controller
                     {
                         validPlay = true;
                         List<Letter> letters = player_rack.getLetters(aux_word);
-                        for (letter letter : letters)
+                        for (Letter letter : letters)
                         {
                             player_rack.removeLetter(letter); //Remove the letter from the rack
-                            match.getBoard().addLetter(letter, startX, startY, endX, endY);
+                            board.addLetter(letter, startX, startY, endX, endY);
                         }
                     }
                     else    validPlay = false;
                 }
                 else
                 {
-                    
+                     
                 }
                 match.setTurn(turn + 1);
             }
