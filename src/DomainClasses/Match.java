@@ -46,29 +46,34 @@ public class Match
         return dictionary;
     }
 
-    public setBag(Bag bag) 
+    public void setBag(Bag bag) 
     {
         this.bag = bag;
     }
 
-    public setBoard(Board board) 
+    public void setBoard(Board board) 
     {
         this.board = board;
     }
 
-    public getPlayers() 
+    public Map<String, Player> getPlayers() 
     {
         return players;
     }
 
-    public setDictionary(Dictionary dictionary) 
+    public void setDictionary(Dictionary dictionary) 
     {
         this.dictionary = dictionary;
     }
 
-    public setSize(int size) 
+    public void setSize(int size) 
     {
         this.size = size;
+    }
+
+    public int getSize() 
+    {
+        return size;
     }
 
     public void setPlayer(Player player)
@@ -82,7 +87,7 @@ public class Match
         return playerList;
     }
 
-    public player getPlayer(String id)
+    public Player getPlayer(String id)
     {
         return players.get(id);
     }

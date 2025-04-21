@@ -1,3 +1,4 @@
+package DomainClasses;
 import java.util.*;
 
 public abstract class Player
@@ -19,15 +20,13 @@ public abstract class Player
         this.setMatch(match);
     }
 
-    public void makeMove();
 
     public void displayPlayer()
     {
         System.out.println("Player username: " + name + ", Score: " + score);
     }
 
-    public boolean isHuman()
-    {}
+    public abstract boolean isHuman();
 
     
     public void setMatch(Match match)
@@ -39,18 +38,20 @@ public abstract class Player
     {
         this.rack = rack;
     }
+
+    public Rack getRack()
+    {
+        return rack;
+    }
     
+    public void printRack()
+    {
+        rack.print();
+    }
+
     public void setID(String id)
     {
         this.id = id;
-    }
-
-    public char getDecision()
-    {
-        scanner = new Scanner(System.in);
-        System.out.println("r to refresh rack, 1-7 to play a tile, p to pass");
-        char decision = scanner.next();
-        return decision;
     }
 
     public String getID()
@@ -70,7 +71,4 @@ public abstract class Player
     {
         return score;
     }
-
-    public void makeMove()
-    {}
 }
