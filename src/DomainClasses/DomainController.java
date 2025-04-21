@@ -7,14 +7,38 @@ import java.io.*;
  * It allows adding, removing, and retrieving profiles, as well as checking if a profile exists.
  * @author Kai Knox
  */
+
+ /**
+  * ------------------------
+  TODO
+    ------------------------
+    * - Creaete a new match (numbPlayers, profiles, dicctionary, bolsa, tamaño)
+    * - Continue a match (id)
+    * - See list of matches to continue: id[]
+
+    * - Create dictionary (lang, name)
+    * - 
+  */
 public class DomainController {
+    /**
+     * ProfileController instance to manage user profiles.
+     * MP_Controller instance to manage matches.
+     * Ranking instance to manage game statistics and rankings.
+     * DictionaryController instance to manage the dictionary.
+     * DomainController instance to implement the singleton pattern.
+     */
     private ProfileController profileController;
-    private MP_Controller MP_Controller;
+    private MP_Controller matchController;
+    private Ranking ranking;
+    private DictionaryController dictionaryController;
+
     private static DomainController c;
 
     private DomainController() {
-        this.profileController = new ProfileController();
-        this.MP_Controller = new MatchController();
+        this.profileController = ProfileController.getInstance();
+        this.matchController = MP_Controller.getInstance();
+        this.ranking = Ranking.getInstance();
+        this.dictionaryController = DictionaryController.getInstance();
     }
 
     /**
@@ -29,65 +53,27 @@ public class DomainController {
     /* ---------------------------------------------------------------------
                             PROFILE FUNCTIONALITY
     ------------------------------------------------------------------------*/
-    public void manageProfiles() {
-        return this.profileController;
-    }
     public void addProfile(String username, String password) {
         this.profileController.addProfile(username, password);
     }
     public void removeProfile(String username) {
         this.profileController.removeProfile(username);
     }
-    public Profile getProfile(String username) {
-        return this.profileController.getProfile(username);
+    public Profile getProfile(String username, String password) {
+        return this.profileController.getProfile(username, password);
     }
 
     /* ---------------------------------------------------------------------
                             MATCH FUNCTIONALITY
     ------------------------------------------------------------------------*/
-    public void manageMatches() {
-        return this.MP_Controller;
-    }
 
     /**
      * Creates a new match with the given number of human and AI players.
      * @param humanCount The number of human players.
      * @param aiCount The number of AI players.
-     * @throws IllegalArgumentException if the total number of players is less than 2.
-     * @throws IllegalArgumentException if the number of human players is less than 1.
-     * @throws IllegalArgumentException if the number of AI players is less than 0.
-     * @throws IllegalArgumentException if the number of human players exceeds the total number of players.
-     * @throws IllegalArgumentException if the number of AI players exceeds the total number of players.
-     * @throws IllegalArgumentException if the number of human players is greater than the number of AI players.
-     * @throws IllegalArgumentException if the number of AI players is greater than the number of human players.
-     * @throws IllegalArgumentException if the number of players is not a positive integer.
-     * @throws IllegalArgumentException if the number of players is not a valid integer.
      */
-    public void newMatch(int humanCount, int aiCount) {
-        Set<Profile> profiles = new HashSet<>();
-        const MIN_HOMAN_PLAYERS = 1;
-        Scanner myObj = new Scanner(System.in);
 
-        system.out.println("Enter the number of total players");
-        int players = myObj.nextLine();
-        while(profiles.size() < players) {
-            system.out.println("Enter the username of the player");
-            String userName = myObj.nextLine();
-            if (userName == "" && profiles.size() >= MIN_HOMAN_PLAYERS) break;
-            Profile p = profileController.getProfile(userName);
-            if (p == null) {
-                System.out.println("Profile not found.");
-                return;
-            } else {
-                if (p.authenticate(password)) {
-                    profiles.add(p);
-                } else {
-                    System.out.println("Invalid password");
-                    return;
-                }
-            }
-        }
-
-        this.MP_Controller.createMatch(matchID, profiles);
+    public void newMatch(Set<Profile> profiles, String language, String name) {
+        this.matchController.createMatch(profiles, language, name);
     }
 }
