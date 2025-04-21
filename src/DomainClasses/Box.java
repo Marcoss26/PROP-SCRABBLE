@@ -112,6 +112,23 @@ public class Box
     }
 
     /**
+     * Consultora de Box
+     * Pre: ya existe una casilla
+     * @param x
+     * @param y
+     * Post: se retorna la coordenada x e y de la casilla
+     * @return La casilla correspondiente a x e y
+     */
+
+    public Box getBox(int x, int y)
+    {
+        if (this.x == x && this.y == y) {
+            return this;
+        }
+        return null;
+    }
+
+    /**
      * Consultora de 1 casilla
      * Pre: ya existe una casilla
      * Post: se retorna la casilla con el sistema de () y colores
