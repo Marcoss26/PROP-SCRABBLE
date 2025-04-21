@@ -86,7 +86,7 @@ public class MP_Controller {
     
         leftParts.add(partialWord);
     
-        for (char letter : rack.getLetters()) {
+        for (Letter letter : rack.getLetters()) {
             Rack newRack = rack.clone();
             newRack.removeLetter(letter);
             generateLeftPartsRecursive(partialWord + letter, anchor.getLeftNeighbor(), newRack, dictionary, leftParts);
