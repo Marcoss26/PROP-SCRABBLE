@@ -239,8 +239,9 @@ class DictionaryDriver {
             System.out.println("1. Create Dictionary");
             System.out.println("2. Remove dictionary");
             System.out.println("3. Modify dictionary");
-            System.out.println("4. Back");
-            System.out.println("5. Back");
+            System.out.println("4. Modify dictionary 2");
+            System.out.println("5. Modify dictionary 3");
+            System.out.println("7. Back");
             System.out.print("Choose an option: ");
 
             int option = scanner.nextInt();
