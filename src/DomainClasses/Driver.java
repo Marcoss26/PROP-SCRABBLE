@@ -11,41 +11,44 @@ class GameDriver {
         System.out.print("Enter the number of players: ");
         int players = scanner.nextInt();
 
-        System.out.print("Enter the size of the board: ");
-        int boardSize = scanner.nextInt();
+        System.out.print("Out of these " + players + " players, how many are human? ");
+        int humanPlayers = scanner.nextInt();
 
-
-
-
+        System.out.print("Log in to all " + humanPlayers + " profiles: ");
         final int MIN_HOMAN_PLAYERS = 1;
-
         Set<Profile> profiles = new HashSet<>();
 
         while(profiles.size() < players) {
             System.out.print("Enter username: ");
             String username = scanner.nextLine();
+            if (!domainController.profileExists(username)) {
+                System.out.println("Profile does not exist");
+                break;
+            }
+
             String password = new String(System.console().readPassword("Enter password: "));
-
-            if (username == "" && profiles.size() >= MIN_HOMAN_PLAYERS) break;
-
+            if (username == null || profiles.size() >= MIN_HOMAN_PLAYERS) break;
             Profile p = domainController.getProfile(username, password);
             if (p == null) {
-                System.out.println("Profile not found.");
+                System.out.println("Incorrect password");
                 return;
             } else {
-                if (p.authenticate(password)) {
-                    profiles.add(p);
-                } else {
-                    System.out.println("Invalid password");
-                    return;
-                }
+                System.out.println("Profile found: " + p.getUsername());
+                profiles.add(p);
             }
         }
 
+        System.out.print("Enter the size of the board: ");
+        int boardSize = scanner.nextInt();
 
+        System.out.print("What language do you want to play in? (es, en, ca): ");
+        String lang = scanner.nextLine();
+
+        System.out.print("Match name: ");
+        String name = scanner.nextLine();
 
         scanner.close();
-        domainController.newMatch(players, boardSize);
+        domainController.newMatch(players, profiles, lang, name, boardSize);
     }
 
     private static void continueGame() {

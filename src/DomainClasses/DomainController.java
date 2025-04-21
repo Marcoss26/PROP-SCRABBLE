@@ -62,6 +62,9 @@ public class DomainController {
     public Profile getProfile(String username, String password) {
         return this.profileController.getProfile(username, password);
     }
+    public boolean profileExists(String username) {
+        return this.profileController.profileExists(username);
+    }
 
     /* ---------------------------------------------------------------------
                             MATCH FUNCTIONALITY
@@ -73,7 +76,7 @@ public class DomainController {
      * @param aiCount The number of AI players.
      */
 
-    public void newMatch(Set<Profile> profiles, String language, String name) {
-        this.matchController.createMatch(profiles, language, name);
+    public void newMatch(int players, Set<Profile> profiles, String language, String name, int size) {
+        this.matchController.createMatch(players, profiles, language, name, size);
     }
 }
