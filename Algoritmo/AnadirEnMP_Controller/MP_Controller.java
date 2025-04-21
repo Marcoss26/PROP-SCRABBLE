@@ -19,55 +19,57 @@ public class MP_Controller {
         public String toString() {
             return "Word: " + word + " Start: (" + startX + ", " + startY + ") End: (" + endX + ", " + endY + ")";
         }
-    }
-
-    public List<PlayableWord> calculatePlayableWords(Board board, Rack rack, Dictionary dictionary) {
-        public List<PlayableWord> calculatePlayableWords(Board board, Rack rack, Dictionary dictionary) {
-            List<PlayableWord> playableWords = new ArrayList<>();
-            Set<Box> anchorSquares = board.getAnchorSquares(); // Casillas de anclaje
-        
-            for (Box anchor : anchorSquares) {
-                int x = anchor.getX();
-                int y = anchor.getY();
-        
-                // Generar todas las combinaciones posibles de palabras horizontales
-                List<String> leftParts = generateLeftParts(anchor, rack, dictionary);
-                for (String leftPart : leftParts) {
-                    for (char letter : rack.getLetters()) {
-                        String word = leftPart + letter;
-                        if (dictionary.isValidWord(word)) {
-                            // Extender hacia la derecha
-                            String extendedWord = extendRight(word, x, y, board, dictionary);
-                            int endX = x + extendedWord.length() - 1;
-                            int endY = y; // Horizontal por defecto
-        
-                            // Agregar palabra jugable horizontal
-                            playableWords.add(new PlayableWord(extendedWord, x, y, endX, endY));
-                        }
-                    }
-                }
-        
-                // Generar todas las combinaciones posibles de palabras verticales
-                List<String> topParts = generateTopParts(anchor, rack, dictionary);
-                for (String topPart : topParts) {
-                    for (char letter : rack.getLetters()) {
-                        String word = topPart + letter;
-                        if (dictionary.existsWord(word)) {
-                            // Extender hacia abajo
-                            String extendedWord = extendDown(word, x, y, board, dictionary);
-                            int endX = x; // Vertical por defecto
-                            int endY = y + extendedWord.length() - 1;
-        
-                            // Agregar palabra jugable vertical
-                            playableWords.add(new PlayableWord(extendedWord, x, y, endX, endY));
-                        }
-                    }
-                }
-            }
-        
-            return playableWords;
+        @Override
+        public String equals(PlayableWord PlayableWord)
+        {
+            return this.word.equals(PlayableWord.word) && this.startX == PlayableWord.startX && this.startY == PlayableWord.startY && this.endX == PlayableWord.endX && this.endY == PlayableWord.endY;
         }
     }
+		public List<PlayableWord> calculatePlayableWords(Board board, Rack rack, Dictionary dictionary) {
+			List<PlayableWord> playableWords = new ArrayList<>();
+			Set<Box> anchorSquares = board.getAnchorSquares(); // Casillas de anclaje
+		
+			for (Box anchor : anchorSquares) {
+				int x = anchor.getX();
+				int y = anchor.getY();
+		
+				// Generar todas las combinaciones posibles de palabras horizontales
+				List<String> leftParts = generateLeftParts(anchor, rack, dictionary);
+				for (String leftPart : leftParts) {
+					for (char letter : rack.getLetters()) {
+						String word = leftPart + letter;
+						if (dictionary.isValidWord(word)) {
+							// Extender hacia la derecha
+							String extendedWord = extendRight(word, x, y, board, dictionary);
+							int endX = x + extendedWord.length() - 1;
+							int endY = y; // Horizontal por defecto
+		
+							// Agregar palabra jugable horizontal
+							playableWords.add(new PlayableWord(extendedWord, x, y, endX, endY));
+						}
+					}
+				}
+		
+				// Generar todas las combinaciones posibles de palabras verticales
+				List<String> topParts = generateTopParts(anchor, rack, dictionary);
+				for (String topPart : topParts) {
+					for (char letter : rack.getLetters()) {
+						String word = topPart + letter;
+						if (dictionary.existsWord(word)) {
+							// Extender hacia abajo
+							String extendedWord = extendDown(word, x, y, board, dictionary);
+							int endX = x; // Vertical por defecto
+							int endY = y + extendedWord.length() - 1;
+		
+							// Agregar palabra jugable vertical
+							playableWords.add(new PlayableWord(extendedWord, x, y, endX, endY));
+						}
+					}
+				}
+			}
+		
+			return playableWords;
+		}
     
     // Generar todas las partes izquierdas posibles
     private List<String> generateLeftParts(Box anchor, Rack rack, Dictionary dictionary) {

@@ -3,6 +3,143 @@ import java.util.*;
 import java.io.*;
 public class MP_Controller
 {
+    public static class PlayableWord {
+        public String word;
+        public int startX, startY;
+        public int endX, endY;
+
+        public PlayableWord(String word, int startX, int startY, int endX, int endY) {
+            this.word = word;
+            this.startX = startX;
+            this.startY = startY;
+            this.endX = endX;
+            this.endY = endY;
+        }
+
+        @Override
+        public String toString() {
+            return "Word: " + word + " Start: (" + startX + ", " + startY + ") End: (" + endX + ", " + endY + ")";
+        }
+        @Override
+        public boolean equals(Object obj)
+        {
+            if(this == obj) return true;
+            if(obj == null || getClass() != obj.getClass()) return false;
+            PlayableWord other = (PlayableWord) obj;
+            return this.word.equals(other.word) && this.startX == other.startX && this.startY == other.startY && this.endX == other.endX && this.endY == other.endY;
+        }
+    }
+		public List<PlayableWord> calculatePlayableWords(Board board, Rack rack, Dictionary dictionary) {
+			List<PlayableWord> playableWords = new ArrayList<>();
+			Set<Box> anchorSquares = board.getAnchorSquares(); // Casillas de anclaje
+		
+			for (Box anchor : anchorSquares) {
+				int x = anchor.getX();
+				int y = anchor.getY();
+		
+				// Generar todas las combinaciones posibles de palabras horizontales
+				List<String> leftParts = generateLeftParts(anchor, rack, dictionary);
+				for (String leftPart : leftParts) {
+					for (String letter : rack.getLetters()) {
+						String word = leftPart + letter;
+						if (dictionary.isValidWord(word)) {
+							// Extender hacia la derecha
+							String extendedWord = extendRight(word, x, y, board, dictionary);
+							int endX = x + extendedWord.length() - 1;
+							int endY = y; // Horizontal por defecto
+		
+							// Agregar palabra jugable horizontal
+							playableWords.add(new PlayableWord(extendedWord, x, y, endX, endY));
+						}
+					}
+				}
+		
+				// Generar todas las combinaciones posibles de palabras verticales
+				List<String> topParts = generateTopParts(anchor, rack, dictionary);
+				for (String topPart : topParts) {
+					for (String letter : rack.getLetters()) {
+						String word = topPart + letter;
+						if (dictionary.existsWord(word)) {
+							// Extender hacia abajo
+							String extendedWord = extendDown(word, x, y, board, dictionary);
+							int endX = x; // Vertical por defecto
+							int endY = y + extendedWord.length() - 1;
+		
+							// Agregar palabra jugable vertical
+							playableWords.add(new PlayableWord(extendedWord, x, y, endX, endY));
+						}
+					}
+				}
+			}
+		
+			return playableWords;
+		}
+    
+    // Generar todas las partes izquierdas posibles
+    private List<String> generateLeftParts(Box anchor, Rack rack, Dictionary dictionary) {
+        List<String> leftParts = new ArrayList<>();
+        String partialWord = "";
+        generateLeftPartsRecursive(partialWord, anchor, rack, dictionary, leftParts);
+        return leftParts;
+    }
+    
+    private void generateLeftPartsRecursive(String partialWord, Box anchor, Rack rack, Dictionary dictionary, List<String> leftParts) {
+        if (anchor == null || !dictionary.isPrefix(partialWord)) {
+            return;
+        }
+    
+        leftParts.add(partialWord);
+    
+        for (String letter : rack.getLetters()) {
+            Rack newRack = rack.clone();
+            newRack.removeLetter(letter);
+            generateLeftPartsRecursive(partialWord + letter, anchor.getLeftNeighbor(), newRack, dictionary, leftParts);
+        }
+    }
+
+    private List<String> generateTopParts(Box anchor, Rack rack, Dictionary dictionary) {
+        List<String> topParts = new ArrayList<>();
+        String partialWord = "";
+        generateTopPartsRecursive(partialWord, anchor, rack, dictionary, topParts);
+        return topParts;
+    }
+    
+    private void generateTopPartsRecursive(String partialWord, Box anchor, Rack rack, Dictionary dictionary, List<String> topParts) {
+        if (anchor == null || !dictionary.isPrefix(partialWord)) {
+            return;
+        }
+    
+        topParts.add(partialWord);
+    
+        for (String letter : rack.getLetters()) {
+            Rack newRack = rack.clone();
+            newRack.removeLetter(letter);
+            generateTopPartsRecursive(partialWord + letter, anchor.getTopNeighbor(), newRack, dictionary, topParts);
+        }
+    }
+    
+    // Extender palabra hacia la derecha
+    private String extendRight(String word, int x, int y, Board board, Dictionary dictionary) {
+        while (board.hasLetter(x + word.length(), y)) {
+            char nextLetter = board.getLetter(x + word.length(), y);
+            word += nextLetter;
+            if (!dictionary.isPrefix(word)) {
+                break;
+            }
+        }
+        return word;
+    }
+
+    private String extendDown(String word, int x, int y, Board board, Dictionary dictionary) {
+        while (board.hasLetter(x, y + word.length())) {
+            char nextLetter = board.getLetter(x, y + word.length());
+            word += nextLetter;
+            if (!dictionary.isPrefix(word)) {
+                break;
+            }
+        }
+        return word;
+    }
     private static MP_Controller c;
     private Map<String, Match> matches = new HashMap<>();
     private MP_Controller()
@@ -19,19 +156,23 @@ public class MP_Controller
         return c;
     }
 
-    public void createMatch(String id, Set<Profile> profiles, String language, String name)
+    public void createMatch(int size, Set<Profile> profiles, String language, String name,int board_size)
     {
         try
         {
-            Match match = new Match(id);
+            boolean contains = true;
+            String id = "";
+            while(contains)
+            {
+                id = UUID.randomUUID().toString(); //Generating a random ID for the match
+                if(matches.containsKey(id)) contains = true;
+            }
+            Match match = new Match(id,size);
             matches.put(id, match);
             createPlayersForMatch(match,profiles);
             createDictionaryForMatch(match,language,name);
             createBagForMatch(match,"letras"+language);
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter the size of the match (can only be 7,15 or 25): ");
-            int size = scanner.nextInt();
-            createBoardForMatch(match,size);
+            createBoardForMatch(match,board_size);
             System.out.println("Match created with ID: " + match.getId());
         }
         catch (IOException e)
@@ -137,7 +278,7 @@ public class MP_Controller
         }
     }
     
-    public void startMatch(String id)
+    public void startMatch(String id) throws IllegalArgumentException
     {
         if (existMatch(id))
         {
@@ -147,14 +288,18 @@ public class MP_Controller
         }
         else
         {
-            System.out.println("Match with ID: " + id + " does not exist.");
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
         }
     }
 
 
 
-    public String playsMatch(String id) throws IllegalArgumentException, IllegalStateException
+
+    public boolean playsMatch(String id,String word) throws IllegalArgumentException, IllegalStateException
     {
+        boolean validPlay = false;
+        String aux_word = word.replace("_","");
+        boolean nextRound = false;
         if (existMatch(id))
         {
             Match match = matches.get(id);
@@ -165,85 +310,27 @@ public class MP_Controller
                 int turn = match.getTurn();
                 Player player = list_players.get(turn);
                 match.printBoard();
-                Scanner scanner = new Scanner(System.in);
+                Rack player_rack = player.getRack();
                 if(player.isHuman())
                 {
-                    Set<Letter> letters_to_add = new HashSet<>();
                     player.printRack();
-                    boolean valid = false;
-                    
-                    System.out.println("Options:");
-                    System.out.println("1. Give a word you want to form");
-                    System.out.println("2. Refresh rack");
-                    while(!valid)
+                    List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, match.getDictionary());
+                    PlayableWord My_playablewords = new PlayableWord(word, startX, startY, endX, endY);
+                    if (PlayAbleWords.contains(My_playablewords))
                     {
-                        System.out.println("Enter your option: ");
-                        int option = scanner.nextInt();
-                        switch(option)
+                        validPlay = true;
+                        List<Letter> letters = player_rack.getLetters(aux_word);
+                        for (letter letter : letters)
                         {
-                            case 1:
-                                System.out.println("Choose a letter:");
-                                Letter letter;
-                                String decision = scanner.nextLine();   //Decides which letter from the rack to add
-                                if((letter = player.getRack().getLetter(decision)) == null)
-                                {
-                                    throw new IllegalArgumentException("Invalid letter. Please enter a number between 1 and " + player.getRack().getSize() + ".");
-                                }
-                                {
-                                    throw new IllegalArgumentException("Invalid letter number. Please enter a number between 1 and 7.");
-                                }
-                                System.out.println("Where do you want to add the letter?");
-                                int x = scanner.nextInt(); //X coordinate
-                                int y = scanner.nextInt(); //Y coordinate
-                                if(board.hasLetter(x,y))
-                                {
-                                    throw new IllegalArgumentException("There is already a letter in that position. Please choose another position.");
-                                }
-                                ++validOperation;
-                                board.placeLetter(x,y,letter.getSymbol(),letter.getValue()); //Add the letter to the board
-                                break;
-                            case 2:
-                                System.out.println("Give me the coordinates of the letter:");
-                                int x1 = scanner.nextInt(); //X coordinate
-                                int y1 = scanner.nextInt(); //Y coordinate
-                                if(!(board.getBox(x1,y1).isUnchangeable()))
-                                {
-                                    throw new IllegalArgumentException("The letter in that position cannot be deleted. Please choose another position.");
-                                }
-                                board.getBox(x1,y1).setLetter(null,0); //Delete the letter from the board
-                                --validOperation;
-                                System.out.println("Letter deleted.");
-                                break;
-                            case 3:
-                                System.out.println("Confirming play...");
-                                //valid = validBoard(board,match.getDictionary());
-                                //Esto deberia de ir al tablero y que lo compruebe
-                                if(!valid)
-                                {
-                                    System.out.println("Invalid play. Please try again.");
-                                    break;
-                                }
-                                System.out.println("Play confirmed.");
-                                int quantity = 7 - player.getRack().getSize();
-                                List<Letter> letters = match.getBag().extractSetOfLetters(quantity);
-                                player.getRack().addLetters(letters);
-                                //int score = board.calculateScore();
-                                //player.addScore(score);
-                                break;
-                            case 4:
-                                if(validOperation == 0) 
-                                {
-                                    player.refreshRack();
-                                    valid = true;
-                                }
-                                else System.out.println("You cannot refresh the rack because you already used some letters.");
-                                break;
+                            player_rack.removeLetter(letter); //Remove the letter from the rack
+                            match.getBoard().addLetter(letter, startX, startY, endX, endY);
                         }
                     }
+                    else    validPlay = false;
                 }
                 else
                 {
-
+                    
                 }
                 match.setTurn(turn + 1);
             }
@@ -274,6 +361,34 @@ public class MP_Controller
         {
             Match match = matches.get(id);
             match.setPaused(true);
+            System.out.println("Match with ID: " + id + " paused.");
+        }
+        else
+        {
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
+        }
+    }
+
+    public void continueMatch(String id) throws IllegalArgumentException
+    {
+        if (existMatch(id))
+        {
+            Match match = matches.get(id);
+            match.setPaused(false);
+            System.out.println("Match with ID: " + id + " continued.");
+        }
+        else
+        {
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
+        }
+    }
+
+    public void finishMatch(String id) throws IllegalArgumentException
+    {
+        if (existMatch(id))
+        {
+            Match match = matches.get(id);
+            match.setFinished(true);
             System.out.println("Match with ID: " + id + " finished.");
         }
         else
@@ -282,6 +397,18 @@ public class MP_Controller
         }
     }
 
-
-
+    public Player whoseTurn(String id) throws IllegalArgumentException
+    {
+        if (existMatch(id))
+        {
+            Match match = matches.get(id);
+            List<Player> list_players = match.getListPlayers();
+            int turn = match.getTurn();
+            return list_players.get(turn);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
+        }
+    }
 }

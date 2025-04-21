@@ -1,3 +1,4 @@
+package DomainClasses;
 import java.util.*;
 
 public class Match
@@ -128,10 +129,6 @@ public class Match
         displayPlayers();
     }
 
-    public boolean isPaused() 
-    {
-        return paused;
-    }
 
     public String getId() 
     {
