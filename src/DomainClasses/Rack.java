@@ -64,12 +64,26 @@ public class Rack {
     }
 
     /**
+     * Gets the size of the rack.
+     * @return The size of the rack.
+     */
+    public int getSize() {
+        return letters.size();
+    }
+    /**
      * Clears the rack.
      */
     public void clear() {
         letters.clear();
     }
 
+    public void renew() {
+        letters.clear();
+        for (int i = 0; i < NUM_LETTERS; i++) {
+            Letter letter = bag.extractLetter();
+            this.addLetter(letter);
+        }
+    }
     /**
      * Prints the letters in the rack.
      */
