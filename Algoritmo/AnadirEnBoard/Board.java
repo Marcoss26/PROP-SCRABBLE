@@ -1,3 +1,5 @@
+import javax.swing.Box;
+
 public class Board {
 
     public Set<Box> getAnchorSquares() {
@@ -34,5 +36,19 @@ public class Board {
 
     public char getLetter(int x, int y) {
         return board[x][y].getSymbol().charAt(0); // Asumiendo que el símbolo es un carácter
+    }
+
+    public Box getLeftNeighbor(Box anchor) {
+        if (anchor.getX() > 0) {
+            return board[anchor.getX() - 1][anchor.getY()]; // Asumiendo que `board` es accesible aquí
+        }
+        return null;
+    }
+
+    public Box getTopNeighbor(Box anchor) {
+        if (anchor.getY() > 0) {
+            return board[anchor.getX()][anchor.getY() - 1]; // Asumiendo que `board` es accesible aquí
+        }
+        return null;
     }
 }
