@@ -240,6 +240,7 @@ class DictionaryDriver {
             System.out.println("2. Remove dictionary");
             System.out.println("3. Modify dictionary");
             System.out.println("4. Back");
+            System.out.println("5. Back");
             System.out.print("Choose an option: ");
 
             int option = scanner.nextInt();
