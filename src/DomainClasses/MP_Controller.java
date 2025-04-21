@@ -1,4 +1,6 @@
+package DomainClasses;
 import java.util.*;
+import java.io.*;
 public class MP_Controller
 {
     private static MP_Controller c;
@@ -46,47 +48,19 @@ public class MP_Controller
         }
     }
 
-    public void deleteMatch(String id)
-    {
-        if (existMatch(id))
-        {
-            Set<Player> players_to_delete = MatchPlayers.get(id);
-            for (Player player : players_to_delete)
-            {
-                players.remove(player.getID());
-            }
-            matches.remove(id);
-            MatchPlayers.remove(id);
-            System.out.println("Match with ID: " + id + " deleted.");
-        }
-        else
-        {
-            System.out.println("Match with ID: " + id + " does not exist.");
-        }
-    }
+
+
     public boolean existMatch(String id)
     {
         return matches.containsKey(id);
     }
 
-    public void leaveMatch(String match_id, String p_id)
-    {
-        if(existMatch(match_id))
-        {
-            players.remove(p_id);
-            MatchPlayer.get(match_id).remove(p_id);
-            System.out.println("Player with ID: " + p_id + " left match with ID: " + match_id);
-        }
-        else
-        {
-            System.out.println("Match with ID: " + match_id + " does not exist.");
-        }
-    }
 
     public void displayPlayers(String match_id)
     {
-        if(existsMatch(match_id))
+        if(existMatch(match_id))
         {
+            Match match = matches.get(match_id);
             match.displayPlayers();
         }
         else
@@ -152,7 +126,9 @@ public class MP_Controller
                     {
                         System.out.println("Enter your option: ");
                         int option = scanner.nextInt();
+                        int validOperation = 0;
                         switch(option)
+                        {
                             case 1:
                                 System.out.println("Choose a letter:");
                                 Letter letter;
@@ -175,6 +151,7 @@ public class MP_Controller
                                 {
                                     throw new IllegalArgumentException("Invalid coordinates. Please enter coordinates between 0 and " + (board.getSize()-1) + ".");
                                 }
+                                ++validOperation;
                                 board.addLetter(x,y,letter);
                                 break;
                             case 2:
@@ -186,28 +163,33 @@ public class MP_Controller
                                     throw new IllegalArgumentException("The letter in that position cannot be deleted. Please choose another position.");
                                 }
                                 board.getBox(x1,y1).setLetter(null,0); //Delete the letter from the board
+                                --validOperation;
                                 System.out.println("Letter deleted.");
-                                
-
+                                break;
                             case 3:
                                 System.out.println("Confirming play...");
+                                valid = algorithm(board,dictionary);
                                 int quantity = 7 - player.getRack().getSize();
                                 List<Letter> letters = match.getBag().extractSetOfLetters(quantity);
                                 player.getRack().addLetters(letters);
+                                int score = board.calculateScore();
+                                player.addScore(score);
                                 break;
                             case 4:
-                                System.out.println("Refreshing rack...");
-                                player.refreshRack();
+                                if(validOperation == 0) 
+                                {
+                                    player.refreshRack();
+                                    valid = true;
+                                }
+                                else System.out.println("You cannot refresh the rack because you already used some letters.");
                                 break;
+                        }
                     }
                 }
-                
                 else
                 {
 
                 }
-                
-                //caso 1: decison: Coge letra 1, 3 y ponlos en las casillas 4,5
                 match.setTurn(turn + 1);
             }
             else
@@ -220,6 +202,7 @@ public class MP_Controller
             System.out.println("Match with ID: " + id + " does not exist.");
         }
     }
+
     public Vector<String> getMatchIDs()
     {
         Vector<String> matchIDs = new Vector<>();
@@ -243,20 +226,7 @@ public class MP_Controller
             System.out.println("Match with ID: " + id + " does not exist.");
         }
     }
-    public void addScore(String id_player, int score)
-    {
-        if (players.containsKey(id_player))
-        {
-            Player player = players.get(id_player);
-            player.addScore(score);
-            System.out.println("Score added to player with ID: " + id_player + ". New score: " + player.getScore());
-        }
-        else
-        {
-            System.out.println("Player with ID: " + id_player + " does not exist.");
-        }
-    }
 
-    public void decideWinner(String id)
+
 
 }
