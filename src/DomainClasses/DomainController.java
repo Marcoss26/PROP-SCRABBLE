@@ -69,14 +69,30 @@ public class DomainController {
     /* ---------------------------------------------------------------------
                             MATCH FUNCTIONALITY
     ------------------------------------------------------------------------*/
-
     /**
-     * Creates a new match with the given number of human and AI players.
-     * @param humanCount The number of human players.
-     * @param aiCount The number of AI players.
+     * Creates a new match with the given number of players, profiles, language, name, and size.
+     * @param players The number of players in the match.
+     * @param profiles The set of profiles participating in the match.
+     * @param language The language of the match.
+     * @param name The name of the match.
+     * @param size The size of the board.
      */
-
     public void newMatch(int players, Set<Profile> profiles, String language, String name, int size) {
         this.matchController.createMatch(players, profiles, language, name, size);
+    }
+
+    /**
+     * Continues a created match.
+     * @param id The ID of the existing match to continue.
+     */
+    public void continueMatch(String id) {
+        this.matchController.continueMatch(id);
+    }
+    /**
+     * Retrieves a list of paused matches.
+     * @return A list of matches that can be continued.
+     */
+    public List<Match> getMatches() {
+        return this.matchController.getMatches();
     }
 }
