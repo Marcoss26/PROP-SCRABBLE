@@ -48,7 +48,7 @@ public class MP_Controller
     {
         match.setBoard(new Board(size)); //Creating a new board with the size given by the user
     }
-    
+
     private void createBagForMatch(Match match,String fileName) throws IOException
     {
         Map<Letter, Integer> letters = new HashMap<>();
@@ -111,7 +111,7 @@ public class MP_Controller
     }
 
 
-    public void displayPlayers(String match_id)
+    public void displayPlayers(String match_id) throws IllegalArgumentException
     {
         if(existMatch(match_id))
         {
@@ -120,11 +120,11 @@ public class MP_Controller
         }
         else
         {
-            System.out.println("Match with ID: " + match_id + " does not exist.");
+            throw new IllegalArgumentException("Match with ID: " + match_id + " does not exist.");
         }
     }
 
-    public void displayMatch(String id)
+    public void displayMatch(String id) throws IllegalArgumentException
     {
         if(existMatch(id))
         {
@@ -133,7 +133,7 @@ public class MP_Controller
         }
         else
         {
-            System.out.println("Match with ID: " + id + " does not exist.");
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
         }
     }
     
@@ -153,7 +153,7 @@ public class MP_Controller
 
 
 
-    public String playsMatch(String id)
+    public String playsMatch(String id) throws IllegalArgumentException, IllegalStateException
     {
         if (existMatch(id))
         {
@@ -254,7 +254,7 @@ public class MP_Controller
         }
         else
         {
-            System.out.println("Match with ID: " + id + " does not exist.");
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
         }
     }
 
@@ -268,7 +268,7 @@ public class MP_Controller
         return matchIDs;
     }
 
-    public void pauseMatch(String id)
+    public void pauseMatch(String id) throws IllegalArgumentException
     {
         if (existMatch(id))
         {
@@ -278,7 +278,7 @@ public class MP_Controller
         }
         else
         {
-            System.out.println("Match with ID: " + id + " does not exist.");
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
         }
     }
 
