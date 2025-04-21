@@ -95,4 +95,15 @@ public class DomainController {
     public List<Match> getMatches() {
         return this.matchController.getMatches();
     }
+
+    /*
+     * ---------------------------------------------------------------------
+                            DICTIONARY FUNCTIONALITY
+     ------------------------------------------------------------------------
+     */
+    /**
+     * Adds a new dictionary to the controller.
+     * @param dictionaryName The name of the dictionary to add.
+     * @param language The language of the dictionary.
+     */
 }

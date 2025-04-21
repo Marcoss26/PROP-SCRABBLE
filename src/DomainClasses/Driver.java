@@ -230,6 +230,21 @@ class GameDriver {
 class DictionaryDriver {
     static DomainController domainController = DomainController.getInstance();
 
+    private static void createDictionary() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the name of the dictionary: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter the language of the dictionary: ");
+        String language = scanner.nextLine();
+
+        System.out.print("Enter the path to the dictionary file: ");
+        String path = scanner.nextLine();
+
+        domainController.CreateDictionary(name, language, path);
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -239,9 +254,8 @@ class DictionaryDriver {
             System.out.println("1. Create Dictionary");
             System.out.println("2. Remove dictionary");
             System.out.println("3. Modify dictionary");
-            System.out.println("4. Modify dictionary 2");
-            System.out.println("5. Modify dictionary 3");
-            System.out.println("7. Back");
+            System.out.println("4. Display current dictionaries");
+            System.out.println("5. Back");
             System.out.print("Choose an option: ");
 
             int option = scanner.nextInt();
@@ -249,10 +263,10 @@ class DictionaryDriver {
 
             switch (option) {
                 case 1:
-                    domainController.addDictionary();
+                    createDictionary();
                     break;
                 case 2:
-                    removeDictionary();
+                    domainController.RemoveDictionary();
                     break;
                 case 3:
                     exit = true;
