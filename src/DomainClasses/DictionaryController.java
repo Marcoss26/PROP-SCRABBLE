@@ -14,17 +14,30 @@ public class DictionaryController {
     //Atributos del controlador
     /**
      * @param dictionaries Mapa que almacena los diccionarios con su nombre como clave.
+     * @param c Instancia única de la clase DictionaryController (Singleton).
      */
     private Map<String, Dictionary> dictionaries = new HashMap<>();
+    private static DictionaryController c;
 
     /**
      * Constructor de la clase DictionaryController.
      * pre: True
      * post: crea un nuevo controlador de diccionarios.
      */
-    public DictionaryController() {
+    private DictionaryController() {
 
         this.dictionaries = new HashMap<>();
+    }
+
+    /**
+     * Devuelve la instancia única de DictionaryController (Singleton).
+     * pre: True
+     * post: devuelve la instancia única de DictionaryController.
+     * @return La instancia única de DictionaryController.
+     */
+    public static DictionaryController getInstance() {
+        if (c == null) c = new DictionaryController();
+        return c;
     }
 
     /**

@@ -75,4 +75,9 @@ public class Dictionary
     {
         return dawg.existsWord(word);
     }
+
+    public boolean isPrefix(String prefix)
+    {
+        return dawg.isPrefix(prefix);
+    }
 }

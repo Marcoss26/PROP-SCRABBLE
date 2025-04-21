@@ -315,4 +315,23 @@ public class Dawg
         }
         else removeWordRec(node.children.get(String.valueOf(word.charAt(index))), word, index + 1);
     }
+
+    public boolean isPrefix(String prefix) {
+        return isPrefixRec(root, prefix, 0);
+    }
+
+    private boolean isPrefixRec(Node node, String prefix, int index) {
+        if (index == prefix.length()) {
+            return true; // El prefijo se encuentra en el DAWG
+        }
+
+        String letter = String.valueOf(prefix.charAt(index));
+        Node nextNode = node.children.get(letter);
+
+        if (nextNode == null) {
+            return false; // El prefijo no se encuentra en el DAWG
+        }
+
+        return isPrefixRec(nextNode, prefix, index + 1);
+    }
 }

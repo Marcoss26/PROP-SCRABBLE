@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class DictionaryControllerDriver {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        DictionaryController controller = new DictionaryController();
+        DictionaryController controller = DictionaryController.getInstance();
         boolean exit = false;
 
         System.out.println("\n--- Dictionary Controller Driver ---");
