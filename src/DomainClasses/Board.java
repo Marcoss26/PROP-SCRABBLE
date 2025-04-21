@@ -246,4 +246,54 @@ public class Board
             throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
         }
     }
+
+    /**
+     * Retorna las casillas ancla del tablero
+     * Pre: ya existe un tablero
+     * @return El conjunto de casillas ancla
+     */
+
+    public Set<Box> getAnchorSquares() {
+        Set<Box> anchorSquares = new HashSet<>();
+    
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (hasLetter(i, j)) {
+                    // Revisar las casillas adyacentes
+                    addAnchorSquareIfValid(anchorSquares, i - 1, j); // Arriba
+                    addAnchorSquareIfValid(anchorSquares, i + 1, j); // Abajo
+                    addAnchorSquareIfValid(anchorSquares, i, j - 1); // Izquierda
+                    addAnchorSquareIfValid(anchorSquares, i, j + 1); // Derecha
+                }
+            }
+        }
+    
+        return anchorSquares;
+    }
+
+    /**
+     * Añade una casilla adyacente a la lista de casillas ancla
+     * Pre: ya existe un tablero
+     * @param anchorSquares El conjunto de "casillas ancla"
+     * @param x
+     * @param y
+     */
+
+    private void addAnchorSquareIfValid(Set<Box> anchorSquares, int x, int y) { //me guastaria cambiar el nombre
+        if (x >= 0 && x < size && y >= 0 && y < size && !hasLetter(x, y)) {
+            anchorSquares.add(board[x][y]);
+        }
+    }
+
+    /**
+     * Retorna la letra de la casilla correspondiente a las coordenadas de entrada
+     * Pre: ya existe un tablero con al menos una letra
+     * @param x 
+     * @param y 
+     * @return La letra de la casilla correspondiente a los valores de entrada
+     */
+
+    public char getLetter(int x, int y) { //deberia ser un string en vez de un char
+        return board[x][y].getSymbol().charAt(0);
+    }
 }
