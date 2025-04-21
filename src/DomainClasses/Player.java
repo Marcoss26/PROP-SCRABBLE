@@ -7,7 +7,7 @@ public abstract class Player
     protected int score;
     protected String name;
     protected Match match;
-    private Rack rack;
+    protected Rack rack;
 
     public Player()
     {
@@ -63,9 +63,7 @@ public abstract class Player
         this.score = score;
     }
 
-    public void addScore(int score)
-    {
-    }
+    public abstract void addScore(int score);
 
     public int getScore()
     {

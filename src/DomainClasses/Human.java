@@ -1,3 +1,4 @@
+package DomainClasses;
 public class Human extends Player
 {
     private Profile profile;
@@ -15,6 +16,10 @@ public class Human extends Player
         this.profile.incrementDictionaryUsage(match.getDictionary().getLanguage()); //Increment the dictionary usage in the profile
     }
 
+    public Profile getProfile()
+    {
+        return profile; //Return the profile of the player
+    }
     public void addScore(int score)
     {
         this.score += score; //Add the score to the player's score
@@ -23,14 +28,9 @@ public class Human extends Player
 
     public void printRack()
     {
-        this.rack.printRack(); //Call the printRack method from the Rack class
+        this.rack.print(); //Call the printRack method from the Rack class
     }
 
-    public void makeMove()
-    {
-        
-    }
-    
     public boolean isHuman()
     {
         return true;

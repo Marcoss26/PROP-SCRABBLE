@@ -1,3 +1,4 @@
+package DomainClasses;
 public class IA extends Player
 {
     public IA()

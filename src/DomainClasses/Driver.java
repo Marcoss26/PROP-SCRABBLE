@@ -150,6 +150,8 @@ class GameDriver {
             }
         }
 
+
+
         System.out.print("Enter the size of the board: ");
         int boardSize = scanner.nextInt();
 

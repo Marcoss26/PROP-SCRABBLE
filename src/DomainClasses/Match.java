@@ -173,8 +173,17 @@ public class Match
         return finished;
     }
 
-    public void setFinished(boolean finished) 
+    public String setFinished() 
     {
-        this.finished = finished;
+        this.finished = true;
+        String winner = decideWinner();
+        Player player = players.get(winner);
+        if(player instanceof Human) 
+        {
+            Human human = (Human) player; // Cast the player to Human
+            human.getProfile().incrementWins(); // Increment the number of games won in the profile
+            return winner;
+        }
+        return "";
     }
 }

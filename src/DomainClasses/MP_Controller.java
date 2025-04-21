@@ -166,6 +166,7 @@ public class MP_Controller
             createDictionaryForMatch(match,language,name);
             createBagForMatch(match,"letras"+language);
             createBoardForMatch(match,board_size);
+            match.setPaused(false);
             System.out.println("Match created with ID: " + match.getId());
             return id;
     }
@@ -273,6 +274,8 @@ public class MP_Controller
             throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
         }
     }
+
+    
     
     public void startMatch(String id) throws IllegalArgumentException
     {
@@ -291,15 +294,16 @@ public class MP_Controller
 
 
 
-    public boolean playsMatch(String id,String word) throws IllegalArgumentException, IllegalStateException
+    public boolean playsMatch(String id,String word, int startX, int startY, int endX, int endY) throws IllegalArgumentException, IllegalStateException
     {
         boolean validPlay = false;
+        int score = 0;
         String aux_word = word.replace("_","");
         boolean nextRound = false;
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            if (!match.isPaused())
+            if (!match.isPaused() && !match.isFinished())
             {
                 Board board = match.getBoard();
                 List<Player> list_players = match.getListPlayers();
@@ -318,9 +322,22 @@ public class MP_Controller
                         List<Letter> letters = player_rack.getLetters(aux_word);
                         for (Letter letter : letters)
                         {
+                            if(startX == endX)
+                            {
+                                int addedY = startY;
+                                board.placeLetter(startX, addedY, letter.getSymbol(),letter.getValue());
+                                ++addedY;
+                            }
+                            else
+                            {
+                                int addedX = startX;
+                                board.placeLetter(addedX, startY, letter.getSymbol(),letter.getValue());
+                                ++addedX;
+                            }
                             player_rack.removeLetter(letter); //Remove the letter from the rack
-                            board.addLetter(letter, startX, startY, endX, endY);
+                            player.addScore(letter.getValue());
                         }
+                        
                     }
                     else    validPlay = false;
                 }
@@ -332,7 +349,7 @@ public class MP_Controller
             }
             else
             {
-                throw new IllegalStateException("Match with ID: " + id + " has not started yet.");
+                throw new IllegalStateException("Match with ID: " + id + " is paused.");
             }
         }
         else
@@ -365,13 +382,14 @@ public class MP_Controller
         }
     }
 
-    public void continueMatch(String id) throws IllegalArgumentException
+    public String finishMatch(String id)  throws IllegalArgumentException
     {
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            match.setPaused(false);
-            System.out.println("Match with ID: " + id + " continued.");
+            String winner = match.setFinished();
+            System.out.println("Match with ID: " + id + " finished.");
+            return winner;
         }
         else
         {
@@ -379,13 +397,13 @@ public class MP_Controller
         }
     }
 
-    public void finishMatch(String id) throws IllegalArgumentException
+    public void continueMatch(String id) throws IllegalArgumentException
     {
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            match.setFinished(true);
-            System.out.println("Match with ID: " + id + " finished.");
+            match.setPaused(false);
+            System.out.println("Match with ID: " + id + " continued.");
         }
         else
         {
