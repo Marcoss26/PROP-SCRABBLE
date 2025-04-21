@@ -70,6 +70,28 @@ public class Box
         this.symbol = null;
         this.value = 0;
     }
+    /**
+     * Consultora de la coordenada x
+     * Pre: ya existe una casilla
+     * Post: se retorna la coordenada x de la casilla
+     * @return La coordenada x de la casilla
+     */
+    
+    public int getX()
+    {
+        return x;
+    }
+
+    /**
+     * Consultora de la coordenada y
+     * Pre: ya existe una casilla
+     * Post: se retorna la coordenada y de la casilla
+     * @return La coordenada y de la casilla
+     */
+    public int getY()
+    {
+        return y;
+    }
 
     /**
      * Modificadora de la letra y el valor
@@ -319,19 +341,5 @@ public class Box
             }
             return Color.RED + "(____)" + Color.RESET;
         }
-    }
-
-    public Box getLeftNeighbor() { //no va a funcionar
-        if (x > 0) {
-            return board[x - 1][y]; // Asumiendo que `board` es accesible aquí
-        }
-        return null;
-    }
-
-    public Box getTopNeighbor() {
-        if (y > 0) {
-            return board[x][y - 1]; // Asumiendo que `board` es accesible aquí
-        }
-        return null;
     }
 }
