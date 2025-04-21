@@ -1,6 +1,18 @@
 package DomainClasses;
 import java.util.*;
 
+
+
+
+
+String original = "h_e_l_ch_o_w_o_r_l_d";
+System.out.println("Original String: " + original);
+
+// Replace underscores with a space
+String replaced = original.replace("_", "");
+System.out.println("Replaced String: " + replaced);
+
+
 public class Driver {
 
     public static void main(String[] args) {
@@ -41,20 +53,69 @@ public class Driver {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 class GameDriver {
     static DomainController domainController = DomainController.getInstance();
 
+    private static void placeWord(String matchId) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a word: ");
+        String word = scanner.nextLine();
+        
+        System.out.print("Enter a coordinate to place the forst letter: ");
+        String position = scanner.nextLine();
+
+        System.out.print("Enter the direction (u d b l): ");
+        String direction = scanner.nextLine();
+    }
+
+    private void turn(String matchId) {
+        Scanner scanner = new Scanner(System.in);
+        Match match = domainController.getMatch(matchId);
+
+        boolean exit = false;
+        while(!exit) {
+            System.out.println("\n--- Play Turn ---");
+            System.out.println("1. Suffle rack");
+            System.out.println("2. Replace rack");
+            System.out.println("3. Place word");
+            System.out.print("Choose an option: ");
+
+            int option = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (option) {
+                case 1:
+                    
+                    break;
+                case 2:
+                    exit = true;
+                    break;
+                case 3:
+                    exit = true;
+                    placeWord(matchId);
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+
+        Player currentPlayer = match.getCurrentPlayer();
+        System.out.println("Current player: " + currentPlayer.getName());
+
+        char decision = currentPlayer.getDecision();
+        switch (decision) {
+            case 'r':
+                currentPlayer.refreshRack();
+                break;
+            case 'p':
+                currentPlayer.passTurn();
+                break;
+            default:
+                currentPlayer.playTile(decision);
+                break;
+        }
+    }
     private static void newGame() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- New Game ---");
@@ -149,10 +210,10 @@ class GameDriver {
 
             switch (option) {
                 case 1:
-                GameDriver.newGame();
+                    GameDriver.newGame();
                     break;
                 case 2:
-                GameDriver.continueGame();
+                    GameDriver.continueGame();
                     break;
                 case 3:
                     exit = true;
