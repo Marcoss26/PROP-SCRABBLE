@@ -231,4 +231,19 @@ public class Board
         System.out.print("\033[H\033[2J");
         System.out.flush();
     } 
+
+    /**
+     * Retorna la casilla correspondiente a las coordenadas de entrada
+     * Pre: ya existe un tablero
+     * @param x La coordenada x de la casilla
+     * @param y La coordenada y de la casilla
+     * @return La casilla correspondiente a los valores de entrada, null si no existe
+     */
+    public Box getBox(int x, int y) {
+        if (x >= 0 && x < size && y >= 0 && y < size) {
+            return this.board[x][y];
+        } else {
+            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+        }
+    }
 }
