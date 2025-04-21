@@ -226,3 +226,40 @@ class GameDriver {
         }
     }
 }
+
+class DictionaryDriver {
+    static DomainController domainController = DomainController.getInstance();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        boolean exit = false;
+        while(!exit) {
+            System.out.println("\n--- Dictionary Menu ---");
+            System.out.println("1. Create Dictionary");
+            System.out.println("2. Remove dictionary");
+            System.out.println("3. Modify dictionary");
+            System.out.println("4. Back");
+            System.out.print("Choose an option: ");
+
+            int option = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (option) {
+                case 1:
+                    domainController.addDictionary();
+                    break;
+                case 2:
+                    removeDictionary();
+                    break;
+                case 3:
+                    exit = true;
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+}
