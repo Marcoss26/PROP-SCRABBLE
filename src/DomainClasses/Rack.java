@@ -48,8 +48,10 @@ public class Rack {
         for (int i = 0; i < letters.size(); i++) {
             if (letters.get(i).getSymbol().equals(symbol)) {
                 Letter letter = letters.remove(i); // Remove the letter from the list
+                /*
                 Letter newLetter = bag.extractLetter();
                 this.addLetter(newLetter);
+                */
                 return letter;
             }
         }
