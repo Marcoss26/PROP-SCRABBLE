@@ -11,7 +11,7 @@ public class ProfileController {
     private static ProfileController c;
 
     private ProfileController() {
-        Ranking.getInstance().setProfiles(new HashSet<>(profiles.values()));
+        Ranking.getInstance().setProfiles(profiles);
     }
 
     /**
@@ -38,7 +38,6 @@ public class ProfileController {
         }
         Profile profile = new Profile(username, password);
         profiles.put(profile.getUsername(), profile);
-        Ranking.getInstance().setProfiles(new HashSet<>(profiles.values()));
     }
 
     /**
@@ -47,7 +46,6 @@ public class ProfileController {
      */
     public void removeProfile(String username) {
         profiles.remove(username);
-        Ranking.getInstance().setProfiles(new HashSet<>(profiles.values()));
     }
 
     /**

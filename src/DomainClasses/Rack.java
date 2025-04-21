@@ -21,10 +21,7 @@ public class Rack {
      */
     public Rack(Bag bag) {
         this.bag = bag;
-        for (int i = 0; i < NUM_LETTERS; i++) {
-            Letter letter = bag.extractLetter();
-            this.addLetter(letter);
-        }
+        this.letters = bag.extractSetOfLetters(NUM_LETTERS);
     }
 
     /**
@@ -32,7 +29,7 @@ public class Rack {
      * @param letter The letter to be added.
      * @throws IllegalStateException if the rack is full.
      */
-    private void addLetter(Letter letter) {
+    public void addLetter(Letter letter) {
         if (letters.size() >= NUM_LETTERS) {
             throw new IllegalStateException("Rack is full");
         }
@@ -80,11 +77,9 @@ public class Rack {
     }
 
     public void renew() {
+        bag.addSetOfLetters(this.letters);
         letters.clear();
-        for (int i = 0; i < NUM_LETTERS; i++) {
-            Letter letter = bag.extractLetter();
-            this.addLetter(letter);
-        }
+        this.letters = bag.extractSetOfLetters(NUM_LETTERS);
     }
     /**
      * Prints the letters in the rack.
