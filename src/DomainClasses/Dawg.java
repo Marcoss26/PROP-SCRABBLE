@@ -101,7 +101,6 @@ public class Dawg
     /**
      * @param language Idioma del DAWG.
      * @param root Nodo raíz del DAWG.
-     * @param minimizedNodes Mapa que almacena los nodos únicos del DAWG.
      */
     private String language; // Idioma del DAWG
     private Node root; // Nodo raíz del DAWG
