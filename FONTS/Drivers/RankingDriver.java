@@ -1,6 +1,5 @@
 package Drivers;
 
-
 import DomainClasses.Profile;
 import DomainClasses.Ranking;
 import DomainClasses.ProfileController;

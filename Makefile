@@ -69,6 +69,7 @@ RACK_DRIVER_SRC = $(DRIVERS)/RackDriver.java
 DICTIONARY_CONTROLLER_DRIVER_SRC = $(DRIVERS)/DictionaryControllerDriver.java
 PLAYER_DRIVER_SRC = $(DRIVERS)/PlayerDriver.java
 RANKING_DRIVER_SRC = $(DRIVERS)/RankingDriver.java
+PLAYER_DRIVER_SRC = $(DRIVERS)/PlayerDriver.java
 
 # Targets
 # Compilar todos los drivers
