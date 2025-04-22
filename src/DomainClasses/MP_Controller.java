@@ -142,7 +142,7 @@ public class MP_Controller
     }*/
     private static MP_Controller c;
     private Map<String, Match> matches = new HashMap<>();
-    private Map<String, Match> unfinishedMatches = new HashMap<>(); //Matches that are not finished yet
+    private Set<String> unfinishedMatches = new HashSet<>(); //Matches that are not finished yet
     private MP_Controller()
     {
 
@@ -160,10 +160,13 @@ public class MP_Controller
     public String createMatch(int size, Set<Profile> profiles, Dictionary dictionary,int board_size, Map<Letter,Integer> letters, int bag_size) throws IOException, IllegalArgumentException
     {
             String id = UUID.randomUUID().toString(); //Generating a random ID for the match
-            if(matches.containsKey(id))  throw new IllegalArgumentException("Match with ID: " + id + " already exists.");
+            while(matches.containsKey(id))  
+            {
+                id = UUID.randomUUID().toString(); //Generating a new ID for the match
+            }
             Match match = new Match(id,size);
             matches.put(id, match);
-            unfinishedMatches.put(id,match);
+            unfinishedMatches.add(id); //Adding the match to the unfinished matches
             createPlayersForMatch(match,profiles);
             createDictionaryForMatch(match,dictionary);
             createBagForMatch(match,letters,bag_size);
@@ -394,10 +397,11 @@ public class MP_Controller
         }
     }
 
-    public Map<String,Match> getUnfinishedMatches()
+    public Set<String> getUnfinishedMatches()
     {
         return unfinishedMatches;
     }
+
     public void continueMatch(String id) throws IllegalArgumentException
     {
         if (existMatch(id))
