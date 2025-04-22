@@ -18,8 +18,8 @@ public class Match
     public Match(String id, int size) 
     {
         this.setId(id);
-        this.setTurn(0);
         this.setSize(size);
+        this.setTurn(0);
     }
 
     public void printBoard()
@@ -140,12 +140,12 @@ public class Match
 
     public void setTurn(int turn) 
     {
-        this.turn = turn%size;
+        this.turn = turn%this.size;
     }
 
     public int getScore() 
     {
-        return score;
+        return this.score;
     }
 
     public void startMatch() 
@@ -155,7 +155,7 @@ public class Match
     
     public boolean isPaused() 
     {
-        return paused;
+        return this.paused;
     }
 
     public void setPaused(boolean paused)
@@ -165,7 +165,7 @@ public class Match
 
     public boolean isFinished() 
     {
-        return finished;
+        return this.finished;
     }
 
     public String setFinished() 

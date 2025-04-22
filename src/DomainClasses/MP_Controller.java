@@ -3,7 +3,7 @@ import java.util.*;
 import java.io.*;
 public class MP_Controller
 {
-    /*public static class PlayableWord {
+    public static class PlayableWord {
         public String word;
         public int startX, startY;
         public int endX, endY;
@@ -29,99 +29,161 @@ public class MP_Controller
             return this.word.equals(other.word) && this.startX == other.startX && this.startY == other.startY && this.endX == other.endX && this.endY == other.endY;
         }
     }
-		public List<PlayableWord> calculatePlayableWords(Board board, Rack rack, Dictionary dictionary) {
-			List<PlayableWord> playableWords = new ArrayList<>();
-			Set<Box> anchorSquares = board.getAnchorSquares(); // Casillas de anclaje
-		
-			for (Box anchor : anchorSquares) {
-				int x = anchor.getX();
-				int y = anchor.getY();
-		
-				// Generar todas las combinaciones posibles de palabras horizontales
-				List<String> leftParts = generateLeftParts(anchor, rack, dictionary);
-				for (String leftPart : leftParts) {
-					for (String letter : rack.getLetters()) {
-						String word = leftPart + letter;
-						if (dictionary.isValidWord(word)) {
-							// Extender hacia la derecha
-							String extendedWord = extendRight(word, x, y, board, dictionary);
-							int endX = x + extendedWord.length() - 1;
-							int endY = y; // Horizontal por defecto
-		
-							// Agregar palabra jugable horizontal
-							playableWords.add(new PlayableWord(extendedWord, x, y, endX, endY));
-						}
-					}
-				}
-		
-				// Generar todas las combinaciones posibles de palabras verticales
-				List<String> topParts = generateTopParts(anchor, rack, dictionary);
-				for (String topPart : topParts) {
-					for (String letter : rack.getLetters()) {
-						String word = topPart + letter;
-						if (dictionary.existsWord(word)) {
-							// Extender hacia abajo
-							String extendedWord = extendDown(word, x, y, board, dictionary);
-							int endX = x; // Vertical por defecto
-							int endY = y + extendedWord.length() - 1;
-		
-							// Agregar palabra jugable vertical
-							playableWords.add(new PlayableWord(extendedWord, x, y, endX, endY));
-						}
-					}
-				}
-			}
-		
-			return playableWords;
-		}
+//        private Rack removeUsedLetters(Rack rack, String leftPart, String anchorSymbol, int nSpecialCharacters) {
+
+            
+  //      }
+
+        private void generateValidWords(Board board, Rack rack, Dictionary dictionary, Box anchor, String partialWord, List<String> validWords, List<Integer> validWordsEndX, List<Integer> validWordsEndY, int nSpecialCharacters) {
+
+            if(rack.getLetters().size() == 0) return;
+            if(anchor != null) return;
+
+            if(board.getRightNeighbor(anchor) != null && dictionary.existsWord(partialWord)) {
+
+                validWords.add(partialWord);
+                validWordsEndX.add(anchor.getX());
+                validWordsEndY.add(anchor.getY());
+            }
+
+            for (Letter letter : rack.getLetters()) {
+                Rack newRack = rack.clone();
+                newRack.removeLetter(letter);
+                String aux = partialWord + letter.getSymbol();
+                nSpecialCharacters += letter.getSymbol().length() - 1;
+
+                generateValidWords(board, newRack, dictionary, board.getRightNeighbor(anchor), aux, validWords, validWordsEndX, validWordsEndY, nSpecialCharacters);
+            }
+        }
+
+        public List<PlayableWord> calculatePlayableWords(Board board, Rack rack, Dictionary dictionary) {
+            List<PlayableWord> playableWords = new ArrayList<>();
+            Set<Box> anchorSquares = board.getLeftAnchorSquares(); // Casillas de anclaje
+        
+            for (Box anchor : anchorSquares) {
+                int x = anchor.getX();
+                int y = anchor.getY();
+        
+                System.out.println("Anchor at: (" + x + ", " + y + ")");
+        
+                // Generar todas las combinaciones posibles de palabras horizontales
+                int horizontalLimit = getLeftPartLimit(board, anchor, true);
+                List<String> leftParts = generateLeftParts(board, anchor, rack, dictionary, horizontalLimit, new ArrayList<>());
+                
+                for (String leftPart : leftParts) {
+                    for (Letter letter : rack.getLetters()) {
+                        String word = leftPart + letter.getSymbol();
+                        if (dictionary.existsWord(word)) {
+                            // Extender hacia la derecha
+                            String extendedWord = extendRight(word, anchor.getX(), anchor.getY(), board, dictionary);
+                            int endX = anchor.getX();
+                            int endY = anchor.getY() + extendedWord.length() - 1;
+                
+                            // Agregar palabra jugable horizontal
+                            playableWords.add(new PlayableWord(extendedWord, anchor.getX(), anchor.getY() - leftPart.length(), endX, endY));
+                        }
+                    }
+                }
+        
+                // Generar todas las combinaciones posibles de palabras verticales
+                int verticalLimit = getLeftPartLimit(board, anchor, false);
+                List<String> topParts = generateTopParts(board, anchor, rack, dictionary, verticalLimit);
+                for (String topPart : topParts) {
+                    for (Letter letter : rack.getLetters()) {
+                        String word = topPart + letter.getSymbol();
+                        if (dictionary.existsWord(word)) {
+                            // Extender hacia abajo
+                            String extendedWord = extendDown(word, x, y, board, dictionary);
+                            int endX = x + extendedWord.length() - 1; // Vertical por defecto
+                            int endY = y;
+        
+                            // Agregar palabra jugable vertical
+                            playableWords.add(new PlayableWord(extendedWord, x - topPart.length(), y, endX, endY));
+                        }
+                    }
+                }
+            }
+        
+            return playableWords;
+        }
+
+    private int getLeftPartLimit(Board board, Box anchor, boolean hor) {
+
+        if(hor) {
+
+            int i = 1;
+            boolean stop = false;
+            while(!stop) {
+
+                if((anchor.getY() - i > 0) && (anchor.getY() - i - 1 > 0) && !board.hasLetter(anchor.getX(), anchor.getY() - i - 1)) ++i;
+                else stop = true;
+            }
+            return i;
+        }
+        else {
+
+            int i = 1;
+            boolean stop = false;
+            while(!stop) {
+
+                if((anchor.getX() - i > 0) && (anchor.getX() - i - 1 > 0) && !board.hasLetter(anchor.getX() - i - 1, anchor.getY())) ++i;
+                else stop = true;
+            }
+            return i;
+        }
+    }
     
     // Generar todas las partes izquierdas posibles
-    private List<String> generateLeftParts(Box anchor, Rack rack, Dictionary dictionary) {
+    private List<String> generateLeftParts(Board board, Box anchor, Rack rack, Dictionary dictionary, int limit, List<Integer> nSpecialCharactersInLeftParts) {
         List<String> leftParts = new ArrayList<>();
-        String partialWord = "";
-        generateLeftPartsRecursive(partialWord, anchor, rack, dictionary, leftParts);
+        String partialWord = board.getRightNeighbor(anchor).getSymbol();
+        System.out.println(partialWord);
+        int nSpecialCharacters = partialWord.length() - 1;
+        generateLeftPartsRecursive(partialWord, board, anchor, rack, dictionary, leftParts, limit, nSpecialCharactersInLeftParts,nSpecialCharacters);
         return leftParts;
     }
     
-    private void generateLeftPartsRecursive(String partialWord, Box anchor, Rack rack, Dictionary dictionary, List<String> leftParts) {
-        if (anchor == null || !dictionary.isPrefix(partialWord)) {
-            return;
-        }
-    
-        leftParts.add(partialWord);
-    
-        for (String letter : rack.getLetters()) {
-            Rack newRack = rack.clone();
-            newRack.removeLetter(letter);
-            generateLeftPartsRecursive(partialWord + letter, anchor.getLeftNeighbor(), newRack, dictionary, leftParts);
-        }
+private void generateLeftPartsRecursive(String partialWord, Board board, Box anchor, Rack rack, Dictionary dictionary, List<String> leftParts, int limit, List<Integer> nSpecialCharactersInLeftParts, int nSpecialCharacters) {
+    if (partialWord.length() - nSpecialCharacters >= limit + 1) return;
+    if (anchor == null) return;
+
+    leftParts.add(partialWord);
+    nSpecialCharactersInLeftParts.add(nSpecialCharacters); // Asegurar sincronización
+
+    for (Letter letter : rack.getLetters()) {
+        Rack newRack = rack.clone();
+        newRack.removeLetter(letter);
+        String aux = letter.getSymbol() + partialWord;
+        int newNSpecialCharacters = nSpecialCharacters + letter.getSymbol().length() - 1;
+        generateLeftPartsRecursive(aux, board, board.getLeftNeighbor(anchor), newRack, dictionary, leftParts, limit + 1, nSpecialCharactersInLeftParts ,newNSpecialCharacters);
+    }
+}
+
+private List<String> generateTopParts(Board board, Box anchor, Rack rack, Dictionary dictionary, int limit) {
+    List<String> topParts = new ArrayList<>();
+    String partialWord = "";
+    generateTopPartsRecursive(partialWord, board, anchor, rack, dictionary, topParts, limit);
+    return topParts;
+}
+
+private void generateTopPartsRecursive(String partialWord, Board board, Box anchor, Rack rack, Dictionary dictionary, List<String> topParts, int limit) {
+    if (partialWord.length() >= limit + 1 || anchor == null || !dictionary.isPrefix(partialWord)) {
+        return;
     }
 
-    private List<String> generateTopParts(Box anchor, Rack rack, Dictionary dictionary) {
-        List<String> topParts = new ArrayList<>();
-        String partialWord = "";
-        generateTopPartsRecursive(partialWord, anchor, rack, dictionary, topParts);
-        return topParts;
+    topParts.add(partialWord);
+
+    for (Letter letter : rack.getLetters()) {
+        Rack newRack = rack.clone();
+        newRack.removeLetter(letter);
+        generateTopPartsRecursive(letter.getSymbol() + partialWord, board, board.getTopNeighbor(anchor), newRack, dictionary, topParts, limit);
     }
-    
-    private void generateTopPartsRecursive(String partialWord, Box anchor, Rack rack, Dictionary dictionary, List<String> topParts) {
-        if (anchor == null || !dictionary.isPrefix(partialWord)) {
-            return;
-        }
-    
-        topParts.add(partialWord);
-    
-        for (String letter : rack.getLetters()) {
-            Rack newRack = rack.clone();
-            newRack.removeLetter(letter);
-            generateTopPartsRecursive(partialWord + letter, anchor.getTopNeighbor(), newRack, dictionary, topParts);
-        }
-    }
+}
     
     // Extender palabra hacia la derecha
     private String extendRight(String word, int x, int y, Board board, Dictionary dictionary) {
-        while (board.hasLetter(x + word.length(), y)) {
-            char nextLetter = board.getLetter(x + word.length(), y);
+        while (board.hasLetter(x, y + word.length())) {
+            String nextLetter = board.getLetter(x, y + word.length());
             word += nextLetter;
             if (!dictionary.isPrefix(word)) {
                 break;
@@ -130,16 +192,17 @@ public class MP_Controller
         return word;
     }
 
+
     private String extendDown(String word, int x, int y, Board board, Dictionary dictionary) {
-        while (board.hasLetter(x, y + word.length())) {
-            char nextLetter = board.getLetter(x, y + word.length());
+        while (board.hasLetter(x + word.length(), y)) {
+            String nextLetter = board.getLetter(x + word.length(), y);
             word += nextLetter;
             if (!dictionary.isPrefix(word)) {
                 break;
             }
         }
         return word;
-    }*/
+    }
     private static MP_Controller c;
     private Map<String, Match> matches = new HashMap<>();
     private List<String> unfinishedMatches = new ArrayList<>(); //Matches that are not finished yet
@@ -155,6 +218,15 @@ public class MP_Controller
             c = new MP_Controller();
         }
         return c;
+    }
+
+    public void print(String id)
+    {
+        Match match = matches.get(id);
+        match.printBoard();
+        List<Player> players = match.getListPlayers();
+        players.get(match.getTurn()).printRack();
+
     }
 
     public String createMatch(int size, Set<Profile> profiles, Dictionary dictionary,int board_size, Map<Letter,Integer> letters, int bag_size) throws IOException, IllegalArgumentException
