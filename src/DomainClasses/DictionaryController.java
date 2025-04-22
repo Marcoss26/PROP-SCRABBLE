@@ -92,6 +92,14 @@ public class DictionaryController {
     }
 
     /**
+     * Obtiene todos los diccionarios del controlador.
+     * @return Un mapa con todos los diccionarios.
+     */
+    public Map<String, Dictionary> getDictionaries() {
+        return dictionaries;
+    }
+    
+    /**
      * Obtiene el idioma de un diccionario.
      * @param dictionaryName Nombre del diccionario a obtener.
      * pre: dictionaryName es el nombre del diccionario que se va a buscar
