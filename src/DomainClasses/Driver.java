@@ -18,6 +18,9 @@ public class Driver {
         DomainController domainController = DomainController.getInstance();
         boolean exit = false;
         while(!exit) {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+
             System.out.println("\n--- Main Menu ---");
             System.out.println("1. Play game");
             System.out.println("2. Manage profiles");
@@ -37,11 +40,9 @@ public class Driver {
                     ProfileDriver.main(args);
                     break;
                 case 3:
-
+                    DictionaryDriver.main(args);
                     break;
-                
                 case 4:
-                    
                     domainController.displayRanking();
                     break;
                 case 5:
@@ -60,11 +61,26 @@ public class Driver {
 
 
 class ProfileDriver {
+    static ProfileController profileController = ProfileController.getInstance();
+
+    public static void printProfiles() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+
+        System.out.println("\n--- All profiles ---");
+        profileController.printProfiles();
+
+        System.out.println("Press enter to go back");
+        Driver.scanner.nextLine();
+    }
+
     public static void main(String[] args) {
-        ProfileController profileController = ProfileController.getInstance();
 
         boolean exit = false;
         while (!exit) {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+
             System.out.println("\n--- Manage profiles menu ---");
             System.out.println("1. Add Profile");
             System.out.println("2. Remove Profile");
@@ -118,12 +134,11 @@ class ProfileDriver {
                     break;
 
                 case 5:
-                    System.out.println("All Profiles:");
-                    profileController.printProfiles();
+                    printProfiles();
                     break;
 
                 case 6:
-                    System.out.println("Exiting Profile Controller Driver...");
+                    System.out.println("Exiting Profiles...");
                     exit = true;
                     break;
 
@@ -131,7 +146,6 @@ class ProfileDriver {
                     System.out.println("Invalid option. Please try again.");
             }
         }
-
     }
 }
 
@@ -153,10 +167,12 @@ class GameDriver {
             System.out.print("Enter a coordinate to place the forst letter: ");
             int positionStartX = Driver.scanner.nextInt();
             int positionStartY = Driver.scanner.nextInt();
-    
+            Driver.scanner.nextLine();
+            
             System.out.print("Enter a coordinate to place the last letter: ");
             int positionEndX = Driver.scanner.nextInt();
             int positionEndY = Driver.scanner.nextInt();
+            Driver.scanner.nextLine();
 
             if (positionStartX == positionEndX && positionStartY == positionEndY) {
                 System.out.println("Invalid coordinates. Please try again.");
@@ -174,7 +190,14 @@ class GameDriver {
 
         boolean exit = false;
         while(!exit) {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+
             Player currentPlayer = domainController.getPlayerTurn(matchId);
+
+            domainController.printMatch(matchId);
+
+
             System.out.println("\n--- Play Turn "+currentPlayer.getID()+"---");
             System.out.println("1. Suffle rack");
             System.out.println("2. Replace rack letters");
@@ -203,8 +226,10 @@ class GameDriver {
                     System.out.println("Invalid option. Please try again.");
             }
         }
+
+
     }
-    private static void newGame() throws FileNotFoundException {
+    private static void newGame() {
         System.out.println("\n--- New Game ---");
 
         System.out.print("Enter the number of players: ");
@@ -212,72 +237,98 @@ class GameDriver {
 
         System.out.print("Out of these " + players + " players, how many are human? ");
         int humanPlayers = Driver.scanner.nextInt();
+        Driver.scanner.nextLine();
 
-        System.out.print("Log in to all " + humanPlayers + " profiles: ");
-        final int MIN_HOMAN_PLAYERS = 1;
+        System.out.println("Log in to all " + humanPlayers + " profiles:");
         Set<Profile> profiles = new HashSet<>();
 
         while(profiles.size() < humanPlayers) {
             System.out.print("Enter username: ");
             String username = Driver.scanner.nextLine();
+
             if (!domainController.profileExists(username)) {
                 System.out.println("Profile does not exist");
-                break;
+                continue;
             }
 
-            String password = new String(System.console().readPassword("Enter password: "));
-            if (username == null || profiles.size() >= MIN_HOMAN_PLAYERS) break;
-            Profile p = domainController.getProfile(username, password);
-            if (p == null) {
-                System.out.println("Incorrect password");
-                break;
-            } else {
-                System.out.println("Profile found: " + p.getUsername());
-                profiles.add(p);
+            boolean correct = false;
+            int attempts = 0;
+            while (!correct && attempts < 3) {
+                String password = new String(System.console().readPassword("Enter password: "));
+                if (domainController.getProfile(username, password) != null) {
+                    System.out.println("Profile added to match: " + username);
+                    profiles.add(domainController.getProfile(username, password));
+                    break;
+                } else {
+                    if (attempts == 2) {
+                        System.out.println("Too many atempts.");
+                        break;
+                    } else {
+                        System.out.println("Incorrect password. Try again. Attempts left: " + (3 - attempts - 1));
+                        attempts++;
+                    }
+                }
             }
         }
-
 
 
         System.out.print("Enter the size of the board: ");
         int boardSize = Driver.scanner.nextInt();
+        Driver.scanner.nextLine();
 
-        System.out.print("What language do you want to play in? (es, en, ca): ");
-        String lang = Driver.scanner.nextLine();
-
-        System.out.print("Dictionary name: ");
-        String name = Driver.scanner.nextLine();
-
-        System.out.print("Bag name: ");
-        String fileName = Driver.scanner.nextLine();
+        System.out.println("Chose a dictionary to use for the match: ");
+        System.out.println("Available dictionaries: ");
+        Map<String, Dictionary> dictionaries = domainController.getDictionaries();
+        for (String name : dictionaries.keySet()) {
+            System.out.println("Name: " + name + ", Language: " + domainController.getDictionaryLanguage(name));
+        }
+        System.out.print("Enter the dictionary name: ");
+        String dictName = Driver.scanner.nextLine();
 
         Map<Letter, Integer> letters = new HashMap<>();
-        String file = fileName + ".txt";
-        File filePath = new File("data/Letters/" + file);
         int totalLettersInTheBag = 0;
-        if (!filePath.exists()) {
-            throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data/Letters'.");
-        }
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(" "); 
-                if (parts.length == 3) {
-                    String symbol = parts[0];
-                    int quantity = Integer.parseInt(parts[1]); 
-                    totalLettersInTheBag += quantity;
-                    int value = Integer.parseInt(parts[2]); 
-                    Letter letter = new Letter(symbol, value); 
-                    letters.put(letter, quantity);
-                }
+        boolean validFile = false;
+        while(!validFile) {
+            System.out.println("Enter the name of the letter set to use for the bag: ");
+            String fileName = Driver.scanner.nextLine();
+            String file = fileName + ".txt";
+            File filePath = new File("data/Letters/" + file);
+    
+            if (!filePath.exists()) {
+                System.out.println("Error: The file '" + fileName + "' was not found in the folder 'data/Letters'.");
+                continue;
+            } else {
+                validFile = true;
             }
-        } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
+    
+            try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(" ");
+                    if (parts.length == 3) {
+                        String symbol = parts[0];
+                        int quantity = Integer.parseInt(parts[1]);
+                        totalLettersInTheBag += quantity;
+                        int value = Integer.parseInt(parts[2]);
+                        Letter letter = new Letter(symbol, value);
+                        letters.put(letter, quantity);
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error reading the file: " + e.getMessage());
+                return;
+            }
         }
+        
 
-        String matchID = domainController.newMatch(players, profiles, lang, name, boardSize, letters, totalLettersInTheBag);
-
-        playGame(matchID);
+        try {
+            String matchID = domainController.newMatch(players, profiles, dictName, boardSize, letters, totalLettersInTheBag);
+            playGame(matchID);
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     private static void continueGame() {
@@ -314,6 +365,9 @@ class GameDriver {
     public static void main(String[] args) {
         boolean exit = false;
         while(!exit) {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+
             System.out.println("\n--- Play game Menu ---");
             System.out.println("1. Play new game");
             System.out.println("2. Continue game");
@@ -325,11 +379,7 @@ class GameDriver {
 
             switch (option) {
                 case 1:
-                    try {
-                        newGame();
-                    } catch (FileNotFoundException e) {
-                        System.out.println("Error: " + e.getMessage());
-                    }
+                    newGame();
                     break;
                 case 2:
                     continueGame();
@@ -344,6 +394,12 @@ class GameDriver {
         }
     }
 }
+
+
+
+
+
+
 
 class DictionaryDriver {
     static DomainController domainController = DomainController.getInstance();
@@ -394,18 +450,19 @@ class DictionaryDriver {
 
     //Esta funcion imprimirá los nombres de los diccionarios presentes junto con su language
     private static void displayDictionaries() {
-        /*
         System.out.println("Current dictionaries: ");
         Map<String, Dictionary> dictionaries = domainController.getDictionaries();
         for (String name : dictionaries.keySet()) {
             System.out.println("Name: " + name + ", Language: " + domainController.getDictionaryLanguage(name));
         }
-        */
     }
 
     public static void main(String[] args) {
         boolean exit = false;
         while(!exit) {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+
             System.out.println("\n--- Dictionary Menu ---");
             System.out.println("1. Create Dictionary");
             System.out.println("2. Remove dictionary");
