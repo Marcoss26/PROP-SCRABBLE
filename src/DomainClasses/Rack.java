@@ -72,11 +72,19 @@ public class Rack {
         letters.clear();
     }
 
-    public void renew() {
-        bag.addSetOfLetters(this.letters);
-        letters.clear();
-        this.letters = bag.extractSetOfLetters(NUM_LETTERS);
+    public void replaceLetters(String symbols) {
+        String[] symbols2 = symbols.split("_");
+        for (String symbol : symbols2) {
+            for (int i = 0; i < letters.size(); i++) {
+                if (letters.get(i).getSymbol().equals(symbol)) {
+                    letters.remove(i);
+                    letters.add(bag.extractLetter());
+                    break;
+                }
+            }
+        }
     }
+    
     /**
      * Prints the letters in the rack.
      */
@@ -90,7 +98,6 @@ public class Rack {
     }
 
     public List<Letter> getLetters() {
-
         return letters;
     }
 
