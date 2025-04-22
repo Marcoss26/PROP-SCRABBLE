@@ -3,7 +3,7 @@ import java.util.*;
 import java.io.*;
 public class MP_Controller
 {
-    public static class PlayableWord {
+    /*public static class PlayableWord {
         public String word;
         public int startX, startY;
         public int endX, endY;
@@ -139,7 +139,7 @@ public class MP_Controller
             }
         }
         return word;
-    }
+    }*/
     private static MP_Controller c;
     private Map<String, Match> matches = new HashMap<>();
     private MP_Controller()
@@ -179,8 +179,8 @@ public class MP_Controller
     private void createBagForMatch(Match match,String fileName) throws IOException
     {
         Map<Letter, Integer> letters = new HashMap<>();
-        String file = fileName + ".txt"; 
-        File filePath = new File("data/Letters/" + file); 
+        String file = fileName + ".txt";
+        File filePath = new File("data/Letters/" + file);
         int totalLettersInTheBag = 0;
         if (!filePath.exists()) 
         {
@@ -188,7 +188,7 @@ public class MP_Controller
         }
         BufferedReader br = new BufferedReader(new FileReader(filePath));
         String line;
-        while ((line = br.readLine()) != null) 
+        while ((line = br.readLine()) != null)
         {
             String[] parts = line.split(" "); 
             if (parts.length == 3) 
@@ -198,7 +198,7 @@ public class MP_Controller
                 totalLettersInTheBag += quantity;
                 int value = Integer.parseInt(parts[2]); 
                 Letter letter = new Letter(symbol, value); 
-                letters.put(letter, quantity); 
+                letters.put(letter, quantity);
             }
         }
         match.setBag(new Bag(letters, totalLettersInTheBag));
@@ -229,8 +229,6 @@ public class MP_Controller
             player.setMatch(match);  //Setting the match for the player
         }
     }
-
-
 
     public boolean existMatch(String id)
     {
@@ -294,11 +292,11 @@ public class MP_Controller
 
 
 
-    public boolean playsMatch(String id,String word, int startX, int startY, int endX, int endY) throws IllegalArgumentException, IllegalStateException
+    public boolean playsMatch(String id/* ,String word, int startX, int startY, int endX, int endY*/) throws IllegalArgumentException, IllegalStateException
     {
         boolean validPlay = false;
         int score = 0;
-        String aux_word = word.replace("_","");
+        //String aux_word = word.replace("_","");
         boolean nextRound = false;
         if (existMatch(id))
         {
@@ -314,7 +312,7 @@ public class MP_Controller
                 if(player.isHuman())
                 {
                     player.printRack();
-                    List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, match.getDictionary());
+                    /*List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, match.getDictionary());
                     PlayableWord My_playablewords = new PlayableWord(word, startX, startY, endX, endY);
                     if (PlayAbleWords.contains(My_playablewords))
                     {
@@ -339,13 +337,15 @@ public class MP_Controller
                         }
                         
                     }
-                    else    validPlay = false;
+                    else    validPlay = false;*/
+                    validPlay = true;
                 }
                 else
                 {
                      
                 }
                 match.setTurn(turn + 1);
+                return true;
             }
             else
             {

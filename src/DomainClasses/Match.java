@@ -5,7 +5,7 @@ public class Match
 {
     private String id;
     private int turn = 0; // 0 for player1, 1 for player2
-    private int score;
+    private int score = 0;
     private boolean finished = false;
     private boolean paused = true;
     private int size;
@@ -14,11 +14,6 @@ public class Match
     private Dictionary dictionary;
     private Bag bag;
     private Board board;
-
-    public Match(String id) 
-    {
-        this.turn = 0; // Start with player1's turn
-    }
 
     public Match(String id, int size) 
     {
