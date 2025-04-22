@@ -167,9 +167,9 @@ public class MP_Controller
             Match match = new Match(id,size);
             matches.put(id, match);
             unfinishedMatches.add(id); //Adding the match to the unfinished matches
+            createBagForMatch(match,letters,bag_size);
             createPlayersForMatch(match,profiles,dictionary.getLanguage());
             createDictionaryForMatch(match,dictionary);
-            createBagForMatch(match,letters,bag_size);
             createBoardForMatch(match,board_size);
             match.setPaused(false);
             System.out.println("Match created with ID: " + match.getId());
