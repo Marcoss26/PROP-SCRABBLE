@@ -312,13 +312,55 @@ class DictionaryDriver {
         System.out.print("Enter the name of the dictionary: ");
         String name = scanner.nextLine();
 
-        System.out.print("Enter the language of the dictionary: ");
+        System.out.print("Enter the language of the dictionary: (You should enter one of this options: es/cat/en) ");
         String language = scanner.nextLine();
 
-        System.out.print("Enter the path to the dictionary file: ");
-        String path = scanner.nextLine();
+        System.out.print("Enter the name of the dictionary file without any format: ");
+        String fileName = scanner.nextLine();
 
-        domainController.CreateDictionary(name, language, path);
+        domainController.createDictionary(name, language, fileName);
+    }
+
+    private static void removeDictionary() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the name of the dictionary to remove: ");
+        String name = scanner.nextLine();
+
+        domainController.removeDictionary(name);
+    }
+
+    private static void addWordToDictionary() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the name of the dictionary to add a word to: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter the word to add: ");
+        String word = scanner.nextLine();
+
+        domainController.addWordToDictionary(name, word);
+    }
+
+    private static void removeWordFromDictionary() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the name of the dictionary to remove a word from: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter the word to remove: ");
+        String word = scanner.nextLine();
+
+        domainController.removeWordFromDictionary(name, word);
+    }
+
+    //Esta funcion imprimirá los nombres de los diccionarios presentes junto con su language
+    private static void displayDictionaries() {
+        System.out.println("Current dictionaries: ");
+        Map<String, Dictionary> dictionaries = domainController.getDictionaries();
+        for (String name : dictionaries.keySet()) {
+            System.out.println("Name: " + name + ", Language: " + domainController.getDictionaryLanguage(name));
+        }
     }
 
     public static void main(String[] args) {
@@ -329,9 +371,10 @@ class DictionaryDriver {
             System.out.println("\n--- Dictionary Menu ---");
             System.out.println("1. Create Dictionary");
             System.out.println("2. Remove dictionary");
-            System.out.println("3. Modify dictionary");
-            System.out.println("4. Display current dictionaries");
-            System.out.println("5. Back");
+            System.out.println("3. Add word to dictionary");
+            System.out.println("4. Remove word from dictionary");
+            System.out.println("5. Display current dictionaries");
+            System.out.println("6. Back");
             System.out.print("Choose an option: ");
 
             int option = scanner.nextInt();
@@ -342,9 +385,18 @@ class DictionaryDriver {
                     createDictionary();
                     break;
                 case 2:
-                    domainController.RemoveDictionary();
+                    removeDictionary();
                     break;
                 case 3:
+                    addWordToDictionary();
+                    break;
+                case 4:
+                    removeWordFromDictionary();
+                    break;
+                case 5:
+                    displayDictionaries();
+                    break;
+                case 6:
                     exit = true;
                     System.out.println("Exiting...");
                     scanner.close();
