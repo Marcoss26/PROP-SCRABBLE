@@ -2,9 +2,6 @@ package DomainClasses;
 import java.util.*;
 import java.io.*;
 
-
-
-
 /* 
 String original = "h_e_l_ch_o_w_o_r_l_d";
 System.out.println("Original String: " + original);
@@ -15,9 +12,9 @@ System.out.println("Replaced String: " + replaced);*/
 
 
 public class Driver {
+    static public Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         DomainController domainController = DomainController.getInstance();
         boolean exit = false;
         while(!exit) {
@@ -37,10 +34,10 @@ public class Driver {
                     GameDriver.main(args);
                     break;
                 case 2:
-                   
+                    ProfileDriver.main(args);
                     break;
                 case 3:
-            
+
                     break;
                 
                 case 4:
@@ -50,12 +47,13 @@ public class Driver {
                 case 5:
                     exit = true;
                     System.out.println("Exiting...");
-                    scanner.close();
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");
             }
         }
+        scanner.close();
+
     }
 }
 
@@ -63,26 +61,25 @@ public class Driver {
 
 class ProfileDriver {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         ProfileController profileController = ProfileController.getInstance();
 
         boolean exit = false;
         while (!exit) {
-            System.out.println("\n--- Profile Controller Menu ---");
+            System.out.println("\n--- Manage profiles menu ---");
             System.out.println("1. Add Profile");
             System.out.println("2. Remove Profile");
-            System.out.println("4. Retrieve Profile");
+            System.out.println("4. Login to profile");
             System.out.println("5. Print All Profiles");
             System.out.println("6. Exit");
             System.out.print("Choose an option: ");
 
-            int option = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            int option = Driver.scanner.nextInt();
+            Driver.scanner.nextLine(); // Consume newline
 
             switch (option) {
                 case 1:
                     System.out.print("Enter username: ");
-                    String usernameToAdd = scanner.nextLine();
+                    String usernameToAdd = Driver.scanner.nextLine();
                     String passwordToAdd = new String(System.console().readPassword("Enter password: "));
                     try {
                         profileController.addProfile(usernameToAdd, passwordToAdd);
@@ -94,21 +91,21 @@ class ProfileDriver {
 
                 case 2:
                     System.out.print("Enter username to remove: ");
-                    String usernameToRemove = scanner.nextLine();
+                    String usernameToRemove = Driver.scanner.nextLine();
                     profileController.removeProfile(usernameToRemove);
                     System.out.println("Profile removed successfully.");
                     break;
 
                 case 3:
                     System.out.print("Enter username to check: ");
-                    String usernameToCheck = scanner.nextLine();
+                    String usernameToCheck = Driver.scanner.nextLine();
                     boolean exists = profileController.profileExists(usernameToCheck);
                     System.out.println("Profile exists: " + exists);
                     break;
 
                 case 4:
                     System.out.print("Enter username: ");
-                    String usernameToRetrieve = scanner.nextLine();
+                    String usernameToRetrieve = Driver.scanner.nextLine();
                     String passwordToRetrieve = new String(System.console().readPassword("Enter password: "));
 
                     Profile profile = profileController.getProfile(usernameToRetrieve, passwordToRetrieve);
@@ -135,7 +132,6 @@ class ProfileDriver {
             }
         }
 
-        scanner.close();
     }
 }
 
@@ -148,48 +144,58 @@ class GameDriver {
     static DomainController domainController = DomainController.getInstance();
 
     private static void placeWord(String matchId) {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter a word (separate letters by a '_', ex: h_e_l_l_o): ");
-        String word = scanner.nextLine();
+        String word = Driver.scanner.nextLine();
         
-        System.out.print("Enter a coordinate to place the forst letter: ");
-        String position = scanner.nextLine();
+        boolean valid = false;
+        while(!valid) {
+            System.out.print("Enter a coordinate to place the forst letter: ");
+            int positionStartX = Driver.scanner.nextInt();
+            int positionStartY = Driver.scanner.nextInt();
+    
+            System.out.print("Enter a coordinate to place the last letter: ");
+            int positionEndX = Driver.scanner.nextInt();
+            int positionEndY = Driver.scanner.nextInt();
 
-        System.out.print("Enter the direction (u d b l): ");
-        String direction = scanner.nextLine();
-
-        domainController.playsMatch(matchId, word, position, direction);
+            if (positionStartX == positionEndX && positionStartY == positionEndY) {
+                System.out.println("Invalid coordinates. Please try again.");
+                continue;
+            } else if (positionStartX != positionEndX && positionStartY != positionEndY) {
+                System.out.println("Invalid coordinates. Please try again.");
+                continue;
+            } else valid = true;
+             
+            if (valid) domainController.playsMatch(matchId, word, positionStartX, positionStartY, positionEndX, positionEndY);
+        }
     }
 
-    private static void turn(String matchId) {
-        Scanner scanner = new Scanner(System.in);
-        Player currentPlayer = domainController.getPlayerTurn(matchId);
+    private static void playGame(String matchId) {
 
         boolean exit = false;
         while(!exit) {
+            Player currentPlayer = domainController.getPlayerTurn(matchId);
             System.out.println("\n--- Play Turn "+currentPlayer.getID()+"---");
             System.out.println("1. Suffle rack");
-            System.out.println("2. Replace rack");
-            System.out.println("3. Replace rack letters");
-            System.out.println("4. Place word");
-            System.out.println("5. Pause game");
+            System.out.println("2. Replace rack letters");
+            System.out.println("3. Place word");
+            System.out.println("4. Pause game");
             System.out.print("Choose an option: ");
 
-            int option = scanner.nextInt();
-            scanner.nextLine();
+            int option = Driver.scanner.nextInt();
+            Driver.scanner.nextLine();
 
             switch (option) {
                 case 1:
-                    domainController.modifyRack("shuffle", matchId);
+                    domainController.shuffleRack(matchId);
                     break;
                 case 2:
-                    domainController.modifyRack("replace", matchId);
+                    System.out.print("Enter the letters (separate letters by a '_', ex: h_e_l_l_o): ");
+                    String word = Driver.scanner.nextLine();
+
+                    domainController.modifyRack(matchId, word);
                     break;
                 case 3:
-                    domainController.modifyRack("replace", matchId);
-                    break;
-                case 4:
                     exit = true;
                     placeWord(matchId);
                     break;
@@ -198,15 +204,14 @@ class GameDriver {
             }
         }
     }
-    private static void newGame() {
-        Scanner scanner = new Scanner(System.in);
+    private static void newGame() throws FileNotFoundException {
         System.out.println("\n--- New Game ---");
 
         System.out.print("Enter the number of players: ");
-        int players = scanner.nextInt();
+        int players = Driver.scanner.nextInt();
 
         System.out.print("Out of these " + players + " players, how many are human? ");
-        int humanPlayers = scanner.nextInt();
+        int humanPlayers = Driver.scanner.nextInt();
 
         System.out.print("Log in to all " + humanPlayers + " profiles: ");
         final int MIN_HOMAN_PLAYERS = 1;
@@ -214,7 +219,7 @@ class GameDriver {
 
         while(profiles.size() < humanPlayers) {
             System.out.print("Enter username: ");
-            String username = scanner.nextLine();
+            String username = Driver.scanner.nextLine();
             if (!domainController.profileExists(username)) {
                 System.out.println("Profile does not exist");
                 break;
@@ -235,16 +240,16 @@ class GameDriver {
 
 
         System.out.print("Enter the size of the board: ");
-        int boardSize = scanner.nextInt();
+        int boardSize = Driver.scanner.nextInt();
 
         System.out.print("What language do you want to play in? (es, en, ca): ");
-        String lang = scanner.nextLine();
+        String lang = Driver.scanner.nextLine();
 
         System.out.print("Dictionary name: ");
-        String name = scanner.nextLine();
+        String name = Driver.scanner.nextLine();
 
         System.out.print("Bag name: ");
-        String fileName = scanner.nextLine();
+        String fileName = Driver.scanner.nextLine();
 
         Map<Letter, Integer> letters = new HashMap<>();
         String file = fileName + ".txt";
@@ -253,50 +258,51 @@ class GameDriver {
         if (!filePath.exists()) {
             throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data/Letters'.");
         }
-        BufferedReader br = new BufferedReader(new FileReader(filePath));
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] parts = line.split(" "); 
-            if (parts.length == 3) {
-                String symbol = parts[0];
-                int quantity = Integer.parseInt(parts[1]); 
-                totalLettersInTheBag += quantity;
-                int value = Integer.parseInt(parts[2]); 
-                Letter letter = new Letter(symbol, value); 
-                letters.put(letter, quantity);
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(" "); 
+                if (parts.length == 3) {
+                    String symbol = parts[0];
+                    int quantity = Integer.parseInt(parts[1]); 
+                    totalLettersInTheBag += quantity;
+                    int value = Integer.parseInt(parts[2]); 
+                    Letter letter = new Letter(symbol, value); 
+                    letters.put(letter, quantity);
+                }
             }
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
         }
 
-        scanner.close();
         String matchID = domainController.newMatch(players, profiles, lang, name, boardSize, letters, totalLettersInTheBag);
 
-        while
-        turn(matchID);
+        playGame(matchID);
     }
 
     private static void continueGame() {
-        Scanner scanner = new Scanner(System.in);
-
         boolean exit = false;
         while(!exit) {
             System.out.println("\n--- Continue Game ---");
             System.out.println("\nAvailavle games to continue:");
 
             System.out.print("Choose an option: ");
-            List<Match> matches = domainController.getMatches();
+            List<String> matches = domainController.getUnfinishedMatchs();
             for (int i = 0; i < matches.size(); i++) {
-                System.out.println((i + 1) + ". " + matches.get(i).getName());
+                System.out.println((i + 1) + ". " + matches.get(i));
             }
+
             System.out.println((matches.size() + 1) + ". Back");
 
-            int option = scanner.nextInt();
-            scanner.nextLine();
+            int option = Driver.scanner.nextInt();
+            Driver.scanner.nextLine();
 
             if (option > 0 && option <= matches.size()) {
-                Match selectedMatch = matches.get(option - 1);
-                System.out.println("You selected: " + selectedMatch.getName());
-                domainController.continueMatch(selectedMatch.getId());
+                String selectedMatch = matches.get(option - 1);
+                System.out.println("Continuing match " + selectedMatch);
+                domainController.continueMatch(selectedMatch);
                 exit = true;
+                playGame(selectedMatch);
             } else if (option == matches.size() + 1) {
                 exit = true;
                 System.out.println("Exiting...");
@@ -306,8 +312,6 @@ class GameDriver {
         }
     }
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
         boolean exit = false;
         while(!exit) {
             System.out.println("\n--- Play game Menu ---");
@@ -316,12 +320,16 @@ class GameDriver {
             System.out.println("3. Back");
             System.out.print("Choose an option: ");
 
-            int option = scanner.nextInt();
-            scanner.nextLine();
+            int option = Driver.scanner.nextInt();
+            Driver.scanner.nextLine();
 
             switch (option) {
                 case 1:
-                    newGame();
+                    try {
+                        newGame();
+                    } catch (FileNotFoundException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
                     break;
                 case 2:
                     continueGame();
@@ -329,7 +337,6 @@ class GameDriver {
                 case 3:
                     exit = true;
                     System.out.println("Exiting...");
-                    scanner.close();
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");
@@ -342,73 +349,61 @@ class DictionaryDriver {
     static DomainController domainController = DomainController.getInstance();
 
     private static void createDictionary() {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Enter the name of the dictionary: ");
-        String name = scanner.nextLine();
+        String name = Driver.scanner.nextLine();
 
         System.out.print("Enter the language of the dictionary: (You should enter one of this options: es/cat/en) ");
-        String language = scanner.nextLine();
+        String language = Driver.scanner.nextLine();
 
         System.out.print("Enter the name of the dictionary file without any format: ");
-        String fileName = scanner.nextLine();
+        String fileName = Driver.scanner.nextLine();
 
         domainController.createDictionary(name, language, fileName);
         System.out.println("Dictionary " + name + " created successfully.");
-        scanner.close();
     }
 
     private static void removeDictionary() {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Enter the name of the dictionary to remove: ");
-        String name = scanner.nextLine();
+        String name = Driver.scanner.nextLine();
 
         domainController.removeDictionary(name);
         System.out.println("Dictionary " + name + " removed successfully.");
-        scanner.close();
     }
 
     private static void addWordToDictionary() {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Enter the name of the dictionary to add a word to: ");
-        String name = scanner.nextLine();
+        String name = Driver.scanner.nextLine();
 
         System.out.print("Enter the word to add: ");
-        String word = scanner.nextLine();
+        String word = Driver.scanner.nextLine();
 
         domainController.addWordToDictionary(name, word);
         System.out.println("Word " + word + " added to dictionary " + name + " successfully.");
-        scanner.close();
     }
 
     private static void removeWordFromDictionary() {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Enter the name of the dictionary to remove a word from: ");
-        String name = scanner.nextLine();
+        String name = Driver.scanner.nextLine();
 
         System.out.print("Enter the word to remove: ");
-        String word = scanner.nextLine();
+        String word = Driver.scanner.nextLine();
 
         domainController.removeWordFromDictionary(name, word);
         System.out.println("Word " + word + " removed from dictionary " + name + " successfully.");
-        scanner.close();
     }
 
     //Esta funcion imprimirá los nombres de los diccionarios presentes junto con su language
     private static void displayDictionaries() {
+        /*
         System.out.println("Current dictionaries: ");
         Map<String, Dictionary> dictionaries = domainController.getDictionaries();
         for (String name : dictionaries.keySet()) {
             System.out.println("Name: " + name + ", Language: " + domainController.getDictionaryLanguage(name));
         }
+        */
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
         boolean exit = false;
         while(!exit) {
             System.out.println("\n--- Dictionary Menu ---");
@@ -420,8 +415,8 @@ class DictionaryDriver {
             System.out.println("6. Back");
             System.out.print("Choose an option: ");
 
-            int option = scanner.nextInt();
-            scanner.nextLine();
+            int option = Driver.scanner.nextInt();
+            Driver.scanner.nextLine();
 
             switch (option) {
                 case 1:
@@ -442,7 +437,6 @@ class DictionaryDriver {
                 case 6:
                     exit = true;
                     System.out.println("Exiting...");
-                    scanner.close();
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");
