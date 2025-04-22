@@ -274,7 +274,7 @@ public class MP_Controller
 
 
 
-    public boolean playsMatch(String id/* ,String word, int startX, int startY, int endX, int endY*/) throws IllegalArgumentException, IllegalStateException
+    public boolean playsMatch(String id ,String word, int startX, int startY, int endX, int endY) throws IllegalArgumentException, IllegalStateException
     {
         boolean validPlay = false;
         int score = 0;
