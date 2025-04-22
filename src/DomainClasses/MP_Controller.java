@@ -345,7 +345,7 @@ public class MP_Controller
         Match match = matches.get(id);
         int turn = match.getTurn();
         Player player = match.getListPlayers().get(match.getTurn());
-        player.getRack().modifyRack(old_letters, new_letters);
+        player.getRack().modifyRack(old_letters);
         match.setTurn(turn+1);
     }
 
