@@ -150,7 +150,7 @@ class GameDriver {
     private static void placeWord(String matchId) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter a word: ");
+        System.out.print("Enter a word (separate letters by a '_', ex: h_e_l_l_o): ");
         String word = scanner.nextLine();
         
         System.out.print("Enter a coordinate to place the forst letter: ");
@@ -164,11 +164,11 @@ class GameDriver {
 
     private static void turn(String matchId) {
         Scanner scanner = new Scanner(System.in);
-        Player currentPlayer = domainController.MatchGetCurrentTurn(matchId);
+        Player currentPlayer = domainController.getPlayerTurn(matchId);
 
         boolean exit = false;
         while(!exit) {
-            System.out.println("\n--- Play Turn "+currentPlayer+"---");
+            System.out.println("\n--- Play Turn "+currentPlayer.getID()+"---");
             System.out.println("1. Suffle rack");
             System.out.println("2. Replace rack");
             System.out.println("3. Replace rack letters");
@@ -245,12 +245,12 @@ class GameDriver {
 
         System.out.print("Bag name: ");
         String fileName = scanner.nextLine();
+
         Map<Letter, Integer> letters = new HashMap<>();
         String file = fileName + ".txt";
         File filePath = new File("data/Letters/" + file);
         int totalLettersInTheBag = 0;
-        if (!filePath.exists()) 
-        {
+        if (!filePath.exists()) {
             throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data/Letters'.");
         }
         BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -266,13 +266,9 @@ class GameDriver {
                 letters.put(letter, quantity);
             }
         }
-        
-        Pair<Integer, Map<Letter, Integer>> bagWords = new Pair<>(totalLettersInTheBag, letters);
-
-
 
         scanner.close();
-        String matchID = domainController.newMatch(players, profiles, lang, name, boardSize, bagWords);
+        String matchID = domainController.newMatch(players, profiles, lang, name, boardSize, letters, totalLettersInTheBag);
 
         while
         turn(matchID);

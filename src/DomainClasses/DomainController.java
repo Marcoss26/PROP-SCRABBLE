@@ -77,8 +77,8 @@ public class DomainController {
      * @param name The name of the match.
      * @param size The size of the board.
      */
-    public String newMatch(int players, Set<Profile> profiles, String language, String dictionaryName, int boardSize, BAG) {
-        return this.matchController.createMatch(players, profiles, language, dictionaryName, boardSize);
+    public String newMatch(int players, Set<Profile> profiles, String language, String dictionaryName, int boardSize, Map<Letter, Integer> bagLetters, int numLetters) {
+        return this.matchController.createMatch(players, profiles, language, dictionaryName, boardSize, bagLetters, numLetters);
     }
 
     /**
@@ -88,12 +88,22 @@ public class DomainController {
     public void continueMatch(String id) {
         this.matchController.continueMatch(id);
     }
+
     /**
      * Retrieves a list of paused matches.
      * @return A list of matches that can be continued.
      */
     public List<Match> getMatches() {
         return this.matchController.getMatches();
+    }
+
+    /**
+     * Retrieves the current turn player for a given match.
+     * @param matchId The ID of the match get the turn from.
+     * @return The player whose turn it is.
+     */
+    public Player getPlayerTurn(String matchId) {
+        return this.matchController.whoseTurn(matchId);
     }
 
     /*
