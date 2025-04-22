@@ -142,7 +142,7 @@ public class MP_Controller
     }*/
     private static MP_Controller c;
     private Map<String, Match> matches = new HashMap<>();
-    private Set<String> unfinishedMatches = new HashSet<>(); //Matches that are not finished yet
+    private List<String> unfinishedMatches = new ArrayList<>(); //Matches that are not finished yet
     private MP_Controller()
     {
 
@@ -397,7 +397,7 @@ public class MP_Controller
         }
     }
 
-    public Set<String> getUnfinishedMatches()
+    public List<String> getUnfinishedMatches()
     {
         return unfinishedMatches;
     }
