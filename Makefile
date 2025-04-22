@@ -1,6 +1,6 @@
 # Variables
 SRC_DIR = src
-BIN_DIR = bin
+BIN_DIR = EXE
 DOMAIN_CLASSES = $(SRC_DIR)/DomainClasses
 DRIVERS = $(SRC_DIR)/Drivers
 
