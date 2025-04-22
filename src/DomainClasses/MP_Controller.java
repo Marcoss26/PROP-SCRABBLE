@@ -142,6 +142,7 @@ public class MP_Controller
     }*/
     private static MP_Controller c;
     private Map<String, Match> matches = new HashMap<>();
+    private Map<String, Match> unfinishedMatches = new HashMap<>(); //Matches that are not finished yet
     private MP_Controller()
     {
 
@@ -156,15 +157,16 @@ public class MP_Controller
         return c;
     }
 
-    public String createMatch(int size, Set<Profile> profiles, String language, String name,int board_size) throws IOException, IllegalArgumentException
+    public String createMatch(int size, Set<Profile> profiles, Dictionary dictionary,int board_size, Map<Letter,Integer> letters, int bag_size) throws IOException, IllegalArgumentException
     {
             String id = UUID.randomUUID().toString(); //Generating a random ID for the match
             if(matches.containsKey(id))  throw new IllegalArgumentException("Match with ID: " + id + " already exists.");
             Match match = new Match(id,size);
             matches.put(id, match);
+            unfinishedMatches.put(id,match);
             createPlayersForMatch(match,profiles);
-            createDictionaryForMatch(match,language,name);
-            createBagForMatch(match,"letras"+language);
+            createDictionaryForMatch(match,dictionary);
+            createBagForMatch(match,letters,bag_size);
             createBoardForMatch(match,board_size);
             match.setPaused(false);
             System.out.println("Match created with ID: " + match.getId());
@@ -176,37 +178,14 @@ public class MP_Controller
         match.setBoard(new Board(size)); //Creating a new board with the size given by the user
     }
 
-    private void createBagForMatch(Match match,String fileName) throws IOException
+    private void createBagForMatch(Match match, Map<Letter,Integer> letters, int bag_size) throws IOException
     {
-        Map<Letter, Integer> letters = new HashMap<>();
-        String file = fileName + ".txt";
-        File filePath = new File("data/Letters/" + file);
-        int totalLettersInTheBag = 0;
-        if (!filePath.exists()) 
-        {
-            throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data/Letters'.");
-        }
-        BufferedReader br = new BufferedReader(new FileReader(filePath));
-        String line;
-        while ((line = br.readLine()) != null)
-        {
-            String[] parts = line.split(" "); 
-            if (parts.length == 3) 
-            {
-                String symbol = parts[0];
-                int quantity = Integer.parseInt(parts[1]); 
-                totalLettersInTheBag += quantity;
-                int value = Integer.parseInt(parts[2]); 
-                Letter letter = new Letter(symbol, value); 
-                letters.put(letter, quantity);
-            }
-        }
-        match.setBag(new Bag(letters, totalLettersInTheBag));
+        match.setBag(new Bag(letters, bag_size));
     }
 
-    private void createDictionaryForMatch(Match match, String language, String name)
+    private void createDictionaryForMatch(Match match, Dictionary dictionary)
     {
-        match.setDictionary(new Dictionary(name,language));
+        match.setDictionary(dictionary);
     }
 
     private void createPlayersForMatch(Match match, Set<Profile> profiles)
@@ -358,6 +337,23 @@ public class MP_Controller
         }
     }
 
+    public void modifyRack(String id, List<Letter> old_letters, List<Letter> new_letters)
+    {
+        Match match = matches.get(id);
+        int turn = match.getTurn();
+        Player player = match.getListPlayers().get(match.getTurn());
+        player.getRack().modifyRack(old_letters, new_letters);
+        match.setTurn(turn+1);
+    }
+
+    public void shuffleRack(String id)
+    {
+        Match match = matches.get(id);
+        int turn = match.getTurn();
+        Player player = match.getListPlayers().get(turn);
+        player.getRack().shuffle();
+    }
+
     public Vector<String> getMatchIDs()
     {
         Vector<String> matchIDs = new Vector<>();
@@ -387,6 +383,7 @@ public class MP_Controller
         if (existMatch(id))
         {
             Match match = matches.get(id);
+            unfinishedMatches.remove(id); //Removing the match from the unfinished matches
             String winner = match.setFinished();
             System.out.println("Match with ID: " + id + " finished.");
             return winner;
@@ -397,6 +394,10 @@ public class MP_Controller
         }
     }
 
+    public Map<String,Match> getUnfinishedMatches()
+    {
+        return unfinishedMatches;
+    }
     public void continueMatch(String id) throws IllegalArgumentException
     {
         if (existMatch(id))

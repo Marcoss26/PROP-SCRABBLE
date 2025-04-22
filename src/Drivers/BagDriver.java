@@ -187,7 +187,7 @@ public class BagDriver {
         Map<Letter, Integer> letters = new HashMap<>(); 
         
         System.out.println("Introduce total letters in the bag: ");
-        try( Scanner scanner = new Scanner(System.in)){ 
+        Scanner scanner = new Scanner(System.in);
         int numLetters = scanner.nextInt(); 
             for (int i = 0; i < numLetters; i++) {
                 System.out.println("Introduce the symbol: ");
@@ -206,4 +206,3 @@ public class BagDriver {
 
     }
 
-}
