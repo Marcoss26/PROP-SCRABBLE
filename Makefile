@@ -46,6 +46,14 @@ RANKING_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Ranking.java \
 					$(DOMAIN_CLASSES)/Profile.java \
 					$(DOMAIN_CLASSES)/ProfileController.java
 
+PLAYER_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Profile.java \
+					$(DOMAIN_CLASSES)/Human.java \
+					$(DOMAIN_CLASSES)/IA.java \
+					$(DOMAIN_CLASSES)/Player.java \
+					$(DOMAIN_CLASSES)/Rack.java \
+					$(DOMAIN_CLASSES)/Letter.java \
+					$(DOMAIN_CLASSES)/Bag.java
+
 # Driver source files
 					
 PROFILE_CONTROLLER_DRIVER_SRC = $(DRIVERS)/ProfileControllerDriver.java
@@ -54,10 +62,11 @@ BAG_DRIVER_SRC = $(DRIVERS)/BagDriver.java
 RACK_DRIVER_SRC = $(DRIVERS)/RackDriver.java
 DICTIONARY_CONTROLLER_DRIVER_SRC = $(DRIVERS)/DictionaryControllerDriver.java
 RANKING_DRIVER_CLASSES_SRC = $(DRIVERS)/RankingDriver.java
+PLAYER_DRIVER_SRC = $(DRIVERS)/PlayerDriver.java
 
 # Targets
 # Compilar todos los drivers
-all: BagDriver RackDriver DictionaryControllerDriver ProfileControllerDriver BoardBoxDriver RankingDriver
+all: BagDriver RackDriver DictionaryControllerDriver ProfileControllerDriver BoardBoxDriver RankingDriver PlayerDriver
 
 # Compilar los drivers individualmente
 ProfileControllerDriver: $(PROFILE_CONTROLLER_DRIVER_CLASSES_SRC) $(PROFILE_CONTROLLER_DRIVER_SRC)
@@ -78,6 +87,9 @@ DictionaryControllerDriver: $(DICTIONARY_CONTROLLER_DRIVER_CLASSES_SRC) $(DICTIO
 RankingDriver: $(RANKING_DRIVER_CLASSES_SRC) $(RANKING_DRIVER_SRC)
 	$(JAVAC) $(JFLAGS) $(RANKING_DRIVER_CLASSES_SRC) $(RANKING_DRIVER_SRC)
 
+PlayerDriver: $(PLAYER_DRIVER_CLASSES_SRC) $(PLAYER_DRIVER_SRC)
+	$(JAVAC) $(JFLAGS) $(PLAYER_DRIVER_CLASSES_SRC) $(PLAYER_DRIVER_SRC)
+
 # Compilar solo las clases de DomainClasses
 DomainClasses: $(BIN_DIR) $(DOMAIN_CLASSES_SRC)
 	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC)
@@ -96,6 +108,9 @@ run-DictionaryControllerDriver: DictionaryControllerDriver
 
 run-RankingDriver: RankingDriver
 	java -cp $(BIN_DIR) Drivers.RankingDriver
+
+run-PlayerDriver: PlayerDriver
+	java -cp $(BIN_DIR) Drivers.PlayerDriver
 
 # Borrar los archivos compilados
 

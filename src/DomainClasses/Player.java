@@ -1,23 +1,27 @@
 package DomainClasses;
 import java.util.*;
 
+/**
+ * Player class represents a player in an certain match
+ * It contains the player id, score, username, and game statistics.
+ * @author Ziheng Zhang
+ */
+
 public abstract class Player
 {
     protected String id;
     protected int score;
     protected String name;
-    protected Match match;
     protected Rack rack;
 
     public Player()
     {
     }
 
-    public Player(String id,Match match)
+    public Player(String id)
     {
         this.setID(id);
         this.setScore(0);
-        //this.setMatch(match);
     }
 
 
@@ -28,11 +32,6 @@ public abstract class Player
 
     public abstract boolean isHuman();
 
-    
-    public void setMatch(Match match)
-    {
-        this.match = match;
-    }
 
     public void setRack(Rack rack)
     {

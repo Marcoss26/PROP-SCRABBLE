@@ -167,7 +167,7 @@ public class MP_Controller
             Match match = new Match(id,size);
             matches.put(id, match);
             unfinishedMatches.add(id); //Adding the match to the unfinished matches
-            createPlayersForMatch(match,profiles);
+            createPlayersForMatch(match,profiles,dictionary.getLanguage());
             createDictionaryForMatch(match,dictionary);
             createBagForMatch(match,letters,bag_size);
             createBoardForMatch(match,board_size);
@@ -191,7 +191,7 @@ public class MP_Controller
         match.setDictionary(dictionary);
     }
 
-    private void createPlayersForMatch(Match match, Set<Profile> profiles)
+    private void createPlayersForMatch(Match match, Set<Profile> profiles, String language)
     {
         int match_size = match.getSize();
         int profile_size = profiles.size();
@@ -199,16 +199,15 @@ public class MP_Controller
         for (Profile profile: profiles)
         {
             String human_id = profile.getUsername(); //Get the ID of the profile
-            Player player = new Human(human_id+match_id,profile,match);    //Creating a new human player with this profile
+            Player player = new Human(human_id+match_id,profile,language);    //Creating a new human player with this profile
+            player.setRack(new Rack(match.getBag())); //Creating a new rack for the player
             match.setPlayer(player);  //Adding the human player to the match
-            player.setMatch(match);   //Setting the match for the player
         }
         for (int i = 0; i < match_size - profile_size; i++)
         {
             String bot_id = match_id+"BOT"+i; //Creating a bot ID
-            Player player = new IA(bot_id,match,i); //Creating a new AI player
+            Player player = new IA(bot_id,i); //Creating a new AI player
             match.setPlayer(player);    //Adding the AI player to the match
-            player.setMatch(match);  //Setting the match for the player
         }
     }
 
@@ -345,7 +344,7 @@ public class MP_Controller
         Match match = matches.get(id);
         int turn = match.getTurn();
         Player player = match.getListPlayers().get(match.getTurn());
-        player.getRack().modifyRack(old_letters);
+        player.getRack().replaceLetters(old_letters);
         match.setTurn(turn+1);
     }
 

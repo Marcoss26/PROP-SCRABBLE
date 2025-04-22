@@ -5,9 +5,9 @@ public class IA extends Player
     {
         super();
     }
-    public IA(String id,Match match, int i)
+    public IA(String id, int i)
     {
-        super(id,match);
+        super(id);
         this.name = "IA" + i; //Set the name of the player to IA + i
     }
 

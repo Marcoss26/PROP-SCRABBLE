@@ -7,13 +7,13 @@ public class Human extends Player
         super();
     }
 
-    public Human(String id,Profile profile,Match match)
+    public Human(String id,Profile profile, String language)
     {
-        super(id,match); //Call the constructor of the Player class
+        super(id); //Call the constructor of the Player class
         this.profile = profile; //Set the profile of the player
         this.name = profile.getUsername(); //Set the name of the player to the username of the profile
         this.profile.incrementGamePlayed(); //Increment the number of games played in the profile
-        this.profile.incrementDictionaryUsage(match.getDictionary().getLanguage()); //Increment the dictionary usage in the profile
+        this.profile.incrementDictionaryUsage(language); //Increment the dictionary usage in the profile
     }
 
     public Profile getProfile()
