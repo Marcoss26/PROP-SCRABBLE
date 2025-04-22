@@ -200,7 +200,6 @@ public class Board
      */
 
     public void printBoard() {
-        clearScreen();
         // Imprimir los índices de las columnas
         System.out.print("     "); // Espacio inicial para alinear con los índices de las filas
         for (int j = 0; j < this.size; j++) {
@@ -221,16 +220,6 @@ public class Board
         }
     }
 
-    /**
-     * Limpia la pantalla de la consola
-     * Pre: ya existe un tablero
-     * Post: se limpia la pantalla de la consola
-     */
-
-    public void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    } 
 
     /**
      * Retorna la casilla correspondiente a las coordenadas de entrada
