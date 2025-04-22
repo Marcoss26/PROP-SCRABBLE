@@ -4,27 +4,28 @@ import java.util.*;
 
 
 
-
+/* 
 String original = "h_e_l_ch_o_w_o_r_l_d";
 System.out.println("Original String: " + original);
 
 // Replace underscores with a space
 String replaced = original.replace("_", "");
-System.out.println("Replaced String: " + replaced);
+System.out.println("Replaced String: " + replaced);*/
 
 
 public class Driver {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        DomainController domainController = DomainController.getInstance();
         boolean exit = false;
         while(!exit) {
             System.out.println("\n--- Main Menu ---");
             System.out.println("1. Play game");
-            System.out.println("2. Manage profoles");
-            System.out.println("3. Manage dicrionaries");
-            System.out.println("4. Exit");
+            System.out.println("2. Manage profiles");
+            System.out.println("3. Manage dictionaries");
+            System.out.println("4. Show Ranking");
+            System.out.println("5. Exit");
             System.out.print("Choose an option: ");
 
             int option = scanner.nextInt();
@@ -40,7 +41,12 @@ public class Driver {
                 case 3:
             
                     break;
+                
                 case 4:
+                    
+                    domainController.displayRanking();
+                    break;
+                case 5:
                     exit = true;
                     System.out.println("Exiting...");
                     scanner.close();
@@ -319,6 +325,8 @@ class DictionaryDriver {
         String fileName = scanner.nextLine();
 
         domainController.createDictionary(name, language, fileName);
+        System.out.println("Dictionary " + name + " created successfully.");
+        scanner.close();
     }
 
     private static void removeDictionary() {
@@ -328,6 +336,8 @@ class DictionaryDriver {
         String name = scanner.nextLine();
 
         domainController.removeDictionary(name);
+        System.out.println("Dictionary " + name + " removed successfully.");
+        scanner.close();
     }
 
     private static void addWordToDictionary() {
@@ -340,6 +350,8 @@ class DictionaryDriver {
         String word = scanner.nextLine();
 
         domainController.addWordToDictionary(name, word);
+        System.out.println("Word " + word + " added to dictionary " + name + " successfully.");
+        scanner.close();
     }
 
     private static void removeWordFromDictionary() {
@@ -352,6 +364,8 @@ class DictionaryDriver {
         String word = scanner.nextLine();
 
         domainController.removeWordFromDictionary(name, word);
+        System.out.println("Word " + word + " removed from dictionary " + name + " successfully.");
+        scanner.close();
     }
 
     //Esta funcion imprimirá los nombres de los diccionarios presentes junto con su language
