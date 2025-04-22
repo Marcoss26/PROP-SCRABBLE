@@ -14,6 +14,12 @@ DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/BagController.java \
 					$(DOMAIN_CLASSES)/Letter.java \
 					$(DOMAIN_CLASSES)/Rack.java \
 					$(DOMAIN_CLASSES)/DictionaryController.java \
+					$(DOMAIN_CLASSES)/DomainController.java \
+					$(DOMAIN_CLASSES)/MP_Controller.java \
+					$(DOMAIN_CLASSES)/Match.java \
+					$(DOMAIN_CLASSES)/Human.java \
+					$(DOMAIN_CLASSES)/IA.java \
+					$(DOMAIN_CLASSES)/Player.java \
 					$(DOMAIN_CLASSES)/Dictionary.java \
 					$(DOMAIN_CLASSES)/Board.java \
 					$(DOMAIN_CLASSES)/Box.java \
@@ -68,6 +74,9 @@ PLAYER_DRIVER_SRC = $(DRIVERS)/PlayerDriver.java
 # Compilar todos los drivers
 all: BagDriver RackDriver DictionaryControllerDriver ProfileControllerDriver BoardBoxDriver RankingDriver PlayerDriver
 
+MainDriver: $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java
+	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java 
+
 # Compilar los drivers individualmente
 ProfileControllerDriver: $(PROFILE_CONTROLLER_DRIVER_CLASSES_SRC) $(PROFILE_CONTROLLER_DRIVER_SRC)
 	$(JAVAC) $(JFLAGS) $(PROFILE_CONTROLLER_DRIVER_CLASSES_SRC) $(PROFILE_CONTROLLER_DRIVER_SRC)
@@ -93,6 +102,10 @@ PlayerDriver: $(PLAYER_DRIVER_CLASSES_SRC) $(PLAYER_DRIVER_SRC)
 # Compilar solo las clases de DomainClasses
 DomainClasses: $(BIN_DIR) $(DOMAIN_CLASSES_SRC)
 	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC)
+
+
+run-main: MainDriver
+	java -cp $(BIN_DIR) DomainClasses.Driver
 
 # Ejecutar drivers
 run-BagDriver: BagDriver
