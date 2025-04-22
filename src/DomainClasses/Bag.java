@@ -81,11 +81,12 @@ public class Bag
     //Post: el jugador ha devuelto las letras que ha cambiado a la bolsa   
     public List<Letter> changeRackLetters(List<Letter> letters) {
         //si no hay 7 letras en el rack es porque ya no quedan mas en la bolsa y por lo tanto no se pueden cambiar
-        if(letters.size() != 7) { 
+        if(letters.size() > totalLetters) { 
             throw new IllegalStateException("Not enough letters in the bag to extract."); 
         }
+        List<Letter> extLetters = extractSetOfLetters(letters.size()); // Extraemos las letras del rack
         addSetOfLetters(letters); 
-        return extractSetOfLetters(7); // Devolvemos el conjunto de letras que se van a devolver al jugador
+        return extLetters;// Devolvemos el conjunto de letras que se van a devolver al jugador
     }
     
 
