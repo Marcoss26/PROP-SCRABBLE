@@ -78,7 +78,8 @@ public class DomainController {
      * @param size The size of the board.
      */
     public String newMatch(int players, Set<Profile> profiles, String language, String dictionaryName, int boardSize, Map<Letter, Integer> bagLetters, int numLetters) {
-        return this.matchController.createMatch(players, profiles, language, dictionaryName, boardSize, bagLetters, numLetters);
+        return "d";
+        //this.matchController.createMatch(players, profiles, language, dictionaryName, boardSize, bagLetters, numLetters);
     }
 
     /**
@@ -90,14 +91,6 @@ public class DomainController {
     }
 
     /**
-     * Retrieves a list of paused matches.
-     * @return A list of matches that can be continued.
-     */
-    public List<Match> getMatches() {
-        return this.matchController.getMatches();
-    }
-
-    /**
      * Retrieves the current turn player for a given match.
      * @param matchId The ID of the match get the turn from.
      * @return The player whose turn it is.
@@ -106,6 +99,29 @@ public class DomainController {
         return this.matchController.whoseTurn(matchId);
     }
 
+    /**
+     * Retrieves the list of unfinished matches.
+     * @return A list of unfinished match IDs.
+     */
+    public List<String> getUnfinishedMatchs() {
+        return this.matchController.getUnfinishedMatches();
+    }
+
+    /**
+     * Places some letters on the board for a given match.
+     * @param matchId The ID of the match to play.
+     */
+    public void playsMatch(String matchId, String word, int posStartX, int posStartY, int posEndX, int posEndY) {
+        this.matchController.playsMatch(matchId, word, posStartX, posStartY, posEndX, posEndY);
+    }
+
+    public void shuffleRack(String matchId) {
+        this.matchController.shuffleRack(matchId);
+    }
+
+    public void modifyRack(String matchId, String letters) {
+        this.matchController.modifyRack(matchId, letters);
+    }
     /*
      * ---------------------------------------------------------------------
                             DICTIONARY FUNCTIONALITY
@@ -158,7 +174,7 @@ public class DomainController {
 
      public void updateRanking(String idWinner) {
 
-        this.ranking.updateRanking(this.ProfileController.getProfileToUpdateRanking(idWinner));
+        //this.ranking.updateRanking(this.ProfileController.getProfileToUpdateRanking(idWinner));
      }
 
      public void displayRanking() {
