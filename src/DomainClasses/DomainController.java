@@ -73,13 +73,15 @@ public class DomainController {
      * Creates a new match with the given number of players, profiles, language, name, and size.
      * @param players The number of players in the match.
      * @param profiles The set of profiles participating in the match.
-     * @param language The language of the match.
-     * @param name The name of the match.
-     * @param size The size of the board.
+     * @param dictionaryName The name of dictionary to be used.
+     * @param boardSize The size of the board.
+     * @param bagLetters The letters in the bag.
+     * @param numLetters The number of letters to be used.
+     * @throws IOException if an error occurs while creating the match.
      */
-    public String newMatch(int players, Set<Profile> profiles, String language, String dictionaryName, int boardSize, Map<Letter, Integer> bagLetters, int numLetters) {
-        return "d";
-        //this.matchController.createMatch(players, profiles, language, dictionaryName, boardSize, bagLetters, numLetters);
+    public String newMatch(int players, Set<Profile> profiles, String dictionaryName, int boardSize, Map<Letter, Integer> bagLetters, int numLetters) throws IOException {
+        Dictionary dictionary = dictionaryController.getDictionary(dictionaryName);
+        return this.matchController.createMatch(players, profiles, dictionary, boardSize, bagLetters, numLetters);
     }
 
     /**
@@ -122,6 +124,10 @@ public class DomainController {
     public void modifyRack(String matchId, String letters) {
         this.matchController.modifyRack(matchId, letters);
     }
+
+    public void printMatch(String matchId) {
+        this.matchController.print(matchId);
+    }
     /*
      * ---------------------------------------------------------------------
                             DICTIONARY FUNCTIONALITY
@@ -158,7 +164,7 @@ public class DomainController {
     }
 
     public String getDictionaryLanguage(String dictionaryName) {
-        try{
+        try {
             return this.dictionaryController.getDictionaryLanguage(dictionaryName);
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
@@ -166,15 +172,17 @@ public class DomainController {
         return null;
     }
 
+    public Map<String, Dictionary> getDictionaries() {
+        return this.dictionaryController.getDictionaries();
+    }
+
     /* 
      * ---------------------------------------------------------------------
                             RANKING FUNCTIONALITY
      ------------------------------------------------------------------------
      */
-
      public void updateRanking(String idWinner) {
-
-        //this.ranking.updateRanking(this.ProfileController.getProfileToUpdateRanking(idWinner));
+        //this.ranking.updateRanking(this.profileController.getProfileToUpdateRanking(idWinner));
      }
 
      public void displayRanking() {
