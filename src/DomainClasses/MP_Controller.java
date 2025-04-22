@@ -340,7 +340,7 @@ public class MP_Controller
         }
     }
 
-    public void modifyRack(String id, List<Letter> old_letters)
+    public void modifyRack(String id, String old_letters)
     {
         Match match = matches.get(id);
         int turn = match.getTurn();
