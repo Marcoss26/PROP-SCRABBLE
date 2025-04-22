@@ -67,8 +67,8 @@ BOARDBOX_DRIVER_SRC = $(DRIVERS)/BoardBoxDriver.java
 BAG_DRIVER_SRC = $(DRIVERS)/BagDriver.java
 RACK_DRIVER_SRC = $(DRIVERS)/RackDriver.java
 DICTIONARY_CONTROLLER_DRIVER_SRC = $(DRIVERS)/DictionaryControllerDriver.java
-RANKING_DRIVER_CLASSES_SRC = $(DRIVERS)/RankingDriver.java
 PLAYER_DRIVER_SRC = $(DRIVERS)/PlayerDriver.java
+RANKING_DRIVER_SRC = $(DRIVERS)/RankingDriver.java
 
 # Targets
 # Compilar todos los drivers
