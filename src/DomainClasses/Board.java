@@ -220,8 +220,7 @@ public class Board
         }
     }
 
-
-    /**
+/**
      * Retorna la casilla correspondiente a las coordenadas de entrada
      * Pre: ya existe un tablero
      * @param x La coordenada x de la casilla
@@ -236,14 +235,19 @@ public class Board
         }
     }
 
+    /**
+     * Retorna las casillas ancla del tablero
+     * Pre: ya existe un tablero
+     * @return El conjunto de casillas ancla
+     */
 
-     public Set<Box> getLeftAnchorSquares() {
+    public Set<Box> getLeftAnchorSquares() {
         Set<Box> anchorSquares = new HashSet<>();
     
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (hasLetter(i, j)) {
-                    addAnchorSquareIfValid(anchorSquares, i, j - 1); // Izquierda
+                    addAnchorSquareIfValid(anchorSquares, i, j - 1);
                 }
             }
         }
@@ -288,7 +292,7 @@ public class Board
      * @return La letra de la casilla correspondiente a los valores de entrada
      */
 
-    public String getLetter(int x, int y) {
+    public String getLetter(int x, int y) { 
         return board[x][y].getSymbol();
     }
 
