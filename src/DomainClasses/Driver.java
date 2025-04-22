@@ -1,5 +1,6 @@
 package DomainClasses;
 import java.util.*;
+import java.io.*;
 
 
 
@@ -167,10 +168,12 @@ class GameDriver {
 
         boolean exit = false;
         while(!exit) {
-            System.out.println("\n--- Play Turn ---");
+            System.out.println("\n--- Play Turn "+currentPlayer+"---");
             System.out.println("1. Suffle rack");
             System.out.println("2. Replace rack");
-            System.out.println("3. Place word");
+            System.out.println("3. Replace rack letters");
+            System.out.println("4. Place word");
+            System.out.println("5. Pause game");
             System.out.print("Choose an option: ");
 
             int option = scanner.nextInt();
@@ -178,13 +181,15 @@ class GameDriver {
 
             switch (option) {
                 case 1:
-                    domainController.shuffleRack(matchId, currentPlayer.getId());
+                    domainController.modifyRack("shuffle", matchId);
                     break;
                 case 2:
-                    exit = true;
-                    domainController.replaceRach(matchId, currentPlayer.getId());
+                    domainController.modifyRack("replace", matchId);
                     break;
                 case 3:
+                    domainController.modifyRack("replace", matchId);
+                    break;
+                case 4:
                     exit = true;
                     placeWord(matchId);
                     break;
@@ -235,11 +240,39 @@ class GameDriver {
         System.out.print("What language do you want to play in? (es, en, ca): ");
         String lang = scanner.nextLine();
 
-        System.out.print("Match name: ");
+        System.out.print("Dictionary name: ");
         String name = scanner.nextLine();
 
+        System.out.print("Bag name: ");
+        String fileName = scanner.nextLine();
+        Map<Letter, Integer> letters = new HashMap<>();
+        String file = fileName + ".txt";
+        File filePath = new File("data/Letters/" + file);
+        int totalLettersInTheBag = 0;
+        if (!filePath.exists()) 
+        {
+            throw new FileNotFoundException("El archivo '" + fileName + "' no se encontró en la carpeta 'data/Letters'.");
+        }
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split(" "); 
+            if (parts.length == 3) {
+                String symbol = parts[0];
+                int quantity = Integer.parseInt(parts[1]); 
+                totalLettersInTheBag += quantity;
+                int value = Integer.parseInt(parts[2]); 
+                Letter letter = new Letter(symbol, value); 
+                letters.put(letter, quantity);
+            }
+        }
+        
+        Pair<Integer, Map<Letter, Integer>> bagWords = new Pair<>(totalLettersInTheBag, letters);
+
+
+
         scanner.close();
-        String matchID = domainController.newMatch(players, profiles, lang, name, boardSize);
+        String matchID = domainController.newMatch(players, profiles, lang, name, boardSize, bagWords);
 
         while
         turn(matchID);
@@ -292,10 +325,10 @@ class GameDriver {
 
             switch (option) {
                 case 1:
-                    GameDriver.newGame();
+                    newGame();
                     break;
                 case 2:
-                    GameDriver.continueGame();
+                    continueGame();
                     break;
                 case 3:
                     exit = true;

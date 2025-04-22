@@ -77,8 +77,8 @@ public class DomainController {
      * @param name The name of the match.
      * @param size The size of the board.
      */
-    public void newMatch(int players, Set<Profile> profiles, String language, String name, int size) {
-        this.matchController.createMatch(players, profiles, language, name, size);
+    public String newMatch(int players, Set<Profile> profiles, String language, String dictionaryName, int boardSize, BAG) {
+        return this.matchController.createMatch(players, profiles, language, dictionaryName, boardSize);
     }
 
     /**
