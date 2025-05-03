@@ -1,8 +1,8 @@
-package Drivers;
+package DomainLayer.Drivers;
 
 import java.util.Scanner;
-import DomainClasses.ProfileController;
-import DomainClasses.Profile;
+import DomainLayer.DomainClasses.ProfileController;
+import DomainLayer.DomainClasses.Profile;
 
 public class ProfileControllerDriver {
     public static void main(String[] args) {

@@ -1,11 +1,11 @@
-package Drivers;
+package DomainLayer.Drivers;
 import java.util.*;
 import java.io.*;
 
-import DomainClasses.Player;
-import DomainClasses.Profile;
-import DomainClasses.Human;
-import DomainClasses.IA;
+import DomainLayer.DomainClasses.Player;
+import DomainLayer.DomainClasses.Profile;
+import DomainLayer.DomainClasses.Human;
+import DomainLayer.DomainClasses.IA;
 
 
 public class PlayerDriver {

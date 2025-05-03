@@ -1,8 +1,8 @@
-package Drivers;
+package DomainLayer.Drivers;
 
-import DomainClasses.Profile;
-import DomainClasses.Ranking;
-import DomainClasses.ProfileController;
+import DomainLayer.DomainClasses.Profile;
+import DomainLayer.DomainClasses.Ranking;
+import DomainLayer.DomainClasses.ProfileController;
 
 
 

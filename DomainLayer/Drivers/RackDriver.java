@@ -1,10 +1,9 @@
-package Drivers;
+package DomainLayer.Drivers;
 
 import java.util.*;
 import java.io.IOException;
-import DomainClasses.Rack;
-import DomainClasses.BagController;
-import DomainClasses.Letter;
+import DomainLayer.DomainClasses.Rack;
+import DomainLayer.DomainClasses.Letter;
 
 public class RackDriver {
     public static void main(String[] args) throws IOException {

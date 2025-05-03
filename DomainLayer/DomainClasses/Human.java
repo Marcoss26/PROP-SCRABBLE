@@ -1,4 +1,4 @@
-package DomainClasses;
+package DomainLayer.DomainClasses;
 public class Human extends Player
 {
     private Profile profile;

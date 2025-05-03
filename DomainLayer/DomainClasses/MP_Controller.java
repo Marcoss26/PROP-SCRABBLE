@@ -1,4 +1,4 @@
-package DomainClasses;
+package DomainLayer.DomainClasses;
 import java.util.*;
 import java.io.*;
 public class MP_Controller

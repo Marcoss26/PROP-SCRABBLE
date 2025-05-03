@@ -1,4 +1,4 @@
-package DomainClasses;
+package DomainLayer.DomainClasses;
 public class IA extends Player
 {
     public IA()

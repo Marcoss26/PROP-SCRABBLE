@@ -1,9 +1,9 @@
-package Drivers;
+package DomainLayer.Drivers;
 import java.util.*;
 import java.io.*;
 
-import DomainClasses.Bag;
-import DomainClasses.Letter;
+import DomainLayer.DomainClasses.Bag;
+import DomainLayer.DomainClasses.Letter;
 
 public class BagDriver {
 

@@ -1,5 +1,5 @@
-package Drivers;
-import DomainClasses.Board;
+package DomainLayer.Drivers;
+import DomainLayer.DomainClasses.Board;
 import java.util.Scanner;
 
 public class BoardBoxDriver {
