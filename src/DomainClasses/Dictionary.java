@@ -1,5 +1,6 @@
 package DomainClasses;
-//import java.util.*;
+import java.util.*;
+import java.io.*;
 
 /**
  * Dictionary.java
@@ -15,8 +16,9 @@ public class Dictionary
      * @param name Nombre del diccionario.
      * @param dawg Estructura de datos que contiene el DAWG.
      */
-    String name; // Nombre del diccionario
-    Dawg dawg; // Estructura de datos que contiene el DAWG
+    private String name; // Nombre del diccionario
+    private Dawg dawg; // Estructura de datos que contiene el DAWG
+    private Set<String> characters; // Conjunto de caracteres que contiene el diccionario
 
     /**
      * Constructor de la clase Dictionary.
@@ -24,11 +26,26 @@ public class Dictionary
      * post: crea un nuevo diccionario con el nombre especificado y un DAWG vacío con el idioma correspondiente
      * @param name Nombre del diccionario a crear
      */
-    public Dictionary(String name, String language)
+    public Dictionary(String name, String language) throws IOException
     {
         // Create a new dictionary with the specified language
         this.name = name;
         this.dawg = new Dawg(language);
+        if(language == "es")
+        {
+            characters = new HashSet<>(Arrays.asList("A","B","C","D","E","F","G","H","I","J","K",
+                    "L","M","N","Ñ","O","P","Q","R","S","T","U","V","W","X","Y","Z", "CH", "LL", "RR"));
+        }
+        else if(language == "en")
+        {
+            characters = new HashSet<>(Arrays.asList("A","B","C","D","E","F","G","H","I","J","K",
+                    "L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"));
+        }
+        else if(language == "ca")
+        {
+            characters = new HashSet<>(Arrays.asList("A","B","C","D","E","F","G","H","I","J","K",
+                    "L","M","N","O","P","Q","R","S","T","U","V","W","X","Z", "NY", "L·L", "Ç"));
+        }
     }
 
     /**
@@ -42,16 +59,23 @@ public class Dictionary
         return dawg.getLanguage();
     }
 
+    public Dawg getDawg()
+    {
+        return dawg;
+    }
+
+    public Set<String> getCharacters()
+    {
+        return characters;
+    }
+
     /**
      * Añade una palabra al diccionario.
      * @param word Palabra a añadir al diccionario.
      * pre: word es la palabra a añadir al diccionario
      * post: añade la palabra al diccionario
      */
-    public void addWord(String word)
-    {
-        dawg.addWord(word);
-    }
+
 
     /**
      * Elimina una palabra del diccionario.

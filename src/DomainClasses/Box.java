@@ -46,10 +46,12 @@ class RunApp {
 
 public class Box
 {
-    protected int x;
-    protected int y;
+    protected int column;
+    protected int row;
     private String symbol;
     private int value;
+    private Set<String> HorizontalcrossCheck = new HashSet<>(); //Given a square, this set contains the letters that can form horizontal words placing the letter in this square
+    private Set<String> VerticalcrossCheck = new HashSet<>();   //Given a square, this set contains the letters that can form vertical words placing the letter in this square
     
     /**
      * Constructor de la clase Box
@@ -60,13 +62,13 @@ public class Box
      * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
      */
 
-    public Box(int x, int y)
+    public Box(int row, int column)
     {
-        if (x < 0 || y < 0) {
+        if (column < 0 || row < 0) {
             throw new IllegalArgumentException("Las coordenadas no pueden ser negativas");
         }
-        this.x = x;
-        this.y = y;
+        this.column = column;
+        this.row = row;
         this.symbol = null;
         this.value = 0;
     }
@@ -77,9 +79,55 @@ public class Box
      * @return La coordenada x de la casilla
      */
     
-    public int getX()
+    public Set<String> getCrossCheck(int horizontal)
     {
-        return x;
+        if (horizontal == 1) {
+            return HorizontalcrossCheck;
+        }
+        return VerticalcrossCheck;
+    }
+
+    public void setCrossCheck(Set<String> crossCheck)
+    {
+        this.HorizontalcrossCheck = new HashSet<>(crossCheck);
+        this.VerticalcrossCheck = new HashSet<>(crossCheck);
+    }
+
+    public void removeFromCrossCheck(String letter, int horizontal)
+    {
+        //System.out.println("Removing " + letter + " from " + where + "crossCheck at position " + this.column + ", " + this.row);
+        if(horizontal == 1) {
+            this.HorizontalcrossCheck.remove(letter);
+        }
+        else {
+            this.VerticalcrossCheck.remove(letter);
+        }
+    }
+
+    public boolean hasCrossCheck(String letter, int horizontal)
+    {
+        /*System.out.println("letter: " + letter);
+        System.out.println("Horizontal crossCheck:");
+        for (String s : this.HorizontalcrossCheck) {
+            System.out.println(s);
+        }
+        System.out.println("Vertical crossCheck:");
+        for (String s : this.VerticalcrossCheck) {
+            System.out.println(s);
+        }*/
+        if(horizontal == 0) {
+            //System.out.println("Does the letter " + letter + " exist in the vertical crossCheck? " + this.VerticalcrossCheck.contains(letter));
+            //System.out.println("Placing the letter vertically " + letter + " at this position: " + this.column + ", " + this.row);
+            return this.HorizontalcrossCheck.contains(letter);
+        }
+        //System.out.println("Does the letter " + letter + " exist in the horizontal crossCheck? " + this.HorizontalcrossCheck.contains(letter));
+        //System.out.println("Placing the letter horizontally " + letter + " at this position: " + this.column + ", " + this.row);
+        return this.VerticalcrossCheck.contains(letter);
+    }
+
+    public int getColumn()
+    {
+        return column;
     }
 
     /**
@@ -88,9 +136,9 @@ public class Box
      * Post: se retorna la coordenada y de la casilla
      * @return La coordenada y de la casilla
      */
-    public int getY()
+    public int getRow()
     {
-        return y;
+        return row;
     }
 
     /**
@@ -142,12 +190,17 @@ public class Box
      * @return La casilla correspondiente a x e y
      */
 
-    public Box getBox(int x, int y)
+    public Box getBox(int row, int column)
     {
-        if (this.x == x && this.y == y) {
+        if (this.column == column && this.row == row) {
             return this;
         }
         return null;
+    }
+
+    public boolean isEmpty()
+    {
+        return this.symbol == null;
     }
 
     /**

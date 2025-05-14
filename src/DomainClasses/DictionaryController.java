@@ -53,8 +53,15 @@ public class DictionaryController {
             throw new IllegalArgumentException("El diccionario con el nombre '" + dictionaryName + "' ya existe.");
         }
 
-        Dictionary dictionary = new Dictionary(dictionaryName, language);
-        dictionaries.put(dictionaryName, dictionary);
+        try
+        {
+            Dictionary dictionary = new Dictionary(dictionaryName, language);
+            dictionaries.put(dictionaryName, dictionary);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Error al crear el diccionario: " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -172,7 +179,7 @@ public class DictionaryController {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String word;
             while ((word = br.readLine()) != null) {
-                dictionary.addWord(word.trim()); // Añade cada palabra al diccionario
+                //dictionary.addWord(word.trim()); // Añade cada palabra al diccionario
             }
         }
     }
@@ -199,7 +206,7 @@ public class DictionaryController {
         Dictionary dictionary = getDictionary(dictionaryName);
 
         // Añade la palabra al diccionario
-        dictionary.addWord(word);
+        //dictionary.addWord(word);
     }
 
     /**

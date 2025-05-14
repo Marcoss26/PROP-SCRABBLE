@@ -68,4 +68,9 @@ public abstract class Player
     {
         return score;
     }
+
+    public String getName()
+    {
+        return name;
+    }
 }

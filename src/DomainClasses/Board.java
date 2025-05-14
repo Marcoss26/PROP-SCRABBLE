@@ -12,6 +12,7 @@ public class Board
 {
     private Box[][] board;
     private int size;
+    private boolean isEmpty = true;
 
     /**
      * Constructor de la clase Board.
@@ -29,7 +30,7 @@ public class Board
         }
         this.size = size;
 
-        this.board = new Box[size][size];
+        this.board = new Box[size + 1][size + 1];
         int[] doubleLetter = new int[0];
         int[] tripleLetter = new int[0];
         int[] doubleWord = new int[0];
@@ -59,11 +60,11 @@ public class Board
         assignSpecialBoxes(doubleWord, "doubleWord");
         assignSpecialBoxes(tripleWord, "tripleWord");
 
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
+        for (int i = 0; i <= this.size; i++) {
+            for (int j = 0; j <= this.size; j++) {
                 if (this.board[i][j] == null) this.board[i][j] = new Box(i, j);
             }
-        } 
+        }
     }
 
     /**
@@ -75,6 +76,105 @@ public class Board
 
     public int getSize() {
         return this.size;
+    }
+
+
+    public void printCrossChecks()
+    {
+        for (int row = 0; row < this.size; row++) 
+        {
+            for (int column = 0; column < this.size; column++) 
+            {
+                if(isAnchor(row,column))
+                {   
+                    System.out.println("CrossCheck for: " + "[" + column + "," + row + "]");
+                    if(this.board[row][column].getCrossCheck(1).size() > 0)
+                    {
+                        System.out.println("Horizontal CrossCheck: ");
+                        System.out.print(this.board[row][column].getCrossCheck(0) + "\n");
+                    }
+                    if(this.board[row][column].getCrossCheck(0).size() > 0)
+                    {
+                        System.out.println("Vertical CrossCheck: ");
+                        System.out.print(this.board[row][column].getCrossCheck(1) + "\n");
+                    }
+                }
+            }
+        }
+    }
+
+    public void computeCrossChecks(Set<String> characters, Dawg dawg)
+    {
+        for (int row = 0; row < this.size; row++) 
+        {
+            for (int column = 0; column < this.size; column++) 
+            {
+                if(isEmpty) this.board[row][column].setCrossCheck(characters);
+                if (isAnchor(row,column))
+                {
+                    System.out.println("Computing new crosschecks for: " + "[" + column + "," + row + "]");
+                    String upWord = "";
+                    String downWord = "";
+                    String leftWord = "";
+                    String rightWord = "";
+                    for(int i = row - 1; i >= 0 && !board[i][column].isEmpty(); i--)
+                    {
+                        upWord = board[i][column].getSymbol() + upWord;
+                    }
+                    for(int i = row + 1; i < size && !board[i][column].isEmpty(); i++)
+                    {
+                        downWord += board[i][column].getSymbol();
+                    }
+                    for(int i = column - 1; i >= 0 && !board[row][i].isEmpty(); i--)
+                    {
+                        leftWord = board[row][i].getSymbol() + leftWord;
+                    }
+                    for(int i = column + 1; i < size && !board[row][i].isEmpty(); i++)
+                    {
+                        rightWord += board[row][i].getSymbol();
+                    }
+                    for(String character: characters)
+                    {
+                        String horizontalWord = leftWord + character + rightWord;
+                        String verticalWord = upWord + character + downWord;
+                        /*System.out.println("Possible horizontal word: " + horizontalWord + " Possible vertical word: " + verticalWord);
+                        if(!dawg.existsWord(verticalWord))
+                        {
+                            System.out.println("The word " + verticalWord + " is not in the dictionary");
+                        }
+                        if(!dawg.existsWord(horizontalWord))
+                        {
+                            System.out.println("The word " + horizontalWord + " is not in the dictionary");
+                        }*/
+                        if(!verticalWord.equals(character) && !dawg.existsWord(verticalWord))
+                        {
+                            this.board[row][column].removeFromCrossCheck(character,0);  
+                            //continue;
+                        }
+                        if(!horizontalWord.equals(character) && !dawg.existsWord(horizontalWord))
+                        {
+                            this.board[row][column].removeFromCrossCheck(character,1);
+                            //continue;
+                        }
+                    }   
+                }
+            }
+        }
+    }
+
+    public boolean isEmpty(int row, int column) {
+        return this.board[row][column].isEmpty();
+    }
+
+    public boolean isAnchor(int row, int column) {
+        if(this.board[row][column].isEmpty())
+        {
+            if (row > 0 && !board[row - 1][column].isEmpty()) return true;
+            if (row < size - 1 && !board[row + 1][column].isEmpty()) return true;
+            if (column > 0 && !board[row][column - 1].isEmpty()) return true;
+            if (column < size - 1 && !board[row][column + 1].isEmpty()) return true;
+        }
+        return false;
     }
     
     /**
@@ -121,9 +221,9 @@ public class Board
      * @return true si la casilla tiene una ficha, false en caso contrario
     */
 
-    public boolean hasLetter(int x, int y) {
-        if (x >= 0 && x < size && y >= 0 && y < size) {
-            return this.board[x][y].getSymbol() != null;
+    public boolean hasLetter(int row, int column) {
+        if (row >= 0 && row < size && column >= 0 && column < size) {
+            return this.board[row][column].getSymbol() != null;
         } else {
             throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
         }
@@ -168,11 +268,16 @@ public class Board
      * Post: se coloca la letra en la casilla correspondiente
      */
 
-    public void placeLetter(int x, int y, String letter, int value) {
-        if (x >= 0 && x < size && y >= 0 && y < size) {
-            this.board[x][y].setLetter(letter, value);
-            printBoard();
+    public void placeLetter(int row, int column, String letter, int value) {
+        if (row >= 0 && row < size && column >= 0 && column < size) {
+            isEmpty = false;
+            this.board[row][column].setLetter(letter, value);
+            //printBoard();
         }
+    }
+
+    public boolean isEmpty() {
+        return isEmpty;
     }
 
     /**
@@ -183,9 +288,9 @@ public class Board
      * Post: se elimina la letra de la casilla correspondiente
      */
 
-    public void removeLetter(int x, int y) {
-        if (x >= 0 && x < size && y >= 0 && y < size) {
-            this.board[x][y].setLetter(null, 0);
+    public void removeLetter(int row, int column) {
+        if (row >= 0 && row < size && row >= 0 && row < size) {
+            this.board[row][column].setLetter(null, 0);
             printBoard();
         }
         else {
@@ -227,62 +332,17 @@ public class Board
      * @param y La coordenada y de la casilla
      * @return La casilla correspondiente a los valores de entrada, null si no existe
      */
-    public Box getBox(int x, int y) {
-        if (x >= 0 && x < size && y >= 0 && y < size) {
-            return this.board[x][y];
+    public Box getBox(int row, int column) {
+        if (column >= 0 && column <= size && row >= 0 && row <= size) {
+            return this.board[row][column];
         } else {
-            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+            //throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+            return null;
         }
     }
 
-    /**
-     * Retorna las casillas ancla del tablero
-     * Pre: ya existe un tablero
-     * @return El conjunto de casillas ancla
-     */
 
-    public Set<Box> getLeftAnchorSquares() {
-        Set<Box> anchorSquares = new HashSet<>();
-    
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (hasLetter(i, j)) {
-                    addAnchorSquareIfValid(anchorSquares, i, j - 1);
-                }
-            }
-        }
-    
-        return anchorSquares;
-    }
 
-    public Set<Box> getToptAnchorSquares() {
-        Set<Box> anchorSquares = new HashSet<>();
-    
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (hasLetter(i, j)) {
-                    // Revisar las casillas adyacentes
-                    addAnchorSquareIfValid(anchorSquares, i - 1, j); // Arriba
-                }
-            }
-        }
-    
-        return anchorSquares;
-    }
-
-    /**
-     * Añade una casilla adyacente a la lista de casillas ancla
-     * Pre: ya existe un tablero
-     * @param anchorSquares El conjunto de "casillas ancla"
-     * @param x
-     * @param y
-     */
-
-    private void addAnchorSquareIfValid(Set<Box> anchorSquares, int x, int y) {
-        if (x >= 0 && x < size && y >= 0 && y < size && !hasLetter(x, y)) {
-            anchorSquares.add(board[x][y]);
-        }
-    }
 
     /**
      * Retorna la letra de la casilla correspondiente a las coordenadas de entrada
@@ -292,36 +352,7 @@ public class Board
      * @return La letra de la casilla correspondiente a los valores de entrada
      */
 
-    public String getLetter(int x, int y) { 
-        return board[x][y].getSymbol();
-    }
-
-    public Box getLeftNeighbor(Box anchor) {
-        if (anchor.getY() > 0) {
-            return board[anchor.getX()][anchor.getY() - 1];
-        }
-        return null;
-    }
-
-    public Box getRightNeighbor(Box anchor) {
-        if (anchor == null) return null;
-        if (anchor.getY() < size - 1) {
-            return board[anchor.getX()][anchor.getY() + 1];
-        }
-        return null;
-    }
-
-    public Box getTopNeighbor(Box anchor) {
-        if (anchor.getX() > 0) {
-            return board[anchor.getX() - 1][anchor.getY()];
-        }
-        return null;
-    }
-
-    public Box getDownNeighbor(Box anchor) {
-        if (anchor.getX() < size - 1) {
-            return board[anchor.getX() + 1][anchor.getY()];
-        }
-        return null;
+    public String getLetter(int row, int column) { 
+        return board[row][column].getSymbol();
     }
 }

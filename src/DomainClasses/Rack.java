@@ -24,6 +24,11 @@ public class Rack {
         this.letters = bag.extractSetOfLetters(NUM_LETTERS);
     }
 
+    public Rack(Bag bag, List<Letter> letters) {
+        this.bag = bag;
+        this.letters = letters;
+    }
+
     /**
      * Adds a letter to the rack.
      * @param letter The letter to be added.
@@ -42,11 +47,21 @@ public class Rack {
      * @return The letter that was removed, or null if no such letter exists.
      */
     public Letter getLetter(String symbol) {
+        //System.out.println("I'm getting the letter " + symbol + " from the rack.");
+        int blank_i = -1;
         for (int i = 0; i < letters.size(); i++) {
             if (letters.get(i).getSymbol().equals(symbol)) {
                 Letter letter = letters.remove(i); // Remove the letter from the list
                 return letter;
             }
+            if(letters.get(i).getSymbol().equals("#")) {
+                blank_i = i;
+            }
+        }
+        if(blank_i != -1) {
+            Letter letter = letters.remove(blank_i); // Remove the letter from the list
+            //letter.setSymbol(symbol);
+            return letter;
         }
         return null; // Return null if no such letter exists
     }

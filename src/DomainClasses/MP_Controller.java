@@ -1,24 +1,25 @@
 package DomainClasses;
 import java.util.*;
 import java.io.*;
+import DomainClasses.Dawg.Node;
 public class MP_Controller
 {
     public static class PlayableWord {
-        public String word;
-        public int startX, startY;
-        public int endX, endY;
+        private String word;
+        private int startColumn, startRow;
+        private int endColumn, endRow;
 
-        public PlayableWord(String word, int startX, int startY, int endX, int endY) {
+        public PlayableWord(String word, int startColumn, int startRow, int endColumn, int endRow) {
             this.word = word;
-            this.startX = startX;
-            this.startY = startY;
-            this.endX = endX;
-            this.endY = endY;
+            this.startColumn = startColumn;
+            this.startRow = startRow;
+            this.endColumn = endColumn;
+            this.endRow = endRow;
         }
 
         @Override
         public String toString() {
-            return "Word: " + word + " Start: (" + startX + ", " + startY + ") End: (" + endX + ", " + endY + ")";
+            return "Word: " + word + " Start: (" + startColumn + ", " + startRow + ") End: (" + endColumn + ", " + endRow + ")";
         }
         @Override
         public boolean equals(Object obj)
@@ -26,208 +27,169 @@ public class MP_Controller
             if(this == obj) return true;
             if(obj == null || getClass() != obj.getClass()) return false;
             PlayableWord other = (PlayableWord) obj;
-            return this.word.equals(other.word) && this.startX == other.startX && this.startY == other.startY && this.endX == other.endX && this.endY == other.endY;
+            return this.word.equals(other.word) && this.startColumn == other.startColumn && this.startRow == other.startRow && this.endColumn == other.endColumn && this.endRow == other.endRow;
         }
     }
-//        private Rack removeUsedLetters(Rack rack, String leftPart, String anchorSymbol, int nSpecialCharacters) {
 
-            
-  //      }
-
-        private void generateValidWords(Board board, Rack rack, Dictionary dictionary, Box anchor, String partialWord, List<String> validWords, List<Integer> validWordsEndX, List<Integer> validWordsEndY, int nSpecialCharacters) {
-
-            if(rack.getLetters().size() == 0) return;
-            if(anchor == null) return;
-
-            Box rightBox = board.getRightNeighbor(anchor);
-            
-            if(rightBox == null){
-                
-                if(dictionary.existsWord(partialWord)) {
-                
-                validWords.add(partialWord);
-                validWordsEndX.add(anchor.getX());
-                validWordsEndY.add(anchor.getY());
-                return;
+    public List<PlayableWord> calculatePlayableWords(Board board, Rack rack, Dictionary dictionary)
+    {
+        List<PlayableWord> playableWords = new ArrayList<>();
+        Dawg dawg = dictionary.getDawg();
+        if(!board.isEmpty())
+        {
+            for (int i = 0; i < board.getSize(); i++)
+            {
+                for (int j = 0; j < board.getSize(); j++)
+                {
+                    Box square = board.getBox(i,j);
+                    if(board.isAnchor(i,j))
+                    {
+                        System.out.println("Working with anchor: " + j + " " + i);
+                        int leftlimit = 0;
+                        int uplimit = 0;
+                        int column = j - 1;
+                        int row = i - 1;
+                        String leftPW = "";
+                        String upPW = "";
+                        while(column >= 0)
+                        {
+                            if(!board.isAnchor(i,column))
+                            {
+                                if(board.getBox(i,column).isEmpty())    ++leftlimit;
+                                else    leftPW = board.getBox(i,column).getSymbol() + leftPW;
+                            }
+                            else break;
+                            --column;
+                        }
+                        while(row >= 0)
+                        {
+                            if(!board.isAnchor(row,j))
+                            {
+                                if(board.getBox(row,j).isEmpty())    ++uplimit;
+                                else    upPW = board.getBox(row,j).getSymbol() + upPW;
+                            }
+                            else break;
+                            --row;
+                        }
+                        Node node1 = dawg.get_lastNode(dawg.getRoot(), leftPW);
+                        Node node2 = dawg.get_lastNode(dawg.getRoot(), upPW);
+                        LeftParts(leftPW, node1, leftlimit, rack, square, board, playableWords, 1, dawg);
+                        LeftParts(upPW, node2, uplimit, rack, square, board, playableWords, 0, dawg);
+                        /*System.out.println("Playable words constructed so far:");
+                        for(PlayableWord playableWord : playableWords)
+                        {
+                            System.out.println(playableWord.toString());
+                        }*/
+                    }
+                }
             }
         }
-            
-            if(rightBox != null && board.getRightNeighbor(rightBox) == null && dictionary.existsWord(partialWord)) {
-                
-                validWords.add(partialWord);
-                validWordsEndX.add(anchor.getX());
-                validWordsEndY.add(anchor.getY());
-            }
-            if(rightBox != null && board.getRightNeighbor(rightBox) != null && board.getRightNeighbor(rightBox).getSymbol() != null && dictionary.existsWord(partialWord)) {
-                
-                validWords.add(partialWord);
-                validWordsEndX.add(anchor.getX());
-                validWordsEndY.add(anchor.getY());
-                return;
-            }
-            
-
-            for (Letter letter : rack.getLetters()) {
-                Rack newRack = rack.clone();
-                newRack.removeLetter(letter);
-                String aux = partialWord + letter.getSymbol();
-                nSpecialCharacters += letter.getSymbol().length() - 1;
-
-
-                generateValidWords(board, newRack, dictionary, board.getRightNeighbor(anchor), aux, validWords, validWordsEndX, validWordsEndY, nSpecialCharacters);
-            }
+        else
+        {
+            System.out.println("Board is empty, placing letters in the middle of the board.");
+            Box anchor = board.getBox(board.getSize()/2,board.getSize()/2);
+            LeftParts("",dawg.getRoot(),board.getSize()/2,rack,anchor,board,playableWords,1,dawg);
+            LeftParts("",dawg.getRoot(),board.getSize()/2,rack,anchor,board,playableWords,0,dawg);
         }
-
-		public List<PlayableWord> calculatePlayableWords(Board board, Rack rack, Dictionary dictionary) {
-			List<PlayableWord> playableWords = new ArrayList<>();
-			Set<Box> anchorSquares = board.getLeftAnchorSquares(); // Casillas de anclaje
-		
-			for (Box anchor : anchorSquares) {
-
-				int x = anchor.getX();
-				int y = anchor.getY();
-
-                System.out.println("x: " + x + "\ny: " + y);
-		
-				// Generar todas las combinaciones posibles de palabras horizontales
-                int limit = getLeftPartLimit(board, anchor, true);
-
-                System.out.println("limite: " + limit);
-
-                List<Integer> nSpecialCharactersInLeftParts = new ArrayList<>();
-				List<String> leftParts = generateLeftParts(board, anchor, rack, dictionary, limit, nSpecialCharactersInLeftParts);
-                for( int i = 0; i < leftParts.size(); ++i) {
-                    String leftPart = leftParts.get(i);
-                    int nSpecialCharacters = nSpecialCharactersInLeftParts.get(i);
-                    //Rack auxRack = removeUsedLetters(rack, leftPart, anchor.getSymbol(), nSpecialCharacters);
-                    List<String> validWords = new ArrayList<>();
-                    List<Integer> validWordsEndXs = new ArrayList<>();
-                    List<Integer> validWordsEndYs = new ArrayList<>();
-                    if(board.getRightNeighbor(board.getRightNeighbor(anchor)) != null) generateValidWords(board, rack, dictionary, board.getRightNeighbor(anchor), leftPart, validWords, validWordsEndXs, validWordsEndYs, nSpecialCharacters);
-                    for(int j = 0; j < validWords.size(); ++j) playableWords.add(new PlayableWord(validWords.get(j), x, y - leftPart.length() + nSpecialCharacters, validWordsEndXs.get(j), validWordsEndYs.get(j)));
-				}
-		
-				// Generar todas las combinaciones posibles de palabras verticales
-                /*
-				List<String> topParts = generateTopParts(board, anchor, rack, dictionary);
-				for (String topPart : topParts) {
-					for (Letter letter : rack.getLetters()) {
-						String word = topPart + letter.getSymbol();
-						if (dictionary.existsWord(word)) {
-							// Extender hacia abajo
-							String extendedWord = extendDown(word, x, y, board, dictionary);
-							int endX = x; // Vertical por defecto
-							int endY = y + extendedWord.length() - 1;
-		
-							// Agregar palabra jugable vertical
-							playableWords.add(new PlayableWord(extendedWord, x, y, endX, endY));
-						}
-					}
-				}
-                    */
-			}
-		
-			return playableWords;
-		}
-
-    private int getLeftPartLimit(Board board, Box anchor, boolean hor) {
-
-        if(hor) {
-
-            int i = 1;
-            boolean stop = false;
-            while(!stop) {
-
-                if((anchor.getY() - i > 0) && (anchor.getY() - i - 1 > 0) && !board.hasLetter(anchor.getX(), anchor.getY() - i - 1)) ++i;
-                else stop = true;
-            }
-            return i;
-        }
-        else {
-
-            int i = 1;
-            boolean stop = false;
-            while(!stop) {
-
-                if((anchor.getX() - i > 0) && (anchor.getX() - i - 1 > 0) && !board.hasLetter(anchor.getX() - i - 1, anchor.getY())) ++i;
-                else stop = true;
-            }
-            return i;
-        }
+        return playableWords;
     }
     
     // Generar todas las partes izquierdas posibles
-    private List<String> generateLeftParts(Board board, Box anchor, Rack rack, Dictionary dictionary, int limit, List<Integer> nSpecialCharactersInLeftParts) {
-        List<String> leftParts = new ArrayList<>();
-        String partialWord = board.getRightNeighbor(anchor).getSymbol();
-        System.out.println(partialWord);
-        int nSpecialCharacters = partialWord.length() - 1;
-        generateLeftPartsRecursive(partialWord, board, anchor, rack, dictionary, leftParts, limit, nSpecialCharactersInLeftParts, nSpecialCharacters);
-        return leftParts;
-    }
-    
-    private void generateLeftPartsRecursive(String partialWord, Board board, Box anchor, Rack rack, Dictionary dictionary, List<String> leftParts, int limit, List<Integer> nSpecialCharactersInLeftParts , int nSpecialCharacters) {
-        if(partialWord.length() - nSpecialCharacters >= limit + 1) return;
-        if(anchor == null) return;
-
-        leftParts.add(partialWord);
-        nSpecialCharactersInLeftParts.add(nSpecialCharacters);
-    
-        for (Letter letter : rack.getLetters()) {
-            Rack newRack = rack.clone();
-            newRack.removeLetter(letter);
-            String aux = letter.getSymbol() + partialWord;
-            nSpecialCharacters += letter.getSymbol().length() - 1;
-            generateLeftPartsRecursive(aux, board, board.getLeftNeighbor(anchor), newRack, dictionary, leftParts, limit + 1, nSpecialCharactersInLeftParts , nSpecialCharacters);
-        }
-    }
-
-    private List<String> generateTopParts(Board board, Box anchor, Rack rack, Dictionary dictionary) {
-        List<String> topParts = new ArrayList<>();
-        String partialWord = "";
-        generateTopPartsRecursive(partialWord, board, anchor, rack, dictionary, topParts);
-        return topParts;
-    }
-    
-    private void generateTopPartsRecursive(String partialWord, Board board, Box anchor, Rack rack, Dictionary dictionary, List<String> topParts) {
-        if (anchor == null || !dictionary.isPrefix(partialWord)) {
-            return;
-        }
-    
-        topParts.add(partialWord);
-    
-        for (Letter letter : rack.getLetters()) {
-            Rack newRack = rack.clone();
-            newRack.removeLetter(letter);
-            generateTopPartsRecursive(partialWord + letter.getSymbol(), board, board.getTopNeighbor(anchor), newRack, dictionary, topParts);
+    private void LeftParts(String PartialWord, Node node, int limit, Rack rack, Box anchor, Board board,List<PlayableWord> playableWords, int horizontal, Dawg dawg)
+    {
+        extendRight(PartialWord, node, anchor, rack,board,playableWords,horizontal, 1 - horizontal, dawg);
+        if(limit > 0)
+        {
+            Map <String, Node> children = node.getchildren();
+            for (Map.Entry<String, Node> entry : children.entrySet())
+            {
+                String symbol = entry.getKey();
+                //System.out.println("Symbol from this node: " + symbol);
+                Letter letter;
+                if((letter = rack.getLetter(symbol)) != null)
+                {
+                    //System.out.println("Letter: " + symbol + " in my rack");
+                    //rack.removeLetter(letter);
+                    Node nextNode = entry.getValue();
+                    LeftParts(PartialWord + symbol, nextNode, limit - 1, rack, anchor,board,playableWords,horizontal, dawg);
+                    rack.addLetter(letter);
+                    /*System.out.println("Enter to continue: ");
+                    Scanner scanner = new Scanner(System.in);
+                    scanner.nextLine();*/
+                }
+            }
         }
     }
     
     // Extender palabra hacia la derecha
-    private String extendRight(String word, int x, int y, Board board, Dictionary dictionary) {
-        while (board.hasLetter(x , y + word.length())) {
-            String nextLetter = board.getLetter(x, y + word.length());
-            word += nextLetter;
-            if (!dictionary.isPrefix(word)) {
-                break;
+    private void extendRight(String PartialWord, Node node, Box square, Rack rack, Board board,List<PlayableWord> playableWords,int horizontal, int vertical, Dawg dawg) 
+    {
+        Box nextSquare = board.getBox(square.getRow() + vertical, square.getColumn() + horizontal);
+        if(square.getSymbol() == null)
+        {
+            if(node.isFinal())
+            {
+                int PWlength = dawg.getWordLength(PartialWord);
+                if(board.isEmpty())
+                {
+                    if(square.getRow() - 1 >= board.getSize()/2 || square.getColumn() - 1 >= board.getSize()/2)
+                    {
+                        /*System.out.println("Current square: " + square.getColumn() + " " + square.getRow());
+                        System.out.println("Partial word: " + PartialWord);
+                        System.out.println("Adding words horizontally: " + horizontal);
+                        PlayableWord playableWord = new PlayableWord(PartialWord, square.getColumn() - PartialWord.length()*horizontal, square.getRow() - PartialWord.length()*vertical, square.getColumn() - horizontal, square.getRow() - vertical);
+                        System.out.println("Playable word: " + playableWord.toString());
+                        System.out.println();*/
+                        playableWords.add(new PlayableWord(PartialWord, square.getColumn() - PWlength*horizontal, square.getRow() - PWlength*vertical, square.getColumn() - horizontal, square.getRow() - vertical));
+                    }
+                }
+                else
+                {
+                    /*System.out.println("Current square: " + square.getColumn() + " " + square.getRow());
+                    System.out.println("Partial word: " + PartialWord);
+                    System.out.println("Adding words horizontally: " + horizontal);
+                    PlayableWord playableWord = new PlayableWord(PartialWord, square.getColumn() - PartialWord.length()*horizontal, square.getRow() - PartialWord.length()*vertical, square.getColumn() - horizontal, square.getRow() - vertical);
+                    System.out.println("Playable word: " + playableWord.toString());
+                    System.out.println();*/
+                    playableWords.add(new PlayableWord(PartialWord, square.getColumn() - PWlength*horizontal, square.getRow() - PWlength*vertical, square.getColumn() - horizontal, square.getRow() - vertical));
+                }
+            }
+            if(nextSquare == null)
+            {
+                return;
+            }
+            Map<String, Node> children = node.getchildren();
+            for(Map.Entry<String, Node> entry : children.entrySet())
+            {
+                String edge = entry.getKey();
+                Letter letter = rack.getLetter(edge);
+                if(letter != null)
+                {
+                    if(!board.isEmpty())System.out.println("Im at square: " + square.getColumn() + " " + square.getRow() + " with letter: " + edge);
+                    if(square.hasCrossCheck(edge,horizontal))
+                    {
+                        Node nextNode = entry.getValue();
+                        extendRight(PartialWord + edge, nextNode, nextSquare, rack,board,playableWords,horizontal, vertical, dawg);
+                    }
+                    rack.addLetter(letter);
+                }
             }
         }
-        return word;
+        else
+        {
+            String character = square.getSymbol();
+            Node nextNode = node.getchildren().get(character);
+            if(nextNode != null)
+            {
+                extendRight(PartialWord + character, nextNode, nextSquare, rack,board,playableWords,horizontal, vertical, dawg);
+            }
+        }
     }
 
-    private String extendDown(String word, int x, int y, Board board, Dictionary dictionary) {
-        while (board.hasLetter(x + word.length() , y)) {
-            String nextLetter = board.getLetter(x + word.length(), y);
-            word += nextLetter;
-            if (!dictionary.isPrefix(word)) {
-                break;
-            }
-        }
-        return word;
-    }
     private static MP_Controller c;
     private Map<String, Match> matches = new HashMap<>();
     private List<String> unfinishedMatches = new ArrayList<>(); //Matches that are not finished yet
+    private List<PlayableWord> playableWords = new ArrayList<>();
     private MP_Controller()
     {
 
@@ -241,6 +203,7 @@ public class MP_Controller
         }
         return c;
     }
+
 
     public void print(String id)
     {
@@ -292,6 +255,14 @@ public class MP_Controller
         String match_id = match.getId();
         for (Profile profile: profiles)
         {
+            /*List<Letter> letters = new ArrayList<>();
+            letters.add(new Letter("F",4)); //Adding the joker to the rack
+            letters.add(new Letter("O",1));
+            letters.add(new Letter("G",1));
+            letters.add(new Letter("P",5));
+            letters.add(new Letter("U",3));
+            letters.add(new Letter("R",4));
+            letters.add(new Letter("#",0));*/
             String human_id = profile.getUsername(); //Get the ID of the profile
             Player player = new Human(human_id+match_id,profile,language);    //Creating a new human player with this profile
             player.setRack(new Rack(match.getBag())); //Creating a new rack for the player
@@ -301,6 +272,7 @@ public class MP_Controller
         {
             String bot_id = match_id+"BOT"+i; //Creating a bot ID
             Player player = new IA(bot_id,i); //Creating a new AI player
+            player.setRack(new Rack(match.getBag())); //Creating a new rack for the AI player
             match.setPlayer(player);    //Adding the AI player to the match
         }
     }
@@ -378,42 +350,74 @@ public class MP_Controller
             Match match = matches.get(id);
             if (!match.isPaused() && !match.isFinished())
             {
+                Dictionary dictionary = match.getDictionary();
                 Board board = match.getBoard();
+                Dawg dawg = dictionary.getDawg();
+                board.computeCrossChecks(dictionary.getCharacters(),dictionary.getDawg());
+                //board.printCrossChecks();
                 List<Player> list_players = match.getListPlayers();
                 int turn = match.getTurn();
                 Player player = list_players.get(turn);
-                match.printBoard();
+                //print(id);
                 Rack player_rack = player.getRack();
+                Bag bag = match.getBag();
+                List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, dictionary);
                 if(player.isHuman())
                 {
-                    player.printRack();
-                    /*List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, match.getDictionary());
-                    PlayableWord My_playablewords = new PlayableWord(word, startX, startY, endX, endY);
-                    if (PlayAbleWords.contains(My_playablewords))
+                    PlayableWord My_playableword = new PlayableWord(word, startX, startY, endX, endY);
+                    System.out.println("All playable words: ");
+                    for (PlayableWord playableWord : PlayAbleWords)
+                    {
+                        System.out.println(playableWord.toString());
+                    }
+                    System.out.println("My playable word: " + My_playableword.toString());
+                    if (PlayAbleWords.contains(My_playableword))
                     {
                         validPlay = true;
-                        List<Letter> letters = player_rack.getLetters(aux_word);
-                        for (Letter letter : letters)
+                        System.out.println("Valid play, placing letters on the board.");
+                        int i = 0;
+                        int j = 0;
+                        while(i < word.length())
                         {
+                            String symbol = dawg.getSpecialCharacter(word, i);
+                            if(symbol == null)  symbol = String.valueOf(word.charAt(i));
                             if(startX == endX)
                             {
-                                int addedY = startY;
-                                board.placeLetter(startX, addedY, letter.getSymbol(),letter.getValue());
-                                ++addedY;
+                                if(board.isEmpty(startY + j,startX))
+                                {
+                                    Letter letter = player_rack.getLetter(symbol); //Get the letter from the rack
+                                    if(letter.getSymbol().equals("#")) //If the letter is a joker, we need to set the symbol to the one we are placing
+                                    {
+                                        letter.setSymbol(symbol);
+                                    }
+                                    board.placeLetter(startY + j, startX, letter.getSymbol(),letter.getValue());
+                                    player.addScore(letter.getValue());
+                                    Letter letter2 = bag.extractLetter();
+                                    player_rack.addLetter(letter2);
+                                }
                             }
                             else
                             {
-                                int addedX = startX;
-                                board.placeLetter(addedX, startY, letter.getSymbol(),letter.getValue());
-                                ++addedX;
+                                if(board.isEmpty(startY,startX + j))
+                                {
+                                    Letter letter = player_rack.getLetter(symbol); //Get the letter from the rack
+                                    if(letter.getSymbol().equals("#")) //If the letter is a joker, we need to set the symbol to the one we are placing
+                                    {
+                                        letter.setSymbol(symbol);
+                                    }
+                                    board.placeLetter(startY, startX + j, letter.getSymbol(),letter.getValue());
+                                    player.addScore(letter.getValue());
+                                    Letter letter2 = bag.extractLetter();
+                                    player_rack.addLetter(letter2);
+                                }
                             }
-                            player_rack.removeLetter(letter); //Remove the letter from the rack
-                            player.addScore(letter.getValue());
+                            i+=symbol.length();
+                            j++;
                         }
                         
                     }
-                    else    validPlay = false;*/
-                    validPlay = true;
+                    else    validPlay = false;
+                    player_rack.print(); //Print the rack of the player
                 }
                 else
                 {
@@ -437,8 +441,14 @@ public class MP_Controller
     {
         Match match = matches.get(id);
         int turn = match.getTurn();
-        Player player = match.getListPlayers().get(match.getTurn());
+        Player player = match.getListPlayers().get(turn);
+        player.displayPlayer();
         player.getRack().replaceLetters(old_letters);
+        player.printRack();
+        System.out.println("Racked replaced, enter to continue...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+        System.out.println("Continuing...");
         match.setTurn(turn+1);
     }
 

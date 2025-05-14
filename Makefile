@@ -60,6 +60,26 @@ PLAYER_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Profile.java \
 					$(DOMAIN_CLASSES)/Letter.java \
 					$(DOMAIN_CLASSES)/Bag.java
 
+DAWG_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Dawg.java
+
+MY_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
+					$(DOMAIN_CLASSES)/Letter.java \
+					$(DOMAIN_CLASSES)/Rack.java \
+					$(DOMAIN_CLASSES)/DictionaryController.java \
+					$(DOMAIN_CLASSES)/MP_Controller.java \
+					$(DOMAIN_CLASSES)/Match.java \
+					$(DOMAIN_CLASSES)/Human.java \
+					$(DOMAIN_CLASSES)/IA.java \
+					$(DOMAIN_CLASSES)/Player.java \
+					$(DOMAIN_CLASSES)/Dictionary.java \
+					$(DOMAIN_CLASSES)/Board.java \
+					$(DOMAIN_CLASSES)/Box.java \
+					$(DOMAIN_CLASSES)/Profile.java \
+					$(DOMAIN_CLASSES)/ProfileController.java \
+					$(DOMAIN_CLASSES)/Dawg.java \
+					$(DOMAIN_CLASSES)/Ranking.java \
+
+
 # Driver source files
 					
 PROFILE_CONTROLLER_DRIVER_SRC = $(DRIVERS)/ProfileControllerDriver.java
@@ -69,6 +89,9 @@ RACK_DRIVER_SRC = $(DRIVERS)/RackDriver.java
 DICTIONARY_CONTROLLER_DRIVER_SRC = $(DRIVERS)/DictionaryControllerDriver.java
 RANKING_DRIVER_CLASSES_SRC = $(DRIVERS)/RankingDriver.java
 PLAYER_DRIVER_SRC = $(DRIVERS)/PlayerDriver.java
+DAWG_DRIVER_SRC = $(DRIVERS)/DawgDriver.java
+MY_DRIVER_SRC = $(DRIVERS)/MyDriver.java
+
 
 # Targets
 # Compilar todos los drivers
@@ -99,6 +122,12 @@ RankingDriver: $(RANKING_DRIVER_CLASSES_SRC) $(RANKING_DRIVER_SRC)
 PlayerDriver: $(PLAYER_DRIVER_CLASSES_SRC) $(PLAYER_DRIVER_SRC)
 	$(JAVAC) $(JFLAGS) $(PLAYER_DRIVER_CLASSES_SRC) $(PLAYER_DRIVER_SRC)
 
+DawgDriver: $(DAWG_DRIVER_CLASSES_SRC) $(DAWG_DRIVER_SRC)
+	$(JAVAC) $(JFLAGS) $(DAWG_DRIVER_CLASSES_SRC) $(DAWG_DRIVER_SRC)
+
+MyDriver: $(MY_DRIVER_CLASSES_SRC) $(MY_DRIVER_SRC)
+	$(JAVAC) $(JFLAGS) $(MY_DRIVER_CLASSES_SRC) $(MY_DRIVER_SRC)
+
 # Compilar solo las clases de DomainClasses
 DomainClasses: $(BIN_DIR) $(DOMAIN_CLASSES_SRC)
 	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC)
@@ -124,6 +153,12 @@ run-RankingDriver: RankingDriver
 
 run-PlayerDriver: PlayerDriver
 	java -cp $(BIN_DIR) Drivers.PlayerDriver
+
+run-DawgDriver: DawgDriver
+	java -cp $(BIN_DIR)  Drivers.DawgDriver
+
+run-MyDriver: MyDriver
+	java -cp $(BIN_DIR) Drivers.MyDriver
 
 # Borrar los archivos compilados
 

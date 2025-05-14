@@ -190,15 +190,15 @@ class GameDriver {
 
         boolean exit = false;
         while(!exit) {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
+            //System.out.print("\033[H\033[2J");
+            //System.out.flush();
 
             Player currentPlayer = domainController.getPlayerTurn(matchId);
 
             domainController.printMatch(matchId);
 
 
-            System.out.println("\n--- Play Turn "+currentPlayer.getID()+"---");
+            System.out.println("\n--- Play Turn "+currentPlayer.getName()+"---");
             System.out.println("1. Suffle rack");
             System.out.println("2. Replace rack letters");
             System.out.println("3. Place word");
