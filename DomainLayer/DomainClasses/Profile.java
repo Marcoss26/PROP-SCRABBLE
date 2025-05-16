@@ -1,6 +1,30 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
 
+
+class PasswordUtils {
+    // Generate a random salt
+    public static String generateSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt);
+    }
+
+    // Hash a password with SHA-256 and a salt
+    public static String hashPassword(String password, String salt) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(salt.getBytes()); // Add salt to the hash
+            byte[] hashedPassword = md.digest(password.getBytes());
+            return Base64.getEncoder().encodeToString(hashedPassword);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error hashing password", e);
+        }
+    }
+}
+
+
 /**
  * Profile class represents a user profile in the game.
  * It contains the username, password, visibility status, and game statistics.
@@ -10,6 +34,7 @@ public class Profile {
     private String username;
     private String password;
     private boolean isPublic;
+    private String salt;
 
     private int score;
     private int wins;
@@ -23,7 +48,8 @@ public class Profile {
      */
     public Profile(String username, String password) {
         this.setUsername(username);
-        this.setPassword(password);
+        this.salt = PasswordUtils.generateSalt();
+        this.setPassword(PasswordUtils.hashPassword(password, salt));
         this.setVisibility(true); //true by default
     }
 
@@ -67,8 +93,8 @@ public class Profile {
      * @return true if authentication is successful, false otherwise.
      */
     public boolean authenticate(String password) {
-        if (this.password.equals(password)) return true;
-        return false;
+        String hashedInput = PasswordUtils.hashPassword(password, salt);
+        return hashedInput.equals(hashedPassword);
     }
 
     /**
