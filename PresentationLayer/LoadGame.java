@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class LoadGame extends JFrame {
 
@@ -12,19 +13,19 @@ public class LoadGame extends JFrame {
         setSize(860, 540);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(0, 0)); // Sin márgenes entre los componentes
-        Color fondoColor = new Color(247, 187, 169);
-        Color botonColor = new Color(255, 105, 97);
+        Color fondoColor = new Color(245, 246, 250);
+        Color botonColor = new Color(247, 187, 169);
 
         // Cambiar el color de fondo del marco
         getContentPane().setBackground(fondoColor);
 
-        // Crear un panel para el título alineado a la izquierda
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Alinear a la izquierda
+        // Crear un panel para el título centrado en la parte superior
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Alinear al centro
         titlePanel.setBackground(fondoColor); // Fondo del panel
         JLabel titleLabel = new JLabel("Load Game");
         titleLabel.setFont(new Font("Dubai Medium", Font.BOLD, 24));
         titlePanel.add(titleLabel); // Agregar el título al panel
-        titlePanel.setBorder(new EmptyBorder(0, 0, 20, 0));
+        titlePanel.setBorder(new EmptyBorder(20, 0, 20, 0)); // Margen superior e inferior
         add(titlePanel, BorderLayout.NORTH); // Agregar el panel al norte
 
         // Crear el modelo de la lista
@@ -33,13 +34,31 @@ public class LoadGame extends JFrame {
 
         // Crear la lista de juegos guardados
         JList<String> savedGamesList = new JList<>(savedGamesListModel);
-        savedGamesList.setBackground(fondoColor); // Fondo de la lista
+        savedGamesList.setBackground(botonColor); // Fondo de la lista
+        savedGamesList.setSelectionBackground(new Color(255, 200, 200)); // Fondo al seleccionar
+        savedGamesList.setSelectionForeground(Color.BLACK); // Color del texto al seleccionar
+        savedGamesList.setFont(new Font("Dubai Medium", Font.PLAIN, 18)); // Fuente más grande
 
-        // Crear un JScrollPane sin borde
+        // Crear un JScrollPane para la lista
         JScrollPane scrollPane = new JScrollPane(savedGamesList);
         scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Eliminar el borde del JScrollPane
-        scrollPane.getViewport().setBackground(fondoColor); // Fondo del área de desplazamiento
-        add(scrollPane, BorderLayout.CENTER); // Agregar la lista al centro
+        scrollPane.getViewport().setBackground(botonColor); // Fondo del área de desplazamiento
+        scrollPane.setPreferredSize(new Dimension(600, 300)); // Tamaño preferido más grande
+
+        // Crear un panel para la lista con fondo y borde
+        JPanel listPanel = new JPanel(new BorderLayout());
+        listPanel.setBackground(botonColor); // Fondo del rectángulo
+        listPanel.setBorder(BorderFactory.createCompoundBorder(
+            new LineBorder(Color.BLACK, 2), // Borde negro de 2 píxeles
+            new EmptyBorder(20, 20, 20, 20) // Margen interno
+        ));
+        listPanel.add(scrollPane, BorderLayout.CENTER); // Agregar la lista al centro del panel
+
+        // Crear un panel principal para centrar el rectángulo
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel.setBackground(fondoColor); // Fondo del panel principal
+        centerPanel.add(listPanel); // Agregar el panel con la lista centrada
+        add(centerPanel, BorderLayout.CENTER); // Agregar el panel al centro
 
         // Crear un panel inferior con un botón de retorno
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -67,5 +86,7 @@ public class LoadGame extends JFrame {
             LoadGame frame = new LoadGame();
             frame.setVisible(true);
         });
+
+        LoadGame frame = new LoadGame();
     }
 }
