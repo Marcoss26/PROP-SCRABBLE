@@ -7,7 +7,8 @@ public class NewGame extends JFrame {
     public NewGame() {
         // Configurar el marco
         setTitle("New Game");
-        setSize(860, 540);
+        setSize(900, 540);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
         Color fondoColor = new Color(245, 246, 250);
@@ -20,7 +21,7 @@ public class NewGame extends JFrame {
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         titlePanel.setBackground(fondoColor);
         JLabel titleLabel = new JLabel("New Game");
-        titleLabel.setFont(new Font("Dubai Medium", Font.BOLD, 28));
+        titleLabel.setFont(new Font("Dubai Medium", Font.BOLD, 48)); // Tamaño de fuente ajustado a 48
         titlePanel.add(titleLabel);
         add(titlePanel, BorderLayout.NORTH);
 
@@ -39,24 +40,24 @@ public class NewGame extends JFrame {
             BorderFactory.createLineBorder(Color.BLACK, 2),
             new EmptyBorder(15, 15, 15, 15) // Márgenes internos moderados
         ));
-        playerPanel.setPreferredSize(new Dimension(350, 250)); // Tamaño preferido intermedio
+        playerPanel.setPreferredSize(new Dimension(400, 250)); // Tamaño preferido intermedio
 
         JLabel playersLabel = new JLabel("How many players do you want?");
-        playersLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 18));
+        playersLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         playerPanel.add(playersLabel);
 
         JComboBox<String> playersDropdown = new JComboBox<>(new String[]{"1", "2", "3", "4", "5"});
         playerPanel.add(playersDropdown);
 
         JLabel aiLabel = new JLabel("How many players are AI?");
-        aiLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 18));
+        aiLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         playerPanel.add(aiLabel);
 
         JComboBox<String> aiDropdown = new JComboBox<>(new String[]{"0", "1", "2", "3", "4", "5"});
         playerPanel.add(aiDropdown);
 
         JLabel boardSizeLabel = new JLabel("What board size?");
-        boardSizeLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 18));
+        boardSizeLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         playerPanel.add(boardSizeLabel);
 
         JComboBox<String> boardSizeDropdown = new JComboBox<>(new String[]{"7", "15", "25"});
@@ -86,14 +87,14 @@ public class NewGame extends JFrame {
         settingsPanel.setPreferredSize(new Dimension(350, 200)); // Tamaño preferido intermedio
 
         JLabel dictionaryLabel = new JLabel("What dictionary?");
-        dictionaryLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 18));
+        dictionaryLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         settingsPanel.add(dictionaryLabel);
 
         JComboBox<String> dictionaryDropdown = new JComboBox<>(new String[]{"English", "Spanish", "Catalan"});
         settingsPanel.add(dictionaryDropdown);
 
         JLabel bagLabel = new JLabel("What bag?");
-        bagLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 18));
+        bagLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         settingsPanel.add(bagLabel);
 
         JComboBox<String> bagDropdown = new JComboBox<>(new String[]{"Bag 1", "Bag 2", "Bag 3"});
@@ -111,11 +112,13 @@ public class NewGame extends JFrame {
         bottomPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
 
         JButton startButton = new JButton("START");
+        startButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         startButton.setBackground(botonColor);
         startButton.setFocusPainted(false);
         bottomPanel.add(startButton);
 
         JButton returnButton = new JButton("RETURN");
+        returnButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         returnButton.setBackground(botonColor);
         returnButton.setFocusPainted(false);
         bottomPanel.add(returnButton);
