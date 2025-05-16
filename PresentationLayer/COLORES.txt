@@ -1,4 +1,4 @@
-#DBE7F3     Gris Claro
+#F5F6FA     Gris aun mas Claro
 #C0B8B8     Gris
 #807777     Gris Oscuro
 #018FC7     Azul
