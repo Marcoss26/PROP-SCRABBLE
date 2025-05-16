@@ -1,0 +1,10 @@
+#DBE7F3     Gris Claro
+#C0B8B8     Gris
+#807777     Gris Oscuro
+#018FC7     Azul
+#FFF44F     Amarillo
+#FF6961     Rojo/Naranja
+#F7BBA9     Salmon (Fondo?)
+
+
+Tipografia: Dubai Medium
