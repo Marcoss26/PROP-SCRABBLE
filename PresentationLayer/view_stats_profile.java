@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.concurrent.Flow;
-
 import javax.swing.border.EmptyBorder;
 
 public class view_stats_profile extends JFrame {
@@ -12,69 +10,77 @@ public class view_stats_profile extends JFrame {
         setSize(810, 540);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10)); // Cambiar a BorderLayout con márgenes
+        Color fondoColor = new Color(245, 246, 250);
+        Color botonColor = new Color(247, 187, 169);
 
         // Cambiar el color de fondo
-        getContentPane().setBackground(Color.LIGHT_GRAY);
+        getContentPane().setBackground(fondoColor);
+
+        String profileName = "profile_name"; // Nombre del perfil
 
         // Crear un panel para el texto de profile_name (esquina superior izquierda)
-        JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Alinear a la izquierda
-        topLeftPanel.setBackground(Color.LIGHT_GRAY); // Fondo del panel
-        JLabel profileNameLabel = new JLabel("profile_name");
-        profileNameLabel.setFont(new Font("Serif", Font.BOLD, 28));
-        topLeftPanel.add(profileNameLabel); // Agregar el texto al panel superior izquierdo
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Alinear al centro
+        topPanel.setBackground(fondoColor); // Fondo del panel
+        JLabel profileNameLabel = new JLabel(profileName);
+        profileNameLabel.setFont(new Font("Dubai Medium", Font.BOLD, 28));
+        topPanel.add(profileNameLabel); // Agregar el texto al panel superior
 
-        // Crear un panel para el texto de other_users (esquina superior derecha)
-        JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Alinear al centro
-        topRightPanel.setBackground(Color.LIGHT_GRAY); // Fondo del panel
-        topRightPanel.setBorder(new EmptyBorder(8, 0, 0, 0)); // Añadir margen superior
-        JLabel otherUsersLabel = new JLabel("other_users");
-        otherUsersLabel.setFont(new Font("Serif", Font.BOLD, 18));
-        topRightPanel.add(otherUsersLabel); // Agregar el texto al panel superior derecho
-
-        // Crear un panel superior que combine ambos (izquierda y derecha)
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(Color.LIGHT_GRAY);
-        topPanel.add(topLeftPanel, BorderLayout.WEST); // Panel izquierdo
-        topPanel.add(topRightPanel, BorderLayout.CENTER); // Panel derecho
+        // Crear un panel para los textos con fondo de color botonColor
+        JPanel textBackgroundPanel = new JPanel(new GridBagLayout());
+        textBackgroundPanel.setBackground(botonColor); // Fondo del panel
+        textBackgroundPanel.setBorder(BorderFactory.createCompoundBorder(
+        BorderFactory.createLineBorder(Color.BLACK, 2), // Borde negro de 2 píxeles
+        new EmptyBorder(20, 20, 20, 20)));
 
         // Crear panel para los datos del perfil con GridBagLayout
-        JPanel profilePanel = new JPanel(new GridBagLayout());
-        profilePanel.setBackground(Color.LIGHT_GRAY);
-        profilePanel.setBorder(new EmptyBorder(10, 20, 10, 10)); // Añadir margen izquierdo al panel
-
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0, 0, 0, 0); // Sin márgenes adicionales
-        gbc.gridx = 0; // Columna fija
-        gbc.anchor = GridBagConstraints.WEST; // Alinear a la izquierda
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Permitir que los componentes se expandan horizontalmente
-        gbc.weightx = 1.0; // Expandir horizontalmente
-        gbc.weighty = 1.0; // Expandir verticalmente para ajustar el interlineado
+        gbc.insets = new Insets(10, 20, 10, 20); // Espaciado entre los textos
+        gbc.anchor = GridBagConstraints.CENTER; // Centrar los textos
+        gbc.fill = GridBagConstraints.NONE; // No expandir los componentes
 
-        // Añadir los textos al panel en el formato deseado
-        JLabel totalGamesPlayedLabel = new JLabel("Total Games Played: number1");
-        gbc.gridy = 0; // Fila 0
-        JPanel panelGamesPlayed = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panelGamesPlayed.setBackground(Color.GRAY); // Fondo del panel
-        panelGamesPlayed.add(totalGamesPlayedLabel); // Agregar el texto al panel
-        profilePanel.add(panelGamesPlayed, gbc);
+        String number1 = "10000";
+        String number2 = "20000";
+        String number3 = "30000";
 
-        JLabel totalGamesWonLabel = new JLabel("Total Games Won: number2");
-        gbc.gridy = 1; // Fila 1
-        JPanel panelGamesWon = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panelGamesWon.setBackground(Color.GRAY); // Fondo del panel
-        panelGamesWon.add(totalGamesWonLabel); // Agregar el texto al panel
-        profilePanel.add(panelGamesWon, gbc);
+        // Crear y configurar los textos
+        Font textFont = new Font("Dubai Medium", Font.BOLD, 24); // Fuente más grande
 
-        JLabel winRateLabel = new JLabel("Win Rate: number3");
-        gbc.gridy = 2; // Fila 2
-        JPanel panelWinRate = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panelWinRate.setBackground(Color.GRAY); // Fondo del panel
-        panelWinRate.add(winRateLabel); // Agregar el texto al panel
-        profilePanel.add(panelWinRate, gbc);
+        JLabel totalGamesPlayedLabel = new JLabel("Total Games Played: " + number1);
+        totalGamesPlayedLabel.setFont(textFont);
+        gbc.gridx = 0; // Primera columna
+        gbc.gridy = 0; // Primera fila
+        textBackgroundPanel.add(totalGamesPlayedLabel, gbc); // Agregar al panel
+
+        JLabel totalGamesWonLabel = new JLabel("Total Games Won: " + number2);
+        totalGamesWonLabel.setFont(textFont);
+        gbc.gridx = 1; // Segunda columna
+        textBackgroundPanel.add(totalGamesWonLabel, gbc); // Agregar al panel
+
+        JLabel winRateLabel = new JLabel("Win Rate: " + number3);
+        winRateLabel.setFont(textFont);
+        gbc.gridx = 0; // Primera columna
+        gbc.gridy = 1; // Segunda fila
+        gbc.gridwidth = 2; // Ocupa ambas columnas
+        textBackgroundPanel.add(winRateLabel, gbc); // Agregar al panel
+
+        // Crear un panel principal para centrar el rectángulo
+        JPanel profilePanel = new JPanel(new GridBagLayout());
+        profilePanel.setBackground(fondoColor); // Fondo del panel principal
+        profilePanel.add(textBackgroundPanel); // Agregar el panel con el fondo de color
+
+        // Crear un panel inferior con un botón de retorno
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton returnButton = new JButton("RETURN");
+        returnButton.setBackground(botonColor); // Fondo del botón
+        returnButton.setFocusPainted(false);
+        bottomPanel.setBackground(fondoColor); // Fondo del panel
+        bottomPanel.setBorder(new EmptyBorder(8, 8, 8, 8)); // Añadir margen al panel inferior
+        bottomPanel.add(returnButton); // Agregar el botón al panel inferior
 
         // Agregar componentes al marco
         add(topPanel, BorderLayout.NORTH); // Agregar el panel superior al norte
-        add(profilePanel, BorderLayout.WEST); // Agregar el panel de estadísticas al centro
+        add(profilePanel, BorderLayout.CENTER); // Agregar el panel de estadísticas al centro
+        add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel inferior al sur
 
         // Hacer el marco visible
         setVisible(true);
