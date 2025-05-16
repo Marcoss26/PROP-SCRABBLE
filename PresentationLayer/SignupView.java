@@ -123,7 +123,8 @@ public class SignupView extends JPanel {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Signup View");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 700);
+        frame.setSize(900, 540);
+        frame.setResizable(false);
         frame.add(new SignupView());
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

@@ -11,7 +11,7 @@ public class MainMenuView extends JPanel {
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
         menuPanel.setBackground(Color.white);
         menuPanel.setOpaque(false);
-        menuPanel.setBorder(BorderFactory.createEmptyBorder(80, 0, 80, 100));
+        menuPanel.setBorder(BorderFactory.createEmptyBorder(80, -190, 80, 100));
         menuPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // Título principal
@@ -32,7 +32,7 @@ public class MainMenuView extends JPanel {
         optionsWrapper.setLayout(new BoxLayout(optionsWrapper, BoxLayout.X_AXIS));
         optionsWrapper.setOpaque(false);
         // Ajusta este valor para alinear visualmente los botones con el centro del título
-        optionsWrapper.setBorder(BorderFactory.createEmptyBorder(0, 60, 0, 0));
+        optionsWrapper.setBorder(BorderFactory.createEmptyBorder(0, 310, 0, 0));
         optionsWrapper.add(optionsPanel);
 
         // Crear botones para cada opción
@@ -41,10 +41,11 @@ public class MainMenuView extends JPanel {
         JButton manageProfilesBtn = new JButton("Manage profiles");
         JButton manageDictionariesBtn = new JButton("Manage dictionaries");
         JButton rankingBtn = new JButton("Ranking");
+        JButton exitBtn = new JButton("Exit");
 
         Color salmon = Color.decode("#F7BBA9");
 
-        JButton[] buttons = {newGameBtn, continueGameBtn, manageProfilesBtn, manageDictionariesBtn, rankingBtn};
+        JButton[] buttons = {newGameBtn, continueGameBtn, manageProfilesBtn, manageDictionariesBtn, rankingBtn, exitBtn};
         for (JButton btn : buttons) {
             btn.setFont(new Font("Dubai Medium", Font.PLAIN, 22));
             btn.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -82,7 +83,19 @@ public class MainMenuView extends JPanel {
         // newGameBtn.addActionListener(e -> ...);
         // continueGameBtn.addActionListener(e -> ...);
         // etc.
-    }
+/*
+    continueGameBtn.addActionListener(e -> {
+    JOptionPane.showMessageDialog(
+        this,
+        "No hay juegos cargados.",
+        "Aviso",
+        JOptionPane.INFORMATION_MESSAGE
+    );
+});
+
+*/
+        exitBtn.addActionListener(e -> System.exit(0));
+}
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -118,6 +131,7 @@ public class MainMenuView extends JPanel {
         JFrame frame = new JFrame("Main Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200, 800);
+        frame.setResizable(false); // Ventana no redimensionable
         frame.add(new MainMenuView());
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

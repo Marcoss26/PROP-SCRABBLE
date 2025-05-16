@@ -102,7 +102,8 @@ public class LoginView extends JPanel {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Login View");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 700);
+        frame.setSize(900, 540);
+        frame.setResizable(false);
         frame.add(new LoginView());
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
