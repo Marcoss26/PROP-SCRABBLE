@@ -1,6 +1,6 @@
 # Variables
 SRC_DIR = src
-BIN_DIR = bin
+BIN_DIR = EXE
 DOMAIN_CLASSES = $(SRC_DIR)/DomainClasses
 DRIVERS = $(SRC_DIR)/Drivers
 
@@ -87,7 +87,8 @@ BOARDBOX_DRIVER_SRC = $(DRIVERS)/BoardBoxDriver.java
 BAG_DRIVER_SRC = $(DRIVERS)/BagDriver.java
 RACK_DRIVER_SRC = $(DRIVERS)/RackDriver.java
 DICTIONARY_CONTROLLER_DRIVER_SRC = $(DRIVERS)/DictionaryControllerDriver.java
-RANKING_DRIVER_CLASSES_SRC = $(DRIVERS)/RankingDriver.java
+PLAYER_DRIVER_SRC = $(DRIVERS)/PlayerDriver.java
+RANKING_DRIVER_SRC = $(DRIVERS)/RankingDriver.java
 PLAYER_DRIVER_SRC = $(DRIVERS)/PlayerDriver.java
 DAWG_DRIVER_SRC = $(DRIVERS)/DawgDriver.java
 MY_DRIVER_SRC = $(DRIVERS)/MyDriver.java
