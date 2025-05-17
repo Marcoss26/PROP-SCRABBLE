@@ -12,7 +12,6 @@ public class RackView extends JPanel {
     //y en la posición i+1 está el valor de la ficha
     private Image rackBackground;
     private JPanel rackPanel;
-    private JPanel ButtonsPanel;
 
     public RackView(List<String> letters) {
         //this.setLayout(new GridLayout(1, letters.size()/2));
@@ -37,17 +36,15 @@ public class RackView extends JPanel {
 
         
 
-        //cell.setBackground(Color.decode("#F7BBA9"));
-        ButtonsPanel = new JPanel();
-        ButtonsPanel.setLayout(new GridLayout(2,1));
-        ButtonsPanel.setPreferredSize(new Dimension(100, 100));
+        
 
         JButton shuffleButton = new JButton("Shuffle");
-        shuffleButton.setPreferredSize(new Dimension(100, 50));
+        shuffleButton.setPreferredSize(new Dimension(95, 50));
+        shuffleButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
         JButton exchangeButton = new JButton("Exchange");
-        exchangeButton.setPreferredSize(new Dimension(100, 50));
-        ButtonsPanel.add(shuffleButton);
-        ButtonsPanel.add(exchangeButton);
+        exchangeButton.setPreferredSize(new Dimension(95, 50));
+        exchangeButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
+       
 
         rackPanel.add(shuffleButton);
         rackPanel.add(exchangeButton);
