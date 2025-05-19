@@ -1,6 +1,4 @@
 package PresentationLayer;
-import PresentationLayer.TileView;
-import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 

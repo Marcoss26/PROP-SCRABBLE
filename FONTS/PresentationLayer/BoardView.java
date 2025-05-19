@@ -1,8 +1,5 @@
 package PresentationLayer;
-import PresentationLayer.TileView;
-import PresentationLayer.BoardCell;
-import PresentationLayer.RackView;
-import PresentationLayer.Pair;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;

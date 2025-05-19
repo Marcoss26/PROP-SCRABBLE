@@ -1,7 +1,4 @@
 package PresentationLayer;
-import PresentationLayer.BoardView;
-import PresentationLayer.RackView;
-import PresentationLayer.GameInfoView;
 import java.util.List;
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,6 @@
 package PresentationLayer;
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 
 public class TileView extends JPanel {
     // Jpanel this
