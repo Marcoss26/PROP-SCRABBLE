@@ -65,9 +65,6 @@ public class RackView extends JPanel {
 
        
 
-        //rackPanel.add(shuffleButton);
-        //rackPanel.add(exchangeButton);
-
 
         for(int i = 0; i < letters.size(); i+=2) {
             TileView tile = new TileView(letters.get(i), Integer.parseInt(letters.get(i+1)));
@@ -77,7 +74,6 @@ public class RackView extends JPanel {
 
         this.add(ButtonsPanel, BorderLayout.NORTH);
         this.add(rackPanel, BorderLayout.CENTER);
-        //this.add(ButtonsPanel, BorderLayout.WEST);
 
     }
 
