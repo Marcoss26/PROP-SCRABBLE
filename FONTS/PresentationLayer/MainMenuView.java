@@ -95,6 +95,10 @@ public class MainMenuView extends JPanel {
 });
 
 */
+        PresentationCtrl pc = PresentationCtrl.getInstance();
+        manageProfilesBtn.addActionListener(e -> {
+            pc.showView("LoginView");
+        });
         exitBtn.addActionListener(e -> System.exit(0));
 }
 

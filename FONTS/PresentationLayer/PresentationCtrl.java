@@ -2,12 +2,13 @@ package PresentationLayer;
 import javax.swing.*;
 //import DomainLayer.DomainClasses.DomainController;
 import java.awt.*;
-//import java.util.*;
+import java.util.*;
 
 public class PresentationCtrl {
     private JFrame mainFrame;
 	private JPanel visiblePanel;
     private static PresentationCtrl instance;
+    private Map<String, JPanel> createdViews;
     //private DomainController domainCtrl;
 
     // CONSTRUCTOR, its a Singleton class
@@ -37,10 +38,48 @@ public class PresentationCtrl {
 
         visiblePanel = new MainMenuView();
         mainFrame.add(visiblePanel);
+
+        createdViews = new HashMap<>();
+        createdViews.put("MainMenuView", visiblePanel);
         
         mainFrame.setVisible(true);
 
         
+    }
+
+    public void showView(String viewName) {
+        changeView(viewName);
+        mainFrame.add(visiblePanel);
+        mainFrame.revalidate();
+        mainFrame.repaint();
+    }
+
+    private void changeView(String viewName){
+        mainFrame.remove(visiblePanel);
+        switch (viewName) {
+            case "MainMenuView":  
+                visiblePanel = createdViews.get(viewName);
+                break;
+            /*case "NewGame":
+                if(!createdViews.containsKey("NewGame")) {
+                    visiblePanel = new NewGame(); // hay que cambiar el new Game a un JPanel
+                    createdViews.put("NewGame", visiblePanel);
+                } else {
+                    visiblePanel = createdViews.get("NewGame");
+                }
+                break;*/
+            case "LoginView":
+                if(!createdViews.containsKey("LoginView")) {
+                    visiblePanel = new LoginView(); 
+                    createdViews.put("LoginView", visiblePanel);
+                } else {
+                    visiblePanel = createdViews.get("LoginView");
+                }
+                break;
+            default:
+                System.out.println("Invalid view name");
+                return;
+        }
     }
 
 }
