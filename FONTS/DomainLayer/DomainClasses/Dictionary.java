@@ -1,11 +1,7 @@
-<<<<<<< HEAD:src/DomainClasses/Dictionary.java
-package DomainClasses;
+package DomainLayer.DomainClasses;
 import java.util.*;
 import java.io.*;
-=======
-package DomainLayer.DomainClasses;
 //import java.util.*;
->>>>>>> 2a25dff64636ba3821e0499da2fccb8a543eb761:DomainLayer/DomainClasses/Dictionary.java
 
 /**
  * Dictionary.java

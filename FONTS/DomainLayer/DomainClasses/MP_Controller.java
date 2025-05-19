@@ -1,7 +1,7 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
 import java.io.*;
-import DomainClasses.Dawg.Node;
+import DomainLayer.DomainClasses.Dawg.Node;
 public class MP_Controller
 {
     public static class PlayableWord {
