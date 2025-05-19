@@ -1,7 +1,8 @@
+package PresentationLayer;
+import PresentationLayer.TileView;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.util.List;
 
 public class RackView extends JPanel {
@@ -12,25 +13,27 @@ public class RackView extends JPanel {
     //y en la posición i+1 está el valor de la ficha
     private Image rackBackground;
     private JPanel rackPanel;
+    private TileView selectedTile;
+
+    @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Dibujar la imagen de fondo escalada al tamaño del panel
+                g.drawImage(rackBackground, 0, 0, getWidth(), getHeight(), this);
+            }
 
     public RackView(List<String> letters) {
         //this.setLayout(new GridLayout(1, letters.size()/2));
 
         this.setLayout(new BorderLayout());
 
-        ImageIcon rackwood = new ImageIcon("resources/Wood.jpg");
+        ImageIcon rackwood = new ImageIcon(getClass().getResource("Resources/Wood.jpg"));
         rackBackground = rackwood.getImage();
 
-        rackPanel = new JPanel(){
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                // Dibujar la imagen de fondo escalada al tamaño del panel
-                g.drawImage(rackBackground, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
+        rackPanel = new JPanel();
         rackPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         rackPanel.setPreferredSize(new Dimension(500, 100));
+        rackPanel.setOpaque(false);
         //rackPanel.setBackground(Color.decode("#332F2C"));
         rackPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -39,25 +42,100 @@ public class RackView extends JPanel {
         
 
         JButton shuffleButton = new JButton("Shuffle");
-        shuffleButton.setPreferredSize(new Dimension(95, 50));
+        shuffleButton.setPreferredSize(new Dimension(80, 25));
         shuffleButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
+
         JButton exchangeButton = new JButton("Exchange");
-        exchangeButton.setPreferredSize(new Dimension(95, 50));
+        exchangeButton.setPreferredSize(new Dimension(95, 25));
         exchangeButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.setPreferredSize(new Dimension(80, 25));
+        submitButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
+
+
+        JPanel ButtonsPanel = new JPanel();
+        ButtonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        ButtonsPanel.setOpaque(false);
+        ButtonsPanel.setPreferredSize(new Dimension(200, 50));
+
+        ButtonsPanel.add(shuffleButton);
+        ButtonsPanel.add(exchangeButton);
+        ButtonsPanel.add(submitButton);
+
        
 
-        rackPanel.add(shuffleButton);
-        rackPanel.add(exchangeButton);
+        //rackPanel.add(shuffleButton);
+        //rackPanel.add(exchangeButton);
 
 
         for(int i = 0; i < letters.size(); i+=2) {
             TileView tile = new TileView(letters.get(i), Integer.parseInt(letters.get(i+1)));
+            addListener(tile);
             rackPanel.add(tile);
         }
 
+        this.add(ButtonsPanel, BorderLayout.NORTH);
         this.add(rackPanel, BorderLayout.CENTER);
         //this.add(ButtonsPanel, BorderLayout.WEST);
 
+    }
+
+    public TileView getSelectedTile() {
+        return selectedTile;
+    }
+
+    public void addTile(TileView tile) {
+        rackPanel.add(tile);
+        tile.setBackground(Color.decode("#EED09D"));
+        System.out.println("Tile added to rack");
+        rackPanel.revalidate();
+        rackPanel.repaint();
+        
+    }
+
+    public void setSelectedTile(TileView tile) {
+        if(selectedTile != null) {
+            selectedTile.setBackground(Color.decode("#EED09D"));
+        }
+        selectedTile = tile;
+        tile.setBackground(Color.decode("#FFCC00"));
+    }
+
+    public void removeSelectedTile() {
+        
+            rackPanel.remove(selectedTile);
+            selectedTile.setBackground(Color.decode("#EED09D"));
+            selectedTile = null;
+            rackPanel.revalidate();
+            rackPanel.repaint();
+            
+        
+    }
+
+    public void addListener(TileView tile){
+        tile.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent evt) {
+                    System.out.println("Me han clicado");
+                    if(selectedTile == tile){
+                        selectedTile = null;
+                        tile.setBackground(Color.decode("#EED09D"));
+                    }
+                    else{
+                    
+                        if (selectedTile != null) {
+                            selectedTile.setBackground(Color.decode("#EED09D"));
+                        }
+                        
+                        
+                        selectedTile = tile;
+                        tile.setBackground(Color.decode("#FFCC00"));
+                     }
+                        //tile.removeMouseListener(tile.getMouseListeners()[0]);
+
+                }
+            });
     }
 
 

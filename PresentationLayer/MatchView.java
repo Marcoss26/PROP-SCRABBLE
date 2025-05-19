@@ -1,3 +1,7 @@
+package PresentationLayer;
+import PresentationLayer.BoardView;
+import PresentationLayer.RackView;
+import PresentationLayer.GameInfoView;
 import java.util.List;
 import javax.swing.*;
 import java.awt.*;
@@ -11,9 +15,10 @@ public class MatchView extends JPanel {
     public MatchView(int boardSize, int numPlayers, List<String> players, List<String> letters) {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.decode("#332F2C"));
+        
 
-        initializeBoard(boardSize);
         initializeRack(letters);
+        initializeBoard(boardSize);
         CombinePanels();
         initializeGameInfo(numPlayers, players);
 
@@ -31,7 +36,9 @@ public class MatchView extends JPanel {
     }
 
     private void initializeBoard(int size) {
-        boardPanel = new BoardView(size);
+        boardPanel = new BoardView(size, rackPanel);
+        rackPanel.revalidate();
+        rackPanel.repaint();
     }
 
     private void initializeRack(List<String> letters) {

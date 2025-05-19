@@ -1,3 +1,4 @@
+package PresentationLayer;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -15,6 +16,10 @@ public class TileView extends JPanel {
         label.setFont(new Font("Dubai Medium", Font.PLAIN, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(label, BorderLayout.CENTER);
+    }
+
+    public String getSymbol() {
+        return label.getText().substring(6, 7);
     }
 
     public static void main(String[] args) {
