@@ -99,6 +99,16 @@ public class MainMenuView extends JPanel {
         manageProfilesBtn.addActionListener(e -> {
             pc.showView("LoginView");
         });
+        newGameBtn.addActionListener(e -> {
+            pc.showView("NewGame");
+        });
+        continueGameBtn.addActionListener(e -> {
+            pc.showView("LoadGame");
+        });
+        manageDictionariesBtn.addActionListener(e -> {
+            pc.showView("ManageDictionaries");
+        });
+        
         exitBtn.addActionListener(e -> System.exit(0));
 }
 
