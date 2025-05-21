@@ -1,7 +1,6 @@
 # Variables
-SRC_DIR = DomainLayer
-BIN_DIR = bin
-DRIVERS_DIR = DomainLayer/Drivers
+SRC_DIR = src
+BIN_DIR = EXE
 DOMAIN_CLASSES = $(SRC_DIR)/DomainClasses
 DRIVERS = $(SRC_DIR)/Drivers
 
