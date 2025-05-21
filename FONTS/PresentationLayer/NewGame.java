@@ -5,6 +5,14 @@ import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
 public class NewGame extends JPanel {
+    
+    private JPanel mainPanel;
+    private JPanel playerPanel;
+    private JPanel settingsPanel;
+    private JButton startButton;
+    private JButton returnButton;
+    private Integer numHumPlayers;
+    
 
     public NewGame() {
         // Configurar el panel principal
@@ -24,7 +32,7 @@ public class NewGame extends JPanel {
         add(titlePanel, BorderLayout.NORTH);
 
         // Crear el panel principal con GridBagLayout
-        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(fondoColor);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -32,7 +40,7 @@ public class NewGame extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER; // Centrar los paneles
 
         // Sección 1: Configuración de jugadores
-        JPanel playerPanel = new JPanel(new GridLayout(6, 1, 5, 5)); // Reducir el espacio entre filas
+        playerPanel = new JPanel(new GridLayout(6, 1, 5, 5)); // Reducir el espacio entre filas
         playerPanel.setBackground(botonColor);
         playerPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.BLACK, 2),
@@ -68,15 +76,15 @@ public class NewGame extends JPanel {
         // Añadir un ActionListener para limitar el número de jugadores IA
         playersDropdown.addActionListener(e -> {
             int maxPlayers = 4;
-            int selectedHumans = Integer.parseInt((String) playersDropdown.getSelectedItem());
+            numHumPlayers = Integer.parseInt((String) playersDropdown.getSelectedItem());
             aiDropdown.removeAllItems();
-            for (int i = 0; i <= maxPlayers - selectedHumans; i++) {
+            for (int i = 0; i <= maxPlayers - numHumPlayers; i++) {
                 aiDropdown.addItem(String.valueOf(i));
             }
         });
 
         // Sección 2: Configuración del diccionario
-        JPanel settingsPanel = new JPanel(new GridLayout(2, 1, 5, 5)); // Reducir el espacio entre filas
+        settingsPanel = new JPanel(new GridLayout(2, 1, 5, 5)); // Reducir el espacio entre filas
         settingsPanel.setBackground(botonColor);
         settingsPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.BLACK, 2),
@@ -116,6 +124,11 @@ public class NewGame extends JPanel {
 
         returnButton.addActionListener(e -> {
             PresentationCtrl.getInstance().showView("MainMenuView");
+        });
+
+        startButton.addActionListener(e -> {
+            // Aquí puedes añadir la lógica para iniciar el juego
+            PresentationCtrl.getInstance().showView("");
         });
 
         add(bottomPanel, BorderLayout.SOUTH);
