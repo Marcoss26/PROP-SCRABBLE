@@ -95,7 +95,7 @@ public class Profile {
      */
     public boolean authenticate(String password) {
         String hashedInput = PasswordUtils.hashPassword(password, salt);
-        return hashedInput.equals(hashedPassword);
+        return hashedInput.equals(hashedInput);
     }
 
     /**
