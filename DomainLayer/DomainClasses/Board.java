@@ -110,7 +110,7 @@ public class Board
             for (int column = 0; column < this.size; column++) 
             {
                 if(isEmpty) this.board[row][column].setCrossCheck(characters);
-                if (isAnchor(row,column))
+                else if (isAnchor(row,column))
                 {
                     System.out.println("Computing new crosschecks for: " + "[" + column + "," + row + "]");
                     String upWord = "";

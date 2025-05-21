@@ -1,5 +1,5 @@
-package Drivers;
-import DomainClasses.*;
+package DomainLayer.Drivers;
+import DomainLayer.DomainClasses.*;
 import java.io.*;
 import java.util.*;
 
@@ -41,7 +41,7 @@ public class MyDriver
                 return;
             }
         }
-        DomainClasses.Dictionary dictionary = new DomainClasses.Dictionary("ca","ca");
+        DomainLayer.DomainClasses.Dictionary dictionary = new DomainLayer.DomainClasses.Dictionary("ca","ca");
         Set<Profile> profiles = new HashSet<>();
         Profile profile = new Profile("ziheng","1");
         Profile profile2 = new Profile("ziheng2","1");

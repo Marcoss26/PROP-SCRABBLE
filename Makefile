@@ -1,6 +1,7 @@
 # Variables
-SRC_DIR = src
-BIN_DIR = EXE
+SRC_DIR = DomainLayer
+BIN_DIR = bin
+DRIVERS_DIR = DomainLayer/Drivers
 DOMAIN_CLASSES = $(SRC_DIR)/DomainClasses
 DRIVERS = $(SRC_DIR)/Drivers
 
@@ -9,8 +10,7 @@ JAVAC = javac
 JFLAGS = -d $(BIN_DIR)
 
 # Source files
-DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/BagController.java \
-					$(DOMAIN_CLASSES)/Bag.java \
+DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/Letter.java \
 					$(DOMAIN_CLASSES)/Rack.java \
 					$(DOMAIN_CLASSES)/DictionaryController.java \
@@ -135,31 +135,31 @@ DomainClasses: $(BIN_DIR) $(DOMAIN_CLASSES_SRC)
 
 
 run-main: MainDriver
-	java -cp $(BIN_DIR) DomainClasses.Driver
+	java -cp $(BIN_DIR) $(DOMAIN_CLASSES)/Driver
 
 # Ejecutar drivers
 run-BagDriver: BagDriver
-	java -cp $(BIN_DIR) Drivers.BagDriver
+	java -cp $(BIN_DIR) $(DRIVERS_DIR)/BagDriver
 run-RackDriver: RackDriver
-	java -cp $(BIN_DIR) Drivers.RackDriver
+	java -cp $(BIN_DIR) $(DRIVERS_DIR)/RackDriver
 run-ProfileControllerDriver: ProfileControllerDriver
-	java -cp $(BIN_DIR) Drivers.ProfileControllerDriver
+	java -cp $(BIN_DIR) $(DRIVERS_DIR)/ProfileControllerDriver
 run-BoardBoxDriver: BoardBoxDriver
-	java -cp $(BIN_DIR) Drivers.BoardBoxDriver
+	java -cp $(BIN_DIR) $(DRIVERS_DIR)/BoardBoxDriver
 run-DictionaryControllerDriver: DictionaryControllerDriver
-	java -cp $(BIN_DIR) Drivers.DictionaryControllerDriver
+	java -cp $(BIN_DIR) $(DRIVERS_DIR)/DictionaryControllerDriver
 
 run-RankingDriver: RankingDriver
-	java -cp $(BIN_DIR) Drivers.RankingDriver
+	java -cp $(BIN_DIR) $(DRIVERS_DIR)/RankingDriver
 
 run-PlayerDriver: PlayerDriver
-	java -cp $(BIN_DIR) Drivers.PlayerDriver
+	java -cp $(BIN_DIR) $(DRIVERS_DIR)/PlayerDriver
 
 run-DawgDriver: DawgDriver
-	java -cp $(BIN_DIR)  Drivers.DawgDriver
+	java -cp $(BIN_DIR) $(DRIVERS_DIR)/DawgDriver
 
 run-MyDriver: MyDriver
-	java -cp $(BIN_DIR) Drivers.MyDriver
+	java -cp $(BIN_DIR) $(DRIVERS_DIR)/MyDriver
 
 # Borrar los archivos compilados
 

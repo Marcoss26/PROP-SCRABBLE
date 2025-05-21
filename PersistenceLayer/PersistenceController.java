@@ -110,27 +110,26 @@ public class PersistenceController {
                             MATCH FUNCTIONALITY
      ------------------------------------------------------------------------
      */
-    public void saveMatchProfiles(Map<String, Profile> profiles) {
-        JSONArray profilesArray = new JSONArray();
-
-        for (Map.Entry<String, Profile> entry : profiles.entrySet()) {
-            JSONObject profileObject = new JSONObject();
-            profileObject.put("username", entry.getKey());
-            profileObject.put("password", entry.getValue().getPassword());
-            profileObject.put("gamesPlayed", entry.getValue().getGamesPlayed());
-            profileObject.put("wins", entry.getValue().getWins());
-            profileObject.put("score", entry.getValue().getScore());
-            profilesArray.add(profileObject);
+    public void saveMatchProfiles(Map<String, Match> Matches) {
+        JSONArray matchesArray = new JSONArray();
+        for (Map.Entry<String, Match> entry : Matches.entrySet()) {
+            JSONObject matchObject = new JSONObject();
+            matchObject.put("username", entry.getKey());
+            matchObject.put("password", entry.getValue().getPassword());
+            matchObject.put("gamesPlayed", entry.getValue().getGamesPlayed());
+            matchObject.put("wins", entry.getValue().getWins());
+            matchObject.put("score", entry.getValue().getScore());
+            matchesArray.add(matchObject);
         }
 
-        JsonUtils.saveJsonToFile(DATA_PATH + "/profiles.json", profilesArray);
+        JsonUtils.saveJsonToFile(DATA_PATH + "/matches.json", matchesArray);
     }
 
-    public Map<String, Profile> loadMatches() {
-        Map<String, Profile> profiles = new HashMap<>();
-        JSONArray profilesArray = JsonUtils.loadJsonFromFile(DATA_PATH + "/profiles.json");
+    public Map<String, Match> loadMatches() {
+        Map<String, Match> matches = new HashMap<>();
+        JSONArray matchesArray = JsonUtils.loadJsonFromFile(DATA_PATH + "/matches.json");
 
-        for (Object obj : profilesArray) {
+        for (Object obj : matchesArray) {
             JSONObject profileObject = (JSONObject) obj;
             String username = (String) profileObject.get("username");
             String password = (String) profileObject.get("password");
