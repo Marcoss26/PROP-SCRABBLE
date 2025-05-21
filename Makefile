@@ -1,8 +1,8 @@
 # Variables
-SRC_DIR = src
+SRC_DIR = FONTS
 BIN_DIR = EXE
-DOMAIN_CLASSES = $(SRC_DIR)/DomainClasses
-DRIVERS = $(SRC_DIR)/Drivers
+DOMAIN_CLASSES = $(SRC_DIR)/DomainLayer/DOmainClasses
+DRIVERS = $(SRC_DIR)/DomainLayer/Drivers
 
 # Compiler and flags
 JAVAC = javac
