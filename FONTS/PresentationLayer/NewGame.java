@@ -44,14 +44,14 @@ public class NewGame extends JPanel {
         playersLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         playerPanel.add(playersLabel);
 
-        JComboBox<String> playersDropdown = new JComboBox<>(new String[]{"1", "2", "3", "4", "5"});
+        JComboBox<String> playersDropdown = new JComboBox<>(new String[]{"1", "2", "3", "4"});
         playerPanel.add(playersDropdown);
 
         JLabel aiLabel = new JLabel("How many players are AI?");
         aiLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         playerPanel.add(aiLabel);
 
-        JComboBox<String> aiDropdown = new JComboBox<>(new String[]{"0", "1", "2", "3", "4", "5"});
+        JComboBox<String> aiDropdown = new JComboBox<>(new String[]{"0", "1", "2", "3", "4"});
         playerPanel.add(aiDropdown);
 
         JLabel boardSizeLabel = new JLabel("What board size?");
@@ -67,7 +67,7 @@ public class NewGame extends JPanel {
 
         // Añadir un ActionListener para limitar el número de jugadores IA
         playersDropdown.addActionListener(e -> {
-            int maxPlayers = 5;
+            int maxPlayers = 4;
             int selectedHumans = Integer.parseInt((String) playersDropdown.getSelectedItem());
             aiDropdown.removeAllItems();
             for (int i = 0; i <= maxPlayers - selectedHumans; i++) {
@@ -75,14 +75,14 @@ public class NewGame extends JPanel {
             }
         });
 
-        // Sección 2: Configuración del diccionario y bolsa
-        JPanel settingsPanel = new JPanel(new GridLayout(4, 1, 5, 5)); // Reducir el espacio entre filas
+        // Sección 2: Configuración del diccionario
+        JPanel settingsPanel = new JPanel(new GridLayout(2, 1, 5, 5)); // Reducir el espacio entre filas
         settingsPanel.setBackground(botonColor);
         settingsPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.BLACK, 2),
             new EmptyBorder(15, 15, 15, 15) // Márgenes internos moderados
         ));
-        settingsPanel.setPreferredSize(new Dimension(350, 200)); // Tamaño preferido intermedio
+        settingsPanel.setPreferredSize(new Dimension(350, 150)); // Tamaño preferido intermedio
 
         JLabel dictionaryLabel = new JLabel("What dictionary?");
         dictionaryLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
@@ -90,13 +90,6 @@ public class NewGame extends JPanel {
 
         JComboBox<String> dictionaryDropdown = new JComboBox<>(new String[]{"English", "Spanish", "Catalan"});
         settingsPanel.add(dictionaryDropdown);
-
-        JLabel bagLabel = new JLabel("What bag?");
-        bagLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
-        settingsPanel.add(bagLabel);
-
-        JComboBox<String> bagDropdown = new JComboBox<>(new String[]{"Bag 1", "Bag 2", "Bag 3"});
-        settingsPanel.add(bagDropdown);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
