@@ -96,6 +96,15 @@ public class PresentationCtrl {
                 }
                 break;
 
+            case "RankingView":
+                if (!createdViews.containsKey("RankingView")) {
+                    visiblePanel = new RankingView(); // Crear la vista si no existe
+                    createdViews.put("RankingView", visiblePanel);
+                } else {
+                    visiblePanel = createdViews.get("RankingView");
+                }
+                break;
+
             default:
                 System.out.println("Invalid view name: " + viewName);
                 return;
