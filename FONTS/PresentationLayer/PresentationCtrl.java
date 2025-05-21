@@ -33,8 +33,9 @@ public class PresentationCtrl {
     public void initializeViews() {
         mainFrame = new JFrame("Scrabble");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainFrame.setSize(screenSize.width, screenSize.height);
+        //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        mainFrame.setSize(new Dimension(1060, 650));
+        mainFrame.setLocation(200, 100);
 
        visiblePanel = new MainMenuView();
        mainFrame.add(visiblePanel);
