@@ -1,3 +1,4 @@
+package PresentationLayer;
 import javax.swing.*;
 import java.awt.*;
 
@@ -94,6 +95,26 @@ public class MainMenuView extends JPanel {
 });
 
 */
+        PresentationCtrl pc = PresentationCtrl.getInstance();
+        manageProfilesBtn.addActionListener(e -> {
+            pc.showView("LoginView");
+        });
+        newGameBtn.addActionListener(e -> {
+            pc.showView("NewGame");
+        });
+        continueGameBtn.addActionListener(e -> {
+            pc.showView("LoadGame");
+        });
+        manageDictionariesBtn.addActionListener(e -> {
+            pc.showView("ManageDictionaries");
+        });
+        continueGameBtn.addActionListener(e -> {
+            pc.showView("LoadGame");
+        });
+        manageDictionariesBtn.addActionListener(e -> {
+            pc.showView("ManageDictionaryView");
+        });
+        
         exitBtn.addActionListener(e -> System.exit(0));
 }
 

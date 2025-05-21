@@ -1,21 +1,19 @@
+package PresentationLayer;
+
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
-public class NewGame extends JFrame {
+public class NewGame extends JPanel {
 
     public NewGame() {
-        // Configurar el marco
-        setTitle("New Game");
-        setSize(900, 540);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Configurar el panel principal
         setLayout(new BorderLayout(10, 10));
         Color fondoColor = new Color(245, 246, 250);
         Color botonColor = new Color(247, 187, 169);
 
         // Cambiar el color de fondo
-        getContentPane().setBackground(fondoColor);
+        setBackground(fondoColor);
 
         // Crear un panel para el título
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -123,13 +121,10 @@ public class NewGame extends JFrame {
         returnButton.setFocusPainted(false);
         bottomPanel.add(returnButton);
 
+        returnButton.addActionListener(e -> {
+            PresentationCtrl.getInstance().showView("MainMenuView");
+        });
+
         add(bottomPanel, BorderLayout.SOUTH);
-
-        // Hacer el marco visible
-        setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(NewGame::new);
     }
 }

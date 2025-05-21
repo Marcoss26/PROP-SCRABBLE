@@ -1,3 +1,5 @@
+package PresentationLayer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -6,21 +8,20 @@ import java.util.*;
 public class BoardView extends JPanel {
     private JFrame frame;
     private JPanel boardpanel;
-    private JPanel rackpanel;
     private ImageIcon centericon;
 
-    public BoardView(int size) {
+    public BoardView(int size, RackView rackPanel) {
         // Crear una ventana
 
 
         this.setLayout(new BorderLayout());
 
-        initializeBoard(size);
+        initializeBoard(size, rackPanel);
 
 
     }
 
-    private void initializeBoard(int size){
+    private void initializeBoard(int size, RackView rackPanel) {
         this.setLayout(new GridLayout(size, size));
         this.setBackground(Color.white);
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -97,39 +98,42 @@ public class BoardView extends JPanel {
         // Agregar casillas al tablero
         for (int i = 0; i < size ; ++i) {
             for(int j = 0 ; j < size ; ++j) {
-                JPanel cell = new JPanel(new GridBagLayout());
+                BoardCell cell = new BoardCell();
                 if(doubleLetter.contains(new Pair(i,j))) {
                     JLabel label = new JLabel("DL");
                     label.setFont(new Font("Dubai Medium", Font.PLAIN, sizeWords));
-                    cell.add(label);
-                    cell.setBackground(Color.decode("#DBE7F3"));
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    cell.setConf("#DBE7F3", label);
+                    
                 }
                 else if(tripleLetter.contains(new Pair(i,j))) {
                     JLabel label = new JLabel("TL");
                     label.setFont(new Font("Dubai Medium", Font.PLAIN, sizeWords));
-                    cell.add(label);
-                    cell.setBackground(Color.decode("#018FC7"));
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    cell.setConf("#018FC7", label);
+                    
                 }
                 else if(doubleWord.contains(new Pair(i,j))) {
                     JLabel label = new JLabel("DW");
                     label.setFont(new Font("Dubai Medium", Font.PLAIN, sizeWords));
-                    cell.add(label);
-                    cell.setBackground(Color.decode("#FFF44F"));
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    cell.setConf("#FFF44F", label);
+                    
                 }
                 else if(tripleWord.contains(new Pair(i,j))) {
                     JLabel label = new JLabel("TW");
                     label.setFont(new Font("Dubai Medium", Font.PLAIN, sizeWords));
-                    cell.add(label);
-                    cell.setBackground(Color.decode("#FF6961"));
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    cell.setConf("#FF6961", label);
                 }
                 else if((i == size/2 && j == size/2)) {
 
-                    ImageIcon star = new ImageIcon("resources/Star.jpg");
+                    ImageIcon star = new ImageIcon(getClass().getResource("Resources/Star.jpg"));
                     Image scaledImage = star.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                     centericon = new ImageIcon(scaledImage);
                     JLabel label = new JLabel(centericon);
-                    cell.add(label);
-                    //cell.setBackground(Color.decode("#F7BBA9"));
+                    cell.setConf("#F7BBA9", label);
+                    
                     cell.addComponentListener(new ComponentAdapter() {
                         @Override
                         public void componentResized(ComponentEvent e) {
@@ -142,9 +146,44 @@ public class BoardView extends JPanel {
                     });
                 }
                 else {
-                    cell.setBackground(Color.decode("#F7BBA9"));
+                    cell.setConf("#F7BBA9", new JLabel());
+                    //cell.setBackground(Color.decode("#F7BBA9"));
                 }// Fondo negro de cada casilla
                 cell.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.white));
+                cell.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent evt){
+                        System.out.println("clicked in cell");
+                        if(cell.isEmpty() ){
+                            TileView sTile = rackPanel.getSelectedTile();
+                            sTile.removeMouseListener(sTile.getMouseListeners()[0]);
+                            if(sTile != null){
+                            cell.PlaceTile(sTile);
+                            rackPanel.removeSelectedTile();
+                            
+                            }
+                             
+
+                            System.out.println("is empty");
+                            
+                        }
+                        else {
+                            System.out.println("is not empty");
+                            TileView tile = cell.getTilePlaced();
+                            System.out.println("tile picked");
+                            cell.removeTile();
+                            rackPanel.addTile(tile);
+                            rackPanel.setSelectedTile(tile);
+                            rackPanel.addListener(tile);
+                            
+                            
+                        }
+                       System.out.println("No se que hago aqui");
+                    }
+                    
+
+                });
+                
                 this.add(cell);
             }
         }
@@ -156,8 +195,4 @@ public class BoardView extends JPanel {
 
     }
 
-     public static void main(String[] args) {
-        // Inicializar la vista del tablero
-        new BoardView(15);
-    }
 }

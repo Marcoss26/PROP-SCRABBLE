@@ -1,24 +1,22 @@
+package PresentationLayer;
+
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-public class LoadGame extends JFrame {
+public class LoadGame extends JPanel {
 
     private DefaultListModel<String> savedGamesListModel; // Modelo de la lista
 
     public LoadGame() {
-        // Configurar el marco
-        setTitle("Load Game");
-        setSize(900, 540);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Configurar el panel principal
         setLayout(new BorderLayout(0, 0)); // Sin márgenes entre los componentes
         Color fondoColor = new Color(245, 246, 250);
         Color botonColor = new Color(247, 187, 169);
 
-        // Cambiar el color de fondo del marco
-        getContentPane().setBackground(fondoColor);
+        // Cambiar el color de fondo del panel
+        setBackground(fondoColor);
 
         // Crear un panel para el título centrado en la parte superior
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Alinear al centro
@@ -73,6 +71,11 @@ public class LoadGame extends JFrame {
         bottomPanel.setBorder(new EmptyBorder(8, 8, 8, 8)); // Añadir margen al panel inferior
         bottomPanel.add(returnButton); // Agregar el botón al panel inferior
 
+        // Acción para el botón RETURN
+        returnButton.addActionListener(e -> {
+            PresentationCtrl.getInstance().showView("MainMenuView");
+        });
+
         add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel inferior al sur
     }
 
@@ -82,13 +85,5 @@ public class LoadGame extends JFrame {
             savedGamesListModel.removeElement("No saved games"); // Eliminar el mensaje inicial
         }
         savedGamesListModel.addElement(gameName); // Agregar el nuevo juego
-    }
-
-    public static void main(String[] args) {
-        // Crear y mostrar la ventana
-        SwingUtilities.invokeLater(() -> {
-            LoadGame frame = new LoadGame();
-            frame.setVisible(true);
-        });
     }
 }

@@ -1,11 +1,14 @@
+package PresentationLayer;
+
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.border.EmptyBorder;
 
 public class LoginView extends JPanel {
 
     public LoginView() {
         // Fondo gris claro
-        setLayout(new GridBagLayout());
+        setLayout(new BorderLayout());
         setBackground(Color.decode("#F5F6FA")); // Gris claro
 
         // Panel principal de login
@@ -70,16 +73,11 @@ public class LoginView extends JPanel {
         loginBtn.setBackground(Color.decode("#F7BBA9"));
         loginBtn.setForeground(Color.decode("#2D2D2D"));
 
-        JButton cancelBtn = new JButton("CANCEL");
-        cancelBtn.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
-        cancelBtn.setBackground(Color.decode("#F7BBA9"));
-        cancelBtn.setForeground(Color.decode("#2D2D2D"));
-
         buttonPanel.add(signUpBtn);
         buttonPanel.add(loginBtn);
-        buttonPanel.add(cancelBtn);
 
         // Añadir componentes al panel principal
+        loginPanel.add(Box.createVerticalGlue()); // Espacio flexible arriba
         loginPanel.add(loginTitle);
         loginPanel.add(Box.createVerticalStrut(10));
         loginPanel.add(loginSubtitle);
@@ -90,13 +88,28 @@ public class LoginView extends JPanel {
         loginPanel.add(passField);
         loginPanel.add(Box.createVerticalStrut(20));
         loginPanel.add(buttonPanel);
+        loginPanel.add(Box.createVerticalGlue()); // Espacio flexible abajo
 
-        // Centrar el panel de login en la pantalla
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(loginPanel, gbc);
+        add(loginPanel, BorderLayout.CENTER);
+
+        // Botón Return en la parte inferior derecha
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottomPanel.setBackground(Color.decode("#F5F6FA")); // Fondo del panel
+        bottomPanel.setBorder(new EmptyBorder(8, 8, 8, 8)); // Añadir margen al panel inferior
+
+        JButton returnButton = new JButton("RETURN");
+        returnButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
+        returnButton.setBackground(Color.decode("#F7BBA9")); // Fondo del botón
+        returnButton.setFocusPainted(false);
+        returnButton.setPreferredSize(new Dimension(120, 40)); // Tamaño consistente con otras vistas
+        bottomPanel.add(returnButton); // Agregar el botón al panel inferior
+
+        // Acción para el botón RETURN
+        returnButton.addActionListener(e -> {
+            PresentationCtrl.getInstance().showView("MainMenuView");
+        });
+
+        add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel inferior al sur
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,8 @@
+package PresentationLayer;
+
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.border.EmptyBorder;
 
 public class ManageDictionaryView extends JPanel {
 
@@ -10,33 +13,29 @@ public class ManageDictionaryView extends JPanel {
         setLayout(new BorderLayout());
         setBackground(Color.decode("#F5F6FA"));
 
-        // Panel principal centrado
+        // Panel principal centrado y alineado a la izquierda
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setOpaque(false);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(40, -80, 40, 100)); // Menos margen para ventana pequeña
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(0, 80, 0, 0)); // Margen izquierdo para alinear el contenido
 
         // Título
         JLabel title = new JLabel("Manage Dictionaries");
         title.setFont(new Font("Dubai Medium", Font.BOLD, 48));
         title.setForeground(Color.decode("#181818"));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(title);
-
-        // Espacio extra bajo el título (más grande para bajarlo)
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+        title.setAlignmentX(Component.LEFT_ALIGNMENT); // Alinear a la izquierda
 
         // Panel para subtítulo y select juntos
         JPanel subtitleSelectPanel = new JPanel();
         subtitleSelectPanel.setLayout(new BoxLayout(subtitleSelectPanel, BoxLayout.Y_AXIS));
         subtitleSelectPanel.setOpaque(false);
-        subtitleSelectPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleSelectPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Alinear a la izquierda
 
         // Subtítulo
         JLabel subtitle = new JLabel("Select a dictionary to manage:");
         subtitle.setFont(new Font("Dubai Medium", Font.PLAIN, 18));
         subtitle.setForeground(Color.decode("#807777"));
-        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitle.setAlignmentX(Component.LEFT_ALIGNMENT); // Alinear a la izquierda
         subtitleSelectPanel.add(subtitle);
 
         // Espacio pequeño entre subtítulo y select
@@ -46,8 +45,7 @@ public class ManageDictionaryView extends JPanel {
         JPanel selectPanel = new JPanel();
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.X_AXIS));
         selectPanel.setOpaque(false);
-        selectPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        selectPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 100));
+        selectPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Alinear a la izquierda
 
         // Desplegable de diccionarios
         JComboBox<String> dictCombo = new JComboBox<>(dictionaries);
@@ -99,36 +97,36 @@ public class ManageDictionaryView extends JPanel {
         selectPanel.add(Box.createRigidArea(new Dimension(12, 0)));
         selectPanel.add(deleteBtn);
 
-        // Añade el panel combinado al mainPanel
+        // Añade el panel combinado al subtitleSelectPanel
         subtitleSelectPanel.add(selectPanel);
-        mainPanel.add(subtitleSelectPanel);
 
-        // Espacio extra
-        mainPanel.add(Box.createVerticalGlue());
-
-        // Botón Return en la parte inferior izquierda
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setOpaque(false);
-        JButton returnBtn = new JButton("Return");
-        returnBtn.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
-        returnBtn.setBackground(salmon);
-        returnBtn.setForeground(Color.decode("#181818"));
-        returnBtn.setFocusPainted(false);
-        returnBtn.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.BLACK, 1),
-                BorderFactory.createEmptyBorder(6, 18, 6, 18)
-        ));
-        returnBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        returnBtn.setPreferredSize(new Dimension(100, 36));
-        bottomPanel.add(returnBtn, BorderLayout.WEST);
+        // Añadir espacio flexible arriba y abajo para centrar el contenido
+        mainPanel.add(Box.createVerticalGlue()); // Espacio flexible arriba
+        mainPanel.add(title); // Título
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 50))); // Espacio bajo el título
+        mainPanel.add(subtitleSelectPanel); // Subtítulo y select
+        mainPanel.add(Box.createVerticalGlue()); // Espacio flexible abajo
 
         add(mainPanel, BorderLayout.CENTER);
-        add(bottomPanel, BorderLayout.SOUTH);
 
-        // Ejemplo de acción para Return
-        returnBtn.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Volver al menú principal");
+        // Botón Return en la parte inferior derecha (NO TOCAR)
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottomPanel.setOpaque(false); // Hacer el fondo transparente
+        bottomPanel.setBorder(new EmptyBorder(8, 8, 8, 8)); // Añadir margen al panel inferior
+
+        JButton returnButton = new JButton("RETURN");
+        returnButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
+        returnButton.setBackground(Color.decode("#F7BBA9")); // Fondo del botón
+        returnButton.setFocusPainted(false);
+        returnButton.setPreferredSize(new Dimension(120, 40)); // Tamaño consistente con LoadGame
+        bottomPanel.add(returnButton); // Agregar el botón al panel inferior
+
+        // Acción para el botón RETURN
+        returnButton.addActionListener(e -> {
+            PresentationCtrl.getInstance().showView("MainMenuView");
         });
+
+        add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel inferior al sur
     }
 
     @Override
@@ -145,30 +143,19 @@ public class ManageDictionaryView extends JPanel {
 
         // Polígono para la parte derecha (gris)
         Polygon rightSide = new Polygon();
-        rightSide.addPoint((int)(w*0.75), 0);      // Punto en la parte superior, un poco a la derecha del centro
-        rightSide.addPoint(w, 0);                  // Esquina superior derecha
-        rightSide.addPoint(w, h);                  // Esquina inferior derecha
-        rightSide.addPoint((int)(w*0.65), h);      // Punto en la parte inferior, un poco a la derecha del centro
+        rightSide.addPoint((int)(w * 0.65), 0);      // Restaurar proporciones originales
+        rightSide.addPoint(w, 0);                  
+        rightSide.addPoint(w, h);                  
+        rightSide.addPoint((int)(w * 0.55), h);      
 
         g2.setColor(Color.decode("#C0B8B8"));
         g2.fillPolygon(rightSide);
 
         // Línea diagonal
         g2.setStroke(new BasicStroke(4f));
-        g2.setColor(Color.decode("#807777")); // Gris oscuro para la línea
-        g2.drawLine((int)(w*0.75), 0, (int)(w*0.65), h);
+        g2.setColor(Color.decode("#807777")); 
+        g2.drawLine((int)(w * 0.65), 0, (int)(w * 0.55), h);
 
         g2.dispose();
-    }
-
-    // Para probar la vista de forma independiente
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Manage Dictionaries");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 540);
-        frame.setResizable(false); // Ventana no redimensionable
-        frame.add(new ManageDictionaryView());
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
     }
 }
