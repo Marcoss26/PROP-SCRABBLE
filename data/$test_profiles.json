@@ -1,0 +1,14 @@
+[
+    {
+        "username": "",
+        "password": "",
+        "public": "",
+        "salt": "",
+        "score": 0,
+        "wind": 0,
+        "gamesPlayed": 0,
+        "dictionaryUsage": {
+            "dict": 0
+        }
+    }
+]

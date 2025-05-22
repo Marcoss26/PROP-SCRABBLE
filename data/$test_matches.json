@@ -1,0 +1,38 @@
+[
+    {
+        "id": "S",
+        "dictionary": "en",
+        "bag": [
+            {
+                "symbol": "A",
+                "value": 1,
+                "count": 9
+            }
+        ],
+        "current_turn": 0,
+        "players": [
+            {
+                "id": "PRIFILE:ID",
+                "name": "PRIFILE:NAME",
+                "score": 0,
+                "type": "AI | Human",
+                "rack": [
+                    {
+                        "symbol": "A",
+                        "value": 1
+                    }
+                ]
+            }
+        ],
+        "board": [
+            {
+                "x": 0,
+                "y": 0,
+                "symbol": "A",
+                "value": 1,
+                "crosscheck_v": [""],
+                "crosscheck_h": [""]
+            }
+        ]
+    }
+]
