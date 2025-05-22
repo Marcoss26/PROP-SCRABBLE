@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 public class RankingView extends JPanel {
 
     private DefaultTableModel tableModel;
+    private JTable rankingTable;
+    private JButton returnButton;
 
     public RankingView() {
         setLayout(new BorderLayout());
@@ -34,7 +36,7 @@ public class RankingView extends JPanel {
         String[] columnNames = {"#", "ProfileID", "Wins", "WR", "Total Games", "PPG (Points per Game)", "Preferred Dictionary"};
         tableModel = new DefaultTableModel(columnNames, 0); // 0 filas iniciales
 
-        JTable rankingTable = new JTable(tableModel);
+        rankingTable = new JTable(tableModel);
         rankingTable.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
         rankingTable.setRowHeight(30);
         rankingTable.getTableHeader().setFont(new Font("Dubai Medium", Font.BOLD, 18));
@@ -76,7 +78,7 @@ public class RankingView extends JPanel {
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
 
-        JButton returnButton = new JButton("RETURN");
+        returnButton = new JButton("RETURN");
         returnButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22));
         returnButton.setBackground(Color.decode("#F7BBA9"));
         returnButton.setFocusPainted(false);
@@ -96,6 +98,11 @@ public class RankingView extends JPanel {
         int rank = tableModel.getRowCount() + 1; // El rango es el número de filas + 1
         tableModel.addRow(new Object[]{rank, profileID, wins, winRate, totalGames, ppg, preferredDictionary});
     }
+
+    // Getters para acceder a los componentes desde fuera si es necesario
+    public JTable getRankingTable() { return rankingTable; }
+    public JButton getReturnButton() { return returnButton; }
+    public DefaultTableModel getTableModel() { return tableModel; }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Ranking View");

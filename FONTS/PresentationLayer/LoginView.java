@@ -6,6 +6,12 @@ import javax.swing.border.EmptyBorder;
 
 public class LoginView extends JPanel {
 
+    private JTextField userField;
+    private JPasswordField passField;
+    private JButton signUpBtn;
+    private JButton loginBtn;
+    private JButton returnButton;
+
     public LoginView() {
         // Fondo gris claro
         setLayout(new BorderLayout());
@@ -37,7 +43,7 @@ public class LoginView extends JPanel {
         userLabel.setForeground(Color.decode("#2D2D2D"));
         userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JTextField userField = new JTextField();
+        userField = new JTextField();
         userField.setMaximumSize(new Dimension(350, 40));
         userField.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
         userField.setBackground(Color.decode("#F7BBA9"));
@@ -51,7 +57,7 @@ public class LoginView extends JPanel {
         passLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         passLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
-        JPasswordField passField = new JPasswordField();
+        passField = new JPasswordField();
         passField.setMaximumSize(new Dimension(350, 40));
         passField.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
         passField.setBackground(Color.decode("#F7BBA9"));
@@ -63,12 +69,12 @@ public class LoginView extends JPanel {
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         buttonPanel.setBackground(Color.decode("#F5F6FA")); // Gris claro
 
-        JButton signUpBtn = new JButton("SIGN UP");
+        signUpBtn = new JButton("SIGN UP");
         signUpBtn.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
         signUpBtn.setBackground(Color.decode("#F7BBA9"));
         signUpBtn.setForeground(Color.decode("#2D2D2D"));
 
-        JButton loginBtn = new JButton("LOG IN");
+        loginBtn = new JButton("LOG IN");
         loginBtn.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
         loginBtn.setBackground(Color.decode("#F7BBA9"));
         loginBtn.setForeground(Color.decode("#2D2D2D"));
@@ -97,7 +103,7 @@ public class LoginView extends JPanel {
         bottomPanel.setBackground(Color.decode("#F5F6FA")); // Fondo del panel
         bottomPanel.setBorder(new EmptyBorder(8, 8, 8, 8)); // Añadir margen al panel inferior
 
-        JButton returnButton = new JButton("RETURN");
+        returnButton = new JButton("RETURN");
         returnButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         returnButton.setBackground(Color.decode("#F7BBA9")); // Fondo del botón
         returnButton.setFocusPainted(false);
@@ -112,13 +118,24 @@ public class LoginView extends JPanel {
         add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel inferior al sur
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Login View");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 540);
-        frame.setResizable(false);
-        frame.add(new LoginView());
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+    // Getters para acceder a los componentes desde fuera si es necesario
+    public JTextField getUserField() {
+        return userField;
+    }
+
+    public JPasswordField getPassField() {
+        return passField;
+    }
+
+    public JButton getSignUpBtn() {
+        return signUpBtn;
+    }
+
+    public JButton getLoginBtn() {
+        return loginBtn;
+    }
+
+    public JButton getReturnButton() {
+        return returnButton;
     }
 }

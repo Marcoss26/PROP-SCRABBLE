@@ -4,6 +4,14 @@ import javax.swing.border.EmptyBorder;
 
 public class ProfileView extends JFrame {
 
+    private JLabel profileNameLabel;
+    private JLabel totalGamesPlayedLabel;
+    private JLabel totalGamesWonLabel;
+    private JLabel winRateLabel;
+    private JButton deleteProfileBtn;
+    private JButton changePasswordBtn;
+    private JButton returnBtn;
+
     public ProfileView(String profileName, int totalGamesPlayed, int totalGamesWon, double winRate) {
         // Configurar el marco
         setTitle("Profile View");
@@ -28,17 +36,17 @@ public class ProfileView extends JFrame {
 
                 // Polígono para la parte derecha (gris)
                 Polygon rightSide = new Polygon();
-                rightSide.addPoint((int) (w * 0.65), 0); // Punto en la parte superior, un poco a la derecha del centro
-                rightSide.addPoint(w, 0);               // Esquina superior derecha
-                rightSide.addPoint(w, h);               // Esquina inferior derecha
-                rightSide.addPoint((int) (w * 0.55), h); // Punto en la parte inferior, un poco a la derecha del centro
+                rightSide.addPoint((int) (w * 0.65), 0);
+                rightSide.addPoint(w, 0);
+                rightSide.addPoint(w, h);
+                rightSide.addPoint((int) (w * 0.55), h);
 
                 g2.setColor(Color.decode("#C0B8B8"));
                 g2.fillPolygon(rightSide);
 
                 // Línea diagonal
                 g2.setStroke(new BasicStroke(4f));
-                g2.setColor(Color.decode("#807777")); // Gris oscuro para la línea
+                g2.setColor(Color.decode("#807777"));
                 g2.drawLine((int) (w * 0.65), 0, (int) (w * 0.55), h);
 
                 g2.dispose();
@@ -54,38 +62,38 @@ public class ProfileView extends JFrame {
         profilePanel.setLayout(new BoxLayout(profilePanel, BoxLayout.Y_AXIS));
         profilePanel.setBackground(Color.white);
         profilePanel.setOpaque(false);
-        profilePanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50)); // Márgenes superior e inferior ajustados
+        profilePanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
         // Título principal
         JLabel title = new JLabel("Profile");
-        title.setFont(new Font("Dubai Medium", Font.BOLD, 48)); // Tamaño de fuente ajustado a 48
+        title.setFont(new Font("Dubai Medium", Font.BOLD, 48));
         title.setForeground(Color.decode("#181818"));
-        title.setAlignmentX(Component.LEFT_ALIGNMENT); // Alinear a la izquierda
-        title.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // Espaciado inferior del título
+        title.setAlignmentX(Component.LEFT_ALIGNMENT);
+        title.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
         // Panel de información del perfil con fondo y borde
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.setBackground(botonColor); // Fondo del rectángulo
+        infoPanel.setBackground(botonColor);
         infoPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.BLACK, 2), // Borde negro
-            BorderFactory.createEmptyBorder(20, 20, 20, 20) // Espaciado interno uniforme
+            BorderFactory.createLineBorder(Color.BLACK, 2),
+            BorderFactory.createEmptyBorder(20, 20, 20, 20)
         ));
-        infoPanel.setMaximumSize(new Dimension(600, 250)); // Hacer el rectángulo más alargado
-        infoPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Alinear a la izquierda
+        infoPanel.setMaximumSize(new Dimension(600, 250));
+        infoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // Información del perfil
-        JLabel profileNameLabel = new JLabel("Profile Name: " + profileName);
-        JLabel totalGamesPlayedLabel = new JLabel("Total Games Played: " + totalGamesPlayed);
-        JLabel totalGamesWonLabel = new JLabel("Total Games Won: " + totalGamesWon);
-        JLabel winRateLabel = new JLabel("Win Rate: " + winRate + "%");
+        profileNameLabel = new JLabel("Profile Name: " + profileName);
+        totalGamesPlayedLabel = new JLabel("Total Games Played: " + totalGamesPlayed);
+        totalGamesWonLabel = new JLabel("Total Games Won: " + totalGamesWon);
+        winRateLabel = new JLabel("Win Rate: " + winRate + "%");
 
         JLabel[] infoLabels = {profileNameLabel, totalGamesPlayedLabel, totalGamesWonLabel, winRateLabel};
         for (JLabel label : infoLabels) {
             label.setFont(new Font("Dubai Medium", Font.PLAIN, 22));
-            label.setAlignmentX(Component.LEFT_ALIGNMENT); // Alinear a la izquierda
+            label.setAlignmentX(Component.LEFT_ALIGNMENT);
             label.setForeground(Color.decode("#181818"));
-            label.setBorder(BorderFactory.createEmptyBorder(8, 0, 8, 0)); // Espaciado entre líneas
+            label.setBorder(BorderFactory.createEmptyBorder(8, 0, 8, 0));
             infoPanel.add(label);
         }
 
@@ -97,34 +105,33 @@ public class ProfileView extends JFrame {
         bottomLeftPanel.setOpaque(false);
         bottomLeftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JButton deleteProfileBtn = new JButton("Delete Profile");
-        JButton changePasswordBtn = new JButton("Change Password");
+        deleteProfileBtn = new JButton("Delete Profile");
+        changePasswordBtn = new JButton("Change Password");
 
-        // Configurar colores y tamaños de los botones
-        deleteProfileBtn.setBackground(Color.RED); // Fondo rojo
-        deleteProfileBtn.setForeground(Color.WHITE); // Texto blanco
-        deleteProfileBtn.setPreferredSize(new Dimension(250, 40)); // Botón más ancho
+        deleteProfileBtn.setBackground(Color.RED);
+        deleteProfileBtn.setForeground(Color.WHITE);
+        deleteProfileBtn.setPreferredSize(new Dimension(250, 40));
         deleteProfileBtn.setMaximumSize(new Dimension(250, 40));
         deleteProfileBtn.setMinimumSize(new Dimension(250, 40));
         deleteProfileBtn.setFont(new Font("Dubai Medium", Font.PLAIN, 22));
-        deleteProfileBtn.setFocusPainted(false); // Desactivar el enfoque visual
+        deleteProfileBtn.setFocusPainted(false);
         deleteProfileBtn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.BLACK, 1), // Borde negro suave
-            BorderFactory.createEmptyBorder(8, 16, 8, 16) // Espaciado interno
+            BorderFactory.createLineBorder(Color.BLACK, 1),
+            BorderFactory.createEmptyBorder(8, 16, 8, 16)
         ));
 
-        changePasswordBtn.setBackground(botonColor); // Fondo del botón
-        changePasswordBtn.setPreferredSize(new Dimension(250, 40)); // Botón más ancho
+        changePasswordBtn.setBackground(botonColor);
+        changePasswordBtn.setPreferredSize(new Dimension(250, 40));
         changePasswordBtn.setMaximumSize(new Dimension(250, 40));
         changePasswordBtn.setMinimumSize(new Dimension(250, 40));
         changePasswordBtn.setFont(new Font("Dubai Medium", Font.PLAIN, 22));
         changePasswordBtn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.BLACK, 1), // Borde negro suave
-            BorderFactory.createEmptyBorder(8, 16, 8, 16) // Espaciado interno
+            BorderFactory.createLineBorder(Color.BLACK, 1),
+            BorderFactory.createEmptyBorder(8, 16, 8, 16)
         ));
 
         bottomLeftPanel.add(deleteProfileBtn);
-        bottomLeftPanel.add(Box.createRigidArea(new Dimension(20, 0))); // Espaciado entre botones
+        bottomLeftPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         bottomLeftPanel.add(changePasswordBtn);
 
         // Botón "Return" en la esquina inferior derecha
@@ -132,31 +139,40 @@ public class ProfileView extends JFrame {
         returnPanel.setOpaque(false);
         returnPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JButton returnBtn = new JButton("Return");
+        returnBtn = new JButton("Return");
         returnBtn.setFont(new Font("Dubai Medium", Font.PLAIN, 22));
         returnBtn.setFocusPainted(false);
         returnBtn.setOpaque(true);
-        returnBtn.setBackground(botonColor); // Cambiar al color botonColor
+        returnBtn.setBackground(botonColor);
         returnBtn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.BLACK, 1), // Borde negro suave
-            BorderFactory.createEmptyBorder(8, 16, 8, 16) // Espaciado interno
+            BorderFactory.createLineBorder(Color.BLACK, 1),
+            BorderFactory.createEmptyBorder(8, 16, 8, 16)
         ));
         returnPanel.add(returnBtn);
 
         // Añadir los paneles de botones al panel inferior
-        bottomPanel.add(bottomLeftPanel, BorderLayout.WEST); // Botones en la parte inferior izquierda
-        bottomPanel.add(returnPanel, BorderLayout.EAST); // Botón "Return" en la parte inferior derecha
+        bottomPanel.add(bottomLeftPanel, BorderLayout.WEST);
+        bottomPanel.add(returnPanel, BorderLayout.EAST);
 
         // Añadir componentes al panel principal
         profilePanel.add(title);
-        profilePanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espaciado entre el título y el rectángulo
+        profilePanel.add(Box.createRigidArea(new Dimension(0, 20)));
         profilePanel.add(infoPanel);
 
         backgroundPanel.add(profilePanel, BorderLayout.CENTER);
-        backgroundPanel.add(bottomPanel, BorderLayout.SOUTH); // Panel inferior con botones
+        backgroundPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        add(backgroundPanel); // Añadir el panel de fondo al marco
+        add(backgroundPanel);
     }
+
+    // Getters para acceder a los componentes desde fuera si es necesario
+    public JLabel getProfileNameLabel() { return profileNameLabel; }
+    public JLabel getTotalGamesPlayedLabel() { return totalGamesPlayedLabel; }
+    public JLabel getTotalGamesWonLabel() { return totalGamesWonLabel; }
+    public JLabel getWinRateLabel() { return winRateLabel; }
+    public JButton getDeleteProfileBtn() { return deleteProfileBtn; }
+    public JButton getChangePasswordBtn() { return changePasswordBtn; }
+    public JButton getReturnBtn() { return returnBtn; }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

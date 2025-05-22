@@ -56,9 +56,9 @@ public class Box
     /**
      * Constructor de la clase Box
      * Pre: no hay ninguna casilla creada
-     * @param x
-     * @param y
-     * Post: se crea una casilla con coordenadas x e y y sin letra ni puntuacion
+     * @param row
+     * @param column
+     * Post: se crea una casilla con coordenadas row y column y sin letra ni puntuacion
      * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
      */
 
@@ -184,10 +184,10 @@ public class Box
     /**
      * Consultora de Box
      * Pre: ya existe una casilla
-     * @param x
-     * @param y
-     * Post: se retorna la coordenada x e y de la casilla
-     * @return La casilla correspondiente a x e y
+     * @param row
+     * @param column
+     * Post: se retorna la coordenada row y column de la casilla
+     * @return La casilla correspondiente a row y column
      */
 
     public Box getBox(int row, int column)
@@ -234,15 +234,15 @@ public class Box
         /**
          * Constructor de la clase DoubleLetter
          * Pre: no hay ninguna casilla creada
-         * @param x
-         * @param y
-         * Post: se crea una casilla double letter con coordenadas x e y
+         * @param row
+         * @param column
+         * Post: se crea una casilla double letter con coordenadas row y column
          * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
          */
 
-        public DoubleLetter(int x, int y)
+        public DoubleLetter(int row, int column)
         {
-            super(x, y);
+            super(row, column);
         }
 
         /**
@@ -277,15 +277,15 @@ public class Box
         /**
          * Constructor de la clase TripleLetter
          * Pre: no hay ninguna casilla creada
-         * @param x
-         * @param y
-         * Post: se crea una casilla triple letter con coordenadas x e y
+         * @param row
+         * @param column
+         * Post: se crea una casilla triple letter con coordenadas row y column
          * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
          */
 
-        public TripleLetter(int x, int y)
+        public TripleLetter(int row, int column)
         {
-            super(x, y);
+            super(row, column);
         }
 
         /**
@@ -320,15 +320,15 @@ public class Box
         /**
          * Constructor de la clase DoubleWord
          * Pre: no hay ninguna casilla creada
-         * @param x
-         * @param y
-         * Post: se crea una casilla double word con coordenadas x e y
+         * @param row
+         * @param column
+         * Post: se crea una casilla double word con coordenadas row y column
          * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
          */
 
-        public DoubleWord(int x, int y)
+        public DoubleWord(int row, int column)
         {
-            super(x, y);
+            super(row, column);
         }
 
         /**
@@ -363,15 +363,15 @@ public class Box
         /**
          * Constructor de la clase TripleWord
          * Pre: no hay ninguna casilla creada
-         * @param x
-         * @param y
-         * Post: se crea una casilla triple word con coordenadas x e y
+         * @param row
+         * @param column
+         * Post: se crea una casilla triple word con coordenadas row y column
          * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
          */
 
-        public TripleWord(int x, int y)
+        public TripleWord(int row, int column)
         {
-            super(x, y);
+            super(row, column);
         }
 
         /**

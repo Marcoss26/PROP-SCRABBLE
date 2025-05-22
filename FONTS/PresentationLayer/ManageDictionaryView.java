@@ -6,8 +6,10 @@ import javax.swing.border.EmptyBorder;
 
 public class ManageDictionaryView extends JPanel {
 
-    // Diccionarios por defecto
-    private String[] dictionaries = {"Español", "Catalán", "Inglés"};
+    private final String[] dictionaries = {"Español", "Catalán", "Inglés"};
+    private JComboBox<String> dictCombo;
+    private JButton deleteBtn;
+    private JButton returnButton;
 
     public ManageDictionaryView() {
         setLayout(new BorderLayout());
@@ -41,14 +43,14 @@ public class ManageDictionaryView extends JPanel {
         // Espacio pequeño entre subtítulo y select
         subtitleSelectPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        // Panel para el desplegable y botones
+        // Panel para el desplegable y botón Delete
         JPanel selectPanel = new JPanel();
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.X_AXIS));
         selectPanel.setOpaque(false);
         selectPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Alinear a la izquierda
 
         // Desplegable de diccionarios
-        JComboBox<String> dictCombo = new JComboBox<>(dictionaries);
+        dictCombo = new JComboBox<>(dictionaries);
         dictCombo.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
         dictCombo.setMaximumSize(new Dimension(160, 36));
         dictCombo.setPreferredSize(new Dimension(160, 36));
@@ -58,24 +60,8 @@ public class ManageDictionaryView extends JPanel {
 
         Color salmon = Color.decode("#F7BBA9");
 
-        // Botón estándar
-        JButton addWordBtn = new JButton("Add words");
-        addWordBtn.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
-        addWordBtn.setBackground(salmon);
-        addWordBtn.setForeground(Color.decode("#181818"));
-        addWordBtn.setFocusPainted(false);
-        addWordBtn.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.BLACK, 1),
-                BorderFactory.createEmptyBorder(6, 18, 6, 18)
-        ));
-        addWordBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        addWordBtn.setPreferredSize(new Dimension(120, 36));
-        addWordBtn.addActionListener(e -> {
-            String dict = (String) dictCombo.getSelectedItem();
-            JOptionPane.showMessageDialog(this, "Añadir palabras a: " + dict);
-        });
-
-        JButton deleteBtn = new JButton("Delete");
+        // Botón Delete
+        deleteBtn = new JButton("Delete");
         deleteBtn.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
         deleteBtn.setBackground(salmon);
         deleteBtn.setForeground(Color.decode("#181818"));
@@ -93,8 +79,6 @@ public class ManageDictionaryView extends JPanel {
 
         selectPanel.add(dictCombo);
         selectPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        selectPanel.add(addWordBtn);
-        selectPanel.add(Box.createRigidArea(new Dimension(12, 0)));
         selectPanel.add(deleteBtn);
 
         // Añade el panel combinado al subtitleSelectPanel
@@ -114,7 +98,7 @@ public class ManageDictionaryView extends JPanel {
         bottomPanel.setOpaque(false); // Hacer el fondo transparente
         bottomPanel.setBorder(new EmptyBorder(8, 8, 8, 8)); // Añadir margen al panel inferior
 
-        JButton returnButton = new JButton("RETURN");
+        returnButton = new JButton("RETURN");
         returnButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         returnButton.setBackground(Color.decode("#F7BBA9")); // Fondo del botón
         returnButton.setFocusPainted(false);
@@ -158,4 +142,9 @@ public class ManageDictionaryView extends JPanel {
 
         g2.dispose();
     }
+
+    // Getters para acceder a los componentes desde fuera si es necesario
+    public JComboBox<String> getDictCombo() { return dictCombo; }
+    public JButton getDeleteBtn() { return deleteBtn; }
+    public JButton getReturnButton() { return returnButton; }
 }
