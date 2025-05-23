@@ -4,6 +4,7 @@ BIN_DIR = EXE
 DOMAIN_CLASSES = $(SRC_DIR)/DomainLayer/DOmainClasses
 DRIVERS = $(SRC_DIR)/DomainLayer/Drivers
 LIB_DIR = $(SRC_DIR)/lib
+DRIVERS_DIR = DomainLayer/Drivers
 
 # Compiler and flags
 JAVAC = javac
