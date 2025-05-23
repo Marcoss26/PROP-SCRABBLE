@@ -3,6 +3,7 @@ SRC_DIR = FONTS
 BIN_DIR = EXE
 DOMAIN_CLASSES = $(SRC_DIR)/DomainLayer/DOmainClasses
 DRIVERS = $(SRC_DIR)/DomainLayer/Drivers
+LIB_DIR = $(SRC_DIR)/lib
 
 # Compiler and flags
 JAVAC = javac
@@ -78,6 +79,7 @@ MY_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/Dawg.java \
 					$(DOMAIN_CLASSES)/Ranking.java \
 
+LIBRARIES = $(LIB_DIR)/json-simple-1.1.1.jar
 
 # Driver source files
 					
@@ -98,7 +100,7 @@ MY_DRIVER_SRC = $(DRIVERS)/MyDriver.java
 all: BagDriver RackDriver DictionaryControllerDriver ProfileControllerDriver BoardBoxDriver RankingDriver PlayerDriver
 
 MainDriver: $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java
-	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java 
+	$(JAVAC) -cp ${LIBRARIES} $(JFLAGS) $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java 
 
 # Compilar los drivers individualmente
 ProfileControllerDriver: $(PROFILE_CONTROLLER_DRIVER_CLASSES_SRC) $(PROFILE_CONTROLLER_DRIVER_SRC)
