@@ -104,7 +104,7 @@ public class Box
         }
     }
 
-    public boolean hasCrossCheck(String letter, int horizontal)
+    public boolean hasCrossCheck(String letter)
     {
         /*System.out.println("letter: " + letter);
         System.out.println("Horizontal crossCheck:");
@@ -115,14 +115,7 @@ public class Box
         for (String s : this.VerticalcrossCheck) {
             System.out.println(s);
         }*/
-        if(horizontal == 0) {
-            //System.out.println("Does the letter " + letter + " exist in the vertical crossCheck? " + this.VerticalcrossCheck.contains(letter));
-            //System.out.println("Placing the letter vertically " + letter + " at this position: " + this.column + ", " + this.row);
-            return this.HorizontalcrossCheck.contains(letter);
-        }
-        //System.out.println("Does the letter " + letter + " exist in the horizontal crossCheck? " + this.HorizontalcrossCheck.contains(letter));
-        //System.out.println("Placing the letter horizontally " + letter + " at this position: " + this.column + ", " + this.row);
-        return this.VerticalcrossCheck.contains(letter);
+        return this.HorizontalcrossCheck.contains(letter) && this.VerticalcrossCheck.contains(letter);
     }
 
     public int getColumn()

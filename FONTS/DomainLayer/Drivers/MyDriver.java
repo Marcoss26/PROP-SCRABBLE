@@ -54,6 +54,7 @@ public class MyDriver
             System.out.println("Choose what you want to do: ");
             System.out.println("1. Place a word");
             System.out.println("2. Replace letters in the rack");
+            System.out.println("3. Check crosschecks");
             int option = MyDriver.scanner.nextInt();
             MyDriver.scanner.nextLine(); // Consume the newline character left by nextInt()
             switch (option) {
@@ -78,6 +79,13 @@ public class MyDriver
                 System.out.println("Enter the letters to replace (separated by '_'): ");
                 String lettersToReplace = MyDriver.scanner.nextLine();
                 matchController.modifyRack(matchId, lettersToReplace);
+                    break;
+                case 3:
+                System.out.println("Check the crosschecks for a square:");
+                System.out.println("Enter the coordinates (x,y): ");
+                int x = MyDriver.scanner.nextInt();
+                int y = MyDriver.scanner.nextInt();
+                matchController.printCrossChecks(x, y, matchId);
                     break;
             }
         }

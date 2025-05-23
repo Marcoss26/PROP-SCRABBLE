@@ -49,6 +49,8 @@ public class MP_Controller
                         int uplimit = 0;
                         int column = j - 1;
                         int row = i - 1;
+                        //int column = j;
+                        //int row = i;
                         String leftPW = "";
                         String upPW = "";
                         while(column >= 0)
@@ -73,8 +75,8 @@ public class MP_Controller
                         }
                         Node node1 = dawg.get_lastNode(dawg.getRoot(), leftPW);
                         Node node2 = dawg.get_lastNode(dawg.getRoot(), upPW);
-                        LeftParts(leftPW, node1, leftlimit, rack, square, board, playableWords, 1, dawg);
-                        LeftParts(upPW, node2, uplimit, rack, square, board, playableWords, 0, dawg);
+                        LeftParts(leftPW, node1, leftlimit, rack, square, board, playableWords, 1, dawg, i, j);
+                        LeftParts(upPW, node2, uplimit, rack, square, board, playableWords, 0, dawg, i, j);
                         /*System.out.println("Playable words constructed so far:");
                         for(PlayableWord playableWord : playableWords)
                         {
@@ -88,16 +90,18 @@ public class MP_Controller
         {
             System.out.println("Board is empty, placing letters in the middle of the board.");
             Box anchor = board.getBox(board.getSize()/2,board.getSize()/2);
-            LeftParts("",dawg.getRoot(),board.getSize()/2,rack,anchor,board,playableWords,1,dawg);
-            LeftParts("",dawg.getRoot(),board.getSize()/2,rack,anchor,board,playableWords,0,dawg);
+            int i = board.getSize()/2;
+            int j = board.getSize()/2;
+            LeftParts("",dawg.getRoot(),board.getSize()/2,rack,anchor,board,playableWords,1,dawg, i, j);
+            LeftParts("",dawg.getRoot(),board.getSize()/2,rack,anchor,board,playableWords,0,dawg, i, j);
         }
         return playableWords;
     }
     
     // Generar todas las partes izquierdas posibles
-    private void LeftParts(String PartialWord, Node node, int limit, Rack rack, Box anchor, Board board,List<PlayableWord> playableWords, int horizontal, Dawg dawg)
+    private void LeftParts(String PartialWord, Node node, int limit, Rack rack, Box square, Board board,List<PlayableWord> playableWords, int horizontal, Dawg dawg, int i, int j)
     {
-        extendRight(PartialWord, node, anchor, rack,board,playableWords,horizontal, 1 - horizontal, dawg);
+        extendRight(PartialWord, node, square, rack,board,playableWords,horizontal, 1 - horizontal, dawg, i, j);
         if(limit > 0)
         {
             Map <String, Node> children = node.getchildren();
@@ -111,7 +115,7 @@ public class MP_Controller
                     //System.out.println("Letter: " + symbol + " in my rack");
                     //rack.removeLetter(letter);
                     Node nextNode = entry.getValue();
-                    LeftParts(PartialWord + symbol, nextNode, limit - 1, rack, anchor,board,playableWords,horizontal, dawg);
+                    LeftParts(PartialWord + symbol, nextNode, limit - 1, rack, square , board,playableWords,horizontal, dawg, i, j);
                     rack.addLetter(letter);
                     /*System.out.println("Enter to continue: ");
                     Scanner scanner = new Scanner(System.in);
@@ -122,7 +126,7 @@ public class MP_Controller
     }
     
     // Extender palabra hacia la derecha
-    private void extendRight(String PartialWord, Node node, Box square, Rack rack, Board board,List<PlayableWord> playableWords,int horizontal, int vertical, Dawg dawg) 
+    private void extendRight(String PartialWord, Node node, Box square, Rack rack, Board board,List<PlayableWord> playableWords,int horizontal, int vertical, Dawg dawg, int i, int j) 
     {
         Box nextSquare = board.getBox(square.getRow() + vertical, square.getColumn() + horizontal);
         if(square.getSymbol() == null)
@@ -132,7 +136,7 @@ public class MP_Controller
                 int PWlength = dawg.getWordLength(PartialWord);
                 if(board.isEmpty())
                 {
-                    if(square.getRow() - 1 >= board.getSize()/2 || square.getColumn() - 1 >= board.getSize()/2)
+                    if(square.getRow() - 1>= board.getSize()/2 || square.getColumn() - 1>= board.getSize()/2)
                     {
                         /*System.out.println("Current square: " + square.getColumn() + " " + square.getRow());
                         System.out.println("Partial word: " + PartialWord);
@@ -145,13 +149,16 @@ public class MP_Controller
                 }
                 else
                 {
-                    /*System.out.println("Current square: " + square.getColumn() + " " + square.getRow());
-                    System.out.println("Partial word: " + PartialWord);
-                    System.out.println("Adding words horizontally: " + horizontal);
-                    PlayableWord playableWord = new PlayableWord(PartialWord, square.getColumn() - PartialWord.length()*horizontal, square.getRow() - PartialWord.length()*vertical, square.getColumn() - horizontal, square.getRow() - vertical);
-                    System.out.println("Playable word: " + playableWord.toString());
-                    System.out.println();*/
-                    playableWords.add(new PlayableWord(PartialWord, square.getColumn() - PWlength*horizontal, square.getRow() - PWlength*vertical, square.getColumn() - horizontal, square.getRow() - vertical));
+                    if((i == square.getRow() && j < square.getColumn()) || (j == square.getColumn() && i < square.getRow()))
+                    {
+                        /*System.out.println("Current square: " + square.getColumn() + " " + square.getRow());
+                        System.out.println("Partial word: " + PartialWord);
+                        System.out.println("Adding words horizontally: " + horizontal);
+                        PlayableWord playableWord = new PlayableWord(PartialWord, square.getColumn() - PartialWord.length()*horizontal, square.getRow() - PartialWord.length()*vertical, square.getColumn() - horizontal, square.getRow() - vertical);
+                        System.out.println("Playable word: " + playableWord.toString());
+                        System.out.println();*/
+                        playableWords.add(new PlayableWord(PartialWord, square.getColumn() - PWlength*horizontal, square.getRow() - PWlength*vertical, square.getColumn() - horizontal, square.getRow() - vertical));
+                    }
                 }
             }
             if(nextSquare == null)
@@ -165,11 +172,11 @@ public class MP_Controller
                 Letter letter = rack.getLetter(edge);
                 if(letter != null)
                 {
-                    if(!board.isEmpty())System.out.println("Im at square: " + square.getColumn() + " " + square.getRow() + " with letter: " + edge);
-                    if(square.hasCrossCheck(edge,horizontal))
+                    //if(!board.isEmpty())System.out.println("Im at square: " + square.getColumn() + " " + square.getRow() + " with letter: " + edge);
+                    if(square.hasCrossCheck(edge))
                     {
                         Node nextNode = entry.getValue();
-                        extendRight(PartialWord + edge, nextNode, nextSquare, rack,board,playableWords,horizontal, vertical, dawg);
+                        extendRight(PartialWord + edge, nextNode, nextSquare, rack,board,playableWords,horizontal, vertical, dawg, i, j);
                     }
                     rack.addLetter(letter);
                 }
@@ -181,7 +188,7 @@ public class MP_Controller
             Node nextNode = node.getchildren().get(character);
             if(nextNode != null)
             {
-                extendRight(PartialWord + character, nextNode, nextSquare, rack,board,playableWords,horizontal, vertical, dawg);
+                extendRight(PartialWord + character, nextNode, nextSquare, rack,board,playableWords,horizontal, vertical, dawg, i, j);
             }
         }
     }
@@ -212,6 +219,25 @@ public class MP_Controller
         List<Player> players = match.getListPlayers();
         players.get(match.getTurn()).printRack();
 
+    }
+
+    public void printCrossChecks(int column, int row, String id)
+    {
+        Match match = matches.get(id);
+        Board board = match.getBoard();
+        Box square = board.getBox(row,column);
+        Set<String> vertical = square.getCrossCheck(0);
+        Set<String> horizontal = square.getCrossCheck(1);
+        System.out.println("Vertical cross check: ");
+        for (String word : vertical)
+        {
+            System.out.println(word);
+        }
+        System.out.println("Horizontal cross check: ");
+        for (String word : horizontal)
+        {
+            System.out.println(word);
+        }
     }
 
     public String createMatch(int size, Set<Profile> profiles, Dictionary dictionary,int board_size, Map<Letter,Integer> letters, int bag_size) throws IOException, IllegalArgumentException
