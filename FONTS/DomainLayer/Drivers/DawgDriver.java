@@ -1,7 +1,7 @@
 package DomainLayer.Drivers;
 import java.io.*;
 import java.util.Scanner;
-import DomainClasses.Dawg;
+import DomainLayer.DomainClasses.Dawg;
 
 public class DawgDriver {
     public static void main(String[] args) throws IOException {
