@@ -216,8 +216,8 @@ public class Board
     /**
      * Verifica si una posición del tablero tiene una ficha
      * Pre: ya existe un tablero
-     * @param x
-     * @param y
+     * @param row
+     * @param column
      * @return true si la casilla tiene una ficha, false en caso contrario
     */
 
@@ -239,20 +239,20 @@ public class Board
 
     private void assignSpecialBoxes(int[] posicions, String type) {
         for (int i = 0; i < posicions.length; i += 2) {
-            int x = posicions[i];
-            int y = posicions[i + 1];
+            int row = posicions[i+1];
+            int column = posicions[i];
             switch (type) {
                 case "doubleLetter":
-                    this.board[x][y] = new Box.DoubleLetter(x, y);
+                    this.board[row][column] = new Box.DoubleLetter(row, column);
                     break;
                 case "tripleLetter":
-                    this.board[x][y] = new Box.TripleLetter(x, y);
+                    this.board[row][column] = new Box.TripleLetter(row, column);
                     break;
                 case "doubleWord":
-                    this.board[x][y] = new Box.DoubleWord(x, y);
+                    this.board[row][column] = new Box.DoubleWord(row, column);
                     break;
                 case "tripleWord":
-                    this.board[x][y] = new Box.TripleWord(x, y);
+                    this.board[row][column] = new Box.TripleWord(row, column);
                     break;
             }
         }
@@ -261,8 +261,8 @@ public class Board
     /**
      * Coloca una letra en el tablero
      * Pre: ya existe un tablero
-     * @param x La coordenada x de la casilla
-     * @param y La coordenada y de la casilla
+     * @param row La fila de la casilla
+     * @param column La columna de la casilla
      * @param letter La letra a colocar
      * @param value El valor de la letra
      * Post: se coloca la letra en la casilla correspondiente
@@ -283,8 +283,8 @@ public class Board
     /**
      * Destructora de casilla
      * Pre: ya existe un tablero
-     * @param x
-     * @param y
+     * @param row
+     * @param column
      * Post: se elimina la letra de la casilla correspondiente
      */
 
@@ -328,8 +328,8 @@ public class Board
 /**
      * Retorna la casilla correspondiente a las coordenadas de entrada
      * Pre: ya existe un tablero
-     * @param x La coordenada x de la casilla
-     * @param y La coordenada y de la casilla
+     * @param row La fila de la casilla
+     * @param column La columna de la casilla
      * @return La casilla correspondiente a los valores de entrada, null si no existe
      */
     public Box getBox(int row, int column) {
@@ -347,8 +347,8 @@ public class Board
     /**
      * Retorna la letra de la casilla correspondiente a las coordenadas de entrada
      * Pre: ya existe un tablero con al menos una letra
-     * @param x 
-     * @param y 
+     * @param row
+     * @param column 
      * @return La letra de la casilla correspondiente a los valores de entrada
      */
 

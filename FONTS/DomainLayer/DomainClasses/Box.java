@@ -73,10 +73,10 @@ public class Box
         this.value = 0;
     }
     /**
-     * Consultora de la coordenada x
+     * Consultora de la fila
      * Pre: ya existe una casilla
-     * Post: se retorna la coordenada x de la casilla
-     * @return La coordenada x de la casilla
+     * Post: se retorna la fila de la casilla
+     * @return La fila de la casilla
      */
     
     public Set<String> getCrossCheck(int horizontal)
