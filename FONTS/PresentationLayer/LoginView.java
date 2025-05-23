@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 public class LoginView extends JPanel {
 
+    private CreationCtrl cc;
     private JTextField userField;
     private JPasswordField passField;
     private JButton signUpBtn;
@@ -13,6 +14,8 @@ public class LoginView extends JPanel {
     private JButton returnButton;
 
     public LoginView() {
+
+        cc = CreationCtrl.getInstance();
         // Fondo gris claro
         setLayout(new BorderLayout());
         setBackground(Color.decode("#F5F6FA")); // Gris claro
@@ -79,6 +82,18 @@ public class LoginView extends JPanel {
         loginBtn.setBackground(Color.decode("#F7BBA9"));
         loginBtn.setForeground(Color.decode("#2D2D2D"));
 
+        //configuracion listeners de los botones
+
+        loginBtn.addActionListener(e -> {
+            String username = userField.getText();
+            String password = new String(passField.getPassword());
+            if(!username.isEmpty() && !password.isEmpty()){
+                cc.loginPlayer(username, password);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         buttonPanel.add(signUpBtn);
         buttonPanel.add(loginBtn);
 
@@ -137,5 +152,10 @@ public class LoginView extends JPanel {
 
     public JButton getReturnButton() {
         return returnButton;
+    }
+
+    public void cleanFields() {
+        userField.setText("");
+        passField.setText("");
     }
 }

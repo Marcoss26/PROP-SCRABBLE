@@ -9,7 +9,12 @@ public class PresentationCtrl {
 	private JPanel visiblePanel;
     private static PresentationCtrl instance;
     private Map<String, JPanel> createdViews;
+    private CreationCtrl cc;
     //private DomainController domainCtrl;
+
+    private int humanPlayers;
+    private int loginIndex;
+    private Set<String> playersId;
 
     // CONSTRUCTOR, its a Singleton class
     private PresentationCtrl() {
@@ -37,6 +42,8 @@ public class PresentationCtrl {
         mainFrame.setSize(new Dimension(1060, 650));
         mainFrame.setLocation(200, 100);
 
+        cc = CreationCtrl.getInstance();
+
        visiblePanel = new MainMenuView();
        mainFrame.add(visiblePanel);
 
@@ -47,6 +54,13 @@ public class PresentationCtrl {
 
         
     }
+
+    public void refresh(){
+        mainFrame.revalidate();
+        mainFrame.repaint();
+    }
+
+        
 
     public void showView(String viewName) {
         changeView(viewName);
@@ -64,16 +78,16 @@ public class PresentationCtrl {
 
             case "NewGame":
                 if (!createdViews.containsKey("NewGame")) {
-                    visiblePanel = new NewGame(); // Crear la vista NewGame si no existe
+                    visiblePanel = cc.createNewGameView(); // Crear la vista NewGame si no existe
                     createdViews.put("NewGame", visiblePanel);
                 } else {
-                    visiblePanel = createdViews.get("NewGame");
+                    visiblePanel = cc.getNewGameView();
                 }
                 break;
 
             case "LoginView":
                 if (!createdViews.containsKey("LoginView")) {
-                    visiblePanel = new LoginView();
+                    visiblePanel = cc.createLoginView();
                     createdViews.put("LoginView", visiblePanel);
                 } else {
                     visiblePanel = createdViews.get("LoginView");

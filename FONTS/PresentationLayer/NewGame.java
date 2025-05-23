@@ -12,9 +12,14 @@ public class NewGame extends JPanel {
     private JButton startButton;
     private JButton returnButton;
     private Integer numHumPlayers;
+    private PresentationCtrl pc;
+    private CreationCtrl cc;
     
 
     public NewGame() {
+        
+        cc = CreationCtrl.getInstance();
+        pc = PresentationCtrl.getInstance();
         // Configurar el panel principal
         setLayout(new BorderLayout(10, 10));
         Color fondoColor = new Color(245, 246, 250);
@@ -110,25 +115,25 @@ public class NewGame extends JPanel {
         bottomPanel.setBackground(fondoColor);
         bottomPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
 
-        JButton startButton = new JButton("START");
+        startButton = new JButton("START");
         startButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         startButton.setBackground(botonColor);
         startButton.setFocusPainted(false);
         bottomPanel.add(startButton);
 
-        JButton returnButton = new JButton("RETURN");
+        returnButton = new JButton("RETURN");
         returnButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         returnButton.setBackground(botonColor);
         returnButton.setFocusPainted(false);
         bottomPanel.add(returnButton);
 
         returnButton.addActionListener(e -> {
-            PresentationCtrl.getInstance().showView("MainMenuView");
+            cc.showView("MainMenuView");
         });
 
         startButton.addActionListener(e -> {
             // Aquí puedes añadir la lógica para iniciar el juego
-            PresentationCtrl.getInstance().showView("");
+            cc.loginSeq(numHumPlayers);
         });
 
         add(bottomPanel, BorderLayout.SOUTH);
