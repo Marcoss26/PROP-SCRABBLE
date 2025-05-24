@@ -78,6 +78,11 @@ public class Board
         return this.size;
     }
 
+    /**
+     * Imprime los crosschecks del tablero
+     * Pre: ya existe un tablero
+     * Post: se imprimen los crosschecks de las casillas ancla del tablero
+     */
 
     public void printCrossChecks()
     {
@@ -102,6 +107,14 @@ public class Board
             }
         }
     }
+
+    /**
+     * Computa los crosschecks del tablero
+     * Pre: ya existe un tablero y un conjunto de caracteres
+     * Post: se actualizan los crosschecks de las casillas ancla del tablero
+     * @param characters El conjunto de caracteres a considerar para los crosschecks
+     * @param dawg El diccionario para verificar la existencia de palabras
+     */
 
     public void computeCrossChecks(Set<String> characters, Dawg dawg)
     {
@@ -162,9 +175,25 @@ public class Board
         }
     }
 
+    /**
+     * Verifica si una casilla está vacía
+     * Pre: ya existe un tablero
+     * @param row La fila de la casilla
+     * @param column La columna de la casilla
+     * @return true si la casilla está vacía, false en caso contrario
+     */
+
     public boolean isEmpty(int row, int column) {
         return this.board[row][column].isEmpty();
     }
+
+    /**
+     * Verifica si una casilla es una casilla ancla
+     * Pre: ya existe un tablero
+     * @param row La fila de la casilla
+     * @param column La columna de la casilla
+     * @return true si la casilla es una casilla ancla, false en caso contrario
+     */
 
     public boolean isAnchor(int row, int column) {
         if(this.board[row][column].isEmpty())
@@ -276,6 +305,12 @@ public class Board
         }
     }
 
+    /**
+     * Verifica si el tablero está vacío
+     * Pre: ya existe un tablero
+     * @return true si el tablero está vacío, false en caso contrario
+     */
+    
     public boolean isEmpty() {
         return isEmpty;
     }
@@ -325,13 +360,14 @@ public class Board
         }
     }
 
-/**
+    /**
      * Retorna la casilla correspondiente a las coordenadas de entrada
      * Pre: ya existe un tablero
      * @param row La fila de la casilla
      * @param column La columna de la casilla
      * @return La casilla correspondiente a los valores de entrada, null si no existe
      */
+
     public Box getBox(int row, int column) {
         if (column >= 0 && column <= size && row >= 0 && row <= size) {
             return this.board[row][column];

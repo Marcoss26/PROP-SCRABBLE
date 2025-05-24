@@ -72,6 +72,7 @@ public class Box
         this.symbol = null;
         this.value = 0;
     }
+    
     /**
      * Consultora de la fila
      * Pre: ya existe una casilla
@@ -87,11 +88,26 @@ public class Box
         return VerticalcrossCheck;
     }
 
+    /**
+     * Modificadora de las letras que pueden formar palabras en la casilla
+     * Pre: ya existe una casilla
+     * @param crossCheck Las letras que pueden formar palabras en la casilla
+     * Post: se asignan las letras que pueden formar palabras en la casilla
+     */
+
     public void setCrossCheck(Set<String> crossCheck)
     {
         this.HorizontalcrossCheck = new HashSet<>(crossCheck);
         this.VerticalcrossCheck = new HashSet<>(crossCheck);
     }
+    
+    /**
+     * Modificadora de las letras que pueden formar palabras en la casilla
+     * Pre: ya existe una casilla
+     * @param letter La letra que se quiere eliminar del crossCheck
+     * @param horizontal 1 si es horizontal, 0 si es vertical
+     * Post: se elimina la letra del crossCheck de la casilla
+     */
 
     public void removeFromCrossCheck(String letter, int horizontal)
     {
@@ -103,6 +119,14 @@ public class Box
             this.VerticalcrossCheck.remove(letter);
         }
     }
+
+    /**
+     * Consultora de si la casilla tiene una letra que puede formar palabras
+     * Pre: ya existe una casilla
+     * Post: se retorna true si la casilla tiene una letra que puede formar palabras, false en caso contrario
+     * @param letter La letra que se quiere comprobar
+     * @return true si la casilla tiene una letra que puede formar palabras, false en caso contrario
+     */
 
     public boolean hasCrossCheck(String letter)
     {
@@ -118,17 +142,25 @@ public class Box
         return this.HorizontalcrossCheck.contains(letter) && this.VerticalcrossCheck.contains(letter);
     }
 
+    /**
+     * Consultora de la columna de la casilla
+     * Pre: ya existe una casilla
+     * Post: se retorna la coordenada x de la casilla
+     * @return La coordenada correspondiente a la columna de la casilla
+     */
+
     public int getColumn()
     {
         return column;
     }
 
     /**
-     * Consultora de la coordenada y
+     * Consultora de la fila de la casilla
      * Pre: ya existe una casilla
      * Post: se retorna la coordenada y de la casilla
-     * @return La coordenada y de la casilla
+     * @return La coordenada correspondiente a la fila de la casilla
      */
+
     public int getRow()
     {
         return row;
@@ -190,6 +222,13 @@ public class Box
         }
         return null;
     }
+
+    /**
+     * Consultora de si la casilla esta vacia
+     * Pre: ya existe una casilla
+     * Post: se retorna true si la casilla esta vacia, false en caso contrario
+     * @return true si la casilla esta vacia, false en caso contrario
+     */
 
     public boolean isEmpty()
     {
