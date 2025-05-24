@@ -1,11 +1,12 @@
-package PresentationLayer;
+package Utils;
+
 import java.util.*;
 
 public class Pair<F,S> {
     private F First;
     private S Second;
 
-    Pair(F first, S second){
+    public Pair(F first, S second){
         this.First = first;
         this.Second = second;
     }

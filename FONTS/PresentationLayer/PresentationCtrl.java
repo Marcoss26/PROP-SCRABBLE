@@ -1,6 +1,9 @@
 package PresentationLayer;
 import javax.swing.*;
+
 import DomainLayer.DomainClasses.DomainController;
+import Utils.Pair;
+
 import java.awt.*;
 import java.util.*;
 
@@ -35,15 +38,25 @@ public class PresentationCtrl {
     //Funciones relacionadas con el ctrl dominio
 
     public void createNewMatch(){
-        int numPlayers = cc.getHumanPlayers();
+        //int numHumPlayers = cc.getHumanPlayers();
         int totalPlayers = cc.getTotalPlayers();
         int boardSize = cc.getBoardSize();
         String dictionary = cc.getDictionary();
+        System.out.println(dictionary);
         Set<Pair<String,String>> playersId = cc.getPlayersId();
 
-        //domainCtrl.newMatch(numPlayers, totalPlayers, playersId, dictionary, boardSize);
+        try {
+            domainCtrl.newMatch(totalPlayers, playersId, dictionary, boardSize);
+            System.out.println("Match created successfully.");
+        } catch (Exception e) {
+            System.out.println("Error creating match: " + e.getMessage());
+        }
 
 
+    }
+
+    public void createProfile(String username, String password){
+        domainCtrl.addProfile(username, password);
     }
 
        
@@ -56,6 +69,7 @@ public class PresentationCtrl {
         mainFrame.setLocation(200, 100);
 
         cc = CreationCtrl.getInstance();
+        initializeCD();
 
        visiblePanel = new MainMenuView();
        mainFrame.add(visiblePanel);

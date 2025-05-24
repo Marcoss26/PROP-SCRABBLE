@@ -1,6 +1,7 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
 import java.io.*;
+import Utils.Pair;
 
 /**
  * ProfileController is a singleton class that manages user profiles.
@@ -79,9 +80,60 @@ public class DomainController {
      * @param numLetters The number of letters to be used.
      * @throws IOException if an error occurs while creating the match.
      */
-    public String newMatch(int players, Set<Profile> profiles, String dictionaryName, int boardSize, Map<Letter, Integer> bagLetters, int numLetters) throws IOException {
+    public String newMatch(int totalPlayers, Set<Pair<String,String>> profilesIds, String dictionaryName, int boardSize) throws IOException {
+        
+        //Para inicializar una partida necesito: el numero de jugadores, los perfiles creados de estos, el diccionario creado, el tamaño del tablero, la bolsa en un mapa y su tamaño.
+        createDictionary(dictionaryName, dictionaryName, dictionaryName);
         Dictionary dictionary = dictionaryController.getDictionary(dictionaryName);
-        return this.matchController.createMatch(players, profiles, dictionary, boardSize, bagLetters, numLetters);
+        Set<Profile> profiles = new HashSet<>();
+        for(Pair<String,String> profileId : profilesIds){
+            Profile profile = this.profileController.getProfile(profileId.first(), profileId.second());
+            profiles.add(profile);
+        }
+
+        //creacion del mapa de la bolsa a partir del txt que nos dan
+
+        Map<Letter, Integer> letters = new HashMap<>();
+        int totalLettersInTheBag = 0;
+        String fileName;
+        switch(dictionaryName) {
+            case "en":
+                fileName = "letrasENG";
+                break;
+            case "es":
+                fileName = "letrasCAST";
+                break;
+            case "ca":
+                fileName = "letrasCAT";
+                break;
+            default:
+                System.out.println("Error: Dictionary not found.");
+                return null;
+        }
+        //boolean validFile = false;
+        //while(!validFile) {
+            String file = fileName + ".txt";
+            File filePath = new File("data/Letters/" + file);
+    
+            try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(" ");
+                    if (parts.length == 3) {
+                        String symbol = parts[0];
+                        int quantity = Integer.parseInt(parts[1]);
+                        totalLettersInTheBag += quantity;
+                        int value = Integer.parseInt(parts[2]);
+                        Letter letter = new Letter(symbol, value);
+                        letters.put(letter, quantity);
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error reading the file: " + e.getMessage());
+                
+            }
+
+        return this.matchController.createMatch(totalPlayers, profiles, dictionary, boardSize, letters, totalLettersInTheBag);
     }
 
     /**

@@ -3,6 +3,8 @@ package PresentationLayer;
 //import java.awt.*;
 import java.util.*;
 
+import Utils.Pair;
+
 
 public class CreationCtrl {
 
@@ -101,6 +103,7 @@ public class CreationCtrl {
 
         //la parte de comprobar si un jugador ya existe y su contraseña es correcta aun no la tengo hecha
 
+        pc.createProfile(playerId, password);
         playersId.add(new Pair<>(playerId, password));
         loginIndex++;
         showNextLoginView();

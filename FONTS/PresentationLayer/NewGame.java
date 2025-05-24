@@ -88,15 +88,17 @@ public class NewGame extends JPanel {
 
         // Añadir un ActionListener para limitar el número de jugadores IA
         playersDropdown.addActionListener(e -> {
-            int maxPlayers = 4;
+            
             numHumPlayers = Integer.parseInt((String) playersDropdown.getSelectedItem());
-            aiDropdown.removeAllItems();
+            /*aiDropdown.removeAllItems();
             for (int i = 0; i <= maxPlayers - numHumPlayers; i++) {
                 aiDropdown.addItem(String.valueOf(i));
             }
+                */
         });
 
         aiDropdown.addActionListener(e -> {
+            System.out.println("You selected AI PLAYERS");
             numAIPlayers = Integer.parseInt((String) aiDropdown.getSelectedItem());
         });
 
