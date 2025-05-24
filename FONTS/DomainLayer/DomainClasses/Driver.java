@@ -223,6 +223,9 @@ class GameDriver {
                     exit = true;
                     placeWord(matchId);
                     break;
+                case 4:
+                    
+                    break;
                 default:
                     System.out.println("Invalid option. Please try again.");
             }

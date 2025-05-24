@@ -109,6 +109,14 @@ public class Profile {
      * Retrieves the password of the profile.
      * @return The password of the profile.
      */
+    public String getPassword() {
+        return this.password;
+    }
+    
+    /**
+     * Retrieves the password of the profile.
+     * @return The password of the profile.
+     */
     public int getWins() {
         return this.wins;
     }

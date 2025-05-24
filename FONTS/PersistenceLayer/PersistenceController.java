@@ -7,12 +7,8 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.util.*;
-import java.util.Base64;
 
-import DomainLayer.DomainClasses.Profile;
-import DomainLayer.DomainClasses.Match;
-import DomainLayer.DomainClasses.Bag;
-import DomainLayer.DomainClasses.Rack;
+import DomainLayer.DomainClasses.*;
 
 class JsonUtils {
     // Save a JSONArray to a file
@@ -114,33 +110,32 @@ public class PersistenceController {
                             MATCH FUNCTIONALITY
      ------------------------------------------------------------------------
      */
-    public void saveMatches(Map<String, Match> matches) {
+    public void saveMatches(List<Match> matches) {
         JSONArray matchesArray = new JSONArray();
-
-        for (Map.Entry<String, Match> entry : matches.entrySet()) {
-            Match match = entry.getValue();
+        for (Match match : matches) {
             JSONObject matchObject = new JSONObject();
-
+ 
             matchObject.put("id", match.getId());
             matchObject.put("dictionary", match.getDictionary());
             matchObject.put("current_turn", match.getTurn());
 
             // Save bag
-            SONArray bagArray = new JSONArray();
-            for (Map.Entry<String, Box> entry2 : bag.getLetters().entrySet()) { // Assuming the map key is a String and
-                Box tile = entry2.getValue();
+            JSONArray bagArray = new JSONArray();
+            for (Map.Entry<Letter, Integer> entry : match.getBag().getLetters().entrySet()) { // Assuming the map key is a String
+                Letter tile = entry.getKey();
+                int count = entry.getValue();
                 JSONObject tileObject = new JSONObject();
                 tileObject.put("symbol", tile.getSymbol());
                 tileObject.put("value", tile.getValue());
-                tileObject.put("count", tile.getCount());
+                tileObject.put("count", count);
                 bagArray.add(tileObject);
             }
             matchObject.put("bag", bagArray);
 
             // Save players
             JSONArray playersArray = new JSONArray();
-            for (Map.Entry<String, Player> entry3 : match.getPlayers().entrySet()) { // Assuming the map key is a String
-                Player player = entry3.getValue();
+            for (Map.Entry<String,Player> entry : match.getPlayers().entrySet()) { // Assuming getPlayers() returns a List or Set of Player
+                Player player = entry.getValue();
                 JSONObject playerObject = new JSONObject();
                 playerObject.put("id", player.getID());
                 playerObject.put("name", player.getName());
@@ -149,37 +144,35 @@ public class PersistenceController {
 
                 // Save rack
                 JSONArray rackArray = new JSONArray();
-                for (Box tile : player.getRack().getTiles()) { // Assuming getTiles() returns a List or Set of Box
+                for (Letter letter : player.getRack().getLetters()) { // Assuming getTiles() returns a List or Set of Box
                     JSONObject tileObject = new JSONObject();
-                    tileObject.put("symbol", tile.getSymbol());
-                    tileObject.put("value", tile.getValue());
+                    tileObject.put("symbol", letter.getSymbol());
+                    tileObject.put("value", letter.getValue());
                     rackArray.add(tileObject);
                 }
                 playerObject.put("rack", rackArray);
-
                 playersArray.add(playerObject);
             }
             matchObject.put("players", playersArray);
-
 
 
             // Save board
             JSONArray boardArray = new JSONArray();
             Board board = match.getBoard();
             for (int i = 0; i < board.getSize(); i++) {
-                for (int j = 0; j < board.getSize(); j++) {
-                    Box box = board.getBox(i, j);
-                    if (box != null && !box.isEmpty()) {
-                        JSONObject boxObject = new JSONObject();
-                        boxObject.put("x", box.getRow());
-                        boxObject.put("y", box.getColumn());
-                        boxObject.put("symbol", box.getSymbol());
-                        boxObject.put("value", box.getValue());
-                        boxObject.put("crosscheck_v", box.getCrossCheck(0));
-                        boxObject.put("crosscheck_h", box.getCrossCheck(1));
-                        boardArray.add(boxObject);
-                    }
+            for (int j = 0; j < board.getSize(); j++) {
+                Box box = board.getBox(i, j);
+                if (box != null && !box.isEmpty()) {
+                JSONObject boxObject = new JSONObject();
+                boxObject.put("x", box.getRow());
+                boxObject.put("y", box.getColumn());
+                boxObject.put("symbol", box.getSymbol());
+                boxObject.put("value", box.getValue());
+                boxObject.put("crosscheck_v", box.getCrossCheck(0));
+                boxObject.put("crosscheck_h", box.getCrossCheck(1));
+                boardArray.add(boxObject);
                 }
+            }
             }
             matchObject.put("board", boardArray);
 
