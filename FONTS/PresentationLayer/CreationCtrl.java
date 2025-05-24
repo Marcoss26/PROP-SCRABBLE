@@ -12,7 +12,7 @@ public class CreationCtrl {
     private PresentationCtrl pc;
     private Integer humanPlayers;
     private Integer loginIndex;
-    private Set<String> playersId;
+    private Set<Pair<String,String>> playersId;
 
     private CreationCtrl(){
 
@@ -50,6 +50,26 @@ public class CreationCtrl {
         pc.showView(viewName);
     }
 
+    public Integer getHumanPlayers() {
+        return humanPlayers;
+    }
+
+    public Integer getBoardSize() {
+        return newGameView.getBoardSize();
+    }
+
+    public String getDictionary() {
+        return newGameView.getDictionary();
+    }   
+
+    public Set<Pair<String,String>> getPlayersId() {
+        return playersId;
+    }
+
+    public Integer getTotalPlayers() {
+        return newGameView.getTotalPlayers();
+    }
+
 
     
     public void loginSeq(Integer numPlayers){
@@ -71,6 +91,7 @@ public class CreationCtrl {
         else{
             
             pc.refresh();
+            pc.createNewMatch();
             showView("NewGame"); //de momento pongo newgame, pero lo tengo que cambiar por matchView
         }
 
@@ -80,7 +101,7 @@ public class CreationCtrl {
 
         //la parte de comprobar si un jugador ya existe y su contraseña es correcta aun no la tengo hecha
 
-        playersId.add(playerId);
+        playersId.add(new Pair<>(playerId, password));
         loginIndex++;
         showNextLoginView();
     }

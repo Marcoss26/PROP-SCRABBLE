@@ -1,6 +1,6 @@
 package PresentationLayer;
 import javax.swing.*;
-//import DomainLayer.DomainClasses.DomainController;
+import DomainLayer.DomainClasses.DomainController;
 import java.awt.*;
 import java.util.*;
 
@@ -10,11 +10,9 @@ public class PresentationCtrl {
     private static PresentationCtrl instance;
     private Map<String, JPanel> createdViews;
     private CreationCtrl cc;
-    //private DomainController domainCtrl;
+    private DomainController domainCtrl;
 
-    private int humanPlayers;
-    private int loginIndex;
-    private Set<String> playersId;
+    
 
     // CONSTRUCTOR, its a Singleton class
     private PresentationCtrl() {
@@ -29,11 +27,26 @@ public class PresentationCtrl {
     }
 
     //Con esta funcion se inicializa el controlador del dominio y está listo para utilizar
-   /*
+   
     public void initializeCD(){
         domainCtrl = DomainController.getInstance();
     }
-       */
+
+    //Funciones relacionadas con el ctrl dominio
+
+    public void createNewMatch(){
+        int numPlayers = cc.getHumanPlayers();
+        int totalPlayers = cc.getTotalPlayers();
+        int boardSize = cc.getBoardSize();
+        String dictionary = cc.getDictionary();
+        Set<Pair<String,String>> playersId = cc.getPlayersId();
+
+        //domainCtrl.newMatch(numPlayers, totalPlayers, playersId, dictionary, boardSize);
+
+
+    }
+
+       
 
     public void initializeViews() {
         mainFrame = new JFrame("Scrabble");
