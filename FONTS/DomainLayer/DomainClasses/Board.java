@@ -294,15 +294,23 @@ public class Board
      * @param column La columna de la casilla
      * @param letter La letra a colocar
      * @param value El valor de la letra
-     * Post: se coloca la letra en la casilla correspondiente
+     * Post: se coloca la letra en la casilla correspondiente y
+     * devuelve el valor de la letra multiplicado por el multiplicador de letra de la casilla
      */
 
-    public void placeLetter(int row, int column, String letter, int value) {
+    public int placeLetter(int row, int column, String letter, int value) {
         if (row >= 0 && row < size && column >= 0 && column < size) {
             isEmpty = false;
-            this.board[row][column].setLetter(letter, value);
+            int multiplier = 1;
+            Box box = this.board[row][column];
+            if (box instanceof Box.DoubleLetter) multiplier = 2;
+            else if (box instanceof Box.TripleLetter) multiplier = 3;
+            this.board[row][column].setLetter(letter, value*multiplier);
+
+            return value*multiplier;
             //printBoard();
         }
+        return 0;
     }
 
     /**
@@ -377,9 +385,6 @@ public class Board
         }
     }
 
-
-
-
     /**
      * Retorna la letra de la casilla correspondiente a las coordenadas de entrada
      * Pre: ya existe un tablero con al menos una letra
@@ -390,5 +395,23 @@ public class Board
 
     public String getLetter(int row, int column) { 
         return board[row][column].getSymbol();
+    }
+
+    /**
+     * Retorna el valor del multiplicador de palabra dada una casilla
+     * Pre: ya existe un tablero
+     * @param row
+     * @param column 
+     * @return El valor del multiplicador de palabra de la casilla correspondiente a los valores de entrada
+     *         1 si no es una una casilla de multiplicador de palabra
+     */
+
+    public int getWordBonus(int row, int column) {
+        if (row >= 0 && row < size && column >= 0 && column < size) {
+            Box box = this.board[row][column];
+            if (box instanceof Box.DoubleWord) return 2;
+            else if (box instanceof Box.TripleWord) return 3;
+        }
+        return 1;
     }
 }
