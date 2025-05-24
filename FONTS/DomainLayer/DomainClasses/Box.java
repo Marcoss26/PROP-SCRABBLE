@@ -128,7 +128,7 @@ public class Box
      * @return true si la casilla tiene una letra que puede formar palabras, false en caso contrario
      */
 
-    public boolean hasCrossCheck(String letter)
+    public boolean hasCrossCheck(String letter, int horizontal)
     {
         /*System.out.println("letter: " + letter);
         System.out.println("Horizontal crossCheck:");
@@ -139,7 +139,10 @@ public class Box
         for (String s : this.VerticalcrossCheck) {
             System.out.println(s);
         }*/
-        return this.HorizontalcrossCheck.contains(letter) && this.VerticalcrossCheck.contains(letter);
+        if(horizontal == 0) {
+            return this.HorizontalcrossCheck.contains(letter);
+        }
+        return this.VerticalcrossCheck.contains(letter);
     }
 
     /**

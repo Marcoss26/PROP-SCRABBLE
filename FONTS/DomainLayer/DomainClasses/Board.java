@@ -305,6 +305,7 @@ public class Board
             Box box = this.board[row][column];
             if (box instanceof Box.DoubleLetter) multiplier = 2;
             else if (box instanceof Box.TripleLetter) multiplier = 3;
+            System.out.println("Placing letter: " + letter + " at position: [" + column + "," + row + "] with value: " + value + " and multiplier: " + multiplier);
             this.board[row][column].setLetter(letter, value*multiplier);
 
             return value*multiplier;
