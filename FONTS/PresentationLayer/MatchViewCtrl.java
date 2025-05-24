@@ -1,7 +1,7 @@
 package PresentationLayer;
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
+//import javax.swing.*;
+//import java.awt.*;
+import java.util.*;
 
 public class MatchViewCtrl {
     private static MatchViewCtrl instance;
@@ -18,16 +18,12 @@ public class MatchViewCtrl {
         return instance;
     }
 
-    public MatchView createMatchView(Integer numPlayers, List<String> players) {
-        matchView = new MatchView(numPlayers, players);
+    public MatchView createMatchView(Integer boardSize, Integer totalPlayers, ArrayList<String> players, ArrayList<String> letters) {
+        matchView = new MatchView(boardSize, totalPlayers, players, letters);
         return matchView;
     }
 
-    public void updateMatchInfo(Integer numPlayers, List<String> players) {
-        if (matchView != null) {
-            matchView.updateInfo(numPlayers, players);
-        }
-    }
+    
 
     public MatchView getMatchView() {
         return matchView;

@@ -88,6 +88,16 @@ public class Match
         return players.get(id);
     }
 
+    public ArrayList<String> getPlayersname(){
+        ArrayList<String> names = new ArrayList<>();
+       
+        for(Player player : playerList)
+        {
+            names.add(player.getName());
+        }
+        return names;
+    }
+
     public void displayPlayers()
     {
         for (Map.Entry<String, Player> entry : players.entrySet()) 

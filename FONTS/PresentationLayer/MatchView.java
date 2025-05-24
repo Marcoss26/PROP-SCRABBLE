@@ -1,5 +1,5 @@
 package PresentationLayer;
-import java.util.List;
+import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,7 +9,7 @@ public class MatchView extends JPanel {
     private JPanel BoardAndRack;
     private GameInfoView gameInfoPanel;
 
-    public MatchView(int boardSize, int numPlayers, List<String> players, List<String> letters) {
+    public MatchView(int boardSize, int numPlayers, ArrayList<String> players, ArrayList<String> letters) {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.decode("#332F2C"));
         
@@ -38,15 +38,15 @@ public class MatchView extends JPanel {
         rackPanel.repaint();
     }
 
-    private void initializeRack(List<String> letters) {
+    private void initializeRack(ArrayList<String> letters) {
         rackPanel = new RackView(letters);
     }
 
-    private void initializeGameInfo(int numPlayers, List<String> players) {
+    private void initializeGameInfo(int numPlayers, ArrayList<String> players) {
         gameInfoPanel = new GameInfoView(numPlayers, players);
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         JFrame frame = new JFrame("Match Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -57,6 +57,6 @@ public class MatchView extends JPanel {
         frame.add(matchView);
 
         frame.setVisible(true);
-    }
+    }*/ 
 }
 

@@ -131,7 +131,7 @@ public class BoardView extends JPanel {
                 }
                 else if((i == size/2 && j == size/2)) {
 
-                    ImageIcon star = new ImageIcon(getClass().getResource("Resources/Star.jpg"));
+                    ImageIcon star = new ImageIcon("Resources/Star.jpg");
                     Image scaledImage = star.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                     centericon = new ImageIcon(scaledImage);
                     JLabel label = new JLabel(centericon);

@@ -41,6 +41,15 @@ public class Rack {
         letters.add(letter);
     }
 
+    public ArrayList<String> getInfoLetters() {
+        ArrayList<String> infoLetters = new ArrayList<>();
+        for (Letter letter : letters) {
+            infoLetters.add(letter.getSymbol());
+            infoLetters.add(String.valueOf(letter.getValue()));
+        }
+        return infoLetters;
+    }
+
     /**
      * Gets a letter from the rack, removing it from the rack, and replacing it with a new letter from the bag.
      * @param symbol The symbol of the letter to get.

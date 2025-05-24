@@ -240,4 +240,28 @@ public class DomainController {
      public void displayRanking() {
         this.ranking.displayRanking();
      }
+
+
+     /*
+      * ---------------------------------------------------------------------
+                            PRESENTATION FUNCTIONALITY
+        ------------------------------------------------------------------------
+      */
+      public ArrayList<String> getMatchplayers(String matchId) {
+            try{
+                return matchController.getMatchPlayers(matchId);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+            return null;
+      }
+
+      public ArrayList<String> getRackLetters(String matchId, int turn) {
+            try{
+                return matchController.getRackLetters(matchId, turn);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+            return null;
+      }
 }

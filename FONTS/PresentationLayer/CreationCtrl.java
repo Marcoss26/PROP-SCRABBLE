@@ -94,7 +94,7 @@ public class CreationCtrl {
             
             pc.refresh();
             pc.createNewMatch();
-            showView("NewGame"); //de momento pongo newgame, pero lo tengo que cambiar por matchView
+            showView("MatchView"); //de momento pongo newgame, pero lo tengo que cambiar por matchView
         }
 
     }
