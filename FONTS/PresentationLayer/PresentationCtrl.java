@@ -52,6 +52,8 @@ public class PresentationCtrl {
             System.out.println("Error creating match: " + e.getMessage());
         }
 
+        //Ahora querré crear una nueva vista de match view, por lo que llamo al controlador para que la cree
+
 
     }
 
