@@ -195,7 +195,7 @@ public class MP_Controller
 
     private static MP_Controller c;
     private Map<String, Match> matches = new HashMap<>();
-    private List<String> unfinishedMatches = new ArrayList<>(); //Matches that are not finished yet
+    private List<Match> unfinishedMatches = new ArrayList<>(); //Matches that are not finished yet
     private List<PlayableWord> playableWords = new ArrayList<>();
     private MP_Controller()
     {
@@ -249,7 +249,7 @@ public class MP_Controller
             }
             Match match = new Match(id,size);
             matches.put(id, match);
-            unfinishedMatches.add(id); //Adding the match to the unfinished matches
+            unfinishedMatches.add(match); //Adding the match to the unfinished matches
             createBagForMatch(match,letters,bag_size);
             createPlayersForMatch(match,profiles,dictionary.getLanguage());
             createDictionaryForMatch(match,dictionary);
@@ -515,7 +515,7 @@ public class MP_Controller
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            unfinishedMatches.remove(id); //Removing the match from the unfinished matches
+            unfinishedMatches.remove(match); //Removing the match from the unfinished matches
             String winner = match.setFinished();
             System.out.println("Match with ID: " + id + " finished.");
             return winner;
@@ -526,7 +526,7 @@ public class MP_Controller
         }
     }
 
-    public List<String> getUnfinishedMatches()
+    public List<Match> getUnfinishedMatches()
     {
         return unfinishedMatches;
     }
