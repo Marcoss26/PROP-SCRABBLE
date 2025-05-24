@@ -13,7 +13,7 @@ public class MyDriver
         int totalLettersInTheBag = 0;
         boolean validFile = false;
         while(!validFile) {
-            String file = "letrasCAT.txt";
+            String file = "letrasENG.txt";
             File filePath = new File("data/Letters/" + file);
     
             if (!filePath.exists()) {
@@ -41,7 +41,7 @@ public class MyDriver
                 return;
             }
         }
-        DomainLayer.DomainClasses.Dictionary dictionary = new DomainLayer.DomainClasses.Dictionary("ca","ca");
+        DomainLayer.DomainClasses.Dictionary dictionary = new DomainLayer.DomainClasses.Dictionary("en","en");
         Set<Profile> profiles = new HashSet<>();
         Profile profile = new Profile("ziheng","1");
         Profile profile2 = new Profile("ziheng2","1");

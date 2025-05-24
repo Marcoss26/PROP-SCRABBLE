@@ -243,7 +243,7 @@ public class Dawg
      */
     private void addWord(String word,String oldword)
     {
-        //System.out.println("Añadiendo palabra" + i + ": " + word);
+        System.out.println("Añadiendo palabra"  + ": " + word);
         String commonPrefix = commonPrefix(word);
         Node lastNode = get_lastNode(root, commonPrefix);
         String currentSufix = word.substring(commonPrefix.length());
