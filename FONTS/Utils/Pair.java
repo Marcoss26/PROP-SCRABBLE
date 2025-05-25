@@ -1,28 +1,29 @@
-package PresentationLayer;
+package Utils;
+
 import java.util.*;
 
-public class Pair {
-    private int First;
-    private int Second;
+public class Pair<F,S> {
+    private F First;
+    private S Second;
 
-     public Pair(int first, int second){
+    public Pair(F first, S second){
         this.First = first;
         this.Second = second;
     }
 
-    public Integer first(){
+    public F first(){
         return this.First;
     }
 
-    public Integer second(){
+    public S second(){
         return this.Second;
     }
 
-    public void setFirst(int first){
+    public void setFirst(F first){
         this.First = first;
     }
 
-    public void setSecond(int second){
+    public void setSecond(S second){
         this.Second = second;
     }
 
@@ -31,7 +32,7 @@ public class Pair {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Pair pair = (Pair) o;
+        Pair<?,?> pair = (Pair<?,?>) o;
         return First == pair.First && Second == pair.Second;
     }
 

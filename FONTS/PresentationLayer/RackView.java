@@ -2,7 +2,8 @@ package PresentationLayer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.List;
+//import java.util.List;
+import java.util.ArrayList;
 
 public class RackView extends JPanel {
 
@@ -21,12 +22,12 @@ public class RackView extends JPanel {
                 g.drawImage(rackBackground, 0, 0, getWidth(), getHeight(), this);
             }
 
-    public RackView(List<String> letters) {
+    public RackView(ArrayList<String> letters) {
         //this.setLayout(new GridLayout(1, letters.size()/2));
 
         this.setLayout(new BorderLayout());
 
-        ImageIcon rackwood = new ImageIcon(getClass().getResource("Resources/Wood.jpg"));
+        ImageIcon rackwood = new ImageIcon("Resources/Wood.jpg");
         rackBackground = rackwood.getImage();
 
         rackPanel = new JPanel();
@@ -134,7 +135,7 @@ public class RackView extends JPanel {
     }
 
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         // Crear un JFrame para probar el RackView
         JFrame frame = new JFrame("Rack Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -148,5 +149,5 @@ public class RackView extends JPanel {
         frame.add(rack);
 
         frame.setVisible(true);
-    }
+    }*/
 }

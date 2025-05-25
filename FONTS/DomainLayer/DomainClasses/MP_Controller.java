@@ -30,6 +30,8 @@ public class MP_Controller
 
     }
 
+ 
+
     public void printCrossChecks(int column, int row, String id)
     {
         Match match = matches.get(id);
@@ -295,5 +297,29 @@ public class MP_Controller
     public void loadMatchesFromJSON(Map<String, Match> matchesFromJSON)
     {
         matches = matchesFromJSON;
+    }
+    /*
+     * Presentation Functions
+     */
+
+        public ArrayList<String> getMatchPlayers(String id) throws IllegalArgumentException {
+        if(existMatch(id)) {
+            Match match = matches.get(id);
+            ArrayList<String> playerNames = match.getPlayersname();
+            return playerNames;
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
+        }
+    }
+
+    public ArrayList<String> getRackLetters(String matchid, int turn) throws IllegalArgumentException{
+        if(existMatch(matchid)) {
+            Match match = matches.get(matchid);
+            List<Player> players = match.getListPlayers();
+            Player player = players.get(turn);
+            return player.getInfoLetters();
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchid + " does not exist.");
+        }
     }
 }

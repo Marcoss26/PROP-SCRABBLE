@@ -22,7 +22,7 @@ public class GameInfoView extends JPanel {
         scorePanel.setBorder(BorderFactory.createTitledBorder("Scores"));
         scorePanel.setPreferredSize(new Dimension(200, 200));
         for(int i = 0; i < numPlayers; ++i) {
-            JLabel label = new JLabel(players.get(i) + ": 15");
+            JLabel label = new JLabel(players.get(i) + ": 0");
             label.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
             label.setHorizontalAlignment(SwingConstants.CENTER);
             scorePanel.add(label);

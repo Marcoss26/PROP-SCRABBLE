@@ -12,6 +12,9 @@ public class NewGame extends JPanel {
     private JButton startButton;
     private JButton returnButton;
     private Integer numHumPlayers;
+    private Integer numAIPlayers;
+    private Integer boardSize;
+    private String dictionary;
     private PresentationCtrl pc;
     private CreationCtrl cc;
     
@@ -53,14 +56,14 @@ public class NewGame extends JPanel {
         ));
         playerPanel.setPreferredSize(new Dimension(400, 250)); // Tamaño preferido intermedio
 
-        JLabel playersLabel = new JLabel("How many players do you want?");
+        JLabel playersLabel = new JLabel("How many Human players do you want?");
         playersLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         playerPanel.add(playersLabel);
 
         JComboBox<String> playersDropdown = new JComboBox<>(new String[]{"1", "2", "3", "4"});
         playerPanel.add(playersDropdown);
 
-        JLabel aiLabel = new JLabel("How many players are AI?");
+        JLabel aiLabel = new JLabel("How many AI players do you want?");
         aiLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         playerPanel.add(aiLabel);
 
@@ -74,18 +77,29 @@ public class NewGame extends JPanel {
         JComboBox<String> boardSizeDropdown = new JComboBox<>(new String[]{"7", "15", "25"});
         playerPanel.add(boardSizeDropdown);
 
+        boardSizeDropdown.addActionListener(e -> {
+            boardSize = Integer.parseInt((String) boardSizeDropdown.getSelectedItem());
+            
+        });
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         mainPanel.add(playerPanel, gbc);
 
         // Añadir un ActionListener para limitar el número de jugadores IA
         playersDropdown.addActionListener(e -> {
-            int maxPlayers = 4;
+            
             numHumPlayers = Integer.parseInt((String) playersDropdown.getSelectedItem());
-            aiDropdown.removeAllItems();
+            /*aiDropdown.removeAllItems();
             for (int i = 0; i <= maxPlayers - numHumPlayers; i++) {
                 aiDropdown.addItem(String.valueOf(i));
             }
+                */
+        });
+
+        aiDropdown.addActionListener(e -> {
+            System.out.println("You selected AI PLAYERS");
+            numAIPlayers = Integer.parseInt((String) aiDropdown.getSelectedItem());
         });
 
         // Sección 2: Configuración del diccionario
@@ -103,6 +117,10 @@ public class NewGame extends JPanel {
 
         JComboBox<String> dictionaryDropdown = new JComboBox<>(new String[]{"English", "Spanish", "Catalan"});
         settingsPanel.add(dictionaryDropdown);
+
+        dictionaryDropdown.addActionListener(e -> {
+            dictionary = (String) dictionaryDropdown.getSelectedItem();
+        });
 
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -137,5 +155,26 @@ public class NewGame extends JPanel {
         });
 
         add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    public Integer getBoardSize() {
+        return boardSize;
+    }
+
+    public String getDictionary() {
+        switch(dictionary) {
+            case "English":
+                return "en";
+            case "Spanish":
+                return "es";
+            case "Catalan":
+                return "ca";
+            default:
+                return null; // O manejar el caso por defecto
+        }
+    }
+
+    public Integer getTotalPlayers() {
+        return numHumPlayers + numAIPlayers;
     }
 }
