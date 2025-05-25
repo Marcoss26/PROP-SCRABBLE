@@ -111,7 +111,7 @@ public class MP_Controller
         for (int i = 0; i < match_size - profile_size; i++)
         {
             String bot_id = match_id+"BOT"+i; //Creating a bot ID
-            Player player = new IA(bot_id,i); //Creating a new AI player
+            Player player = new IA(bot_id, "IA" + i); //Creating a new AI player
             player.setRack(new Rack(match.getBag())); //Creating a new rack for the AI player
             match.setPlayer(player);    //Adding the AI player to the match
         }

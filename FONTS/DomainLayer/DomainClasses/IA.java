@@ -5,10 +5,10 @@ public class IA extends Player
     {
         super();
     }
-    public IA(String id, int i)
+    public IA(String id, String name)
     {
         super(id);
-        this.name = "IA" + i; //Set the name of the player to IA + i
+        this.name = name; //Set the name of the player to IA + i
     }
 
     public void addScore(int score)
