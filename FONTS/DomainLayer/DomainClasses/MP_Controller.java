@@ -7,7 +7,6 @@ public class MP_Controller
 
     private static MP_Controller c;
     private Map<String, Match> matches = new HashMap<>();
-    private List<Match> unfinishedMatches = new ArrayList<>(); //Matches that are not finished yet
     private MP_Controller()
     {
 
@@ -60,7 +59,6 @@ public class MP_Controller
             }
             Match match = new Match(id,size);
             matches.put(id, match);
-            unfinishedMatches.add(match); //Adding the match to the unfinished matches
             createBagForMatch(match,letters,bag_size);
             createPlayersForMatch(match,profiles,dictionary.getLanguage());
             createDictionaryForMatch(match,dictionary);
@@ -252,7 +250,6 @@ public class MP_Controller
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            unfinishedMatches.remove(match); //Removing the match from the unfinished matches
             String winner = match.setFinished();
             System.out.println("Match with ID: " + id + " finished.");
             return winner;
@@ -263,9 +260,9 @@ public class MP_Controller
         }
     }
 
-    public List<Match> getUnfinishedMatches()
+    public Map<String,Match> getUnfinishedMatches()
     {
-        return unfinishedMatches;
+        return matches;
     }
 
     public void continueMatch(String id) throws IllegalArgumentException
