@@ -166,7 +166,6 @@ public class MP_Controller
         {
             Match match = matches.get(id);
             match.startMatch();
-            System.out.println("Match with ID: " + id + " started.");
         }
         else
         {
@@ -251,6 +250,7 @@ public class MP_Controller
         {
             Match match = matches.get(id);
             String winner = match.setFinished();
+            matches.remove(id);
             System.out.println("Match with ID: " + id + " finished.");
             return winner;
         }
