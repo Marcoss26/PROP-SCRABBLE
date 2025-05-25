@@ -157,7 +157,7 @@ public class DomainController {
      * Retrieves the list of unfinished matches.
      * @return A list of unfinished match IDs.
      */
-    public List<String> getUnfinishedMatchs() {
+    public Map<String,Match> getUnfinishedMatchs() {
         return this.matchController.getUnfinishedMatches();
     }
 
@@ -196,24 +196,20 @@ public class DomainController {
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        try{
-            this.dictionaryController.addWordsToDictionary(dictionaryName, fileName);
-        } catch (IOException e) {
-            System.out.println("Error reading the file: " + e.getMessage());
-        }
+        
     }
 
     public void removeDictionary(String dictionaryName) {
         this.dictionaryController.removeDictionary(dictionaryName);
     }
 
-    public void addWordToDictionary(String dictionaryName, String word) {
+    /*public void addWordToDictionary(String dictionaryName, String word) {
         this.dictionaryController.addWordToDictionary(dictionaryName, word);
     }
 
     public void removeWordFromDictionary(String dictionaryName, String word) {
         this.dictionaryController.removeWordFromDictionary(dictionaryName, word);
-    }
+    }*/
 
     public String getDictionaryLanguage(String dictionaryName) {
         try {
