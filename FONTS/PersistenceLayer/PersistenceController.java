@@ -160,19 +160,19 @@ public class PersistenceController {
             JSONArray boardArray = new JSONArray();
             Board board = match.getBoard();
             for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); j++) {
-                Box box = board.getBox(i, j);
-                if (box != null && !box.isEmpty()) {
-                JSONObject boxObject = new JSONObject();
-                boxObject.put("x", box.getRow());
-                boxObject.put("y", box.getColumn());
-                boxObject.put("symbol", box.getSymbol());
-                boxObject.put("value", box.getValue());
-                boxObject.put("crosscheck_v", box.getCrossCheck(0));
-                boxObject.put("crosscheck_h", box.getCrossCheck(1));
-                boardArray.add(boxObject);
+                for (int j = 0; j < board.getSize(); j++) {
+                    Box box = board.getBox(i, j);
+                    if (box != null && !box.isEmpty()) {
+                    JSONObject boxObject = new JSONObject();
+                    boxObject.put("x", box.getRow());
+                    boxObject.put("y", box.getColumn());
+                    boxObject.put("symbol", box.getSymbol());
+                    boxObject.put("value", box.getValue());
+                    boxObject.put("crosscheck_v", box.getCrossCheck(0));
+                    boxObject.put("crosscheck_h", box.getCrossCheck(1));
+                    boardArray.add(boxObject);
+                    }
                 }
-            }
             }
             matchObject.put("board", boardArray);
 
@@ -194,14 +194,17 @@ public class PersistenceController {
             long currentTurn = (long) matchObject.get("current_turn");
 
             // Load bag
-            List<Box> bag = new ArrayList<>();
+            Map<Letter, Integer> bagMap = new HashMap<>();
+            int totalLetters = 0;
             JSONArray bagArray = (JSONArray) matchObject.get("bag");
             for (Object bagObj : bagArray) {
                 JSONObject tileObject = (JSONObject) bagObj;
                 String symbol = (String) tileObject.get("symbol");
                 long value = (long) tileObject.get("value");
                 long count = (long) tileObject.get("count");
-                bag.add(new Box(symbol, (int) value, (int) count));
+                Letter letter = new Letter(symbol, (int) value);
+                bagMap.put(letter, (int) count);
+                totalLetters += count;
             }
 
             // Load players
@@ -214,7 +217,13 @@ public class PersistenceController {
                 long score = (long) playerObject.get("score");
                 String type = (String) playerObject.get("type");
 
-                Player player = type.equals("Human") ? new HumanPlayer(playerId) : new AIPlayer(playerId);
+                Player player;
+                if (type.equals("Human")) {
+                    Profile profile;
+                    player = new Human(playerId, profile, );
+                } else {
+                    player = new IA(playerId, numb);
+                }
                 player.setName(name);
                 player.setScore((int) score);
 
