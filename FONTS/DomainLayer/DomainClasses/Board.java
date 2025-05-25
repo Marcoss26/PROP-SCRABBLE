@@ -1,5 +1,6 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
+import PresentationLayer.Pair;
 
 /**
  * Board.java
@@ -29,40 +30,102 @@ public class Board
             throw new IllegalArgumentException("El tamaño del tablero debe ser 7, 15 o 25.");  
         }
         this.size = size;
+        this.board = new Box[size][size];
 
-        this.board = new Box[size + 1][size + 1];
-        int[] doubleLetter = new int[0];
-        int[] tripleLetter = new int[0];
-        int[] doubleWord = new int[0];
-        int[] tripleWord = new int[0];
+        Set<Pair> doubleLetter = new HashSet<>();
+        Set<Pair> tripleLetter = new HashSet<>();
+        Set<Pair> doubleWord = new HashSet<>();
+        Set<Pair> tripleWord = new HashSet<>();
 
-        if (this.size == 7) {
-            doubleLetter = new int[]{0,1, 0,5, 1,0, 1,6, 2,3, 3,2, 3,4, 4,3, 5,0, 5,6, 6,1, 6,5};
-            tripleLetter = new int[]{1,3, 3,1, 3,5, 5,3};
-            doubleWord = new int[]{1,1, 2,2, 3,3, 4,4, 5,5, 1,5, 2,4, 4,2, 5,1};
-            tripleWord = new int[]{0,0, 0,3, 0,6, 3,0, 3,6, 6,0, 6,3, 6,6};
+        // --- Asignación de casillas especiales según el tamaño ---
+        if (size == 7) {
+            doubleLetter = new HashSet<>(Arrays.asList(
+                new Pair(0,1), new Pair(0,5), new Pair(1,0), new Pair(1,6), new Pair(2,3), new Pair(3,2),
+                new Pair(3,4), new Pair(4,3), new Pair(5,0), new Pair(5,6), new Pair(6,1), new Pair(6,5)
+            ));
+            tripleLetter = new HashSet<>(Arrays.asList(
+                new Pair(1,3), new Pair(3,1), new Pair(3,5), new Pair(5,3)
+            ));
+            doubleWord = new HashSet<>(Arrays.asList(
+                new Pair(1,1), new Pair(2,2), new Pair(3,3), new Pair(4,4), new Pair(5,5),
+                new Pair(1,5), new Pair(2,4), new Pair(4,2), new Pair(5,1)
+            ));
+            tripleWord = new HashSet<>(Arrays.asList(
+                new Pair(0,0), new Pair(0,3), new Pair(0,6), new Pair(3,0), new Pair(3,6),
+                new Pair(6,0), new Pair(6,3), new Pair(6,6)
+            ));
         }
-        else if (this.size == 15) {
-            doubleLetter = new int[]{0,3, 0,11, 2,6, 2,8, 3,0, 3,7, 3,14, 6,2, 6,6, 6,8, 6,12, 7,3, 7,11, 14,3, 14,11, 12,6, 12,8, 11,0, 11,7, 11,14, 8,2, 8,6, 8,8, 8,12};
-            tripleLetter = new int[]{1,5, 1,9, 5,1, 5,5, 5,9, 5,13, 13,5, 13,9, 9,1, 9,5, 9,9, 9,13};
-            doubleWord = new int[]{1,1, 2,2, 3,3, 4,4, 7,7, 10,10, 11,11, 12,12, 13,13, 1,13, 2,12, 3,11, 4,10, 10,4, 11,3, 12,2, 13,1};
-            tripleWord = new int[]{0,0, 0,7, 0,14, 7,0, 7,14, 14,0, 14,7, 14,14};
+        else if (size == 15) {
+            doubleLetter = new HashSet<>(Arrays.asList(
+                new Pair(0,3), new Pair(0,11), new Pair(2,6), new Pair(2,8), new Pair(3,0), new Pair(3,7), new Pair(3,14),
+                new Pair(6,2), new Pair(6,6), new Pair(6,8), new Pair(6,12), new Pair(7,3), new Pair(7,11), new Pair(14,3),
+                new Pair(14,11), new Pair(12,6), new Pair(12,8), new Pair(11,0), new Pair(11,7), new Pair(11,14),
+                new Pair(8,2), new Pair(8,6), new Pair(8,8), new Pair(8,12)
+            ));
+            tripleLetter = new HashSet<>(Arrays.asList(
+                new Pair(1,5), new Pair(1,9), new Pair(5,1), new Pair(5,5), new Pair(5,9), new Pair(5,13),
+                new Pair(13,5), new Pair(13,9), new Pair(9,1), new Pair(9,5), new Pair(9,9), new Pair(9,13)
+            ));
+            doubleWord = new HashSet<>(Arrays.asList(
+                new Pair(1,1), new Pair(2,2), new Pair(3,3), new Pair(4,4), new Pair(10,10), new Pair(11,11),
+                new Pair(12,12), new Pair(13,13), new Pair(1,13), new Pair(2,12), new Pair(3,11), new Pair(4,10),
+                new Pair(10,4), new Pair(11,3), new Pair(12,2), new Pair(13,1)
+            ));
+            tripleWord = new HashSet<>(Arrays.asList(
+                new Pair(0,0), new Pair(0,7), new Pair(0,14), new Pair(7,0), new Pair(7,14),
+                new Pair(14,0), new Pair(14,7), new Pair(14,14)
+            ));
         }
-        else if (this.size == 25) {
-            doubleLetter = new int[]{1,8, 1,16, 3,11, 3,13, 4,12, 5,8, 5,16, 7,11, 7,13, 8,12, 8,1, 8,5, 8,19, 8,23, 11,3, 11,7, 11,11, 11,13, 11,17, 11,21, 12,4, 12,8, 12,16, 12,20, 23,8, 23,16, 21,11, 21,13, 20,12, 19,8, 19,16, 17,11, 17,13, 16,12, 16,1, 16,5, 16,19, 16,23, 13,3, 13,7, 13,11, 13,13, 13,17, 13,21};
-            tripleLetter = new int[]{2,10, 2,14, 6,10, 6,14, 10,10, 10,14, 14,10, 14,14, 18,10, 18,14, 22,10, 22,14, 10,2, 10,6, 14,2, 14,6, 10,18, 10,22, 14,18, 14,22};
-            doubleWord = new int[]{1,1, 2,2, 3,3, 4,4, 5,5, 6,6, 7,7, 8,8, 9,9, 12,12, 15,15, 16,16, 17,17, 18,18, 19,19, 20,20, 21,21, 22,22, 23,23, 1,23, 2,22, 3,21, 4,20, 5,19, 6,18, 7,17, 8,16, 9,15, 15,9, 16,8, 17,7, 18,6, 19,5, 20,4, 21,3, 22,2, 23,1};
-            tripleWord = new int[]{0,0, 0,12, 0,24, 12,0, 12,24, 24,0, 24,12, 24,24};
+        else if (size == 25) {
+            doubleLetter = new HashSet<>(Arrays.asList(
+                new Pair(1,8), new Pair(1,16), new Pair(3,11), new Pair(3,13), new Pair(4,12), new Pair(5,8), new Pair(5,16),
+                new Pair(7,11), new Pair(7,13), new Pair(8,12), new Pair(8,1), new Pair(8,5), new Pair(8,19), new Pair(8,23),
+                new Pair(11,3), new Pair(11,7), new Pair(11,11), new Pair(11,13), new Pair(11,17), new Pair(11,21),
+                new Pair(12,4), new Pair(12,8), new Pair(12,16), new Pair(12,20), new Pair(23,8), new Pair(23,16),
+                new Pair(21,11), new Pair(21,13), new Pair(20,12), new Pair(19,8), new Pair(19,16), new Pair(17,11),
+                new Pair(17,13), new Pair(16,12), new Pair(16,1), new Pair(16,5), new Pair(16,19), new Pair(16,23),
+                new Pair(13,3), new Pair(13,7), new Pair(13,11), new Pair(13,13), new Pair(13,17), new Pair(13,21)
+            ));
+            tripleLetter = new HashSet<>(Arrays.asList(
+                new Pair(2,10), new Pair(2,14), new Pair(6,10), new Pair(6,14), new Pair(10,10), new Pair(10,14),
+                new Pair(14,10), new Pair(14,14), new Pair(18,10), new Pair(18,14), new Pair(22,10), new Pair(22,14),
+                new Pair(10,2), new Pair(10,6), new Pair(14,2), new Pair(14,6), new Pair(10,18), new Pair(10,22),
+                new Pair(14,18), new Pair(14,22)
+            ));
+            doubleWord = new HashSet<>(Arrays.asList(
+                new Pair(1,1), new Pair(2,2), new Pair(3,3), new Pair(4,4), new Pair(5,5), new Pair(6,6), new Pair(7,7),
+                new Pair(8,8), new Pair(9,9), new Pair(10,10), new Pair(11,11), new Pair(13,13), new Pair(14,14),
+                new Pair(15,15), new Pair(16,16), new Pair(17,17), new Pair(18,18), new Pair(19,19), new Pair(20,20),
+                new Pair(21,21), new Pair(22,22), new Pair(23,23), new Pair(1,23), new Pair(2,22), new Pair(3,21),
+                new Pair(4,20), new Pair(5,19), new Pair(6,18), new Pair(7,17), new Pair(8,16), new Pair(9,15),
+                new Pair(15,9), new Pair(16,8), new Pair(17,7), new Pair(18,6), new Pair(19,5), new Pair(20,4),
+                new Pair(21,3), new Pair(22,2), new Pair(23,1)
+            ));
+            tripleWord = new HashSet<>(Arrays.asList(
+                new Pair(0,0), new Pair(0,12), new Pair(0,24), new Pair(12,0), new Pair(12,24),
+                new Pair(24,0), new Pair(24,12), new Pair(24,24)
+            ));
         }
-        
-        assignSpecialBoxes(doubleLetter, "doubleLetter");
-        assignSpecialBoxes(tripleLetter, "tripleLetter");
-        assignSpecialBoxes(doubleWord, "doubleWord");
-        assignSpecialBoxes(tripleWord, "tripleWord");
 
-        for (int i = 0; i <= this.size; i++) {
-            for (int j = 0; j <= this.size; j++) {
-                if (this.board[i][j] == null) this.board[i][j] = new Box(i, j);
+        // --- Asignación eficiente de casillas ---
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                Pair pos = new Pair(i, j);
+                if (doubleLetter.contains(pos)) {
+                    board[i][j] = new Box.DoubleLetter(i, j);
+                }
+                else if (tripleLetter.contains(pos)) {
+                    board[i][j] = new Box.TripleLetter(i, j);
+                }
+                else if (doubleWord.contains(pos)) {
+                    board[i][j] = new Box.DoubleWord(i, j);
+                }
+                else if (tripleWord.contains(pos)) {
+                    board[i][j] = new Box.TripleWord(i, j);
+                }
+                else {
+                    board[i][j] = new Box(i, j);
+                }
             }
         }
     }
@@ -266,7 +329,7 @@ public class Board
      * Post: se asignan las casillas especiales al tablero
      */
 
-    private void assignSpecialBoxes(int[] posicions, String type) {
+   /* private void assignSpecialBoxes(int[] posicions, String type) {
         for (int i = 0; i < posicions.length; i += 2) {
             int row = posicions[i+1];
             int column = posicions[i];
@@ -285,7 +348,7 @@ public class Board
                     break;
             }
         }
-    }
+    } */
 
     /**
      * Coloca una letra en el tablero

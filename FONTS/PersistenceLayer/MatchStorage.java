@@ -27,7 +27,5 @@ public class MatchStorage
         }
         return instance;
     }
-
-    public void saveMatch()
     
 }
