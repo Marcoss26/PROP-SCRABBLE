@@ -117,6 +117,7 @@ public class PersistenceController {
  
             matchObject.put("id", match.getId());
             matchObject.put("dictionary", match.getDictionary());
+            matchObject.put("size", match.getSize());
             matchObject.put("current_turn", match.getTurn());
 
             // Save bag
@@ -191,7 +192,10 @@ public class PersistenceController {
 
             String id = (String) matchObject.get("id");
             String dictionary = (String) matchObject.get("dictionary");
-            long currentTurn = (long) matchObject.get("current_turn");
+            int size = (int) matchObject.get("size");
+            int currentTurn = (int) matchObject.get("current_turn");
+
+            Match match = new Match(id, size);
 
             // Load bag
             Map<Letter, Integer> bagMap = new HashMap<>();
@@ -206,6 +210,7 @@ public class PersistenceController {
                 bagMap.put(letter, (int) count);
                 totalLetters += count;
             }
+            Bag bag = new Bag(bagMap, totalLetters);
 
             // Load players
             List<Player> players = new ArrayList<>();
@@ -220,26 +225,27 @@ public class PersistenceController {
                 Player player;
                 if (type.equals("Human")) {
                     Profile profile;
-                    player = new Human(playerId, profile, );
+                    player = new Human(playerId, profile, dictionary);
                 } else {
-                    player = new IA(playerId, numb);
+                    player = new IA(playerId, name);
                 }
-                player.setName(name);
                 player.setScore((int) score);
 
                 // Load rack
                 JSONArray rackArray = (JSONArray) playerObject.get("rack");
-                Rack rack = new Rack();
+                Rack rack = new Rack(bag);
                 for (Object rackObj : rackArray) {
                     JSONObject tileObject = (JSONObject) rackObj;
                     String symbol = (String) tileObject.get("symbol");
                     long value = (long) tileObject.get("value");
-                    rack.addTile(new Box(symbol, (int) value));
+                    rack.addLetter(new Letter(symbol, (int) value));
                 }
-                player.setRack(rack);
 
-                players.add(player);
+                player.setRack(rack);
+                match.setPlayer(player);
             }
+            match.setTurn(currentTurn);
+
 
             // Load board
             Board board = new Board((int) matchObject.get("size"));
@@ -256,7 +262,6 @@ public class PersistenceController {
                 board.placeBox(box);
             }
 
-            Match match = new Match(id, dictionary, players, bag, board);
             match.setCurrentTurn((int) currentTurn);
             matches.put(id, match);
         }

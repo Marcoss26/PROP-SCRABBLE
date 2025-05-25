@@ -2,6 +2,7 @@
     {
         "id": "S",
         "dictionary": "en",
+        "size": 15,
         "bag": [
             {
                 "symbol": "A",
