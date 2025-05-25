@@ -90,7 +90,7 @@ public class MainMenuView extends JPanel {
 
         // Listeners de los botones
         PresentationCtrl pc = PresentationCtrl.getInstance();
-        manageProfilesBtn.addActionListener(e -> pc.showView("LoginView"));
+        manageProfilesBtn.addActionListener(e -> pc.showLoginView("authentication") /*pc.showView("LoginView")*/);
         newGameBtn.addActionListener(e -> pc.showView("NewGame"));
         continueGameBtn.addActionListener(e -> pc.showView("LoadGame"));
         manageDictionariesBtn.addActionListener(e -> pc.showView("ManageDictionaryView"));

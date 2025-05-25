@@ -264,4 +264,29 @@ public class DomainController {
             }
             return null;
       }
+
+      public boolean profInSystem(String username) {
+        return this.profileController.profileExists(username);
+      }
+
+      public boolean checkPassword(String username, String password) {
+        
+        return this.profileController.getProfile(username, password) != null;
+      }
+
+      public ArrayList<String> getProfileStats(String username, String password) {
+        Profile profile = this.profileController.getProfile(username, password);
+        if (profile != null) {
+            ArrayList<String> stats = new ArrayList<>();
+            int gp = profile.getGamesPlayed();
+            int wins = profile.getWins();
+            float winRate = gp > 0 ? (float) wins / gp * 100 : 0; 
+            stats.add(username);
+            stats.add(String.valueOf(gp));
+            stats.add(String.valueOf(wins));
+            stats.add(String.format("%.2f", winRate));
+            return stats;
+        }
+        return null;
+      }
 }

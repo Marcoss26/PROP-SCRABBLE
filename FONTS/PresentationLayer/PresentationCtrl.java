@@ -7,6 +7,7 @@ import Utils.Pair;
 
 import java.awt.*;
 import java.util.*;
+import java.util.ArrayList;
 
 public class PresentationCtrl {
     private JFrame mainFrame;
@@ -76,9 +77,18 @@ public class PresentationCtrl {
 
     }
 
+    public boolean profInSystem(String username) {
+        return domainCtrl.profInSystem(username);
+    }
+
+    public boolean checkPassword(String username, String password) {
+        return domainCtrl.checkPassword(username, password);
+    }
+
     public void createProfile(String username, String password){
         domainCtrl.addProfile(username, password);
     }
+
 
        
 
@@ -92,12 +102,16 @@ public class PresentationCtrl {
         cc = CreationCtrl.getInstance();
         initializeCD();
 
+        //crear ProfileView generica y meterla en el mapa de vistas
+       
+
+
        visiblePanel = new MainMenuView();
        mainFrame.add(visiblePanel);
 
         createdViews = new HashMap<>();
         createdViews.put("MainMenuView", visiblePanel);
-        
+        createdViews.put("ProfileView", cc.createProfileView("username", 0, 0, 0.0f));
         mainFrame.setVisible(true);
 
         
@@ -127,6 +141,22 @@ public class PresentationCtrl {
        }
        mainFrame.revalidate();
        mainFrame.repaint();
+   }
+
+   public void showLoginView(String mode){
+
+        cc.setMode(mode);
+        showView("LoginView");
+
+   }
+
+   public void showProfileView(String username, String password){
+
+        //lo que hara esta funcion es coger del dominio los datos del perfil, setear la vista con estos datos y entonces mostrarla por pantalla 
+        ArrayList<String> stats = domainCtrl.getProfileStats(username, password);
+        cc.setProfileFields(username, Integer.parseInt(stats.get(1)), Integer.parseInt(stats.get(2)), Float.parseFloat(stats.get(3).replace(',', '.')));
+        showView("ProfileView");
+
    }
 
     private void changeView(String viewName){
@@ -179,8 +209,15 @@ public class PresentationCtrl {
                 }
                 break;
             
-                case "MatchView":
+            case "MatchView":
                 visiblePanel = createdViews.get("MatchView");
+
+            case "ProfileView":
+                //esta vista es un poco diferente, porque la tengo que actualizar, cada vez que la muestro necesito actualizarla con los valores actuales
+                
+                    visiblePanel = createdViews.get("ProfileView");
+                
+                break;
 
             default:
                 System.out.println("Invalid view name: " + viewName);
