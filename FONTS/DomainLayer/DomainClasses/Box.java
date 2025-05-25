@@ -95,10 +95,16 @@ public class Box
      * Post: se asignan las letras que pueden formar palabras en la casilla
      */
 
-    public void setCrossCheck(Set<String> crossCheck)
+    public void setCrossCheck(Set<String> crossCheck)   //Esto es al principio cuando el tablero es vacio, todas las casillas tienen las mismas crosschecks
     {
         this.HorizontalcrossCheck = new HashSet<>(crossCheck);
         this.VerticalcrossCheck = new HashSet<>(crossCheck);
+    }
+
+    public void setCrossCheck(Set<String> HorizontalcrossCheck, Set<String> VerticalcrossCheck) //Esto es para sacar el crosscheck del json
+    {
+        this.HorizontalcrossCheck = new HashSet<>(HorizontalcrossCheck);
+        this.VerticalcrossCheck = new HashSet<>(VerticalcrossCheck);
     }
     
     /**
