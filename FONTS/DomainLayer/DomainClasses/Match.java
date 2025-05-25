@@ -305,39 +305,6 @@ public class Match
         return winnerId;
     }
 
-    public void computeCrossChecks()
-    {
-        Dictionary dictionary = this.getDictionary();
-        Board board = this.getBoard();
-        int size = board.getSize();
-        for(int i = 0; i < size; i++)
-        {
-            for(int j = 0; j < size; j++)
-            {
-                if(board.isEmpty(i,j))
-                {
-                    String above = "";
-                    String below = "";
-                    for(int row = i-1; row >= 0 && !board.isEmpty(row,j); row--)
-                    {
-                        above = board.getLetter(row,j) + above;
-                    }
-                    for(int row = i+1; row < board.getSize() && !board.isEmpty(row,j); row++)
-                    {
-                        below = below + board.getLetter(row,j);
-                    }
-                    for(char c = 'A'; c <= 'Z'; c++)
-                    {
-                        String word = above + c + below;
-                        if(dictionary.existsWord(word))
-                        {
-                            
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     public void displayMatch()
     {
