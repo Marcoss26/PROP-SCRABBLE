@@ -1,6 +1,7 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
 import java.io.*;
+import Utils.Pair;
 
 /**
  * ProfileController is a singleton class that manages user profiles.
@@ -79,9 +80,60 @@ public class DomainController {
      * @param numLetters The number of letters to be used.
      * @throws IOException if an error occurs while creating the match.
      */
-    public String newMatch(int players, Set<Profile> profiles, String dictionaryName, int boardSize, Map<Letter, Integer> bagLetters, int numLetters) throws IOException {
+    public String newMatch(int totalPlayers, Set<Pair<String,String>> profilesIds, String dictionaryName, int boardSize) throws IOException {
+        
+        //Para inicializar una partida necesito: el numero de jugadores, los perfiles creados de estos, el diccionario creado, el tamaño del tablero, la bolsa en un mapa y su tamaño.
+        createDictionary(dictionaryName, dictionaryName, dictionaryName);
         Dictionary dictionary = dictionaryController.getDictionary(dictionaryName);
-        return this.matchController.createMatch(players, profiles, dictionary, boardSize, bagLetters, numLetters);
+        Set<Profile> profiles = new HashSet<>();
+        for(Pair<String,String> profileId : profilesIds){
+            Profile profile = this.profileController.getProfile(profileId.first(), profileId.second());
+            profiles.add(profile);
+        }
+
+        //creacion del mapa de la bolsa a partir del txt que nos dan
+
+        Map<Letter, Integer> letters = new HashMap<>();
+        int totalLettersInTheBag = 0;
+        String fileName;
+        switch(dictionaryName) {
+            case "en":
+                fileName = "letrasENG";
+                break;
+            case "es":
+                fileName = "letrasCAST";
+                break;
+            case "ca":
+                fileName = "letrasCAT";
+                break;
+            default:
+                System.out.println("Error: Dictionary not found.");
+                return null;
+        }
+        //boolean validFile = false;
+        //while(!validFile) {
+            String file = fileName + ".txt";
+            File filePath = new File("data/Letters/" + file);
+    
+            try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(" ");
+                    if (parts.length == 3) {
+                        String symbol = parts[0];
+                        int quantity = Integer.parseInt(parts[1]);
+                        totalLettersInTheBag += quantity;
+                        int value = Integer.parseInt(parts[2]);
+                        Letter letter = new Letter(symbol, value);
+                        letters.put(letter, quantity);
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error reading the file: " + e.getMessage());
+                
+            }
+
+        return this.matchController.createMatch(totalPlayers, profiles, dictionary, boardSize, letters, totalLettersInTheBag);
     }
 
     /**
@@ -105,7 +157,7 @@ public class DomainController {
      * Retrieves the list of unfinished matches.
      * @return A list of unfinished match IDs.
      */
-    public List<String> getUnfinishedMatchs() {
+    public Map<String,Match> getUnfinishedMatchs() {
         return this.matchController.getUnfinishedMatches();
     }
 
@@ -144,24 +196,20 @@ public class DomainController {
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        try{
-            this.dictionaryController.addWordsToDictionary(dictionaryName, fileName);
-        } catch (IOException e) {
-            System.out.println("Error reading the file: " + e.getMessage());
-        }
+        
     }
 
     public void removeDictionary(String dictionaryName) {
         this.dictionaryController.removeDictionary(dictionaryName);
     }
 
-    public void addWordToDictionary(String dictionaryName, String word) {
+    /*public void addWordToDictionary(String dictionaryName, String word) {
         this.dictionaryController.addWordToDictionary(dictionaryName, word);
     }
 
     public void removeWordFromDictionary(String dictionaryName, String word) {
         this.dictionaryController.removeWordFromDictionary(dictionaryName, word);
-    }
+    }*/
 
     public String getDictionaryLanguage(String dictionaryName) {
         try {
@@ -188,4 +236,53 @@ public class DomainController {
      public void displayRanking() {
         this.ranking.displayRanking();
      }
+
+
+     /*
+      * ---------------------------------------------------------------------
+                            PRESENTATION FUNCTIONALITY
+        ------------------------------------------------------------------------
+      */
+      public ArrayList<String> getMatchplayers(String matchId) {
+            try{
+                return matchController.getMatchPlayers(matchId);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+            return null;
+      }
+
+      public ArrayList<String> getRackLetters(String matchId, int turn) {
+            try{
+                return matchController.getRackLetters(matchId, turn);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+            return null;
+      }
+
+      public boolean profInSystem(String username) {
+        return this.profileController.profileExists(username);
+      }
+
+      public boolean checkPassword(String username, String password) {
+        
+        return this.profileController.getProfile(username, password) != null;
+      }
+
+      public ArrayList<String> getProfileStats(String username, String password) {
+        Profile profile = this.profileController.getProfile(username, password);
+        if (profile != null) {
+            ArrayList<String> stats = new ArrayList<>();
+            int gp = profile.getGamesPlayed();
+            int wins = profile.getWins();
+            float winRate = gp > 0 ? (float) wins / gp * 100 : 0; 
+            stats.add(username);
+            stats.add(String.valueOf(gp));
+            stats.add(String.valueOf(wins));
+            stats.add(String.format("%.2f", winRate));
+            return stats;
+        }
+        return null;
+      }
 }

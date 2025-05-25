@@ -94,6 +94,16 @@ public class LoginView extends JPanel {
             }
         });
 
+        signUpBtn.addActionListener(e -> {
+            String username = userField.getText();
+            String password = new String(passField.getPassword());
+            if(!username.isEmpty() && !password.isEmpty()){
+                cc.createProfile(username, password);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         buttonPanel.add(signUpBtn);
         buttonPanel.add(loginBtn);
 
@@ -157,5 +167,13 @@ public class LoginView extends JPanel {
     public void cleanFields() {
         userField.setText("");
         passField.setText("");
+    }
+
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showSuccess(String message) {
+        JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 }

@@ -52,6 +52,11 @@ public abstract class Player
     {
         return rack;
     }
+
+    public ArrayList<String> getInfoLetters()
+    {
+        return rack.getInfoLetters();
+    }
     
     public void printRack()
     {

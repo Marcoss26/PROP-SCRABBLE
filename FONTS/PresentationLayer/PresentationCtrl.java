@@ -1,20 +1,27 @@
 package PresentationLayer;
 import javax.swing.*;
-//import DomainLayer.DomainClasses.DomainController;
+
+import DomainLayer.DomainClasses.DomainController;
+//import DomainLayer.DomainClasses.Match;
+import Utils.Pair;
+
 import java.awt.*;
 import java.util.*;
+import java.util.ArrayList;
 
 public class PresentationCtrl {
     private JFrame mainFrame;
 	private JPanel visiblePanel;
+    private int clientWidth = 1060;
+    private int clientHeight = 650;
     private static PresentationCtrl instance;
     private Map<String, JPanel> createdViews;
     private CreationCtrl cc;
-    //private DomainController domainCtrl;
+    private DomainController domainCtrl;
+    private MatchViewCtrl matchViewCtrl;
+    int turn;
 
-    private int humanPlayers;
-    private int loginIndex;
-    private Set<String> playersId;
+    
 
     // CONSTRUCTOR, its a Singleton class
     private PresentationCtrl() {
@@ -29,11 +36,61 @@ public class PresentationCtrl {
     }
 
     //Con esta funcion se inicializa el controlador del dominio y está listo para utilizar
-   /*
+   
     public void initializeCD(){
         domainCtrl = DomainController.getInstance();
     }
-       */
+
+    //Funciones relacionadas con el ctrl dominio
+
+    public void createNewMatch(){
+        //int numHumPlayers = cc.getHumanPlayers();
+        int totalPlayers = cc.getTotalPlayers();
+        int boardSize = cc.getBoardSize();
+        String dictionary = cc.getDictionary();
+        System.out.println(dictionary);
+        Set<Pair<String,String>> playersId = cc.getPlayersId();
+        String matchId = null;
+
+        try {
+            matchId = domainCtrl.newMatch(totalPlayers, playersId, dictionary, boardSize);
+            System.out.println("Match created successfully.");
+        } catch (Exception e) {
+            System.out.println("Error creating match: " + e.getMessage());
+        }
+
+        //Ahora querré crear una nueva vista de match view, por lo que llamo al controlador para que la cree
+        // para hacerlo necesito: boardsize, numPlayers, players y letters
+        //boardsize y numplayers los tengo, players y letters los tengo que sacar del dominio
+        turn = 0;
+        
+        ArrayList<String> players = new ArrayList<>();
+        ArrayList<String> letters = new ArrayList<>();
+        if(matchId != null) {
+            players = domainCtrl.getMatchplayers(matchId);
+            letters = domainCtrl.getRackLetters(matchId, turn);
+        }
+        matchViewCtrl = MatchViewCtrl.getInstance();
+        JPanel pan = matchViewCtrl.createMatchView(boardSize, totalPlayers, players, letters);
+        createdViews.put("MatchView", pan );
+
+
+    }
+
+    public boolean profInSystem(String username) {
+        return domainCtrl.profInSystem(username);
+    }
+
+    public boolean checkPassword(String username, String password) {
+        return domainCtrl.checkPassword(username, password);
+    }
+
+    public void createProfile(String username, String password){
+        domainCtrl.addProfile(username, password);
+    }
+
+
+       
 
     public void initializeViews() {
         mainFrame = new JFrame("Scrabble");
@@ -43,13 +100,18 @@ public class PresentationCtrl {
         mainFrame.setLocation(200, 100);
 
         cc = CreationCtrl.getInstance();
+        initializeCD();
+
+        //crear ProfileView generica y meterla en el mapa de vistas
+       
+
 
        visiblePanel = new MainMenuView();
        mainFrame.add(visiblePanel);
 
         createdViews = new HashMap<>();
         createdViews.put("MainMenuView", visiblePanel);
-        
+        createdViews.put("ProfileView", cc.createProfileView("username", 0, 0, 0.0f));
         mainFrame.setVisible(true);
 
         
@@ -63,10 +125,38 @@ public class PresentationCtrl {
         
 
     public void showView(String viewName) {
-        changeView(viewName);
+       changeView(viewName);
        mainFrame.add(visiblePanel);
+       if(viewName.equals("MatchView") && mainFrame.getWidth() <= 1060 ){
+            //cojo las medidad maximas de la pantalla
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            //y las pongo como tamaño del frame
+            mainFrame.setSize(screenSize.width, screenSize.height);
+            //y ponho el frame en la esquina superior izquierda
+            mainFrame.setLocation(0, 0);
+       }
+       else if(!viewName.equals("MatchView") && mainFrame.getWidth() >1060){
+            //si no es matchview, vuelvo a las medidas originales
+            mainFrame.setSize(new Dimension(1060, 650));
+       }
        mainFrame.revalidate();
        mainFrame.repaint();
+   }
+
+   public void showLoginView(String mode){
+
+        cc.setMode(mode);
+        showView("LoginView");
+
+   }
+
+   public void showProfileView(String username, String password){
+
+        //lo que hara esta funcion es coger del dominio los datos del perfil, setear la vista con estos datos y entonces mostrarla por pantalla 
+        ArrayList<String> stats = domainCtrl.getProfileStats(username, password);
+        cc.setProfileFields(username, Integer.parseInt(stats.get(1)), Integer.parseInt(stats.get(2)), Float.parseFloat(stats.get(3).replace(',', '.')));
+        showView("ProfileView");
+
    }
 
     private void changeView(String viewName){
@@ -117,6 +207,16 @@ public class PresentationCtrl {
                 } else {
                     visiblePanel = createdViews.get("RankingView");
                 }
+                break;
+            
+            case "MatchView":
+                visiblePanel = createdViews.get("MatchView");
+
+            case "ProfileView":
+                //esta vista es un poco diferente, porque la tengo que actualizar, cada vez que la muestro necesito actualizarla con los valores actuales
+                
+                    visiblePanel = createdViews.get("ProfileView");
+                
                 break;
 
             default:

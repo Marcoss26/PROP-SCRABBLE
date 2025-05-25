@@ -1,3 +1,4 @@
+package PresentationLayer;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
@@ -168,6 +169,13 @@ public class ProfileView extends JPanel {
     public JButton getDeleteProfileBtn() { return deleteProfileBtn; }
     public JButton getChangePasswordBtn() { return changePasswordBtn; }
     public JButton getReturnBtn() { return returnBtn; }
+
+    public void setProfileFields(String profileName, int totalGamesPlayed, int totalGamesWon, double winRate) {
+        profileNameLabel.setText("Profile Name: " + profileName);
+        totalGamesPlayedLabel.setText("Total Games Played: " + totalGamesPlayed);
+        totalGamesWonLabel.setText("Total Games Won: " + totalGamesWon);
+        winRateLabel.setText("Win Rate: " + winRate + "%");
+    } 
 
     // Si quieres probar el panel de forma independiente:
     public static void main(String[] args) {
