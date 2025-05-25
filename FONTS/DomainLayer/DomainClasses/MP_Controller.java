@@ -87,7 +87,6 @@ public class MP_Controller
         int match_size = match.getSize();
         int profile_size = profiles.size();
         String match_id = match.getId();
-        int j = 0;
         for (Profile profile: profiles)
         {
             /*List<Letter> letters = new ArrayList<>();
@@ -103,7 +102,6 @@ public class MP_Controller
             Player player = new Human(human_id+match_id,profile,language);    //Creating a new human player with this profile
             player.setRack(new Rack(match.getBag())); //Creating a new rack for the player
             match.setPlayer(player);  //Adding the human player to the match
-            j++;
         }
         for (int i = 0; i < match_size - profile_size; i++)
         {
@@ -212,6 +210,7 @@ public class MP_Controller
         if(existMatch(id))
         {
             Match match = matches.get(id);
+            match.shuffleRack();
         }
         else
         {
@@ -291,5 +290,10 @@ public class MP_Controller
         {
             throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
         }
+    }
+
+    public void loadMatchesFromJSON(Map<String, Match> matchesFromJSON)
+    {
+        matches = matchesFromJSON;
     }
 }

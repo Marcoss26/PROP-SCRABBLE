@@ -350,6 +350,11 @@ public class Match
         displayPlayers();
     }
 
+    public void shuffleRack()
+    {
+        Player player = playerList.get(turn);
+        player.shuffleRack();
+    }
 
     public String getId() 
     {
@@ -411,10 +416,9 @@ public class Match
 
     public void modifyRack(String old_letters)
     {
-        int turn = this.turn;
         Player player = playerList.get(turn);
         player.displayPlayer();
-        player.getRack().replaceLetters(old_letters);
+        player.modifyRack(old_letters);
         player.printRack();
         System.out.println("Racked replaced, enter to continue...");
         Scanner scanner = new Scanner(System.in);

@@ -32,6 +32,16 @@ public abstract class Player
 
     public abstract boolean isHuman();
 
+    public void shuffleRack()
+    {
+        rack.shuffle();
+    }
+
+    public void modifyRack(String old_letters)
+    {
+        rack.replaceLetters(old_letters);
+    }
+
 
     public void setRack(Rack rack)
     {
