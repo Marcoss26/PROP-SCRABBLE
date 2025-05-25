@@ -5,7 +5,7 @@ public class Pair {
     private int First;
     private int Second;
 
-    Pair(int first, int second){
+     public Pair(int first, int second){
         this.First = first;
         this.Second = second;
     }
