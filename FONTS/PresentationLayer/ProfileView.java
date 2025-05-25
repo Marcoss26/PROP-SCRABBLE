@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
-public class ProfileView extends JFrame {
+public class ProfileView extends JPanel {
 
     private JLabel profileNameLabel;
     private JLabel totalGamesPlayedLabel;
@@ -13,11 +13,6 @@ public class ProfileView extends JFrame {
     private JButton returnBtn;
 
     public ProfileView(String profileName, int totalGamesPlayed, int totalGamesWon, double winRate) {
-        // Configurar el marco
-        setTitle("Profile View");
-        setSize(900, 540);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Panel de fondo personalizado
@@ -174,9 +169,14 @@ public class ProfileView extends JFrame {
     public JButton getChangePasswordBtn() { return changePasswordBtn; }
     public JButton getReturnBtn() { return returnBtn; }
 
+    // Si quieres probar el panel de forma independiente:
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ProfileView frame = new ProfileView("DynamicProfileName", 10000, 20000, 75.5);
+            JFrame frame = new JFrame("Profile View");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(900, 540);
+            frame.setResizable(false);
+            frame.add(new ProfileView("DynamicProfileName", 10000, 20000, 75.5));
             frame.setVisible(true);
         });
     }
