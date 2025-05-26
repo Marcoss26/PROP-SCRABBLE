@@ -2,22 +2,6 @@ package DomainLayer.DomainClasses;
 import java.util.*;
 import java.security.*;
 
-
-class PasswordUtils {
-    // Hash a password with SHA-256 (no salt)
-    public static String hashPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hashedPassword = md.digest(password.getBytes());
-            return Base64.getEncoder().encodeToString(hashedPassword);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error hashing password", e);
-        }
-    }
-}
-
-
-
 /**
  * Profile class represents a user profile in the game.
  * It contains the username, password, visibility status, and game statistics.
@@ -51,6 +35,7 @@ public class Profile {
     public void setUsername(String username) {
         this.username = username;
     }
+
     /**
      * Sets the password for the profile.
      * @param password The password to be set.
@@ -139,6 +124,7 @@ public class Profile {
     public void setWins(int wins) {
         this.wins += wins;
     }
+    
     /**
      * Increments the usage count of a specific dictionary.
      * @param lang The language of the dictionary.
@@ -150,16 +136,24 @@ public class Profile {
             dictionaryUsage.put(lang, 1);
         }
     }
-    
+}
 
+
+
+
+class PasswordUtils {
     /**
-     * Prints the profile information.
+     * Hashes a password using SHA-256 and encodes it in Base64.
+     * @param password The password in plain text to be hashed.
+     * @return The hashed password as a Base64 encoded string.
      */
-    public void printProfile() {
-        System.out.println("------------------------------");
-        System.out.println("Username: " + this.username);
-        System.out.println("Public: " + this.isPublic);
-        System.out.println("Games Played: " + this.gamesPlayed);
-        System.out.println("------------------------------");
+    public static String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashedPassword = md.digest(password.getBytes());
+            return Base64.getEncoder().encodeToString(hashedPassword);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error hashing password", e);
+        }
     }
 }

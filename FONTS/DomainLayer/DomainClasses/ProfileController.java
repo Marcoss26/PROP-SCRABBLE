@@ -76,13 +76,4 @@ public class ProfileController {
     public void updateProfile(String username, String password) {
 
     }
-
-    /**
-     * Prints all the profiles
-     */
-    public void printProfiles() {
-        for (Profile profile : profiles.values()) {
-            profile.printProfile();
-        }
-    }
 }
