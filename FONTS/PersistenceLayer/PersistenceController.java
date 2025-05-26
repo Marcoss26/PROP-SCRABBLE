@@ -10,18 +10,30 @@ import java.util.*;
 
 import DomainLayer.DomainClasses.*;
 
-interface Storage {
-    void save();
-    void load();
+interface Storage<T> {
+    void save(T data);
+    T load();
 }
 
-class JsonUtils implements Storage {
+class JsonUtils {
     // Save a JSONArray to a file
     private static final String DATA_PATH = "./data";
+    public static void initialize() {
+        File dataDir = new File(DATA_PATH);
+        if (!dataDir.exists()) {
+            dataDir.mkdirs(); // Create the directory if it doesn't exist
+        }
+    }
 
-    public static void save(String filePath, JSONArray jsonArray) {
+    public static void save(String filePath, Object jsonObjectOrArray) {
         try (FileWriter file = new FileWriter(DATA_PATH + filePath)) {
-            file.write(jsonArray.toJSONString());
+            if (jsonObjectOrArray instanceof JSONObject) {
+                file.write(((JSONObject) jsonObjectOrArray).toJSONString());
+            } else if (jsonObjectOrArray instanceof JSONArray) {
+                file.write(((JSONArray) jsonObjectOrArray).toJSONString());
+            } else {
+                throw new IllegalArgumentException("Input must be a JSONObject or JSONArray");
+            }
             file.flush();
         } catch (IOException e) {
             System.err.println("Error saving JSON to file: " + e.getMessage());
@@ -46,13 +58,13 @@ class JsonUtils implements Storage {
 
 public class PersistenceController {
     private static PersistenceController instance = null;
+    private final ProfileStorage profileStorage = new ProfileStorage();
+    private final MatchStorage matchStorage = new MatchStorage();
+
 
     private PersistenceController() {
         // Ensure the data directory exists
-        File dataDir = new File(DATA_PATH);
-        if (!dataDir.exists()) {
-            dataDir.mkdirs();
-        }
+        JsonUtils.initialize();
     }
 
     public static PersistenceController getInstance() {
@@ -63,35 +75,22 @@ public class PersistenceController {
     }
 
 
-    /*
-     * ---------------------------------------------------------------------
-                            PROFILES FUNCTIONALITY
-     ------------------------------------------------------------------------
-     */
+
     public void saveProfiles(Map<String, Profile> profiles) {
-       
+        profileStorage.save(profiles);
     }
 
     public Map<String, Profile> loadProfiles() {
-      
+         return profileStorage.load();
     }
 
 
 
-
-
-    /*
-     * ---------------------------------------------------------------------
-                            MATCH FUNCTIONALITY
-     ------------------------------------------------------------------------
-     */
     public void saveMatches(Map<String, Match> matches) {
-        
+        matchStorage.save(matches);
     }
 
     public Map<String, Match> loadMatches() {
-       
+        return matchStorage.load();
     }
-
-
 }

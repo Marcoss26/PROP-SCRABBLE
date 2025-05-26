@@ -1,19 +1,14 @@
 package PersistenceLayer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.*;
 import java.util.*;
 
 import DomainLayer.DomainClasses.*;
 
 
-public class ProfileStorage implements Storage {
-    //    @Override
-
-    public static void save(Map<String, Profile> profiles) {
+public class ProfileStorage implements Storage<Map<String, Profile>> {
+    public void save(Map<String, Profile> profiles) {
         JSONArray profilesArray = new JSONArray();
 
         for (Map.Entry<String, Profile> entry : profiles.entrySet()) {
@@ -29,7 +24,7 @@ public class ProfileStorage implements Storage {
         JsonUtils.save("/profiles.json", profilesArray);
     }
 
-    public static Map<String, Profile> load() {
+    public Map<String, Profile> load() {
         Map<String, Profile> profiles = new HashMap<>();
         JSONArray profilesArray = JsonUtils.load( "/profiles.json");
 

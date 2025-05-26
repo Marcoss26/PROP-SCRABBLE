@@ -1,19 +1,16 @@
 package PersistenceLayer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.*;
 import java.util.*;
 
 import DomainLayer.DomainClasses.*;
 
 
-public class MatchStorage implements Storage {
-    //    @Override
+public class MatchStorage implements Storage<Map<String, Match>> {
+    private final ProfileController profileController = ProfileController.getInstance();
 
-    public static void save(Map<String, Match> matches) {
+    public void save(Map<String, Match> matches) {
         JSONArray matchesArray = new JSONArray();
         for (Map.Entry<String, Match> match : matches.entrySet()) {
             Match matchValue = match.getValue();
@@ -87,7 +84,7 @@ public class MatchStorage implements Storage {
         JsonUtils.save("/matches.json", matchesArray);
     }
 
-    public static Map<String, Match> load() {
+    public Map<String, Match> load() {
         Map<String, Match> matches = new HashMap<>();
         JSONArray matchesArray = JsonUtils.load( "/matches.json");
 
@@ -128,7 +125,7 @@ public class MatchStorage implements Storage {
 
                 Player player;
                 if (type.equals("Human")) {
-                    Profile profile;
+                    Profile profile = profileController.getProfile(playerId);
                     player = new Human(playerId, profile, dictionary);
                 } else {
                     player = new IA(playerId, name);
