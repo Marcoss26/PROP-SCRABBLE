@@ -8,6 +8,8 @@ public class BoardCell extends JPanel {
     private TileView tilePlaced;
     private String backColour;
     private JLabel label;
+    private int row;
+    private int column;
 
     public BoardCell() {
         super();
@@ -21,6 +23,19 @@ public class BoardCell extends JPanel {
         this.label = label;
         this.setBackground(Color.decode(colour));
         this.add(this.label, BorderLayout.CENTER);
+    }
+
+    public void setCoords(int row, int column) {
+        this.row = row;
+        this.column = column;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
     }
 
     public boolean isEmpty() {

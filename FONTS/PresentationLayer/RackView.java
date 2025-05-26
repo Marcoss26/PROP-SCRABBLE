@@ -53,6 +53,19 @@ public class RackView extends JPanel {
         submitButton.setPreferredSize(new Dimension(80, 25));
         submitButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
 
+        JButton skipButton = new JButton("Skip");
+        skipButton.setPreferredSize(new Dimension(80, 25));
+        skipButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
+
+        shuffleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lógica para barajar las fichas
+                System.out.println("Shuffle button clicked");
+                // Aquí puedes implementar la lógica de barajar las fichas
+            }
+        });
+
 
         JPanel ButtonsPanel = new JPanel();
         ButtonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
@@ -62,6 +75,7 @@ public class RackView extends JPanel {
         ButtonsPanel.add(shuffleButton);
         ButtonsPanel.add(exchangeButton);
         ButtonsPanel.add(submitButton);
+        ButtonsPanel.add(skipButton);
 
        
 
