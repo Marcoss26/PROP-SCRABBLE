@@ -1,71 +1,54 @@
-import org.json.JSONArray;
-import org.json.JSONObject;
+package PersistenceLayer;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.*;
-import java.nio.file.*;
 import java.util.*;
 
+import DomainLayer.DomainClasses.*;
 
-public class ProfileStorage 
-{
-    private static ProfileStorage instance = null;
-    private final String DATA_PATH = "./data";
-    private final String PROFILES_FILE = "profiles.json";
 
-    private ProfileStorage() {
-        // Ensure the data directory exists
-        File dataDir = new File(DATA_PATH);
-        if (!dataDir.exists()) {
-            dataDir.mkdirs();
-        }
-    }
+public class ProfileStorage implements Storage {
+    //    @Override
 
-    public static ProfileStorage getInstance() {
-        if (instance == null) {
-            instance = new ProfileStorage();
-        }
-        return instance;
-    }
-
-    public void saveProfile(Map<String, Profile> profiles) {
-        JSONObject profilesObject = new JSONObject();
+    public static void save(Map<String, Profile> profiles) {
+        JSONArray profilesArray = new JSONArray();
 
         for (Map.Entry<String, Profile> entry : profiles.entrySet()) {
-            JSONObject profile = new JSONObject();
-            profile.put("username", entry.getKey());
-            profile.put("password", entry.getValue().getPassword());
-            profile.put("isPublic", entry.getValue().isPublic());
-            profile.put("salt", entry.getValue().getSalt());
-            profile.put("score", entry.getValue().getScore());
-            profile.put("wins", entry.getValue().getWins());
-            profile.put("gamesPlayed", entry.getValue().getGamesPlayed());
-            profile.put("dictionaryUsage", new JSONObject(entry.getValue().getDictionaryUsage()));
-            profilesObject.put(entry.getKey(), profile);
+            JSONObject profileObject = new JSONObject();
+            profileObject.put("username", entry.getKey());
+            profileObject.put("password", entry.getValue().getPassword());
+            profileObject.put("gamesPlayed", entry.getValue().getGamesPlayed());
+            profileObject.put("wins", entry.getValue().getWins());
+            profileObject.put("score", entry.getValue().getScore());
+            profilesArray.add(profileObject);
         }
 
-        saveProfiles(profilesObject);
+        JsonUtils.save("/profiles.json", profilesArray);
     }
 
-    public JSONObject loadProfiles() {
-        File file = new File(DATA_PATH + "/" + PROFILES_FILE);
-        if (!file.exists()) {
-            return new JSONObject();
+    public static Map<String, Profile> load() {
+        Map<String, Profile> profiles = new HashMap<>();
+        JSONArray profilesArray = JsonUtils.load( "/profiles.json");
+
+        for (Object obj : profilesArray) {
+            JSONObject profileObject = (JSONObject) obj;
+            String username = (String) profileObject.get("username");
+            String password = (String) profileObject.get("password");
+            long gamesPlayed = (long) profileObject.get("gamesPlayed");
+            long wins = (long) profileObject.get("wins");
+            long score = (long) profileObject.get("score");
+
+            Profile profile = new Profile(username, password);
+            profile.setGamesPlayed((int) gamesPlayed);
+            profile.setWins((int) wins);
+            profile.addScore((int) score);
+
+            profiles.put(username, profile);
         }
 
-        try {
-            String content = new String(Files.readAllBytes(file.toPath()));
-            return new JSONObject(content);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new JSONObject();
-        }
-    }
-
-    private void saveProfilesToJSON(JSONObject profilesObject) {
-        try (FileWriter fileWriter = new FileWriter(DATA_PATH + "/" + PROFILES_FILE)) {
-            fileWriter.write(profilesObject.toString());
-            fileWriter.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return profiles;
     }
 }
