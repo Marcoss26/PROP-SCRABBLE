@@ -521,7 +521,6 @@ public class Match
         {
                 
         }
-        setTurn(turn + 1);
         return true;
     }
 }
