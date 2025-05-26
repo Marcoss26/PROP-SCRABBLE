@@ -33,7 +33,7 @@ public class Board
         this.size = size;
         this.board = new Box[size][size];
 
-       Set<Pair<Integer,Integer>> doubleLetter = new HashSet<>();
+        Set<Pair<Integer,Integer>> doubleLetter = new HashSet<>();
         Set<Pair<Integer,Integer>> tripleLetter = new HashSet<>();
         Set<Pair<Integer,Integer>> doubleWord = new HashSet<>();
         Set<Pair<Integer,Integer>> tripleWord = new HashSet<>();
@@ -92,7 +92,6 @@ public class Board
             tripleWord = new HashSet<>(Arrays.asList(new Pair<>(0,0), new Pair<>(0,12), new Pair<>(0,24), new Pair<>(12,0), new Pair<>(12,24), new Pair<>(24,0), new Pair<>(24,12), new Pair<>(24,24)));
         }
 
-        // --- Asignación eficiente de casillas ---
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 Pair<Integer,Integer> pos = new Pair<>(i, j);
@@ -307,35 +306,6 @@ public class Board
     }
 
     /**
-     * Asigna las casillas especiales al tablero
-     * Pre: ya existe un tablero
-     * @param posicions Las posiciones de las casillas especiales encapsuladas en un vector
-     * @param type El tipo de casilla especial (doubleLetter, tripleLetter, doubleWord, tripleWord)
-     * Post: se asignan las casillas especiales al tablero
-     */
-
-   /* private void assignSpecialBoxes(int[] posicions, String type) {
-        for (int i = 0; i < posicions.length; i += 2) {
-            int row = posicions[i+1];
-            int column = posicions[i];
-            switch (type) {
-                case "doubleLetter":
-                    this.board[row][column] = new Box.DoubleLetter(row, column);
-                    break;
-                case "tripleLetter":
-                    this.board[row][column] = new Box.TripleLetter(row, column);
-                    break;
-                case "doubleWord":
-                    this.board[row][column] = new Box.DoubleWord(row, column);
-                    break;
-                case "tripleWord":
-                    this.board[row][column] = new Box.TripleWord(row, column);
-                    break;
-            }
-        }
-    } */
-
-    /**
      * Coloca una letra en el tablero
      * Pre: ya existe un tablero
      * @param row La fila de la casilla
@@ -357,7 +327,6 @@ public class Board
             this.board[row][column].setLetter(letter, value*multiplier);
 
             return value*multiplier;
-            //printBoard();
         }
         return 0;
     }
@@ -397,23 +366,21 @@ public class Board
      */
 
     public void printBoard() {
-        // Imprimir los índices de las columnas
-        System.out.print("     "); // Espacio inicial para alinear con los índices de las filas
+        System.out.print("     ");
         for (int j = 0; j < this.size; j++) {
-            if (j < 10) System.out.print(" "); // Alineación para índices de una cifra
-            System.out.print(j + "      "); // Imprime el índice de la columna con espacio
+            if (j < 10) System.out.print(" ");
+            System.out.print(j + "      ");
         }
-        System.out.println(); // Salto de línea después de los índices de las columnas
+        System.out.println();
     
-        // Imprimir las filas con sus índices
         for (int i = 0; i < this.size; i++) {
-            System.out.print(i + " "); // Imprime el índice de la fila
-            if (i < 10) System.out.print(" "); // Alineación para índices de una cifra
+            System.out.print(i + " "); 
+            if (i < 10) System.out.print(" "); 
             for (int j = 0; j < this.size; j++) {
-                System.out.print(this.board[i][j].toString() + "  "); // Imprime la casilla
+                System.out.print(this.board[i][j].toString() + "  ");
             }
             System.out.println();
-            System.out.println(); // Salto de línea al final de cada fila
+            System.out.println();
         }
     }
 
@@ -429,7 +396,6 @@ public class Board
         if (column >= 0 && column <= size && row >= 0 && row <= size) {
             return this.board[row][column];
         } else {
-            //throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
             return null;
         }
     }

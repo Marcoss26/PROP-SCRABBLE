@@ -50,8 +50,8 @@ public class Box
     protected int row;
     private String symbol;
     private int value;
-    private Set<String> HorizontalcrossCheck = new HashSet<>(); //Given a square, this set contains the letters that can form horizontal words placing the letter in this square
-    private Set<String> VerticalcrossCheck = new HashSet<>();   //Given a square, this set contains the letters that can form vertical words placing the letter in this square
+    private Set<String> HorizontalcrossCheck = new HashSet<>(); 
+    private Set<String> VerticalcrossCheck = new HashSet<>(); 
     
     /**
      * Constructor de la clase Box
@@ -100,6 +100,14 @@ public class Box
         this.HorizontalcrossCheck = new HashSet<>(crossCheck);
         this.VerticalcrossCheck = new HashSet<>(crossCheck);
     }
+
+    /**
+     * Modificadora de las letras que pueden formar palabras en la casilla
+     * Pre: ya existe una casilla
+     * @param HorizontalcrossCheck Las letras que pueden formar palabras en la casilla horizontal
+     * @param VerticalcrossCheck Las letras que pueden formar palabras en la casilla vertical
+     * Post: se asignan las letras que pueden formar palabras en la casilla horizontal y vertical
+     */
 
     public void setCrossCheck(Set<String> HorizontalcrossCheck, Set<String> VerticalcrossCheck) //Esto es para sacar el crosscheck del json
     {
