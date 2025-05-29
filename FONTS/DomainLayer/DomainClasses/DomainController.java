@@ -60,8 +60,8 @@ public class DomainController {
     public void removeProfile(String username) {
         this.profileController.removeProfile(username);
     }
-    public Profile getProfile(String username, String password) {
-        return this.profileController.getProfile(username, password);
+    public Profile getProfile(String username) {
+        return this.profileController.getProfile(username);
     }
     public boolean profileExists(String username) {
         return this.profileController.profileExists(username);

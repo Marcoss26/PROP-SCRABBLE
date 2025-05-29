@@ -63,9 +63,8 @@ public class ProfileController {
      * @param password The password of the profile.
      * @return The Profile object if authentication is successful, null otherwise.
      */
-    public Profile getProfile(String username, String password) {
-        Profile profile = profiles.get(username);
-        return profile.authenticate(password) ? profile : null;
+    public Profile getProfile(String username) {
+        return profiles.get(username);
     }
 
     /**
