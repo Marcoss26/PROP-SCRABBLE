@@ -5,7 +5,7 @@ import Utils.Pair;
 
 /**
  * Board.java
- * @author Alvaro Perez 
+ * @author: Alvaro Perez 
  * Esta clase se encarga de la configuracion y manipulacion del tablero,
  * constituido por una matriz de casillas (Box)
  */
@@ -20,8 +20,10 @@ public class Board
      * Constructor de la clase Board.
      * Inicializa el tablero con el tamaño especificado y asigna las casillas especiales
      * Pre: true
-     * @param size El tamaño del tablero (7, 15 o 25).
      * Post: se ha creado un tablero con las dimensiones de size x size
+     *       y se han asignado las casillas especiales (DoubleLetter, TripleLetter, DoubleWord, TripleWord)
+     *       Si el tamaño no es 7, 15 o 25, lanza una IllegalArgumentException
+     * @param size el tamaño del tablero (7, 15 o 25)
      * @throws IllegalArgumentException si el tamaño no es 7, 15 o 25
      */
 
@@ -118,7 +120,7 @@ public class Board
      * Consultora del parametro size
      * Pre: true
      * Post: se devuelve el parametro size
-     * @return size
+     * @return el tamaño del tablero
      */
 
     public int getSize() {
@@ -126,7 +128,7 @@ public class Board
     }
 
     /**
-     * Imprime los crosschecks del tablero
+     * Imprime los crosschecks del tablero, esta función es auxiliar, no es necesaria para el funcionamiento del juego.
      * Pre: ya existe un tablero
      * Post: se imprimen los crosschecks de las casillas ancla del tablero
      */
@@ -159,10 +161,9 @@ public class Board
      * Computa los crosschecks del tablero
      * Pre: ya existe un tablero y un conjunto de caracteres
      * Post: se actualizan los crosschecks de las casillas ancla del tablero
-     * @param characters El conjunto de caracteres a considerar para los crosschecks
-     * @param dawg El diccionario para verificar la existencia de palabras
+     * @param characters conjunto de caracteres que se van a utilizar para computar los crosschecks
+     * @param dawg diccionario que se va a utilizar para comprobar si las palabras son válidas
      */
-
     public void computeCrossChecks(Set<String> characters, Dawg dawg)
     {
         for (int row = 0; row < this.size; row++) 
@@ -225,24 +226,43 @@ public class Board
     /**
      * Verifica si una casilla está vacía
      * Pre: ya existe un tablero
-     * @param row La fila de la casilla
-     * @param column La columna de la casilla
+     * devuelve true si la casilla está vacía, false en caso contrario
+     * @param row fila de la casilla
+     * @param column columna de la casilla
      * @return true si la casilla está vacía, false en caso contrario
+     * @throws IllegalArgumentException si las coordenadas están fuera de los límites del tablero
+     * @throws IllegalArgumentException si la casilla no existe en el tablero
      */
 
     public boolean isEmpty(int row, int column) {
+        if (row < 0 || row >= size || column < 0 || column >= size) {
+            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+        }
+        if (this.board[row][column] == null) {
+            throw new IllegalArgumentException("La casilla no existe en el tablero.");
+        }
+
+        // Verifica si la casilla está vacía
         return this.board[row][column].isEmpty();
     }
 
     /**
      * Verifica si una casilla es una casilla ancla
      * Pre: ya existe un tablero
-     * @param row La fila de la casilla
-     * @param column La columna de la casilla
+     * devuelve true si la casilla es una casilla ancla, false en caso contrario
+     * @param row fila de la casilla
+     * @param column columna de la casilla
      * @return true si la casilla es una casilla ancla, false en caso contrario
+     * @throws IllegalArgumentException si las coordenadas están fuera de los límites del tablero
+     * @throws IllegalArgumentException si la casilla no existe en el tablero
      */
-
     public boolean isAnchor(int row, int column) {
+        if (row < 0 || row >= size || column < 0 || column >= size) {
+            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+        }
+        if (this.board[row][column] == null) {
+            throw new IllegalArgumentException("La casilla no existe en el tablero.");
+        }
         if(this.board[row][column].isEmpty())
         {
             if (row > 0 && !board[row - 1][column].isEmpty()) return true;
@@ -257,9 +277,8 @@ public class Board
      * Consultora del tablero
      * Pre: true
      * Post: se devuelve el tablero
-     * @return board
+     * @return el tablero
      */
-
     public Box[][] getBoard() {
         return this.board;
     }
@@ -267,10 +286,9 @@ public class Board
     /**
      * Modificadora del tablero
      * Pre: ya existe un tablero
-     * @param board El nuevo tablero
      * Post: se modifica el tablero
+     * @param board el nuevo tablero
      */
-
     public void setBoard(Box[][] board) {
         this.board = board;
     }
@@ -278,10 +296,10 @@ public class Board
     /**
      * Modificadora del parametro size
      * Pre: ya existe un size
-     * @param size El nuevo tamaño del tablero
      * Post: se modifica el tamaño del tablero
+     * @param size el nuevo tamaño del tablero
+     * @throws IllegalArgumentException si el tamaño no es 7, 15 o 25
      */
-
     public void setSize(int size) {
         if (size != 7 && size != 15 && size != 25) {
             throw new IllegalArgumentException("El tamaño del tablero debe ser 7, 15 o 25.");  
@@ -292,32 +310,59 @@ public class Board
     /**
      * Verifica si una posición del tablero tiene una ficha
      * Pre: ya existe un tablero
-     * @param row
-     * @param column
+     * Post: devuelve true si la casilla tiene una ficha, false en caso contrario
+     * @param row fila de la casilla
+     * @param column columna de la casilla
      * @return true si la casilla tiene una ficha, false en caso contrario
+     * @throws IllegalArgumentException si las coordenadas están fuera de los límites del tablero
+     * @throws IllegalArgumentException si la casilla no existe en el tablero
+     * @throws IllegalStateException si el tablero no ha sido inicializado
     */
-
     public boolean hasLetter(int row, int column) {
-        if (row >= 0 && row < size && column >= 0 && column < size) {
-            return this.board[row][column].getSymbol() != null;
-        } else {
+        if (this.board == null) {
+            throw new IllegalStateException("El tablero no ha sido inicializado.");
+        }
+        if (this.board[row][column] == null) {
+            throw new IllegalArgumentException("La casilla no existe en el tablero.");
+        }
+        if( row < 0 || row >= size || column < 0 || column >= size) {
             throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
         }
+
+        return this.board[row][column].getSymbol() != null;
     }
 
     /**
      * Coloca una letra en el tablero
      * Pre: ya existe un tablero
-     * @param row La fila de la casilla
-     * @param column La columna de la casilla
-     * @param letter La letra a colocar
-     * @param value El valor de la letra
      * Post: se coloca la letra en la casilla correspondiente y
      * devuelve el valor de la letra multiplicado por el multiplicador de letra de la casilla
+     * @param row fila de la casilla
+     * @param column columna de la casilla
+     * @param letter letra a colocar
+     * @param value valor de la letra a colocar
+     * @return el valor de la letra multiplicado por el multiplicador de letra de la casilla
+     * @throws IllegalArgumentException si las coordenadas están fuera de los límites del tablero
+     * @throws IllegalArgumentException si la casilla no existe en el tablero
+     * @throws IllegalStateException si el tablero no ha sido inicializado
+     * @throws IllegalArgumentException si la letra es nula o vacía
      */
-
     public int placeLetter(int row, int column, String letter, int value) {
-        if (row >= 0 && row < size && column >= 0 && column < size) {
+        if (this.board == null) {
+            throw new IllegalStateException("El tablero no ha sido inicializado.");
+        }
+        if (this.board[row][column] == null) {
+            throw new IllegalArgumentException("La casilla no existe en el tablero.");
+        }
+        if (letter == null || letter.isEmpty()) {
+            throw new IllegalArgumentException("La letra no puede ser nula o vacía.");
+        }
+        if (row < 0 || row >= size || column < 0 || column >= size) {
+            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+        }
+
+        // Si la casilla es válida, coloca la letra y devuelve su valor
+        if (this.board[row][column].isEmpty()) {
             isEmpty = false;
             int multiplier = 1;
             Box box = this.board[row][column];
@@ -334,33 +379,47 @@ public class Board
     /**
      * Verifica si el tablero está vacío
      * Pre: ya existe un tablero
+     * Post: devuelve true si el tablero está vacío, false en caso contrario
      * @return true si el tablero está vacío, false en caso contrario
+     * @throws IllegalStateException si el tablero no ha sido inicializado
      */
-    
     public boolean isEmpty() {
+        if (this.board == null) {
+            throw new IllegalStateException("El tablero no ha sido inicializado.");
+        }
         return isEmpty;
     }
 
     /**
      * Destructora de casilla
      * Pre: ya existe un tablero
-     * @param row
-     * @param column
      * Post: se elimina la letra de la casilla correspondiente
+     * @param row fila de la casilla
+     * @param column columna de la casilla
+     * @throws IllegalStateException si el tablero no ha sido inicializado
+     * @throws IllegalArgumentException si las coordenadas están fuera de los límites del tablero
+     * @throws IllegalArgumentException si la casilla no existe en el tablero
      */
 
     public void removeLetter(int row, int column) {
-        if (row >= 0 && row < size && row >= 0 && row < size) {
-            this.board[row][column].setLetter(null, 0);
-            printBoard();
+        if (this.board == null) {
+            throw new IllegalStateException("El tablero no ha sido inicializado.");
         }
-        else {
-            System.out.println("Coordenadas fuera de rango.");
-        }   
+        if (this.board[row][column] == null) {
+            throw new IllegalArgumentException("La casilla no existe en el tablero.");
+        }
+        if (row < 0 || row >= size || column < 0 || column >= size) {
+            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+        }
+        // Si la casilla es válida, elimina la letra
+
+        this.board[row][column].setLetter(null, 0);
+        ///////////////////printBoard();
     }
 
     /**
-     * Imprime el tablero en la consola
+     * Imprime el tablero en la consola, es una función auxiliar para visualizar el tablero
+     * y comprobar que las letras se colocan correctamente, no se usará en la version final del juego.
      * Pre: ya existe un tablero
      * Post: se imprime el tablero en la consola
      */
@@ -387,41 +446,81 @@ public class Board
     /**
      * Retorna la casilla correspondiente a las coordenadas de entrada
      * Pre: ya existe un tablero
-     * @param row La fila de la casilla
-     * @param column La columna de la casilla
-     * @return La casilla correspondiente a los valores de entrada, null si no existe
+     * Post: devuelve la casilla correspondiente a los valores de entrada, null si no existe
+     * @param row fila de la casilla
+     * @param column columna de la casilla
+     * @return la casilla correspondiente a los valores de entrada, null si no existe
+     * @throws IllegalArgumentException si las coordenadas están fuera de los límites del tablero
+     * @throws IllegalArgumentException si la casilla no existe en el tablero
+     * @throws IllegalStateException si el tablero no ha sido inicializado
+     * @see Box
      */
 
     public Box getBox(int row, int column) {
-        if (column >= 0 && column <= size && row >= 0 && row <= size) {
-            return this.board[row][column];
-        } else {
-            return null;
+        if (this.board == null) {
+            throw new IllegalStateException("El tablero no ha sido inicializado.");
         }
+        if (this.board[row][column] == null) {
+            throw new IllegalArgumentException("La casilla no existe en el tablero.");
+        }
+        if (row < 0 || row >= size || column < 0 || column >= size) {
+            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+        }
+
+        // Si las coordenadas son válidas, devuelve la casilla correspondiente
+        return this.board[row][column];
     }
 
     /**
      * Retorna la letra de la casilla correspondiente a las coordenadas de entrada
      * Pre: ya existe un tablero con al menos una letra
-     * @param row
-     * @param column 
-     * @return La letra de la casilla correspondiente a los valores de entrada
+     * Post: devuelve la letra de la casilla correspondiente a los valores de entrada
+     * @param row fila de la casilla
+     * @param column columna de la casilla
+     * @return la letra de la casilla correspondiente a los valores de entrada, null si no hay letra
+     * @throws IllegalStateException si el tablero no ha sido inicializado
+     * @throws IllegalArgumentException si las coordenadas están fuera de los límites del tablero
+     * @throws IllegalArgumentException si la casilla no existe en el tablero
      */
 
     public String getLetter(int row, int column) { 
+        if (this.board == null) {
+            throw new IllegalStateException("El tablero no ha sido inicializado.");
+        }
+        if (row < 0 || row >= size || column < 0 || column >= size) {
+            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+        }
+        if (this.board[row][column] == null) {
+            throw new IllegalArgumentException("La casilla no existe en el tablero.");
+        }
+        // Si las coordenadas son válidas, devuelve la letra de la casilla correspondiente
         return board[row][column].getSymbol();
     }
 
     /**
      * Retorna el valor del multiplicador de palabra dada una casilla
      * Pre: ya existe un tablero
-     * @param row
-     * @param column 
-     * @return El valor del multiplicador de palabra de la casilla correspondiente a los valores de entrada
+     * Post: devuelve el valor del multiplicador de palabra de la casilla correspondiente a los valores de entrada
      *         1 si no es una una casilla de multiplicador de palabra
+     * @param row fila de la casilla
+     * @param column columna de la casilla
+     * @return el valor del multiplicador de palabra de la casilla correspondiente a los valores de entrada
+     * @throws IllegalArgumentException si las coordenadas están fuera de los límites del tablero
+     * @throws IllegalArgumentException si la casilla no existe en el tablero
+     * @throws IllegalStateException si el tablero no ha sido inicializado
      */
 
     public int getWordBonus(int row, int column) {
+        if (this.board == null) {
+            throw new IllegalStateException("El tablero no ha sido inicializado.");
+        }
+        if (this.board[row][column] == null) {
+            throw new IllegalArgumentException("La casilla no existe en el tablero.");
+        }
+        if (row < 0 || row >= size || column < 0 || column >= size) {
+            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+        }
+
         if (row >= 0 && row < size && column >= 0 && column < size) {
             Box box = this.board[row][column];
             if (box instanceof Box.DoubleWord) return 2;

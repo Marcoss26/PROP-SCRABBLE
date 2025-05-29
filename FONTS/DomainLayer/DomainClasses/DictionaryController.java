@@ -4,7 +4,7 @@ import java.util.*;
 
 /** 
  * DictionaryController.java
- * @author: Ivan Alcubierre
+ * Author: Ivan Alcubierre
  * Esta clase es el controlador de los diccionarios.
  * Se encarga de gestionar la creación, eliminación y acceso a los diccionarios.
  * También permite añadir palabras a los diccionarios desde archivos de texto.
@@ -12,12 +12,9 @@ import java.util.*;
 public class DictionaryController {
 
     //Atributos del controlador
-    /**
-     * @param dictionaries Mapa que almacena los diccionarios con su nombre como clave.
-     * @param c Instancia única de la clase DictionaryController (Singleton).
-     */
-    private Map<String, Dictionary> dictionaries = new HashMap<>();
-    private static DictionaryController c;
+
+    private Map<String, Dictionary> dictionaries = new HashMap<>(); // Mapa que almacena los diccionarios con su nombre como clave
+    private static DictionaryController c;                          // Instancia única de la clase DictionaryController (Singleton)
 
     /**
      * Constructor de la clase DictionaryController.
@@ -33,7 +30,6 @@ public class DictionaryController {
      * Devuelve la instancia única de DictionaryController (Singleton).
      * pre: True
      * post: devuelve la instancia única de DictionaryController.
-     * @return La instancia única de DictionaryController.
      */
     public static DictionaryController getInstance() {
         if (c == null) c = new DictionaryController();
@@ -42,10 +38,8 @@ public class DictionaryController {
 
     /**
      * Añade un nuevo diccionario al controlador.
-     * @param dictionaryName Nombre del diccionario a añadir.
      * pre: dictionaryName es el nombre del diccionario que se va a añadir
      * post: añade un nuevo diccionario al controlador o lanza una excepción si ya existe
-     * @throws IllegalArgumentException si el diccionario ya existe
      */
     public void addDictionary(String dictionaryName, String language) {
         
@@ -66,10 +60,8 @@ public class DictionaryController {
 
     /**
      * Elimina un diccionario del controlador.
-     * @param dictionaryName Nombre del diccionario a eliminar.
      * pre: dictionaryName es el nombre del diccionario que se va a eliminar
      * post: elimina el diccionario con el nombre especificado o lanza una excepción si no existe
-     * @throws IllegalArgumentException si el diccionario no existe
      */
     public void removeDictionary(String dictionaryName) {
 
@@ -83,11 +75,8 @@ public class DictionaryController {
 
     /**
      * Obtiene un diccionario del controlador.
-     * @param dictionaryName Nombre del diccionario a obtener.
      * pre: dictionaryName es el nombre del diccionario que se va a buscar
      * post: devuelve el diccionario con el nombre especificado o lanza una excepción si no existe
-     * @throws IllegalArgumentException si el diccionario no existe
-     * @return El diccionario con el nombre especificado.
      */
     public Dictionary getDictionary(String dictionaryName) {
 
@@ -100,7 +89,8 @@ public class DictionaryController {
 
     /**
      * Obtiene todos los diccionarios del controlador.
-     * @return Un mapa con todos los diccionarios.
+     * pre: True
+     * post: devuelve un mapa con todos los diccionarios del controlador
      */
     public Map<String, Dictionary> getDictionaries() {
         return dictionaries;
@@ -108,11 +98,8 @@ public class DictionaryController {
     
     /**
      * Obtiene el idioma de un diccionario.
-     * @param dictionaryName Nombre del diccionario a obtener.
      * pre: dictionaryName es el nombre del diccionario que se va a buscar
      * post: devuelve el idioma del diccionario con el nombre especificado o lanza una excepción si no existe
-     * @throws IllegalArgumentException si el diccionario no existe
-     * @return El idioma del diccionario con el nombre especificado.
      */
     public String getDictionaryLanguage(String dictionaryName) {
         // Verifica si el diccionario existe
@@ -129,10 +116,8 @@ public class DictionaryController {
 
     /**
      * Verifica si un diccionario existe en el controlador.
-     * @param dictionaryName Nombre del diccionario a verificar.
      * pre: dictionaryName es el nombre del diccionario que se va a buscar
      * post: devuelve true si el diccionario existe, false en caso contrario
-     * @return true si el diccionario existe, false en caso contrario
      */
     public boolean dictionaryExists(String dictionaryName) {
 

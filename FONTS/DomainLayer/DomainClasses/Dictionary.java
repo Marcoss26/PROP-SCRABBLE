@@ -5,7 +5,7 @@ import java.io.*;
 
 /**
  * Dictionary.java
- * @author: Ivan Alcubierre
+ * Author: Ivan Alcubierre
  * Esta clase representa un diccionario.
  * Se encarga de gestionar la creación, eliminación y acceso a las palabras del diccionario.
  */
@@ -13,19 +13,14 @@ public class Dictionary
 {
 
     //Atributos del diccionario
-    /**
-     * @param name Nombre del diccionario.
-     * @param dawg Estructura de datos que contiene el DAWG.
-     */
-    private String name; // Nombre del diccionario
-    private Dawg dawg; // Estructura de datos que contiene el DAWG
-    private Set<String> characters; // Conjunto de caracteres que contiene el diccionario
+    private String name;                // Nombre del diccionario
+    private Dawg dawg;                  // Estructura de datos que contiene el DAWG
+    private Set<String> characters;     // Conjunto de caracteres que contiene el diccionario
 
     /**
      * Constructor de la clase Dictionary.
      * pre: name es el nombre del diccionario que se va a crear
      * post: crea un nuevo diccionario con el nombre especificado y un DAWG vacío con el idioma correspondiente
-     * @param name Nombre del diccionario a crear
      */
     public Dictionary(String name, String language) throws IOException
     {
@@ -53,34 +48,34 @@ public class Dictionary
      * Devuelve el idioma del diccionario.
      * pre: True
      * post: devuelve el idioma del diccionario
-     * @return El idioma del diccionario.
      */
     public String getLanguage()
     {
         return dawg.getLanguage();
     }
 
+    /**
+     * Devuelve el Dawg del diccionario.
+     * pre: True
+     * post: devuelve el Dawg del diccionario
+     */
     public Dawg getDawg()
     {
         return dawg;
     }
 
+    /**
+     * Devuelve los caracteres del diccionario.
+     * pre: True
+     * post: devuelve los caracteres del diccionario
+     */
     public Set<String> getCharacters()
     {
         return characters;
     }
 
     /**
-     * Añade una palabra al diccionario.
-     * @param word Palabra a añadir al diccionario.
-     * pre: word es la palabra a añadir al diccionario
-     * post: añade la palabra al diccionario
-     */
-
-
-    /**
      * Elimina una palabra del diccionario.
-     * @param word Palabra a eliminar del diccionario.
      * pre: word es la palabra a eliminar del diccionario
      * post: elimina la palabra del diccionario
      */
@@ -91,16 +86,19 @@ public class Dictionary
 
     /**
      * Comprueba si una palabra existe en el diccionario.
-     * @param word Palabra a comprobar.
      * pre: word es la palabra a comprobar
      * post: devuelve true si la palabra existe en el diccionario, false en caso contrario
-     * @return true si la palabra existe, false en caso contrario
      */
     public boolean existsWord(String word)
     {
         return dawg.existsWord(word);
     }
 
+    /**
+     * Comprueba si un prefijo existe en el diccionario.
+     * pre: prefix es el prefijo a comprobar
+     * post: devuelve true si el prefijo existe en el diccionario, false en caso contrario
+     */
     public boolean isPrefix(String prefix)
     {
         return dawg.isPrefix(prefix);

@@ -2,12 +2,10 @@ package DomainLayer.DomainClasses;
 import java.util.*;
 
 /**
- * Box.java
- * @author Alvaro Perez
- * Clase Box que representa una casilla del juego
- * Una casilla se constituye por sus coordenadas x e y, la letra y puntuacion de la misma
+ * Enum Color
+ * Este enum representa los colores que se pueden utilizar para imprimir en la consola
+ * Contiene los colores regulares y un color de reset para volver al color original
  */
-
 enum Color {
     //Color end string, color reset
     RESET("\033[0m"),
@@ -34,6 +32,11 @@ enum Color {
     }
 }
 
+/**
+ * RunApp
+ * Esta clase es solo para probar el enum Color
+ * Es provisional y se puede eliminar una vez que se haya probado el enum
+ */
 class RunApp {
     public static void main(String[] args) {
         System.out.print(Color.RESET);
@@ -44,24 +47,30 @@ class RunApp {
     }
 }
 
+/**
+ * Clase Box que representa una casilla del juego
+ * @author: Alvaro Perez
+ * Una casilla se constituye por sus coordenadas x e y, la letra y puntuacion de la misma
+ * Tambien contiene los crossChecks horizontales y verticales de la casilla
+ */
 public class Box
-{
-    protected int column;
-    protected int row;
-    private String symbol;
-    private int value;
-    private Set<String> HorizontalcrossCheck = new HashSet<>(); 
-    private Set<String> VerticalcrossCheck = new HashSet<>(); 
+{   
+    // Atributos de Box
+    protected int column;                                           // Coordenada x de la casilla
+    protected int row;                                              // Coordenada y de la casilla
+    private String symbol;                                          // Letra de la casilla            
+    private int value;                                              // Puntuacion de la casilla  
+    private Set<String> HorizontalcrossCheck = new HashSet<>();     // CrossChecks horizontales de la casilla 
+    private Set<String> VerticalcrossCheck = new HashSet<>();       // CrossChecks verticales de la casilla
     
     /**
      * Constructor de la clase Box
-     * Pre: no hay ninguna casilla creada
-     * @param row
-     * @param column
+     * Pre: True
      * Post: se crea una casilla con coordenadas row y column y sin letra ni puntuacion
+     * @param row Fila de la casilla
+     * @param column Columna de la casilla
      * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
      */
-
     public Box(int row, int column)
     {
         if (column < 0 || row < 0) {
@@ -74,10 +83,11 @@ public class Box
     }
     
     /**
-     * Consultora de la fila
-     * Pre: ya existe una casilla
-     * Post: se retorna la fila de la casilla
-     * @return La fila de la casilla
+     * Consultora de crossCheck
+     * Pre: horizontal es 1 si es horizontal, 0 si es vertical
+     * Post: se retorna HorizontalcrossCheck si horizontal es 1, VerticalcrossCheck si horizontal es 0
+     * @param horizontal 1 si es horizontal, 0 si es vertical
+     * @return Un Set de String con las letras que pueden formar palabras en la casilla
      */
     
     public Set<String> getCrossCheck(int horizontal)
@@ -91,10 +101,9 @@ public class Box
     /**
      * Modificadora de las letras que pueden formar palabras en la casilla
      * Pre: ya existe una casilla
-     * @param crossCheck Las letras que pueden formar palabras en la casilla
      * Post: se asignan las letras que pueden formar palabras en la casilla
+     * @param crossCheck Un Set de String con las letras que pueden formar palabras en la casilla
      */
-
     public void setCrossCheck(Set<String> crossCheck)   //Esto es al principio cuando el tablero es vacio, todas las casillas tienen las mismas crosschecks
     {
         this.HorizontalcrossCheck = new HashSet<>(crossCheck);
@@ -104,11 +113,8 @@ public class Box
     /**
      * Modificadora de las letras que pueden formar palabras en la casilla
      * Pre: ya existe una casilla
-     * @param HorizontalcrossCheck Las letras que pueden formar palabras en la casilla horizontal
-     * @param VerticalcrossCheck Las letras que pueden formar palabras en la casilla vertical
      * Post: se asignan las letras que pueden formar palabras en la casilla horizontal y vertical
      */
-
     public void setCrossCheck(Set<String> HorizontalcrossCheck, Set<String> VerticalcrossCheck) //Esto es para sacar el crosscheck del json
     {
         this.HorizontalcrossCheck = new HashSet<>(HorizontalcrossCheck);
@@ -118,11 +124,10 @@ public class Box
     /**
      * Modificadora de las letras que pueden formar palabras en la casilla
      * Pre: ya existe una casilla
-     * @param letter La letra que se quiere eliminar del crossCheck
-     * @param horizontal 1 si es horizontal, 0 si es vertical
      * Post: se elimina la letra del crossCheck de la casilla
+     * @param letter La letra que se va a eliminar del crossCheck
+     * @param horizontal 1 si es horizontal, 0 si es vertical
      */
-
     public void removeFromCrossCheck(String letter, int horizontal)
     {
         //System.out.println("Removing " + letter + " from " + where + "crossCheck at position " + this.column + ", " + this.row);
@@ -138,10 +143,10 @@ public class Box
      * Consultora de si la casilla tiene una letra que puede formar palabras
      * Pre: ya existe una casilla
      * Post: se retorna true si la casilla tiene una letra que puede formar palabras, false en caso contrario
-     * @param letter La letra que se quiere comprobar
+     * @param letter La letra que se va a buscar en el crossCheck
+     * @param horizontal 1 si es horizontal, 0 si es vertical
      * @return true si la casilla tiene una letra que puede formar palabras, false en caso contrario
      */
-
     public boolean hasCrossCheck(String letter, int horizontal)
     {
         /*System.out.println("letter: " + letter);
@@ -163,9 +168,8 @@ public class Box
      * Consultora de la columna de la casilla
      * Pre: ya existe una casilla
      * Post: se retorna la coordenada x de la casilla
-     * @return La coordenada correspondiente a la columna de la casilla
+     * @return La coordenada x de la casilla
      */
-
     public int getColumn()
     {
         return column;
@@ -175,9 +179,8 @@ public class Box
      * Consultora de la fila de la casilla
      * Pre: ya existe una casilla
      * Post: se retorna la coordenada y de la casilla
-     * @return La coordenada correspondiente a la fila de la casilla
+     * @return La coordenada y de la casilla
      */
-
     public int getRow()
     {
         return row;
@@ -186,13 +189,10 @@ public class Box
     /**
      * Modificadora de la letra y el valor
      * Pre: ya existe una casilla
-     * @param lletra La letra a colocar
-     * @param valor El valor de la letra
      * Post: se asigna la letra y el valor a la casilla
-     * @throws IllegalArgumentException si la letra es null/no es del abecedario de ese idioma o el valor es negativo/no
-     * es ninguno de los valores posibles
+     * @param lletra La letra que se va a asignar a la casilla
+     * @param valor El valor que se va a asignar a la casilla
      */
-
     public void setLetter(String lletra, int valor)
     {
         this.symbol = lletra;
@@ -203,9 +203,8 @@ public class Box
      * Consultora de la letra
      * Pre: ya existe una casilla
      * Post: se retorna la letra de la casilla
-     * @return La letra de la casilla
+     * @return La letra de la casilla, o null si la casilla esta vacia
      */
-
     public String getSymbol()
     {
         return symbol;
@@ -217,7 +216,6 @@ public class Box
      * Post: se retorna la puntuacion de la casilla
      * @return La puntuacion de la casilla
      */
-
     public int getValue()
     {
         return value;
@@ -226,12 +224,11 @@ public class Box
     /**
      * Consultora de Box
      * Pre: ya existe una casilla
-     * @param row
-     * @param column
      * Post: se retorna la coordenada row y column de la casilla
-     * @return La casilla correspondiente a row y column
+     * @param row Fila de la casilla
+     * @param column Columna de la casilla
+     * @return La casilla con las coordenadas row y column
      */
-
     public Box getBox(int row, int column)
     {
         if (this.column == column && this.row == row) {
@@ -246,18 +243,10 @@ public class Box
      * Post: se retorna true si la casilla esta vacia, false en caso contrario
      * @return true si la casilla esta vacia, false en caso contrario
      */
-
     public boolean isEmpty()
     {
         return this.symbol == null;
     }
-
-    /**
-     * Consultora de 1 casilla
-     * Pre: ya existe una casilla
-     * Post: se retorna la casilla con el sistema de () y colores
-     * @return La casilla con el sistema de () y colores
-     */
 
     @Override
     public String toString() {
@@ -277,18 +266,15 @@ public class Box
      * Subclase DoubleLetter,
      * encargada de la gestion de las casillas de doble letra
      */
-
     public static class DoubleLetter extends Box
     {
         /**
          * Constructor de la clase DoubleLetter
          * Pre: no hay ninguna casilla creada
-         * @param row
-         * @param column
          * Post: se crea una casilla double letter con coordenadas row y column
-         * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
+         * @param row Fila de la casilla
+         * @param column Columna de la casilla
          */
-
         public DoubleLetter(int row, int column)
         {
             super(row, column);
@@ -300,7 +286,6 @@ public class Box
          * Post: se retorna la casilla con el sistema de () y colores
          * @return La casilla con el sistema de () y colores
          */
-
         @Override
         public String toString() {
             if (getSymbol() != null) {
@@ -320,18 +305,15 @@ public class Box
      * Subclase TripleLetter,
      * encargada de la gestion de las casillas de triple letra
      */
-
     public static class TripleLetter extends Box
     {
         /**
          * Constructor de la clase TripleLetter
          * Pre: no hay ninguna casilla creada
-         * @param row
-         * @param column
          * Post: se crea una casilla triple letter con coordenadas row y column
-         * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
+         * @param row Fila de la casilla
+         * @param column Columna de la casilla
          */
-
         public TripleLetter(int row, int column)
         {
             super(row, column);
@@ -341,9 +323,7 @@ public class Box
          * Consultora de 1 casilla triple letter
          * Pre: ya existe una casilla
          * Post: se retorna la casilla con el sistema de () y colores
-         * @return La casilla con el sistema de () y colores
          */
-
         @Override
         public String toString() {
             if (getSymbol() != null) {
@@ -363,18 +343,15 @@ public class Box
      * Subclase DoubleWord,
      * encargada de la gestion de las casillas de doble palabra
      */
-
     public static class DoubleWord extends Box
     {
         /**
          * Constructor de la clase DoubleWord
          * Pre: no hay ninguna casilla creada
-         * @param row
-         * @param column
          * Post: se crea una casilla double word con coordenadas row y column
-         * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
+         * @param row Fila de la casilla
+         * @param column Columna de la casilla
          */
-
         public DoubleWord(int row, int column)
         {
             super(row, column);
@@ -384,9 +361,7 @@ public class Box
          * Consultora de 1 casilla double word
          * Pre: ya existe una casilla
          * Post: se retorna la casilla con el sistema de () y colores
-         * @return La casilla con el sistema de () y colores
          */
-
         @Override
         public String toString() {
             if (getSymbol() != null) {
@@ -406,18 +381,15 @@ public class Box
      * Subclase TripleWord,
      * encargada de la gestion de las casillas de triple palabra
      */
-
     public static class TripleWord extends Box
     {
         /**
          * Constructor de la clase TripleWord
          * Pre: no hay ninguna casilla creada
-         * @param row
-         * @param column
          * Post: se crea una casilla triple word con coordenadas row y column
-         * @throws IllegalArgumentException si las coordenadas son negativas o mayores que el tamaño del tablero
+         * @param row Fila de la casilla
+         * @param column Columna de la casilla
          */
-
         public TripleWord(int row, int column)
         {
             super(row, column);
@@ -427,9 +399,7 @@ public class Box
          * Consultora de 1 casilla triple word
          * Pre: ya existe una casilla
          * Post: se retorna la casilla con el sistema de () y colores
-         * @return La casilla con el sistema de () y colores
          */
-
         @Override
         public String toString() {
             if (getSymbol() != null) {
