@@ -5,6 +5,7 @@ DOMAIN_CLASSES = $(SRC_DIR)/DomainLayer/DomainClasses
 DRIVERS = $(SRC_DIR)/DomainLayer/Drivers
 LIB_DIR = $(SRC_DIR)/lib
 DRIVERS_DIR = DomainLayer/Drivers
+UTILS = $(SRC_DIR)/Utils
 
 # Compiler and flags
 JAVAC = javac
@@ -27,7 +28,11 @@ DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/Profile.java \
 					$(DOMAIN_CLASSES)/ProfileController.java \
 					$(DOMAIN_CLASSES)/Dawg.java \
-					$(DOMAIN_CLASSES)/Ranking.java 
+					$(DOMAIN_CLASSES)/Ranking.java \
+					$(UTILS)/Pair.java
+
+
+PAIR_SRC = $(UTILS)/Pair.java
 
 # Driver classes source files
 DICTIONARY_CONTROLLER_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/DictionaryController.java \
@@ -79,6 +84,7 @@ MY_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/ProfileController.java \
 					$(DOMAIN_CLASSES)/Dawg.java \
 					$(DOMAIN_CLASSES)/Ranking.java \
+					$(UTILS)/Pair.java
 
 LIBRARIES = $(LIB_DIR)/json-simple-1.1.1.jar
 
@@ -134,6 +140,7 @@ MyDriver: $(MY_DRIVER_CLASSES_SRC) $(MY_DRIVER_SRC)
 # Compilar solo las clases de DomainClasses
 DomainClasses: $(BIN_DIR) $(DOMAIN_CLASSES_SRC)
 	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC)
+
 
 
 run-main: MainDriver
