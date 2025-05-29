@@ -32,7 +32,6 @@ DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(UTILS)/Pair.java
 
 
-PAIR_SRC = $(UTILS)/Pair.java
 
 # Driver classes source files
 DICTIONARY_CONTROLLER_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/DictionaryController.java \

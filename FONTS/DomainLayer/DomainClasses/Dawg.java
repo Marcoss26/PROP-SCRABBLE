@@ -212,7 +212,7 @@ public class Dawg
      * pre: True
      * post: añade las palabras del fichero al DAWG
      */
-    private void addWords()
+    private void addWords() throws IOException
     {   
         // Añadir palabras al DAWG
         System.out.println("he llegado a addWords");
