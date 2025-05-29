@@ -12,12 +12,23 @@ public class Ranking {
                                                                                             //tienen ese número de victorias, ordenado de mayor a menor.    
 
     
-                                                    
+    /**
+     * Constructora de la clase Ranking
+     * Pre: true
+     * Post: se ha creado una instancia de la clase Ranking
+     */                                                
    
     private Ranking() {
         //El constructor es privado ya que al ser singleton no se puede crear una instancia de la clase desde fuera
 
     }
+
+    /**
+     * Función que devuelve la instancia de la clase Ranking
+     * Pre: true
+     * Post: se retorna la instancia de la clase Ranking, si no existe se crea una nueva
+     * @return 
+     */
 
     //Esta función permite a las demás clases acceder a la instancia de la clase Ranking
     public static Ranking getInstance() {
@@ -27,27 +38,62 @@ public class Ranking {
             return instance;
         }
 
+    /**
+     * Consultora que devuelve los perfiles del sistema
+     * Pre: true
+     * Post: se retorna el mapa de perfiles
+     * @return 
+     */
+
     public Map<String,Profile> getProfiles() {
         return profiles;
     }
+
+    /**
+     * Consultora que devuelve el ranking del sistema
+     * Pre: true
+     * Post: se retorna el mapa de ranking
+     * @return 
+     */
 
     public Map<Integer, Set<String>> getRanking() {
         return ranking;
     }
 
+    /**
+     * Modificadora que establece los perfiles del sistema
+     * Pre: true
+     * Post: se establece el mapa de perfiles
+     * @param profiles 
+     */
+
     public void setProfiles(Map<String,Profile> profiles) {
         this.profiles = profiles;
     }
+
+    /**
+     * Modificadora que establece el ranking del sistema
+     * Pre: true
+     * Post: se establece el mapa de ranking
+     * @param ranking 
+     */
 
     public void setRanking(Map<Integer, Set<String>> ranking) {
         this.ranking = ranking;
     }
 
+    /**
+     * Modificadora que actualiza el ranking del sistema
+     * Pre: existen un ranking y un perfil como minimo
+     * Post: se añade el perfil al mapa de perfiles y se actualiza el ranking
+     * @param profile 
+     */
+
     //Cuando acabe una partida, se llama a esta función para actualizar el ranking
     public void updateRanking(Profile profile) {
             
             int wins = profile.getWins();
-            //tengo que cambiar esto, en lugar de tener un conjunto con los perfiles que estan en el ranking, Kai me pasa el conjunto de perfiles y yo hago get del perfil en concreto que se pasa como parametro y si tiene 0 wins lo trato igual como si no existiera en el ranking
+            //nota: posible cambio a esto, en lugar de tener un conjunto con los perfiles que estan en el ranking, recibir el conjunto de perfiles y aqui hacer get del perfil en concreto que se pasa como parametro y si tiene 0 wins tratarlo igual como si no existiera en el ranking
             /*if(wins == 0) { //Si el perfil no está en el ranking, lo añadimos
                 profiles.add(profile);
             }*/
@@ -68,6 +114,12 @@ public class Ranking {
             }
 
     }
+
+    /**
+     * Muestra el ranking de los jugadores
+     * Pre: existe un ranking
+     * Post: se muestra el ranking de los jugadores por consola
+     */
 
     public void displayRanking() {
         //Excpepción si no hay jugadores en el ranking
@@ -104,6 +156,15 @@ public class Ranking {
         System.out.println("──────────────────────" + "\n");
     }
 
+    /**
+     * Función que calcula el Win Rate de un jugador
+     * Pre: existen un número de victorias y un número de partidas jugadas
+     * Post: se retorna el Win Rate del jugador
+     * @param wins
+     * @param gamesPlayed
+     * @return 
+     */
+
     private double computeWR(int wins, int gamesPlayed) {
         if (gamesPlayed == 0) {
             return 0; // Así no se puede dividir entre 0, aunque no va a pasar pero por si acaso
@@ -112,11 +173,26 @@ public class Ranking {
         return Math.round(wr*100.0)/100.0; 
     }
 
+    /**
+     * Función que calcula el diccionario preferido de un jugador
+     * Pre: existe un mapa del uso de diccionarios de un jugador
+     * Post: se retorna el diccionario preferido del jugador
+     * @param dictionaryUsage
+     * @return 
+     */
+
     private String computePD(Map<String, Integer> dictionaryUsage) {
         
         String preferredDictionary = Collections.max(dictionaryUsage.entrySet(), Map.Entry.comparingByValue()).getKey();
         return preferredDictionary;
     }
+
+    /**
+     * Función que muestra la información de un perfil
+     * Pre: existe un perfil
+     * Post: se muestra la información del perfil por consola
+     * @param profile 
+     */
 
     //Esta función ha quedado un poco inservible.
     public void displayProfilesInfo(Profile profile) {
