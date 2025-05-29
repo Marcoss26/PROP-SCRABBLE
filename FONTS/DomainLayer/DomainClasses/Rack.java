@@ -3,26 +3,43 @@ import java.util.*;
 
 /**
  * Rack.java
- * This class represents a player's rack in a match. It contains a set of letters that the player can use to form words
+ * Esta clase representa el rack de un jugador en una partida. Contiene un conjunto de letras que el jugador puede usar para formar palabras.
  * @author Kai Knox
  */
+
 public class Rack {
     private List<Letter> letters = new ArrayList<>();
     static final int NUM_LETTERS = 7;
-    private Bag bag; // The bag of letters from which letters are drawn
+    private Bag bag; // La bolsa de letras de la que se extraen las letras para el rack
+
+    /**
+     * Constructora de la clase Rack
+     * Pre: true
+     * Post: Se ha creado una instancia de la clase Rack vacía
+     */
 
     public Rack() {
     }
 
     /**
-     * Constructor for the Rack class.
-     * Initializes the rack with a set of letters.
-     * @param bag The bag of letters from which letters are drawn.
+     * Constructora de la clase Rack
+     * Pre: true
+     * Post: Se ha creado una instancia de la clase Rack con un conjunto de letras extraídas de la bolsa
+     * @param bag La bolsa de letras de la que se extraen las letras para el rack
      */
+
     public Rack(Bag bag) {
         this.bag = bag;
         this.letters = bag.extractSetOfLetters(NUM_LETTERS);
     }
+
+    /**
+     * Constructora de la clase Rack
+     * Pre: true
+     * Post: Se ha creado una instancia de la clase Rack con un conjunto de letras y una bolsa
+     * @param bag La bolsa de letras de la que se extraen las letras para el rack
+     * @param letters El conjunto inicial de letras en el rack
+     */
 
     public Rack(Bag bag, List<Letter> letters) {
         this.bag = bag;
@@ -30,16 +47,25 @@ public class Rack {
     }
 
     /**
-     * Adds a letter to the rack.
-     * @param letter The letter to be added.
-     * @throws IllegalStateException if the rack is full.
+     * Añade una letra al rack
+     * Pre: el rack no debe estar llena
+     * Post: La letra se añade al rack
+     * @param letter
      */
+
     public void addLetter(Letter letter) {
         if (letters.size() >= NUM_LETTERS) {
             throw new IllegalStateException("Rack is full");
         }
         letters.add(letter);
     }
+
+    /**
+     * Consultora de la información de las letras en el rack
+     * Pre: El rack no debe estar vacío
+     * Post: Retorna un ArrayList que contiene los símbolos y valores de las letras en el rack
+     * @return
+     */
 
     public ArrayList<String> getInfoLetters() {
         ArrayList<String> infoLetters = new ArrayList<>();
@@ -51,10 +77,13 @@ public class Rack {
     }
 
     /**
-     * Gets a letter from the rack, removing it from the rack, and replacing it with a new letter from the bag.
-     * @param symbol The symbol of the letter to get.
-     * @return The letter that was removed, or null if no such letter exists.
+     * Consultora que obtiene una letra de el rack, eliminándola de la misma
+     * Pre: Debe existir un rack
+     * Post: Retorna la letra que fue eliminada, o null si no existe tal letra
+     * @param symbol
+     * @return
      */
+
     public Letter getLetter(String symbol) {
         //System.out.println("I'm getting the letter " + symbol + " from the rack.");
         int blank_i = -1;
@@ -76,25 +105,42 @@ public class Rack {
     }
 
     /**
-     * Shuffles the letters in the rack.
-     */
+      * Mezcla las letras del rack
+      * Pre: El rack no debe estar vacío
+      * Post: Las letras en el rack se mezclan aleatoriamente
+      */
+
     public void shuffle() {
         Collections.shuffle(letters);
     }
 
     /**
-     * Gets the size of the rack.
-     * @return The size of the rack.
+     * Consultora del tamaño del rack
+     * Pre: El rack debe existir
+     * Post: Retorna el número de letras en el rack
+     * @return
      */
+
     public int getSize() {
         return letters.size();
     }
+
     /**
-     * Clears the rack.
+     * Vacía el rack, eliminando todas las letras
+     * Pre: El rack debe existir
+     * Post: El rack está vacío
      */
+
     public void clear() {
         letters.clear();
     }
+
+    /**
+      * Sustituye las letras en el rack por nuevas letras de la bolsa
+      * Pre: Los símbolos deben ser válidos y existir en el rack
+      * Post: Las letras especificadas se sustituyen por nuevas letras de la bolsa
+      * @param symbols Un String que contiene los símbolos de las letras a sustituir, separados por guiones bajos
+      */
 
     public void replaceLetters(String symbols) {
         String[] symbols2 = symbols.split("_");
@@ -108,10 +154,13 @@ public class Rack {
             }
         }
     }
-    
+
     /**
-     * Prints the letters in the rack.
-     */
+      * Imprime las letras del rack
+      * Pre: El rack debe existir
+      * Post: Las letras en el rack se imprimen en la consola
+      */
+
     public void print() {
         System.out.print("Rack: ");
         for (Letter letter : letters) {
@@ -121,13 +170,34 @@ public class Rack {
         System.out.println("------------------------------");
     }
 
+    /**
+     * Consultora de las letras del rack
+     * Pre: El rack debe existir
+     * Post: Retorna la lista de letras del rack
+     * @return La lista de letras del rack
+     */
+
     public List<Letter> getLetters() {
         return letters;
     }
 
+    /**
+     * Elimina una letra del rack
+     * Pre: La letra debe existir en el rack
+     * Post: La letra se elimina del rack
+     * @param letter La letra a eliminar del rack
+     */
+
     public void removeLetter(Letter letter) {
         letters.remove(letter);
     }
+
+    /**
+     * Clona el rack
+     * Pre: El rack debe existir
+     * Post: Retorna un nuevo objeto Rack que es una copia del rack actual
+     * @return Un nuevo objeto Rack que es una copia del rack actual
+     */
 
     @Override
     public Rack clone() {
