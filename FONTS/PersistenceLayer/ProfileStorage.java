@@ -26,7 +26,7 @@ public class ProfileStorage implements Storage<Map<String, Profile>> {
 
     public Map<String, Profile> load() {
         Map<String, Profile> profiles = new HashMap<>();
-        JSONArray profilesArray = JsonUtils.load( "/profiles.json");
+        JSONArray profilesArray = (JSONArray) JsonUtils.load( "/profiles.json");
 
         for (Object obj : profilesArray) {
             JSONObject profileObject = (JSONObject) obj;

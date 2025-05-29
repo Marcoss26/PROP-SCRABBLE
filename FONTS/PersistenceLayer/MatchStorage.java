@@ -86,7 +86,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
 
     public Map<String, Match> load() {
         Map<String, Match> matches = new HashMap<>();
-        JSONArray matchesArray = JsonUtils.load( "/matches.json");
+        JSONArray matchesArray = (JSONArray) JsonUtils.load( "/matches.json");
 
         for (Object obj : matchesArray) {
             JSONObject matchObject = (JSONObject) obj;
@@ -114,7 +114,6 @@ public class MatchStorage implements Storage<Map<String, Match>> {
             Bag bag = new Bag(bagMap, totalLetters);
 
             // Load players
-            List<Player> players = new ArrayList<>();
             JSONArray playersArray = (JSONArray) matchObject.get("players");
             for (Object playerObj : playersArray) {
                 JSONObject playerObject = (JSONObject) playerObj;
