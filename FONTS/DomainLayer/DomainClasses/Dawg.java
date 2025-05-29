@@ -69,14 +69,6 @@ public class Dawg
             return isFinalNode;
         }
 
-        /*public void print(String prefix) {
-            for (Map.Entry<String, Node> entry : children.entrySet()) {
-                System.out.println(prefix + " └─[" + entry.getKey() + "]");
-                System.out.println();
-                entry.getValue().print(prefix + "   ");
-            }
-        }*/
-
         /**
          * Añade un nuevo nodo al mapa de hijos del nodo actual.
          * @param nextLetter Letra que identifica el siguiente nodo.

@@ -63,8 +63,6 @@ public class Match
                         int uplimit = 0;
                         int column = j - 1;
                         int row = i - 1;
-                        //int column = j;
-                        //int row = i;
                         String leftPW = "";
                         String upPW = "";
                         while(column >= 0)
