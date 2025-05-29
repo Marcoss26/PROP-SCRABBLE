@@ -25,12 +25,12 @@ class JsonUtils {
         }
     }
 
-    public static void save(String filePath, Object jsonObjectOrArray) {
+    public static void save(String filePath, Object jsonObject) {
         try (FileWriter file = new FileWriter(DATA_PATH + filePath)) {
-            if (jsonObjectOrArray instanceof JSONObject) {
-                file.write(((JSONObject) jsonObjectOrArray).toJSONString());
-            } else if (jsonObjectOrArray instanceof JSONArray) {
-                file.write(((JSONArray) jsonObjectOrArray).toJSONString());
+            if (jsonObject instanceof JSONObject) {
+                file.write(((JSONObject) jsonObject).toJSONString());
+            } else if (jsonObject instanceof JSONArray) {
+                file.write(((JSONArray) jsonObject).toJSONString());
             } else {
                 throw new IllegalArgumentException("Input must be a JSONObject or JSONArray");
             }
@@ -41,10 +41,10 @@ class JsonUtils {
     }
 
     // Load a JSONArray from a file
-    public static JSONArray load(String filePath) {
+    public static Object load(String filePath) {
         JSONParser parser = new JSONParser();
         try (FileReader reader = new FileReader(filePath)) {
-            return (JSONArray) parser.parse(reader);
+            return (Object) parser.parse(reader);
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + filePath);
         } catch (IOException | ParseException e) {
@@ -60,7 +60,7 @@ public class PersistenceController {
     private static PersistenceController instance = null;
     private final ProfileStorage profileStorage = new ProfileStorage();
     private final MatchStorage matchStorage = new MatchStorage();
-
+    private final Map<String, Object> cache = new HashMap<>();
 
     private PersistenceController() {
         // Ensure the data directory exists
@@ -78,19 +78,33 @@ public class PersistenceController {
 
     public void saveProfiles(Map<String, Profile> profiles) {
         profileStorage.save(profiles);
+        cache.put("profiles", profiles); // Cache the saved profiles
     }
 
     public Map<String, Profile> loadProfiles() {
-         return profileStorage.load();
+        if (cache.containsKey("profiles")) {
+            return (Map<String, Profile>) cache.get("profiles");
+        } else {
+            Map<String, Profile> profiles = profileStorage.load();
+            cache.put("profiles", profiles); // Cache the loaded profiles
+            return profiles;
+        }
     }
 
 
 
     public void saveMatches(Map<String, Match> matches) {
         matchStorage.save(matches);
+        cache.put("matches", matches); // Cache the saved matches
     }
 
     public Map<String, Match> loadMatches() {
-        return matchStorage.load();
+        if (cache.containsKey("matches")) {
+            return (Map<String, Match>) cache.get("matches");
+        } else {
+            Map<String, Match> matches = matchStorage.load();
+            cache.put("matches", matches); // Cache the loaded matches
+            return matches;
+        }
     }
 }
