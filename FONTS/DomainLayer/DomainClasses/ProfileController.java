@@ -35,7 +35,7 @@ public class ProfileController {
     }
 
     /**
-     * Añade un perfil al mapa de perfiles
+     * Añade un nuevo perfil al mapa de perfiles
      * Pre: El nombre de usuario no debe existir ya en el mapa de perfiles
      * Post: Se crea un nuevo perfil y se añade al mapa de perfiles
      * @throws IllegalArgumentException si el nombre de usuario ya existe
@@ -54,6 +54,25 @@ public class ProfileController {
         Profile profile = new Profile(username, password);
         profiles.put(profile.getUsername(), profile);
     }
+
+    /**
+     * Añade un perfil existente al mapa de perfiles
+     * Pre: El nombre de usuario no debe existir ya en el mapa de perfiles
+     * Post: Se añade el perfil al mapa de perfiles
+     * @throws IllegalArgumentException si el nombre de usuario ya existe
+     * @throws IllegalArgumentException si el nombre de usuario es nulo o vacío
+     * @param profile El objeto Profile a añadir
+     */
+    public void addProfile(Profile profile) {
+        if (profiles.containsKey(profile.getUsername())) {
+            throw new IllegalArgumentException("Profile with this username already exists.");
+        }
+        if (profile.getUsername() == null || profile.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty.");
+        }
+        profiles.put(profile.getUsername(), profile);
+    }
+
 
     /**
      * Elimina un perfil del mapa de perfiles
