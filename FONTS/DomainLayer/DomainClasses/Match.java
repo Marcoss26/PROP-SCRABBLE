@@ -402,11 +402,9 @@ public class Match
         setTurn(turn+1);
     }
 
-    public boolean playsMatch(String word, int startX, int startY, int endX, int endY) throws IllegalArgumentException, IllegalStateException
+    public boolean humanTurn(String word, int startX, int startY, int endX, int endY) throws IllegalArgumentException, IllegalStateException
     {
-        boolean validPlay = false;
         int score = 0;
-        boolean nextRound = false;
         Dictionary dictionary = this.dictionary;
         Board board = this.board;
         Dawg dawg = dictionary.getDawg();
@@ -429,7 +427,6 @@ public class Match
             System.out.println("My playable word: " + My_playableword.toString());
             if (PlayAbleWords.contains(My_playableword))
             {
-                validPlay = true;
                 System.out.println("Valid play, placing letters on the board.");
                 int i = 0;
                 int j = 0;
@@ -512,7 +509,6 @@ public class Match
                 System.out.println("Score for this play: " + score);
                 player.addScore(score * wholeWordBonusFactor); //Add the score to the player
             }
-            else    validPlay = false;
             player_rack.print(); //Print the rack of the player
         }
         else

@@ -33,7 +33,7 @@ public class Board
             throw new IllegalArgumentException("El tamaño del tablero debe ser 7, 15 o 25.");  
         }
         this.size = size;
-        this.board = new Box[size][size];
+        this.board = new Box[size + 1][size + 1];
 
         Set<Pair<Integer,Integer>> doubleLetter = new HashSet<>();
         Set<Pair<Integer,Integer>> tripleLetter = new HashSet<>();
@@ -94,8 +94,8 @@ public class Board
             tripleWord = new HashSet<>(Arrays.asList(new Pair<>(0,0), new Pair<>(0,12), new Pair<>(0,24), new Pair<>(12,0), new Pair<>(12,24), new Pair<>(24,0), new Pair<>(24,12), new Pair<>(24,24)));
         }
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i <= size; i++) {
+            for (int j = 0; j <= size; j++) {
                 Pair<Integer,Integer> pos = new Pair<>(i, j);
                 if (doubleLetter.contains(pos)) {
                     board[i][j] = new Box.DoubleLetter(i, j);
@@ -457,19 +457,15 @@ public class Board
      */
 
     public Box getBox(int row, int column) {
-        if (this.board == null) {
-            throw new IllegalStateException("El tablero no ha sido inicializado.");
+        if (column >= 0 && column <= size && row >= 0 && row <= size) {
+            return this.board[row][column];
+        } else {
+            //throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+            return null;
         }
-        if (this.board[row][column] == null) {
-            throw new IllegalArgumentException("La casilla no existe en el tablero.");
-        }
-        if (row < 0 || row >= size || column < 0 || column >= size) {
-            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
-        }
-
-        // Si las coordenadas son válidas, devuelve la casilla correspondiente
-        return this.board[row][column];
     }
+    
+
 
     /**
      * Retorna la letra de la casilla correspondiente a las coordenadas de entrada

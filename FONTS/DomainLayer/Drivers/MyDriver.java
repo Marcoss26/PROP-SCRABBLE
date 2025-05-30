@@ -67,7 +67,7 @@ public class MyDriver
                 System.out.println("Enter the end position (x,y): ");
                 int posEndX = MyDriver.scanner.nextInt();
                 int posEndY = MyDriver.scanner.nextInt();
-                matchController.playsMatch(matchId,word,posStartX,posStartY,posEndX,posEndY);
+                matchController.humanTurn(matchId,word,posStartX,posStartY,posEndX,posEndY);
                 System.out.println("Enter to continue:");
                 String input = MyDriver.scanner.nextLine();
                 if (input.equals("\n")) {

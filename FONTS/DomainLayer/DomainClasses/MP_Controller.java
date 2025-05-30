@@ -175,13 +175,13 @@ public class MP_Controller
 
 
 
-    public boolean playsMatch(String id ,String word, int startX, int startY, int endX, int endY) throws IllegalArgumentException, IllegalStateException
+    public boolean humanTurn(String id ,String word, int startX, int startY, int endX, int endY) throws IllegalArgumentException, IllegalStateException
     {
         boolean valid = false;
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            if(!match.isPaused())   valid = match.playsMatch(word, startX, startY, endX, endY);
+            if(!match.isPaused())   valid = match.humanTurn(word, startX, startY, endX, endY);
             else
             {
                 throw new IllegalStateException("Match with ID: " + id + " is paused.");
