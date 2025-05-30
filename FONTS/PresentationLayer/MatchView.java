@@ -1,13 +1,18 @@
 package PresentationLayer;
 import java.util.ArrayList;
 import javax.swing.*;
+
+import Utils.Pair;
 import java.awt.*;
+import java.lang.reflect.Array;
 
 public class MatchView extends JPanel {
     private BoardView boardPanel;
     private RackView rackPanel;
     private JPanel BoardAndRack;
     private GameInfoView gameInfoPanel;
+    private MatchViewCtrl matchViewCtrl;
+    
 
     public MatchView(int boardSize, int numPlayers, ArrayList<String> players, ArrayList<String> letters) {
         this.setLayout(new BorderLayout());
@@ -46,17 +51,26 @@ public class MatchView extends JPanel {
         gameInfoPanel = new GameInfoView(numPlayers, players);
     }
 
-    /*public static void main(String[] args) {
-        JFrame frame = new JFrame("Match Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public void skipTurn() {
+        matchViewCtrl.skipTurn();
+    }
 
-        frame.setSize(screenSize.width, screenSize.height);
-        List<String> rackl = List.of("A", "1", "B", "3", "C", "3", "D", "2", "E", "1", "F", "4", "G", "2");
-        MatchView matchView = new MatchView(15, 3, List.of("Player 1", "Player 2", "Player 3"), rackl);
-        frame.add(matchView);
+    public void submitTurn() {
+        Pair<Integer,Integer> coord_ini, coord_end;
+        coord_ini = new Pair<>(100, 100); // inicializamos coordenada inicial con dos valores fuera del rango para que cuando encuentre la primera coordeada
+                                                       // no tenga problemas en establecer la coordenada inicial. 
+        coord_end = new Pair<>(-100, -100); // Aqui hago lo mismo pero para la coordenada final, cualquier coordenada que se encuentre en el tablero
+                                            // será más grande que esta, por lo que no habrá problemas en establecer la coordenada final.
+        String word = boardPanel.computeWord(coord_ini, coord_end);
+        matchViewCtrl.submitTurn(coord_ini, coord_end, word);
 
-        frame.setVisible(true);
-    }*/ 
+
+    }
+    public void actPlayerScore(int turn, int score) {
+
+        gameInfoPanel.actPlayerScore(turn, score);
+    }
+
+    
 }
 

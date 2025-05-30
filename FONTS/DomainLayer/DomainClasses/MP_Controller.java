@@ -322,4 +322,22 @@ public class MP_Controller
             throw new IllegalArgumentException("Match with ID: " + matchid + " does not exist.");
         }
     }
+
+    public boolean isGameFinished(String id){
+        if(!existMatch(id)) return true;
+        return false;
+    }
+
+    public boolean isHumanTurn(String matchId, int turn){
+        return matches.get(matchId).isHumanTurn(turn);
+    }
+
+    public int getPlayerScore(String matchId, int turn) throws IllegalArgumentException {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            return match.getPlayerScore(turn);
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
+        }
+    }
 }

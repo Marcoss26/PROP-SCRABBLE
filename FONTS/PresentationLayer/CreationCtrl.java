@@ -119,6 +119,7 @@ public class CreationCtrl {
             pc.refresh();
             pc.createNewMatch();
             showView("MatchView"); //de momento pongo newgame, pero lo tengo que cambiar por matchView
+            pc.startTurn();
         }
 
     }
@@ -180,6 +181,10 @@ public class CreationCtrl {
         // Por ejemplo, guardar el perfil en una base de datos o en memoria
         System.out.println("Creating profile for player: " + playerId);
         // Puedes añadir más lógica aquí si es necesario
+    }
+
+    public void skipTurn(){
+        pc.skipTurn();
     }
 
 

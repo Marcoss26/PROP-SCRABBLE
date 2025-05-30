@@ -5,12 +5,13 @@ import java.awt.*;
 public class TileView extends JPanel {
     // Jpanel this
     JLabel label;
+    String symbol;
     public TileView(String symbol, int value) {
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(50, 50));
         this.setBackground(Color.decode("#EED09D"));
 
-
+        this.symbol = symbol;
         label = new JLabel("<html><center>" + symbol + "<sup>" + value + "</sup></center></html>");
         label.setFont(new Font("Dubai Medium", Font.PLAIN, 20));
         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -18,7 +19,7 @@ public class TileView extends JPanel {
     }
 
     public String getSymbol() {
-        return label.getText().substring(6, 7);
+        return symbol;
     }
 
     public static void main(String[] args) {

@@ -19,7 +19,8 @@ public class PresentationCtrl {
     private CreationCtrl cc;
     private DomainController domainCtrl;
     private MatchViewCtrl matchViewCtrl;
-    int turn;
+    private int turn;
+    private String matchId;
 
     
 
@@ -51,7 +52,7 @@ public class PresentationCtrl {
         String dictionary = cc.getDictionary();
         System.out.println(dictionary);
         Set<Pair<String,String>> playersId = cc.getPlayersId();
-        String matchId = null;
+        matchId = null;
 
         try {
             matchId = domainCtrl.newMatch(totalPlayers, playersId, dictionary, boardSize);
@@ -77,6 +78,61 @@ public class PresentationCtrl {
 
 
     }
+
+    private void actTurn() {
+        ++turn;
+        if(turn >= cc.getTotalPlayers()){
+            turn = 0; //vuelvo al primer jugador
+        }
+        
+    }
+
+    public void skipTurn() {
+        
+        actTurn();
+        startTurn();
+    }
+
+    public void submitTurn(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end, String word) {
+        
+        boolean valid = domainCtrl.playsMatch(matchId, word, coord_ini.first(), coord_ini.second(), coord_end.first(), coord_end.second());
+        if(!valid){
+            //si no es valido, muestro un mensaje de error
+            showErrorDialog("Invalid move. Please try again.");
+            return;
+        }
+        else{
+            showSuccessDialog(word + " is valid, successful move.");
+            int score = domainCtrl.getPlayerScore(matchId, turn);
+            matchViewCtrl.actPlayerScore(turn, score);
+            actTurn();
+            startTurn();
+        }
+    }
+
+    public void startTurn(){
+
+        if(domainCtrl.isGameFinished(matchId)){
+            //si el juego ha terminado, muestro la vista de ranking
+            showView("EndGameView");
+            return;
+        }
+
+        if (domainCtrl.isHumanTurn(matchId, turn)) {
+            //Aqui no se hace nada, porque estoy esperando la accion del humano, que se registrará cuando le de a cierto boton
+        }
+        else{
+           /* ArrayList<String> playData = domainCtrl.AIplayTurn(matchId, turn);
+            matchViewCtrl.actBoardView(playData);
+            actTurn();
+            startTurn();*/
+
+
+        }
+
+    }
+
+  
 
     public boolean profInSystem(String username) {
         return domainCtrl.profInSystem(username);
@@ -140,8 +196,8 @@ public class PresentationCtrl {
             //si no es matchview, vuelvo a las medidas originales
             mainFrame.setSize(new Dimension(1060, 650));
        }
-       mainFrame.revalidate();
-       mainFrame.repaint();
+       refresh();
+       
    }
 
    public void showLoginView(String mode){
@@ -225,6 +281,14 @@ public class PresentationCtrl {
                 return;
         }
    }
+
+   public void showErrorDialog(String message) {
+        JOptionPane.showMessageDialog(mainFrame, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showSuccessDialog(String message) {
+        JOptionPane.showMessageDialog(mainFrame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
 
 }
 

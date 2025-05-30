@@ -280,6 +280,8 @@ public class Match
         return players.get(id);
     }
 
+    //funciones capa de presentacion
+
     public ArrayList<String> getPlayersname(){
         ArrayList<String> names = new ArrayList<>();
        
@@ -288,6 +290,12 @@ public class Match
             names.add(player.getName());
         }
         return names;
+    }
+
+    public boolean isHumanTurn(int turn){
+       
+        Player player = playerList.get(turn);
+        return player.isHuman();
     }
 
     public void displayPlayers()
@@ -522,5 +530,9 @@ public class Match
                 
         }
         return true;
+    }
+
+    public int getPlayerScore(int turn){
+        return playerList.get(turn).getScore();
     }
 }

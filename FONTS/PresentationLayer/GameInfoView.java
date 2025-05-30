@@ -22,7 +22,7 @@ public class GameInfoView extends JPanel {
         scorePanel.setBorder(BorderFactory.createTitledBorder("Scores"));
         scorePanel.setPreferredSize(new Dimension(200, 200));
         for(int i = 0; i < numPlayers; ++i) {
-            JLabel label = new JLabel(players.get(i) + ": 0");
+            JLabel label = new JLabel(players.get(i) + ": " + 0);
             label.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
             label.setHorizontalAlignment(SwingConstants.CENTER);
             scorePanel.add(label);
@@ -84,31 +84,12 @@ public class GameInfoView extends JPanel {
         historyModel.addElement(move);
     }
 
-    public static void main(String[] args) {
-        // Crear un JFrame para mostrar la vista
-        JFrame frame = new JFrame("Game Info View");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 700);
-
-        // Lista de nombres de los jugadores
-        List<String> players = List.of("Jugador 1", "Jugador 2", "Jugador 3", "Jugador 4");
-
-        // Crear la vista con 4 jugadores
-        GameInfoView gameInfoView = new GameInfoView(4, players);
-
-        // Agregar un movimiento de ejemplo a la historia
-        gameInfoView.addMoveToHistory("Jugador 1", "HOLA", 10);
-        gameInfoView.addMoveToHistory("Jugador 2", "MUNDO", 15);
-        gameInfoView.addMoveToHistory("Jugador 3", "JAVA", 20);
-        gameInfoView.addMoveToHistory("Jugador 4", "SCRABBLE", 25);
 
 
-
-        // Agregar la vista al JFrame
-        frame.add(gameInfoView);
-
-        // Hacer visible el JFrame
-        frame.setVisible(true);
+    public void actPlayerScore(int playerIndex, int score) {
+        
+        JLabel label = (JLabel) scorePanel.getComponent(playerIndex);
+        label.setText(label.getText().split(":")[0] + ": " + score);
     }
 
 }

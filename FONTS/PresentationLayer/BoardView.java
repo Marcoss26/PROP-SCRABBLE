@@ -8,16 +8,20 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.*;
+
 public class BoardView extends JPanel {
     private JFrame frame;
-    private JPanel boardpanel;
     private ImageIcon centericon;
+    private Set<Pair<Integer, Integer>> tilesPlaced;
+    private int size;
 
     public BoardView(int size, RackView rackPanel) {
         // Crear una ventana
 
 
         this.setLayout(new BorderLayout());
+        tilesPlaced = new HashSet<>();
+        this.size = size;
 
         initializeBoard(size, rackPanel);
 
@@ -102,6 +106,7 @@ public class BoardView extends JPanel {
         for (int i = 0; i < size ; ++i) {
             for(int j = 0 ; j < size ; ++j) {
                 BoardCell cell = new BoardCell();
+                cell.setCoords(i,j);
                 if(doubleLetter.contains(new Pair<>(i,j))) {
                     JLabel label = new JLabel("DL");
                     label.setFont(new Font("Dubai Medium", Font.PLAIN, sizeWords));
@@ -162,6 +167,7 @@ public class BoardView extends JPanel {
                             sTile.removeMouseListener(sTile.getMouseListeners()[0]);
                             if(sTile != null){
                             cell.PlaceTile(sTile);
+                            tilesPlaced.add(new Pair<>(cell.getColumn(), cell.getRow()));
                             rackPanel.removeSelectedTile();
                             
                             }
@@ -175,6 +181,7 @@ public class BoardView extends JPanel {
                             TileView tile = cell.getTilePlaced();
                             System.out.println("tile picked");
                             cell.removeTile();
+                            tilesPlaced.remove(new Pair<>(cell.getColumn(), cell.getRow()));
                             rackPanel.addTile(tile);
                             rackPanel.setSelectedTile(tile);
                             rackPanel.addListener(tile);
@@ -196,6 +203,80 @@ public class BoardView extends JPanel {
 
 
 
+    }
+
+    public BoardCell getBoardCell(int row, int column) {
+        // Devuelve la celda del tablero en la posición especificada
+        int index = row * size + column; // Calcula el índice de la celda en el GridLayout
+        Component comp = this.getComponent(index);
+        if (comp instanceof BoardCell) {
+            return (BoardCell) comp;
+        }
+        return null; // Si no se encuentra la celda, devuelve null
+    }
+
+    // Método que forma la palabra que el usuario ha colocado en el tablero y además calcula
+    // cuales son las coordenadas iniciales y finales de la palabra. Esta información se utilizará
+    // para que el algoritmo compruebe si la palabra es válida o no.
+    // coord_ini.columna = first(), coord_ini.fila = second()
+    // coord_end.columna = first(), coord_end.fila = second()
+    public String computeWord(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end) {
+        
+        boolean vertical = false; 
+        String word = "";
+        coord_ini = coord_end = tilesPlaced.iterator().next(); // inicializamos las coordenadas iniciales y finales con la posicion actual de las fichas colocadas
+        BoardCell cell = getBoardCell(coord_ini.second(), coord_ini.first());
+        if(tilesPlaced.size() > 1){   
+        vertical = computeDir();   
+            if(vertical){
+                //Si es vertical, recorremos las filas del tablero para obtener los simbolos de cada ficha y en total, la palabra
+                //En primer lugar, extendemos la posicion actual hacia arriba 
+                while(!cell.isEmpty() && coord_ini.second() >= 0) {
+                    word = cell.getTilePlaced().getSymbol() + word; 
+                    coord_ini.setSecond(coord_ini.second() - 1);
+                    cell = getBoardCell(coord_ini.second(), coord_ini.first()); // obtenemos la nueva celda
+                }
+                // Ahora extendemos la posicion actual hacia abajo
+                while(!cell.isEmpty() && coord_end.second() < size) {
+                    word += cell.getTilePlaced().getSymbol();
+                    coord_end.setSecond(coord_end.second() + 1);
+                    cell = getBoardCell(coord_end.second(), coord_end.first()); // obtenemos la nueva celda
+                }
+
+            }
+            else{
+                //Si es horizontal, recorremos las columnas del tablero para obtener los simbolos de cada ficha y en total, la palabra
+                //En primer lugar, extendemos la posicion actual hacia la izquierda 
+                while(!cell.isEmpty() && coord_ini.first() >= 0) {
+                    word = cell.getTilePlaced().getSymbol() + word; 
+                    coord_ini.setFirst(coord_ini.first() - 1);
+                    cell = getBoardCell(coord_ini.second(), coord_ini.first()); // obtenemos la nueva celda
+                }
+                // Ahora extendemos la posicion actual hacia la derecha
+                while(!cell.isEmpty() && coord_end.first() < size) {
+                    word += cell.getTilePlaced().getSymbol();
+                    coord_end.setFirst(coord_end.first() + 1);
+                    cell = getBoardCell(coord_end.second(), coord_end.first()); // obtenemos la nueva celda
+                }
+            }
+        }
+
+        return word;
+
+    }
+
+    // Calcula la dirección de la palabra (vertical u horizontal), devuelve true si es vertical, false si es horizontal
+    // En tiles placed tengo el conjunto de las coordenadas donde se han colocado las fichas, si dos fichas consecutivas
+    // tienen diferentes columnas, entonces es horizontal, en cambio si tienen diferentes filas, entonces es vertical
+    private boolean computeDir() {
+        
+        int col = tilesPlaced.iterator().next().first();
+        int row = tilesPlaced.iterator().next().second();
+        for(Pair<Integer, Integer> pos : tilesPlaced) {
+            if(pos.first() != col) return false; // es horizontal porque las columnas son diferentes
+            if(pos.second() != row) return true; // es vertical porque las filas son diferentes
+        }
+        return false; 
     }
 
 }

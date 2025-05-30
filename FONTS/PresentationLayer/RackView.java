@@ -11,6 +11,7 @@ public class RackView extends JPanel {
     //el formato de la lista es el siguiente:
     //letters = [A,1, B,3, C,3, D,2, E,1, F,4, G,2] en la posición i está el simbolo
     //y en la posición i+1 está el valor de la ficha
+    private MatchView matchView;
     private Image rackBackground;
     private JPanel rackPanel;
     private TileView selectedTile;
@@ -56,6 +57,22 @@ public class RackView extends JPanel {
         JButton skipButton = new JButton("Skip");
         skipButton.setPreferredSize(new Dimension(80, 25));
         skipButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
+
+        skipButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lógica para saltar el turno
+                matchView.skipTurn();
+                // Aquí puedes implementar la lógica de saltar el turno
+            }
+        });
+
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                matchView.submitTurn();
+            }
+        });
 
         shuffleButton.addActionListener(new ActionListener() {
             @Override

@@ -38,6 +38,14 @@ public class BoardCell extends JPanel {
         return column;
     }
 
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
     public boolean isEmpty() {
         return isEmpty;
     }
