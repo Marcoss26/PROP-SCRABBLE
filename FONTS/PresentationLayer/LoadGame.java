@@ -5,8 +5,23 @@ import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+/**
+ * LoadGame representa la vista para cargar un juego guardado.
+ * Muestra una lista de juegos guardados y permite al usuario seleccionar uno para cargar.
+ * También incluye un botón para regresar al menú principal.
+ * @author Alvaro Perez
+ */
 public class LoadGame extends JPanel {
 
+    /**
+     * Atributos de la clase LoadGame.
+     * @param savedGamesListModel Modelo de la lista que contiene los juegos guardados.
+     * @param savedGamesList Lista que muestra los juegos guardados.
+     * @param scrollPane Panel de desplazamiento para la lista de juegos guardados.
+     * @param listPanel Panel que contiene la lista y su scrollPane.
+     * @param centerPanel Panel central para alinear el contenido.
+     * @param returnButton Botón para regresar al menú principal.
+     */
     private DefaultListModel<String> savedGamesListModel;
     private JList<String> savedGamesList;
     private JScrollPane scrollPane;
@@ -14,6 +29,11 @@ public class LoadGame extends JPanel {
     private JPanel centerPanel;
     private JButton returnButton;
 
+    /**
+     * Constructor de la clase LoadGame.
+     * Inicializa el panel con un diseño y componentes para mostrar la lista de juegos guardados
+     * y un botón para regresar al menú principal.
+     */
     public LoadGame() {
         // Configurar el panel principal
         setLayout(new BorderLayout(0, 0));
@@ -83,7 +103,11 @@ public class LoadGame extends JPanel {
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    // Método público para agregar un juego guardado a la lista
+    /**
+     * Agrega un juego guardado a la lista de juegos guardados.
+     * Si la lista contiene "No saved games", lo elimina antes de agregar el nuevo juego.
+     * @param gameName El nombre del juego guardado a agregar.
+     */
     public void addSavedGame(String gameName) {
         if (savedGamesListModel.contains("No saved games")) {
             savedGamesListModel.removeElement("No saved games");
@@ -91,11 +115,18 @@ public class LoadGame extends JPanel {
         savedGamesListModel.addElement(gameName);
     }
 
-    // Puedes añadir más getters si necesitas acceder a los componentes desde fuera
+    /**
+     * Obtiene el modelo de la lista de juegos guardados.
+     * @return El modelo de la lista de juegos guardados.
+     */
     public JList<String> getSavedGamesList() {
         return savedGamesList;
     }
 
+    /**
+     * Obtiene el botón de retorno al menú principal.
+     * @return El botón de retorno.
+     */
     public JButton getReturnButton() {
         return returnButton;
     }

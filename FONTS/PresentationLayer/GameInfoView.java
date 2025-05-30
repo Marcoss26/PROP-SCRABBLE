@@ -3,13 +3,35 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * GameInfoView representa la vista de información del juego, mostrando puntuaciones, estado del "bag",
+ * historial de jugadas y botones de acción.
+ * Permite a los jugadores ver el estado actual del juego y realizar acciones como salir o guardar.
+ * @author Marcos Arroyo
+ */
 public class GameInfoView extends JPanel {
+
+    /**
+     * Atributos de la clase GameInfoView.
+     * @param scorePanel Panel que muestra las puntuaciones de los jugadores.
+     * @param bagPanel Panel que muestra el estado del "bag" (bolsa de fichas).
+     * @param historyPanel Panel que muestra el historial de jugadas.
+     * @param buttPanel Panel que contiene los botones de acción.
+     * @param historyModel Modelo de lista para el historial de jugadas.
+     */
     private JPanel scorePanel;
     private JPanel bagPanel;
     private JPanel historyPanel;
     private JPanel buttPanel;
     private DefaultListModel<String> historyModel;
 
+    /**
+     * Constructor de la clase GameInfoView.
+     * Inicializa el panel con un diseño vertical y agrega componentes para mostrar puntuaciones,
+     * estado del "bag", historial de jugadas y botones de acción.
+     * @param numPlayers Número de jugadores en el juego.
+     * @param players Lista de nombres de los jugadores.
+     */
     public GameInfoView(Integer numPlayers, List<String> players) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setPreferredSize(new Dimension(200,600));
@@ -79,11 +101,22 @@ public class GameInfoView extends JPanel {
 
     }
 
+/**
+     * Agrega un movimiento al historial de jugadas.
+     * @param player El nombre del jugador que realizó el movimiento.
+     * @param word La palabra jugada.
+     * @param points Los puntos obtenidos por la jugada.
+     */
     public void addMoveToHistory(String player, String word, int points) {
         String move = player + " - \"" + word + "\" (" + points + " puntos)";
         historyModel.addElement(move);
     }
 
+    /**
+     * Método principal para probar la vista GameInfoView.
+     * Crea un JFrame y muestra la vista con algunos datos de ejemplo.
+     * @param args Argumentos de línea de comandos (no se utilizan).
+     */
     public static void main(String[] args) {
         // Crear un JFrame para mostrar la vista
         JFrame frame = new JFrame("Game Info View");

@@ -3,8 +3,25 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * ProfileView representa la vista del perfil del usuario en el juego.
+ * Muestra información del perfil, como el nombre, total de juegos jugados,
+ * total de juegos ganados y tasa de victorias. También incluye botones para
+ * eliminar el perfil, cambiar la contraseña y regresar al menú principal.
+ * @author Alvaro Perez
+ */
 public class ProfileView extends JPanel {
 
+    /**
+     * Atributos de la clase ProfileView.
+     * @param profileNameLabel Etiqueta que muestra el nombre del perfil.
+     * @param totalGamesPlayedLabel Etiqueta que muestra el total de juegos jugados.
+     * @param totalGamesWonLabel Etiqueta que muestra el total de juegos ganados.
+     * @param winRateLabel Etiqueta que muestra la tasa de victorias.
+     * @param deleteProfileBtn Botón para eliminar el perfil.
+     * @param changePasswordBtn Botón para cambiar la contraseña del perfil.
+     * @param returnBtn Botón para regresar al menú principal.
+     */
     private JLabel profileNameLabel;
     private JLabel totalGamesPlayedLabel;
     private JLabel totalGamesWonLabel;
@@ -13,6 +30,14 @@ public class ProfileView extends JPanel {
     private JButton changePasswordBtn;
     private JButton returnBtn;
 
+    /**
+     * Constructor de la clase ProfileView.
+     * Inicializa el panel con un diseño y componentes para mostrar la información del perfil.
+     * @param profileName Nombre del perfil.
+     * @param totalGamesPlayed Total de juegos jugados.
+     * @param totalGamesWon Total de juegos ganados.
+     * @param winRate Tasa de victorias del perfil.
+     */
     public ProfileView(String profileName, int totalGamesPlayed, int totalGamesWon, double winRate) {
         setLayout(new BorderLayout());
 
@@ -161,15 +186,55 @@ public class ProfileView extends JPanel {
         add(backgroundPanel);
     }
 
-    // Getters para acceder a los componentes desde fuera si es necesario
+    /**
+     * Obtiene la etiqueta que muestra el nombre del perfil.
+     * @return La etiqueta del nombre del perfil.
+     */
     public JLabel getProfileNameLabel() { return profileNameLabel; }
+
+    /**
+     * Obtiene el numero total de juegos jugados.
+     * @return La etiqueta que muestra el total de juegos jugados.
+     */
     public JLabel getTotalGamesPlayedLabel() { return totalGamesPlayedLabel; }
+
+    /**
+     * Obtiene el numero total de juegos ganados.
+     * @return La etiqueta que muestra el total de juegos ganados.
+     */
     public JLabel getTotalGamesWonLabel() { return totalGamesWonLabel; }
+
+    /**
+     * Obtiene la etiqueta que muestra la tasa de victorias.
+     * @return La etiqueta de la tasa de victorias.
+     */
     public JLabel getWinRateLabel() { return winRateLabel; }
+
+    /**
+     * Obtiene el botón para eliminar el perfil.
+     * @return El botón de eliminar perfil.
+     */
     public JButton getDeleteProfileBtn() { return deleteProfileBtn; }
+
+    /**
+     * Obtiene el botón para cambiar la contraseña del perfil.
+     * @return El botón de cambiar contraseña.
+     */
     public JButton getChangePasswordBtn() { return changePasswordBtn; }
+
+    /**
+     * Obtiene el botón para regresar al menú principal.
+     * @return El botón de retorno.
+     */
     public JButton getReturnBtn() { return returnBtn; }
 
+    /**
+     * Actualiza los campos del perfil con la información proporcionada.
+     * @param profileName Nombre del perfil.
+     * @param totalGamesPlayed Total de juegos jugados.
+     * @param totalGamesWon Total de juegos ganados.
+     * @param winRate Tasa de victorias del perfil.
+     */
     public void setProfileFields(String profileName, int totalGamesPlayed, int totalGamesWon, double winRate) {
         profileNameLabel.setText("Profile Name: " + profileName);
         totalGamesPlayedLabel.setText("Total Games Played: " + totalGamesPlayed);
@@ -177,7 +242,11 @@ public class ProfileView extends JPanel {
         winRateLabel.setText("Win Rate: " + winRate + "%");
     } 
 
-    // Si quieres probar el panel de forma independiente:
+    /**
+     * Método main para probar la clase ProfileView de forma independiente.
+     * Crea un JFrame y añade una instancia de ProfileView con datos de ejemplo.
+     * @param args Argumentos de línea de comandos (no se utilizan).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Profile View");

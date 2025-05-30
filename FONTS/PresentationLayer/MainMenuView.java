@@ -2,8 +2,25 @@ package PresentationLayer;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * MainMenuView representa la vista del menú principal del juego Scrabble.
+ * Permite a los usuarios iniciar un nuevo juego, continuar uno existente,
+ * gestionar perfiles, gestionar diccionarios, ver el ranking y salir del juego.
+ * @author Iván Alcubierre
+ */
 public class MainMenuView extends JPanel {
 
+    /**
+     * Atributos de la clase MainMenuView.
+     * @param newGameBtn Botón para iniciar un nuevo juego.
+     * @param continueGameBtn Botón para continuar un juego existente.
+     * @param manageProfilesBtn Botón para gestionar perfiles de usuario.
+     * @param manageDictionariesBtn Botón para gestionar diccionarios.
+     * @param rankingBtn Botón para ver el ranking de jugadores.
+     * @param exitBtn Botón para salir del juego.
+     * @param menuPanel Panel que contiene el menú principal.
+     * @param optionsPanel Panel que contiene las opciones del menú.
+     */
     private JButton newGameBtn;
     private JButton continueGameBtn;
     private JButton manageProfilesBtn;
@@ -13,6 +30,10 @@ public class MainMenuView extends JPanel {
     private JPanel menuPanel;
     private JPanel optionsPanel;
 
+    /**
+     * Constructor de la clase MainMenuView.
+     * Inicializa el panel con un diseño y componentes para el menú principal del juego.
+     */
     public MainMenuView() {
         setLayout(new GridBagLayout());
         setOpaque(false); // Para que se pinte el fondo personalizado
@@ -129,15 +150,58 @@ public class MainMenuView extends JPanel {
     }
 
     // Getters para los botones si necesitas acceder desde fuera
+    /**
+     * Obtiene el botón para iniciar un nuevo juego.
+     * @return El botón para iniciar un nuevo juego.
+     */
     public JButton getNewGameBtn() { return newGameBtn; }
+
+    /**
+     * Obtiene el botón para continuar un juego existente.
+     * @return El botón para continuar un juego.
+     */
     public JButton getContinueGameBtn() { return continueGameBtn; }
+
+    /**
+     * Obtiene el botón para gestionar perfiles de usuario.
+     * @return El botón para gestionar perfiles.
+     */
     public JButton getManageProfilesBtn() { return manageProfilesBtn; }
+
+    /**
+     * Obtiene el botón para gestionar diccionarios.
+     * @return El botón para gestionar diccionarios.
+     */
     public JButton getManageDictionariesBtn() { return manageDictionariesBtn; }
+
+    /**
+     * Obtiene el botón para ver el ranking de jugadores.
+     * @return El botón para ver el ranking.
+     */
     public JButton getRankingBtn() { return rankingBtn; }
+
+    /**
+     * Obtiene el botón para salir del juego.
+     * @return El botón para salir.
+     */
     public JButton getExitBtn() { return exitBtn; }
+
+    /**
+     * Obtiene el panel del menú principal.
+     * @return El panel del menú principal.
+     */
     public JPanel getMenuPanel() { return menuPanel; }
+
+    /**
+     * Obtiene el panel de opciones del menú.
+     * @return El panel de opciones del menú.
+     */
     public JPanel getOptionsPanel() { return optionsPanel; }
 
+    /**
+     * Método principal para ejecutar la aplicación y mostrar el menú principal.
+     * @param args Argumentos de línea de comandos (no se utilizan).
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame("Main Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

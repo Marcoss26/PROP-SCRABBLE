@@ -4,8 +4,28 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * LoginView representa la vista de inicio de sesión del juego.
+ * Permite a los usuarios iniciar sesión o registrarse con un nombre de usuario y contraseña.
+ * Incluye botones para iniciar sesión, registrarse y regresar al menú principal.
+ * @author Alvaro Perez
+ */
 public class NewGame extends JPanel {
     
+    /**
+     * Atributos de la clase NewGame.
+     * @param mainPanel Panel principal que contiene la configuración del juego.
+     * @param playerPanel Panel para la configuración de jugadores.
+     * @param settingsPanel Panel para la configuración adicional del juego.
+     * @param startButton Botón para iniciar el juego.
+     * @param returnButton Botón para regresar al menú principal.
+     * @param numHumPlayers Número de jugadores humanos seleccionados.
+     * @param numAIPlayers Número de jugadores IA seleccionados.
+     * @param boardSize Tamaño del tablero seleccionado.
+     * @param dictionary Diccionario seleccionado para el juego.
+     * @param pc Controlador de presentación.
+     * @param cc Controlador de creación de perfiles.
+     */
     private JPanel mainPanel;
     private JPanel playerPanel;
     private JPanel settingsPanel;
@@ -18,7 +38,10 @@ public class NewGame extends JPanel {
     private PresentationCtrl pc;
     private CreationCtrl cc;
     
-
+    /**
+     * Constructor de la clase NewGame.
+     * Inicializa el panel con un diseño y componentes para configurar un nuevo juego.
+     */
     public NewGame() {
         
         cc = CreationCtrl.getInstance();
@@ -157,10 +180,18 @@ public class NewGame extends JPanel {
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Obtiene el tamaño del tablero.
+     * @return El tamaño del tablero seleccionado.
+     */
     public Integer getBoardSize() {
         return boardSize;
     }
 
+    /**
+     * Obtiene el diccionario seleccionado.
+     * @return El identificador del diccionario seleccionado.
+     */
     public String getDictionary() {
         switch(dictionary) {
             case "English":
@@ -174,6 +205,10 @@ public class NewGame extends JPanel {
         }
     }
 
+    /**
+     * Obtiene el número de jugadores humanos.
+     * @return El número de jugadores humanos seleccionados.
+     */
     public Integer getTotalPlayers() {
         return numHumPlayers + numAIPlayers;
     }

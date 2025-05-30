@@ -4,24 +4,27 @@ import java.io.*;
 
 /**
  * Dawg.java
- * @author: Ivan Alcubierre
+ * @author: Iván Alcubierre
  * Esta clase representa un DAWG (Directed Acyclic Word Graph).
  * Se encarga de gestionar la creación, eliminación y acceso a las palabras del DAWG.
  */
 public class Dawg
 {
-    //Atributos del DAWG
 
     /**
      * clase Node
-     * @author: Ivan Alcubierre
+     * @author: Iván Alcubierre
      * Esta clase representa un nodo del DAWG.
      * Se encarga de gestionar la creación, eliminación y acceso a los nodos del DAWG.
      */
     public class Node
     {   
 
-        //Atributos del nodo
+        /**
+         * Atributos de la clase Node.
+         * @param children Mapa que contiene los hijos del nodo actual, donde la clave es el identificador del nodo y el valor es el puntero al siguiente nodo.
+         * @param isFinalNode Indica si el nodo es final (es decir, si representa una palabra completa en el DAWG).
+         */
         private Map<String, Node> children; // Mapa identificador del nodo actual y puntero que apunta a los siguientes nodos
         private boolean isFinalNode; // Indica si el nodo es final
 
@@ -69,6 +72,8 @@ public class Dawg
          * Añade un nuevo nodo al mapa de hijos del nodo actual.
          * pre: nextLetter es la siguiente letra que se quiere añadir al DAWG y node es el nodo que se quiere añadir, no existe el nodo con el id nextLetter
          * post: añade el nodo al mapa de hijos del nodo actual
+         * @param nextLetter La letra que identifica al siguiente nodo.
+         * @param node El nodo que se quiere añadir al mapa de hijos del nodo actual.
          */
         public void addNextNode(String nextLetter, Node node)
         {
@@ -100,6 +105,7 @@ public class Dawg
          * Devuelve el mapa de hijos del nodo actual.
          * pre: True
          * post: devuelve el mapa de hijos del nodo actual
+         * @return Mapa que contiene los hijos del nodo actual, donde la clave es el identificador del nodo y el valor es el puntero al siguiente nodo.
          */
         public Map<String, Node> getchildren()
         {
@@ -107,15 +113,22 @@ public class Dawg
         }
     }
 
-    //Atributos del DAWG
-    private String language;                // Idioma del DAWG
-    private Node root;                      // Nodo raíz del DAWG
-    private Map<Node,Node> nodeRegistry;    // Conjunto de nodos del DAWG, para evitar duplicados
+    /**
+     * Atributos de la clase Dawg.
+     * @param language Idioma del DAWG.
+     * @param root Nodo raíz del DAWG.
+     * @param nodeRegistry Conjunto de nodos del DAWG, para evitar duplicados.
+     */
+    private String language;            
+    private Node root;                  
+    private Map<Node,Node> nodeRegistry;
 
     /**
      * Constructor de la clase Dawg.
      * pre: language es el idioma del DAWG que se va a crear
      * post: crea un nuevo DAWG con el idioma especificado y un nodo raíz vacío
+     * @param language Idioma del DAWG (por ejemplo, "en" para inglés, "es" para español, "ca" para catalán).
+     * @throws IOException Si ocurre un error al leer el fichero de palabras del idioma especificado.
      */
     public Dawg(String language) throws IOException
     {
@@ -142,6 +155,7 @@ public class Dawg
      * Devuelve el idioma del DAWG.
      * pre: True
      * post: devuelve el idioma del DAWG
+     * @return El idioma del DAWG.
      */
     public String getLanguage()
     {
@@ -152,6 +166,7 @@ public class Dawg
      * Devuelve el nodo raíz del DAWG.
      * pre: True
      * post: devuelve el nodo raíz del DAWG
+     * @return El nodo raíz del DAWG.
      */
     public Node getRoot()
     {
@@ -162,6 +177,9 @@ public class Dawg
      * Comprueba si el siguiente carácter es un carácter especial.
      * pre: word es la palabra a comprobar y index es el índice del carácter a comprobar
      * post: devuelve el carácter especial si existe, null en caso contrario
+     * @param word La palabra a comprobar.
+     * @param index El índice del carácter a comprobar.
+     * @return El carácter especial si existe, null en caso contrario.
      */
     public String getSpecialCharacter(String word, int index) {
         if (index >= word.length() - 1) return null;
@@ -188,6 +206,8 @@ public class Dawg
      * Devuelve la longitud de una palabra en el DAWG.
      * pre: word es la palabra a comprobar
      * post: devuelve la longitud de la palabra en el DAWG
+     * @param word La palabra a comprobar.
+     * @return La longitud de la palabra en el DAWG.
      */
     public int getWordLength(String word)
     {
@@ -211,6 +231,8 @@ public class Dawg
      * Añade las palabras del fichero al DAWG.
      * pre: True
      * post: añade las palabras del fichero al DAWG
+     * @param language Idioma del DAWG (por ejemplo, "en" para inglés, "es" para español, "ca" para catalán).
+     * @throws IOException Si ocurre un error al leer el fichero de palabras del idioma especificado.
      */
     private void addWords() throws IOException
     {   
@@ -235,6 +257,8 @@ public class Dawg
      * Añade una palabra al DAWG.
      * pre: word es la palabra a añadir al DAWG
      * post: añade la palabra al DAWG
+     * @param word La palabra a añadir al DAWG.
+     * @param oldword La palabra anterior, para evitar duplicados.
      */
     private void addWord(String word,String oldword)
     {
@@ -262,6 +286,8 @@ public class Dawg
      * Añade un sufijo a un nodo del DAWG.
      * pre: node es el nodo al que se le quiere añadir el sufijo y word es el sufijo a añadir
      * post: añade el sufijo al nodo del DAWG
+     * @param node El nodo al que se le quiere añadir el sufijo.
+     * @param word El sufijo a añadir al nodo del DAWG.
      */
     private void add_sufix(Node node,String word)
     {
@@ -282,6 +308,9 @@ public class Dawg
      * Reemplaza o registra un nodo en el DAWG.
      * pre: node es el nodo al que se le quiere añadir el sufijo y partToFix es la parte de la palabra que se quiere arreglar
      * post: reemplaza o registra el nodo en el DAWG
+     * @param node El nodo al que se le quiere añadir el sufijo.
+     * @param partToFix La parte de la palabra que se quiere arreglar.
+     * @param i El índice de la letra que se está arreglando.
      */
     public void replace_or_register(Node node,String partToFix, int i)
     {
@@ -303,6 +332,14 @@ public class Dawg
         else    nodeRegistry.put(last_child,last_child);
     }
 
+    /**
+     * Devuelve el último hijo de un nodo en el DAWG.
+     * pre: node es el nodo al que se le quiere obtener el último hijo y word es la palabra a buscar
+     * post: devuelve el último hijo del nodo en el DAWG
+     * @param node El nodo al que se le quiere obtener el último hijo.
+     * @param word La palabra a buscar.
+     * @return El último hijo del nodo en el DAWG.
+     */
     /*private String last_child(Node node,String word)
     {
         String heaviestKey = null;
@@ -319,6 +356,14 @@ public class Dawg
         return heaviestKey; // Retorna el nodo hijo más pesado
     }*/
 
+    /**
+     * Devuelve la ultima palabra de un nodo en el DAWG.
+     * pre: node es el nodo al que se le quiere obtener la última palabra y word es la palabra a buscar
+     * post: devuelve la última palabra del nodo en el DAWG
+     * @param node El nodo al que se le quiere obtener la última palabra.
+     * @param word La palabra a buscar.
+     * @return La última palabra del nodo en el DAWG.
+     */
     /*private String get_last_word(Node node)
     {
         String palabra = "";
@@ -335,6 +380,9 @@ public class Dawg
      * Devuelve el último nodo de una palabra en el DAWG.
      * pre: node es el nodo raíz del DAWG y word es la palabra a buscar
      * post: devuelve el último nodo de la palabra en el DAWG
+     * @param node El nodo raíz del DAWG.
+     * @param word La palabra a buscar.
+     * @return El último nodo de la palabra en el DAWG.
      */
     public Node get_lastNode(Node node, String word)
     {
@@ -355,6 +403,8 @@ public class Dawg
      * Devuelve el prefijo común de una palabra en el DAWG.
      * pre: word es la palabra a buscar
      * post: devuelve el prefijo común de la palabra en el DAWG
+     * @param word La palabra a buscar.
+     * @return El prefijo común de la palabra en el DAWG.
      */
     public String commonPrefix(String word)
     {
@@ -393,6 +443,8 @@ public class Dawg
      * Comprueba si una palabra existe en el DAWG.
      * pre: word es la palabra a comprobar
      * post: devuelve true si la palabra existe en el DAWG, false en caso contrario
+     * @param word La palabra a comprobar.
+     * @return true si la palabra existe en el DAWG, false en caso contrario.
      */
     public boolean existsWord(String word)
     {
@@ -429,6 +481,7 @@ public class Dawg
      * Elimina una palabra del DAWG.
      * pre: word es la palabra a eliminar del DAWG
      * post: elimina la palabra del DAWG
+     * @param word La palabra a eliminar del DAWG.
      */
     public void removeWord(String word) {
 
@@ -441,6 +494,9 @@ public class Dawg
      * Elimina una palabra del DAWG de forma recursiva.
      * pre: node es el nodo actual, word es la palabra a eliminar y index es el índice de la letra que se está eliminando
      * post: elimina la palabra del DAWG
+     * @param node El nodo actual del DAWG.
+     * @param word La palabra a eliminar del DAWG.
+     * @param index El índice de la letra que se está eliminando en la palabra.
      */
     private void removeWordRec(Node node, String word, int index) {
         // Caso Base
@@ -459,6 +515,8 @@ public class Dawg
      * Comprueba si un prefijo existe en el DAWG.
      * pre: prefix es el prefijo a comprobar
      * post: devuelve true si el prefijo existe en el DAWG, false en caso contrario
+     * @param prefix El prefijo a comprobar.
+     * @return true si el prefijo existe en el DAWG, false en caso contrario.
      */
     public boolean isPrefix(String prefix) {
         return isPrefixRec(root, prefix, 0);
@@ -468,6 +526,10 @@ public class Dawg
      * Comprueba si un prefijo existe en el DAWG de forma recursiva.
      * pre: node es el nodo actual, prefix es el prefijo a comprobar y index es el índice de la letra que se está comprobando
      * post: devuelve true si el prefijo existe en el DAWG, false en caso contrario
+     * @param node El nodo actual del DAWG.
+     * @param prefix El prefijo a comprobar.
+     * @param index El índice de la letra que se está comprobando en el prefijo.
+     * @return true si el prefijo existe en el DAWG, false en caso contrario.
      */
     private boolean isPrefixRec(Node node, String prefix, int index) {
         if (index == prefix.length()) {

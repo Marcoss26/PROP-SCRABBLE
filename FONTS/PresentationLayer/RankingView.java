@@ -6,12 +6,28 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * RankingView representa la vista del ranking de jugadores.
+ * Muestra una tabla con el ranking de jugadores y un botón para regresar al menú principal.
+ * Permite agregar usuarios al ranking con sus estadísticas.
+ * @author Alvaro Perez
+ */
 public class RankingView extends JPanel {
 
+    /**
+     * Atributos de la clase RankingView.
+     * @param tableModel Modelo de la tabla que contiene los datos del ranking.
+     * @param rankingTable Tabla que muestra el ranking de jugadores.
+     * @param returnButton Botón para regresar al menú principal.
+     */
     private DefaultTableModel tableModel;
     private JTable rankingTable;
     private JButton returnButton;
 
+    /**
+     * Constructor de la clase RankingView.
+     * Inicializa el panel con un diseño y componentes para mostrar el ranking de jugadores.
+     */
     public RankingView() {
         setLayout(new BorderLayout());
         setBackground(Color.decode("#F5F6FA")); // Fondo gris claro
@@ -93,17 +109,43 @@ public class RankingView extends JPanel {
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    // Método para agregar un usuario al ranking
+    /**
+     * Agrega un usuario al ranking con sus estadísticas.
+     * @param profileID ID del perfil del jugador.
+     * @param wins Número de victorias del jugador.
+     * @param winRate Porcentaje de victorias del jugador.
+     * @param totalGames Total de juegos jugados por el jugador.
+     * @param ppg Puntos por juego del jugador.
+     * @param preferredDictionary Diccionario preferido del jugador.
+     */
     public void addUserToRanking(String profileID, int wins, String winRate, int totalGames, double ppg, String preferredDictionary) {
         int rank = tableModel.getRowCount() + 1; // El rango es el número de filas + 1
         tableModel.addRow(new Object[]{rank, profileID, wins, winRate, totalGames, ppg, preferredDictionary});
     }
 
-    // Getters para acceder a los componentes desde fuera si es necesario
+    /**
+     * Obtiene el ranking de la tabla.
+     * @return La tabla que muestra el ranking de jugadores.
+     */
     public JTable getRankingTable() { return rankingTable; }
+
+    /**
+     * Obtiene el botón de retorno al menú principal.
+     * @return El botón de retorno.
+     */
     public JButton getReturnButton() { return returnButton; }
+
+    /**
+     * Obtiene el modelo de la tabla.
+     * @return El modelo de la tabla que contiene los datos del ranking.
+     */
     public DefaultTableModel getTableModel() { return tableModel; }
 
+    /**
+     * Método principal para ejecutar la vista de ranking.
+     * Crea una ventana y muestra el ranking con algunos usuarios de ejemplo.
+     * @param args Argumentos de línea de comandos (no se utilizan).
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame("Ranking View");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

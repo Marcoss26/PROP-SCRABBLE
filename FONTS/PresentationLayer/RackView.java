@@ -5,12 +5,25 @@ import java.awt.event.*;
 //import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * RackView representa la bandeja de fichas del jugador en el juego Scrabble.
+ * Muestra las fichas disponibles del jugador y permite realizar acciones como barajar,
+ * intercambiar, enviar o saltar el turno.
+ * @author Marcos Arroyo
+ */
 public class RackView extends JPanel {
 
     //el parametro letters es una lista que representa las fichas del jugador
     //el formato de la lista es el siguiente:
     //letters = [A,1, B,3, C,3, D,2, E,1, F,4, G,2] en la posición i está el simbolo
     //y en la posición i+1 está el valor de la ficha
+
+    /**
+     * Atributos de la clase RackView.
+     * @param rackBackground Imagen de fondo de la bandeja de fichas.
+     * @param rackPanel Panel que contiene las fichas del jugador.
+     * @param selectedTile Ficha seleccionada actualmente en la bandeja.
+     */
     private Image rackBackground;
     private JPanel rackPanel;
     private TileView selectedTile;
@@ -22,6 +35,13 @@ public class RackView extends JPanel {
                 g.drawImage(rackBackground, 0, 0, getWidth(), getHeight(), this);
             }
 
+    /**
+     * Constructor de la clase RackView.
+     * Inicializa el panel de la bandeja de fichas con un diseño de BorderLayout,
+     * agrega botones para barajar, intercambiar, enviar o saltar el turno,
+     * y muestra las fichas del jugador.
+     * @param letters Lista de letras disponibles en la bandeja de fichas del jugador.
+     */
     public RackView(ArrayList<String> letters) {
         //this.setLayout(new GridLayout(1, letters.size()/2));
 
@@ -91,10 +111,18 @@ public class RackView extends JPanel {
 
     }
 
+    /**
+     * Obtiene la casilla actualmente en la bandeja.
+     * @return La casilla seleccionada, o null si no hay ninguna seleccionada.
+     */
     public TileView getSelectedTile() {
         return selectedTile;
     }
 
+    /**
+     * Agrega una ficha al panel de la bandeja.
+     * @param tile La ficha que se va a agregar.
+     */
     public void addTile(TileView tile) {
         rackPanel.add(tile);
         tile.setBackground(Color.decode("#EED09D"));
@@ -104,6 +132,11 @@ public class RackView extends JPanel {
         
     }
 
+    /**
+     * Establece la ficha seleccionada en la bandeja.
+     * Resalta la ficha seleccionada y deselecciona la anterior, si existe.
+     * @param tile La ficha que se va a seleccionar.
+     */
     public void setSelectedTile(TileView tile) {
         if(selectedTile != null) {
             selectedTile.setBackground(Color.decode("#EED09D"));
@@ -112,6 +145,10 @@ public class RackView extends JPanel {
         tile.setBackground(Color.decode("#FFCC00"));
     }
 
+    /**
+     * Elimina la ficha seleccionada de la bandeja.
+     * Resetea el color de fondo de la ficha eliminada y actualiza el panel.
+     */
     public void removeSelectedTile() {
         
             rackPanel.remove(selectedTile);
@@ -119,10 +156,13 @@ public class RackView extends JPanel {
             selectedTile = null;
             rackPanel.revalidate();
             rackPanel.repaint();
-            
-        
     }
 
+    /**
+     * Agrega un listener de mouse a una ficha para manejar los eventos de clic.
+     * Permite seleccionar y deseleccionar fichas en la bandeja.
+     * @param tile La ficha a la que se le agregará el listener.
+     */
     public void addListener(TileView tile){
         tile.addMouseListener(new MouseAdapter() {
                 @Override
@@ -148,7 +188,11 @@ public class RackView extends JPanel {
             });
     }
 
-
+    /**
+     * Método principal para probar la vista RackView.
+     * Crea un JFrame y muestra la bandeja de fichas con algunas letras de ejemplo.
+     * @param args Argumentos de línea de comandos (no se utilizan).
+     */
    /* public static void main(String[] args) {
         // Crear un JFrame para probar el RackView
         JFrame frame = new JFrame("Rack Example");

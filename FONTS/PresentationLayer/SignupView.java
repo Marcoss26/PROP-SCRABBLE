@@ -2,8 +2,18 @@ package PresentationLayer;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * SignupView representa la vista de registro de un nuevo usuario en el juego Scrabble.
+ * Permite a los usuarios crear un nuevo perfil ingresando un nombre de usuario y una contraseña,
+ * así como configurar si el perfil será público o privado.
+ * @author Iván Alcubierre
+ */
 public class SignupView extends JPanel {
 
+    /**
+     * Constructor de la clase SignupView.
+     * Inicializa el panel con un diseño y componentes para el registro de un nuevo usuario.
+     */
     public SignupView() {
         // Fondo gris claro
         setLayout(new GridBagLayout());
@@ -121,6 +131,11 @@ public class SignupView extends JPanel {
         add(signupPanel, gbc);
     }
 
+    /**
+     * Método principal para ejecutar la vista de registro.
+     * Crea un JFrame y añade una instancia de SignupView.
+     * @param args Argumentos de línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame("Signup View");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

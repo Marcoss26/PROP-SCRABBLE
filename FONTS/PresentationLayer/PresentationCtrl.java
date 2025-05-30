@@ -9,7 +9,27 @@ import java.awt.*;
 import java.util.*;
 import java.util.ArrayList;
 
+/**
+ * PresentationCtrl es el controlador principal de la capa de presentación.
+ * Se encarga de gestionar las vistas y la interacción con el usuario.
+ * Utiliza el patrón Singleton para asegurar que solo haya una instancia de PresentationCtrl.
+ * @author Marcos Arroyo
+ */
 public class PresentationCtrl {
+
+    /**
+     * Atributos de la clase PresentationCtrl.
+     * @param mainFrame El marco principal de la aplicación.
+     * @param visiblePanel El panel actualmente visible en el marco principal.
+     * @param clientWidth Ancho del cliente de la ventana principal.
+     * @param clientHeight Alto del cliente de la ventana principal.
+     * @param instance Instancia única de PresentationCtrl (Singleton).
+     * @param createdViews Mapa que almacena las vistas creadas por su nombre.
+     * @param cc Controlador de creación de vistas (CreationCtrl).
+     * @param domainCtrl Controlador del dominio (DomainController).
+     * @param matchViewCtrl Controlador de la vista del juego (MatchViewCtrl).
+     * @param turn Turno actual del juego.
+     */
     private JFrame mainFrame;
 	private JPanel visiblePanel;
     private int clientWidth = 1060;
@@ -23,27 +43,39 @@ public class PresentationCtrl {
 
     
 
-    // CONSTRUCTOR, its a Singleton class
+    /**
+     * Constructor privado para implementar el patrón Singleton.
+     * Evita la creación de instancias adicionales de PresentationCtrl.
+     */
     private PresentationCtrl() {
 
     }
 
+    /**
+     * Método estático para obtener la instancia única de PresentationCtrl.
+     * Si no existe una instancia, la crea.
+     * @return La instancia única de PresentationCtrl.
+     */
     public static PresentationCtrl getInstance() {
         if (instance == null) {
             instance = new PresentationCtrl();
        }
         return instance;
     }
-
-    //Con esta funcion se inicializa el controlador del dominio y está listo para utilizar
    
+    /**
+     * Inicializa el controlador del dominio.
+     * Este método se llama al inicio para preparar el controlador del dominio.
+     */
     public void initializeCD(){
         domainCtrl = DomainController.getInstance();
     }
-
-    //Funciones relacionadas con el ctrl dominio
-
    
+    /**
+     * Crea un nuevo juego y muestra la vista de creación de juego.
+     * Obtiene los parámetros necesarios del controlador de creación (CreationCtrl)
+     * y del controlador del dominio (DomainController) para crear un nuevo juego.
+     */
     public void createNewMatch(){
         //int numHumPlayers = cc.getHumanPlayers();
         int totalPlayers = cc.getTotalPlayers();
@@ -78,21 +110,39 @@ public class PresentationCtrl {
 
     }
 
+    /**
+     * Comprueba si un perfil existe en el sistema.
+     * @param username Nombre de usuario del perfil a comprobar.
+     * @return true si el perfil existe, false en caso contrario.
+     */
     public boolean profInSystem(String username) {
         return domainCtrl.profInSystem(username);
     }
 
+    /**
+     * Comprueba si las credenciales de un usuario son válidas.
+     * @param username Nombre de usuario del perfil.
+     * @param password Contraseña del perfil.
+     * @return true si las credenciales son correctas, false en caso contrario.
+     */
     public boolean checkPassword(String username, String password) {
         return domainCtrl.checkPassword(username, password);
     }
 
+    /**
+     * Crea un nuevo perfil de usuario en el sistema.
+     * @param username Nombre de usuario del nuevo perfil.
+     * @param password Contraseña del nuevo perfil.
+     */
     public void createProfile(String username, String password){
         domainCtrl.addProfile(username, password);
     }
 
-
-       
-
+    /**
+     * Inicializa las vistas de la aplicación.
+     * Configura el marco principal y crea las vistas iniciales.
+     * También establece el controlador de creación de vistas (CreationCtrl).
+     */
     public void initializeViews() {
         mainFrame = new JFrame("Scrabble");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,13 +168,20 @@ public class PresentationCtrl {
         
     }
 
+    /**
+     * Obtiene el marco principal de la aplicación.
+     * @return El JFrame principal.
+     */
     public void refresh(){
         mainFrame.revalidate();
         mainFrame.repaint();
     }
 
-        
-
+    /**
+     * Muestra una vista específica en el marco principal.
+     * Cambia la vista actual y ajusta el tamaño del marco según la vista seleccionada.
+     * @param viewName Nombre de la vista a mostrar.
+     */
     public void showView(String viewName) {
        changeView(viewName);
        mainFrame.add(visiblePanel);
@@ -144,22 +201,37 @@ public class PresentationCtrl {
        mainFrame.repaint();
    }
 
+    /**
+     * Muestra la vista del menú principal.
+     * Esta vista es la primera que se muestra al iniciar la aplicación.
+     * @param mode Modo de la vista (opcional, puede ser null).
+     */
    public void showLoginView(String mode){
 
         cc.setMode(mode);
         showView("LoginView");
-
    }
 
+    /**
+     * Muestra la vita del perfil del usuario.
+     * Esta vista muestra las estadísticas del perfil del usuario,
+     * como el número de partidas jugadas, ganadas y la puntuación media.
+     * @param username Nombre de usuario del perfil.
+     * @param password Contraseña del perfil.
+     */
    public void showProfileView(String username, String password){
 
         //lo que hara esta funcion es coger del dominio los datos del perfil, setear la vista con estos datos y entonces mostrarla por pantalla 
         ArrayList<String> stats = domainCtrl.getProfileStats(username, password);
         cc.setProfileFields(username, Integer.parseInt(stats.get(1)), Integer.parseInt(stats.get(2)), Float.parseFloat(stats.get(3).replace(',', '.')));
         showView("ProfileView");
-
    }
 
+    /**
+    * Cambia la vista actual del marco principal.
+    * Elimina el panel visible actual y añade el nuevo panel correspondiente a la vista solicitada.
+    * @param viewName
+    */
     private void changeView(String viewName){
         mainFrame.remove(visiblePanel);
         switch (viewName) {

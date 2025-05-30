@@ -4,8 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * LoginView representa la vista de inicio de sesión del juego.
+ * Permite a los usuarios iniciar sesión o registrarse con un nombre de usuario y contraseña.
+ * Incluye botones para iniciar sesión, registrarse y regresar al menú principal.
+ * @author Iván Alcubierre
+ */
 public class LoginView extends JPanel {
 
+    /**
+     * Atributos de la clase LoginView.
+     * @param cc Controlador de creación de perfiles.
+     * @param userField Campo de texto para el nombre de usuario.
+     * @param passField Campo de contraseña para la contraseña del usuario.
+     * @param signUpBtn Botón para registrarse.
+     * @param loginBtn Botón para iniciar sesión.
+     * @param returnButton Botón para regresar al menú principal.
+     */
     private CreationCtrl cc;
     private JTextField userField;
     private JPasswordField passField;
@@ -13,6 +28,10 @@ public class LoginView extends JPanel {
     private JButton loginBtn;
     private JButton returnButton;
 
+    /**
+     * Constructor de la clase LoginView.
+     * Inicializa el panel con un diseño y componentes para el inicio de sesión.
+     */
     public LoginView() {
 
         cc = CreationCtrl.getInstance();
@@ -143,36 +162,66 @@ public class LoginView extends JPanel {
         add(bottomPanel, BorderLayout.SOUTH); // Agregar el panel inferior al sur
     }
 
-    // Getters para acceder a los componentes desde fuera si es necesario
+    /**
+     * Obtiene el UserField donde el usuario ingresa su nombre de usuario.
+     * @return el campo de texto para el nombre de usuario.
+     */
     public JTextField getUserField() {
         return userField;
     }
 
+    /**
+     * Obtiene el PassField donde el usuario ingresa su contraseña.
+     * @return el campo de contraseña.
+     */
     public JPasswordField getPassField() {
         return passField;
     }
 
+    /**
+     * Obtiene el botón de registro.
+     * @return el botón de registro.
+     */
     public JButton getSignUpBtn() {
         return signUpBtn;
     }
 
+    /**
+     * Obtiene el botón de inicio de sesión.
+     * @return el botón de inicio de sesión.
+     */
     public JButton getLoginBtn() {
         return loginBtn;
     }
 
+    /**
+     * Obtiene el botón de retorno al menú principal.
+     * @return el botón de retorno.
+     */
     public JButton getReturnButton() {
         return returnButton;
     }
 
+    /**
+     * Limpia los campos de entrada de usuario y contraseña.
+     */
     public void cleanFields() {
         userField.setText("");
         passField.setText("");
     }
 
+    /**
+     * Muestra un mensaje de error en un cuadro de diálogo.
+     * @param message El mensaje de error a mostrar.
+     */
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Muestra un mensaje de éxito en un cuadro de diálogo.
+     * @param message El mensaje de éxito a mostrar.
+     */
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }

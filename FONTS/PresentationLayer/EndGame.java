@@ -6,12 +6,29 @@ import java.util.List;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+/**
+ * EndGame representa la pantalla final del juego, mostrando al ganador y una tabla de puntuaciones.
+ * Permite al usuario volver al menú principal.
+ * @author ?
+ */
 public class EndGame extends JPanel {
 
+    /**
+     * Atributos de la clase EndGame.
+     * @param winnerLabel Etiqueta que muestra el nombre del ganador.
+     * @param returnButton Botón para volver al menú principal.
+     * @param scoresTable Tabla que muestra las puntuaciones de los jugadores.
+     */
     private JLabel winnerLabel;
     private JButton returnButton;
     private JTable scoresTable;
 
+    /**
+     * Constructor de la clase EndGame.
+     * Inicializa el panel con un diseño y componentes para mostrar el ganador y la tabla de puntuaciones.
+     * @param winnerName Nombre del jugador ganador.
+     * @param scores Lista de puntuaciones de los jugadores, donde cada entrada es un array con el nombre del jugador y su puntuación.
+     */
     public EndGame(String winnerName, List<String[]> scores) {
         setLayout(new BorderLayout(10, 10));
         Color fondoColor = Color.decode("#F5F6FA");
@@ -83,12 +100,29 @@ public class EndGame extends JPanel {
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    // Getters si necesitas acceder desde fuera
+    /**
+     * Obtiene el botón de retorno al menú principal.
+     * @return El botón de retorno.
+     */
     public JButton getReturnButton() { return returnButton; }
+
+    /**
+     * Obtiene la etiqueta que muestra el ganador.
+     * @return La etiqueta del ganador.
+     */
     public JLabel getWinnerLabel() { return winnerLabel; }
+
+    /**
+     * Obtiene la tabla de puntuaciones.
+     * @return La tabla de puntuaciones.
+     */
     public JTable getScoresTable() { return scoresTable; }
 
-    // Ejemplo de uso independiente
+    /**
+     * Método main para probar la clase EndGame de forma independiente.
+     * Crea un JFrame y añade una instancia de EndGame con datos de ejemplo.
+     * @param args Argumentos de línea de comandos (no se utilizan).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("End Game");

@@ -4,13 +4,30 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * LoginView representa la vista de inicio de sesión del juego.
+ * Permite a los usuarios iniciar sesión o registrarse con un nombre de usuario y contraseña.
+ * Incluye botones para iniciar sesión, registrarse y regresar al menú principal.
+ * @author Iván Alcubierre
+ */
 public class ManageDictionaryView extends JPanel {
 
+    /**
+     * Atributos de la clase ManageDictionaryView.
+     * @param dictionaries Lista de diccionarios disponibles.
+     * @param dictCombo ComboBox para seleccionar un diccionario.
+     * @param deleteBtn Botón para eliminar el diccionario seleccionado.
+     * @param returnButton Botón para regresar al menú principal.
+     */
     private final String[] dictionaries = {"Español", "Catalán", "Inglés"};
     private JComboBox<String> dictCombo;
     private JButton deleteBtn;
     private JButton returnButton;
 
+    /**
+     * Constructor de la clase ManageDictionaryView.
+     * Inicializa el panel con un diseño y componentes para gestionar diccionarios.
+     */
     public ManageDictionaryView() {
         setLayout(new BorderLayout());
         setBackground(Color.decode("#F5F6FA"));
@@ -143,8 +160,21 @@ public class ManageDictionaryView extends JPanel {
         g2.dispose();
     }
 
-    // Getters para acceder a los componentes desde fuera si es necesario
+    /**
+     * Obtiene el JComboBox que permite seleccionar un diccionario.
+     * @return El JComboBox de diccionarios.
+     */
     public JComboBox<String> getDictCombo() { return dictCombo; }
+
+    /**
+     * Obtiene el botón para eliminar el diccionario seleccionado.
+     * @return El botón de eliminar diccionario.
+     */
     public JButton getDeleteBtn() { return deleteBtn; }
+
+    /**
+     * Obtiene el botón de retorno al menú principal.
+     * @return El botón de retorno.
+     */
     public JButton getReturnButton() { return returnButton; }
 }

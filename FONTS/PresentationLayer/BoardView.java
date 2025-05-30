@@ -8,11 +8,30 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.*;
+
+/**
+ * BoardView representa la vista del tablero de juego.
+ * Contiene las casillas del tablero y gestiona la interacción con ellas.
+ * @author Marcos Arroyo
+ */
 public class BoardView extends JPanel {
+
+    /**
+     * Atributos de la clase BoardView.
+     * @param frame La ventana principal que contiene el tablero.
+     * @param boardpanel El panel que representa el tablero.
+     * @param centericon El icono que se muestra en el centro del tablero.
+     */
     private JFrame frame;
     private JPanel boardpanel;
     private ImageIcon centericon;
 
+    /**
+     * Constructor de la clase BoardView.
+     * Inicializa el tablero con un tamaño específico y un panel de rack.
+     * @param size El tamaño del tablero (número de filas y columnas).
+     * @param rackPanel El panel de rack donde se muestran las fichas del jugador.
+     */
     public BoardView(int size, RackView rackPanel) {
         // Crear una ventana
 
@@ -24,6 +43,13 @@ public class BoardView extends JPanel {
 
     }
 
+    /**
+     * Inicializa el tablero con las casillas y sus configuraciones.
+     * Dependiendo del tamaño del tablero, se establecen diferentes casillas especiales
+     * (letras dobles, triples, palabras dobles y triples).
+     * @param size El tamaño del tablero (número de filas y columnas).
+     * @param rackPanel El panel de rack donde se muestran las fichas del jugador.
+     */
     private void initializeBoard(int size, RackView rackPanel) {
         this.setLayout(new GridLayout(size, size));
         this.setBackground(Color.white);
