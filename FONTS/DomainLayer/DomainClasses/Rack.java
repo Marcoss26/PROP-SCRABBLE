@@ -181,6 +181,13 @@ public class Rack {
         return letters;
     }
 
+    public String getLetterSymbol(int index) {
+        if (index < 0 || index >= letters.size()) {
+            throw new IndexOutOfBoundsException("Index out of bounds for the rack");
+        }
+        return letters.get(index).getSymbol();
+    }
+
     /**
      * Elimina una letra del rack
      * Pre: La letra debe existir en el rack

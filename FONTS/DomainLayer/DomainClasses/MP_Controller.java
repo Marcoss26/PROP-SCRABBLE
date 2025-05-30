@@ -1,6 +1,8 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
 import java.io.*;
+import Utils.Pair;
+
 public class MP_Controller
 {
 
@@ -192,6 +194,23 @@ public class MP_Controller
             throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
         }
         return valid;
+    }
+
+    public Pair<String, Integer[]> aiTurn(String id) throws IllegalArgumentException, IllegalStateException
+    {
+        if (existMatch(id))
+        {
+            Match match = matches.get(id);
+            if(!match.isPaused())   return match.aiTurn();
+            else
+            {
+                throw new IllegalStateException("Match with ID: " + id + " is paused.");
+            }
+        }
+        else
+        {
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
+        }
     }
 
     public void modifyRack(String id, String old_letters)

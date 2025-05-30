@@ -44,10 +44,11 @@ public class MyDriver
         DomainLayer.DomainClasses.Dictionary dictionary = new DomainLayer.DomainClasses.Dictionary("en","en");
         Set<Profile> profiles = new HashSet<>();
         Profile profile = new Profile("ziheng","1");
-        Profile profile2 = new Profile("ziheng2","1");
+        //Profile profile2 = new Profile("ziheng2","1");
         profiles.add(profile);
-        profiles.add(profile2);
+        //profiles.add(profile2);
         String matchId = matchController.createMatch(2, profiles, dictionary, 7, letters, totalLettersInTheBag);
+        boolean human = true;
         // Menú de prueba
         while (true) {
             matchController.print(matchId);
@@ -59,15 +60,24 @@ public class MyDriver
             MyDriver.scanner.nextLine(); // Consume the newline character left by nextInt()
             switch (option) {
                 case 1:
-                System.out.println("Enter a word: ");
-                String word = MyDriver.scanner.nextLine();
-                System.out.println("Enter the start position (x,y): ");
-                int posStartX = MyDriver.scanner.nextInt();
-                int posStartY = MyDriver.scanner.nextInt();
-                System.out.println("Enter the end position (x,y): ");
-                int posEndX = MyDriver.scanner.nextInt();
-                int posEndY = MyDriver.scanner.nextInt();
-                matchController.humanTurn(matchId,word,posStartX,posStartY,posEndX,posEndY);
+                if(human)
+                {
+                    System.out.println("Enter a word: ");
+                    String word = MyDriver.scanner.nextLine();
+                    System.out.println("Enter the start position (x,y): ");
+                    int posStartX = MyDriver.scanner.nextInt();
+                    int posStartY = MyDriver.scanner.nextInt();
+                    System.out.println("Enter the end position (x,y): ");
+                    int posEndX = MyDriver.scanner.nextInt();
+                    int posEndY = MyDriver.scanner.nextInt();
+                    matchController.humanTurn(matchId,word,posStartX,posStartY,posEndX,posEndY);
+                    human = false;
+                }
+                else 
+                {
+                    matchController.aiTurn(matchId);
+                    human = true;
+                }
                 System.out.println("Enter to continue:");
                 String input = MyDriver.scanner.nextLine();
                 if (input.equals("\n")) {
@@ -79,6 +89,7 @@ public class MyDriver
                 System.out.println("Enter the letters to replace (separated by '_'): ");
                 String lettersToReplace = MyDriver.scanner.nextLine();
                 matchController.modifyRack(matchId, lettersToReplace);
+                human = !human;
                     break;
                 case 3:
                 System.out.println("Check the crosschecks for a square:");
