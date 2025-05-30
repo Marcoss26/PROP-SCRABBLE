@@ -69,6 +69,9 @@ public class DomainController {
     public Profile getProfile(String username) {
         return this.profileController.getProfile(username);
     }
+    public boolean authenticateProfile(String username, String password) {
+        return this.profileController.authenticateProfile(username, password);
+      }
     public boolean profileExists(String username) {
         return this.profileController.profileExists(username);
     }
@@ -82,6 +85,7 @@ public class DomainController {
             this.profileController.addProfile(entry.getValue());
         }
     }
+
     /* ---------------------------------------------------------------------
                             MATCH FUNCTIONALITY
     ------------------------------------------------------------------------*/
@@ -239,6 +243,10 @@ public class DomainController {
         return this.dictionaryController.getDictionaries();
     }
 
+    public void loadMatches() {
+        Map<String, Match> matches = persistenceController.loadMatches();
+        matchController.loadMatchesFromJSON(matches);
+    }
     /* 
      * ---------------------------------------------------------------------
                             RANKING FUNCTIONALITY
@@ -278,11 +286,6 @@ public class DomainController {
 
       public boolean profInSystem(String username) {
         return this.profileController.profileExists(username);
-      }
-
-      public boolean checkPassword(String username, String password) {
-        
-        return this.profileController.getProfile(username, password) != null;
       }
 
       public ArrayList<String> getProfileStats(String username, String password) {
