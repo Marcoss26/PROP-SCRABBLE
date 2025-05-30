@@ -106,6 +106,7 @@ public class PresentationCtrl {
             int score = domainCtrl.getPlayerScore(matchId, turn);
             matchViewCtrl.actPlayerScore(turn, score);
             actTurn();
+            System.out.println("Turn ended, next player: " + turn);
             startTurn();
         }
     }
@@ -268,7 +269,7 @@ public class PresentationCtrl {
             
             case "MatchView":
                 visiblePanel = createdViews.get("MatchView");
-
+                break;
             case "ProfileView":
                 //esta vista es un poco diferente, porque la tengo que actualizar, cada vez que la muestro necesito actualizarla con los valores actuales
                 

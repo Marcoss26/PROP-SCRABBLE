@@ -93,8 +93,7 @@ public class CreationCtrl {
         humanPlayers = numPlayers;
         loginIndex = 0;
         playersId = new HashSet<>();
-        loginMode = LoginMode.ADD_PLAYER;
-        showView("LoginView");
+        pc.showLoginView("ADD_PLAYER");
 
     }
 
@@ -109,8 +108,6 @@ public class CreationCtrl {
     public void showNextLoginView(){
         if(loginIndex < humanPlayers){
             cleanLoginView();
-            
-            pc = PresentationCtrl.getInstance();
             pc.refresh();
             
         }
@@ -118,7 +115,7 @@ public class CreationCtrl {
             
             pc.refresh();
             pc.createNewMatch();
-            showView("MatchView"); //de momento pongo newgame, pero lo tengo que cambiar por matchView
+            showView("MatchView"); 
             pc.startTurn();
         }
 
@@ -166,7 +163,6 @@ public class CreationCtrl {
     }
 
     public void createProfile(String playerId, String password) {
-        pc = PresentationCtrl.getInstance();
 
         if(pc.profInSystem(playerId)) {
             //JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);

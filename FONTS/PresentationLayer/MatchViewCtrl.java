@@ -21,8 +21,9 @@ public class MatchViewCtrl {
     }
 
     public MatchView createMatchView(Integer boardSize, Integer totalPlayers, ArrayList<String> players, ArrayList<String> letters) {
+         pc = PresentationCtrl.getInstance();
+
         matchView = new MatchView(boardSize, totalPlayers, players, letters);
-        pc = PresentationCtrl.getInstance();
         return matchView;
     }
 

@@ -1,5 +1,8 @@
 package PresentationLayer;
 import javax.swing.*;
+
+import DomainLayer.DomainClasses.Match;
+
 import java.awt.*;
 import java.awt.event.*;
 //import java.util.List;
@@ -23,9 +26,10 @@ public class RackView extends JPanel {
                 g.drawImage(rackBackground, 0, 0, getWidth(), getHeight(), this);
             }
 
-    public RackView(ArrayList<String> letters) {
+    public RackView(ArrayList<String> letters, MatchView matchView) {
         //this.setLayout(new GridLayout(1, letters.size()/2));
 
+        this.matchView = matchView;
         this.setLayout(new BorderLayout());
 
         ImageIcon rackwood = new ImageIcon("Resources/Wood.jpg");
@@ -70,6 +74,7 @@ public class RackView extends JPanel {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 matchView.submitTurn();
             }
         });

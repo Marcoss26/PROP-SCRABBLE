@@ -90,6 +90,8 @@ public class GameInfoView extends JPanel {
         
         JLabel label = (JLabel) scorePanel.getComponent(playerIndex);
         label.setText(label.getText().split(":")[0] + ": " + score);
+        scorePanel.revalidate();
+        scorePanel.repaint();
     }
 
 }

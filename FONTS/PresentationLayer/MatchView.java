@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import Utils.Pair;
 import java.awt.*;
-import java.lang.reflect.Array;
 
 public class MatchView extends JPanel {
     private BoardView boardPanel;
@@ -17,7 +16,7 @@ public class MatchView extends JPanel {
     public MatchView(int boardSize, int numPlayers, ArrayList<String> players, ArrayList<String> letters) {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.decode("#332F2C"));
-        
+        matchViewCtrl = MatchViewCtrl.getInstance();
 
         initializeRack(letters);
         initializeBoard(boardSize);
@@ -28,6 +27,8 @@ public class MatchView extends JPanel {
         //this.add(rackPanel, BorderLayout.SOUTH);
         this.add(gameInfoPanel, BorderLayout.EAST);
     }
+    
+  
 
     private void CombinePanels() {
         BoardAndRack = new JPanel();
@@ -44,7 +45,7 @@ public class MatchView extends JPanel {
     }
 
     private void initializeRack(ArrayList<String> letters) {
-        rackPanel = new RackView(letters);
+        rackPanel = new RackView(letters, this);
     }
 
     private void initializeGameInfo(int numPlayers, ArrayList<String> players) {
@@ -57,10 +58,8 @@ public class MatchView extends JPanel {
 
     public void submitTurn() {
         Pair<Integer,Integer> coord_ini, coord_end;
-        coord_ini = new Pair<>(100, 100); // inicializamos coordenada inicial con dos valores fuera del rango para que cuando encuentre la primera coordeada
-                                                       // no tenga problemas en establecer la coordenada inicial. 
-        coord_end = new Pair<>(-100, -100); // Aqui hago lo mismo pero para la coordenada final, cualquier coordenada que se encuentre en el tablero
-                                            // será más grande que esta, por lo que no habrá problemas en establecer la coordenada final.
+        coord_ini = new Pair<>(0,0);
+        coord_end = new Pair<>(0,0);
         String word = boardPanel.computeWord(coord_ini, coord_end);
         matchViewCtrl.submitTurn(coord_ini, coord_end, word);
 
