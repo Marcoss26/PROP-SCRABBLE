@@ -86,12 +86,6 @@ public class ProfileController {
     }
 
     /**
-     * Checks if a profile with the given username exists
-     * @param username The username of the profile to check
-     * @return true if the profile exists, false otherwise
-     */
-
-    /**
      * Comprueba si un perfil con el nombre de usuario dado existe
      * Pre: true
      * Post: Se retorna true si el perfil existe, false en caso contrario
@@ -101,6 +95,15 @@ public class ProfileController {
 
     public boolean profileExists(String username) {
         return profiles.get(username) != null;
+    }
+
+    public boolean authenticateProfile(String username, String password) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("Username and password cannot be null or empty.");
+        }
+
+        Profile profile = profiles.get(username);
+        return profile != null && profile.authenticate(password);
     }
 
     /**
