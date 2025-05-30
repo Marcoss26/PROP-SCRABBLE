@@ -97,6 +97,8 @@ public class ProfileController {
         return profiles.get(username);
     }
 
+
+    
     /**
      * Actualiza la contraseña del perfil de los parametros
      * Pre: El nombre de usuario y la contraseña no deben ser nulos o vacíos
@@ -105,7 +107,18 @@ public class ProfileController {
      * @param password La nueva contraseña del perfil
      */
 
-    public void updateProfile(String username, String password) {
-
+    public void updateProfile(String username, String oldPwd, String newPwd, boolean isPublic) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username and password cannot be null or empty.");
+        }
+        Profile profile = profiles.get(username);
+        if (profile != null) {
+            if (newPwd != null && !newPwd.isEmpty() && oldPwd != null && !oldPwd.isEmpty()) {
+                profile.changePassword(oldPwd, newPwd);
+            }
+            profile.setVisibility(isPublic);
+        } else {
+            throw new IllegalArgumentException("Profile with this username does not exist.");
+        }
     }
 }
