@@ -98,6 +98,15 @@ public class ProfileController {
     }
 
 
+    /**
+     * Recupera todos los perfiles
+     * Pre: true
+     * Post: Se retorna un mapa con todos los perfiles
+     * @return Un mapa con todos los perfiles, donde la clave es el nombre de usuario y el valor es el objeto Profile
+     */
+    public Map<String, Profile> getProfiles() {
+        return profiles;
+    }
     
     /**
      * Actualiza la contraseña del perfil de los parametros

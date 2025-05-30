@@ -1,5 +1,8 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
+
+import PersistenceLayer.PersistenceController;
+
 import java.io.*;
 import Utils.Pair;
 
@@ -32,7 +35,7 @@ public class DomainController {
     private MP_Controller matchController;
     private Ranking ranking;
     private DictionaryController dictionaryController;
-
+    private PersistenceController persistenceController;
     private static DomainController c;
 
     private DomainController() {
@@ -40,6 +43,7 @@ public class DomainController {
         this.matchController = MP_Controller.getInstance();
         this.ranking = Ranking.getInstance();
         this.dictionaryController = DictionaryController.getInstance();
+        this.persistenceController = PersistenceController.getInstance();
     }
 
     /**
@@ -56,15 +60,21 @@ public class DomainController {
     ------------------------------------------------------------------------*/
     public void addProfile(String username, String password) {
         this.profileController.addProfile(username, password);
+        persistenceController.saveProfiles(this.profileController.getProfiles());
     }
     public void removeProfile(String username) {
         this.profileController.removeProfile(username);
+        persistenceController.saveProfiles(this.profileController.getProfiles());
     }
     public Profile getProfile(String username) {
         return this.profileController.getProfile(username);
     }
     public boolean profileExists(String username) {
         return this.profileController.profileExists(username);
+    }
+    public void updateProfile(String username, String oldPwd, String newPwd, boolean isPublic) {
+        this.profileController.updateProfile(username, oldPwd, newPwd, isPublic);
+        persistenceController.saveProfiles(this.profileController.getProfiles());
     }
 
     /* ---------------------------------------------------------------------
