@@ -6,6 +6,7 @@ import DomainLayer.DomainClasses.DomainController;
 import Utils.Pair;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ArrayList;
 
@@ -87,9 +88,17 @@ public class PresentationCtrl {
         
     }
 
+    private void passTurn() {
+        matchViewCtrl.cleanTilesplaced();
+        matchViewCtrl.cleanRack();
+        actTurn();
+        ArrayList<String> letters = domainCtrl.getRackLetters(matchId, turn);
+        matchViewCtrl.updateRack(letters);
+    }
+
     public void skipTurn() {
         
-        actTurn();
+        passTurn();
         startTurn();
     }
 
@@ -99,14 +108,13 @@ public class PresentationCtrl {
         if(!valid){
             //si no es valido, muestro un mensaje de error
             showErrorDialog("Invalid move. Please try again.");
-            return;
+            
         }
         else{
             showSuccessDialog(word + " is valid, successful move.");
             int score = domainCtrl.getPlayerScore(matchId, turn);
             matchViewCtrl.actPlayerScore(turn, score);
-            actTurn();
-            System.out.println("Turn ended, next player: " + turn);
+            passTurn();
             startTurn();
         }
     }

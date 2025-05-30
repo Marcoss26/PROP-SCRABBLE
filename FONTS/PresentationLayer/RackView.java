@@ -1,12 +1,12 @@
 package PresentationLayer;
 import javax.swing.*;
 
-import DomainLayer.DomainClasses.Match;
 
 import java.awt.*;
 import java.awt.event.*;
 //import java.util.List;
 import java.util.ArrayList;
+
 
 public class RackView extends JPanel {
 
@@ -171,19 +171,20 @@ public class RackView extends JPanel {
     }
 
 
-   /* public static void main(String[] args) {
-        // Crear un JFrame para probar el RackView
-        JFrame frame = new JFrame("Rack Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 125);
+    public void cleanRack() {
+        rackPanel.removeAll();
+        selectedTile = null;
+       
+    }
 
-        // Crear una lista de fichas
-        List<String> letters = List.of("A", "1", "B", "3", "C", "3", "D", "2", "E", "1", "F", "4", "G", "2");
-
-        // Crear el RackView y agregarlo al JFrame
-        RackView rack = new RackView(letters);
-        frame.add(rack);
-
-        frame.setVisible(true);
-    }*/
+    public void updateRack(ArrayList<String> letters) {
+        cleanRack();
+        for(int i = 0; i < letters.size(); i+=2) {
+            TileView tile = new TileView(letters.get(i), Integer.parseInt(letters.get(i+1)));
+            addListener(tile);
+            rackPanel.add(tile);
+        }
+        rackPanel.revalidate();
+        rackPanel.repaint();
+    }
 }

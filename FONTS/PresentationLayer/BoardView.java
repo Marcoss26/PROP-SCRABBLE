@@ -317,4 +317,8 @@ public class BoardView extends JPanel {
         return false; 
     }
 
+    public void cleanTilesPlaced() {
+        tilesPlaced.clear();
+    }
+
 }

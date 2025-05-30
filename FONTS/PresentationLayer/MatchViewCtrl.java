@@ -44,5 +44,15 @@ public class MatchViewCtrl {
     public void actPlayerScore(int turn, int score){
         matchView.actPlayerScore(turn, score);
     }
-    
+    public void cleanTilesplaced() {
+        matchView.cleanTilesPlaced();
+    }
+
+    public void cleanRack() {
+        matchView.cleanRack();
+    }
+
+    public void updateRack(ArrayList<String> letters) {
+        matchView.updateRack(letters);
+    }
 }

@@ -70,6 +70,18 @@ public class MatchView extends JPanel {
         gameInfoPanel.actPlayerScore(turn, score);
     }
 
+    public void cleanTilesPlaced() {
+        boardPanel.cleanTilesPlaced();
+    }
+
+    public void cleanRack() {
+        rackPanel.cleanRack();
+    }
+
+    public void updateRack(ArrayList<String> letters) {
+        rackPanel.updateRack(letters);
+    }
+
     
 }
 

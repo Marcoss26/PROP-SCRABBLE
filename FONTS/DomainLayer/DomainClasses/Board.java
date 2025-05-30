@@ -31,7 +31,7 @@ public class Board
             throw new IllegalArgumentException("El tamaño del tablero debe ser 7, 15 o 25.");  
         }
         this.size = size;
-        this.board = new Box[size][size];
+        this.board = new Box[size+1][size+1];
 
        Set<Pair<Integer,Integer>> doubleLetter = new HashSet<>();
         Set<Pair<Integer,Integer>> tripleLetter = new HashSet<>();
@@ -93,8 +93,8 @@ public class Board
         }
 
         // --- Asignación eficiente de casillas ---
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i <= size; i++) {
+            for (int j = 0; j <= size; j++) {
                 Pair<Integer,Integer> pos = new Pair<>(i, j);
                 if (doubleLetter.contains(pos)) {
                     board[i][j] = new Box.DoubleLetter(i, j);

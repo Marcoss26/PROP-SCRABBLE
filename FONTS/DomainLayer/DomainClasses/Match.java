@@ -521,6 +521,7 @@ public class Match
                 }
                 System.out.println("Score for this play: " + score);
                 player.addScore(score * wholeWordBonusFactor); //Add the score to the player
+                setTurn(turn + 1); //Set the turn to the next player
             }
             else    validPlay = false;
             player_rack.print(); //Print the rack of the player
@@ -529,7 +530,7 @@ public class Match
         {
                 
         }
-        return true;
+        return validPlay;
     }
 
     public int getPlayerScore(int turn){
