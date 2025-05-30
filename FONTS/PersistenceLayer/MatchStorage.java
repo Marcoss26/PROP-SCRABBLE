@@ -84,6 +84,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
         JsonUtils.save("/matches.json", matchesArray);
     }
 
+    
     public Map<String, Match> load() {
         Map<String, Match> matches = new HashMap<>();
         JSONArray matchesArray = (JSONArray) JsonUtils.load( "/matches.json");

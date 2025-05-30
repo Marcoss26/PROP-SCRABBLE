@@ -76,7 +76,12 @@ public class DomainController {
         this.profileController.updateProfile(username, oldPwd, newPwd, isPublic);
         persistenceController.saveProfiles(this.profileController.getProfiles());
     }
-
+    public void loadProfiles() {
+        Map<String, Profile> profiles = persistenceController.loadProfiles();
+        for (Map.Entry<String, Profile> entry : profiles.entrySet()) {
+            this.profileController.addProfile(entry.getValue());
+        }
+    }
     /* ---------------------------------------------------------------------
                             MATCH FUNCTIONALITY
     ------------------------------------------------------------------------*/
