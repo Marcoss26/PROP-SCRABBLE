@@ -37,7 +37,7 @@ public class MatchViewCtrl {
         pc.skipTurn();
     }
 
-    public void submitTurn(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end, ArrayList<String> word, Set<Pair<Integer, Integer>> jokers) {
+    public void submitTurn(ArrayList<Pair<Integer, Integer>> coord_ini, ArrayList<Pair<Integer, Integer>> coord_end, ArrayList<String> word, Set<Pair<Integer, Integer>> jokers) {
         pc.submitTurn(coord_ini, coord_end, word, jokers);
     }
 
@@ -62,5 +62,13 @@ public class MatchViewCtrl {
 
     public void lockTilesPlaced() {
         matchView.lockTilesPlaced();
+    }
+
+    public void exchangeLetters(String letters) {
+        pc.exchangeLetters(letters);
+    }
+
+    public void setBagTiles(Integer numTiles) {
+        matchView.setBagTiles(numTiles);
     }
 }

@@ -406,10 +406,7 @@ public class Match
         player.displayPlayer();
         player.modifyRack(old_letters);
         player.printRack();
-        System.out.println("Racked replaced, enter to continue...");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
-        System.out.println("Continuing...");
+        
         setTurn(turn+1);
     }
 
@@ -506,9 +503,15 @@ public class Match
         return false;
     }
 
+    
+
 
 
     public int getPlayerScore(int turn){
         return playerList.get(turn).getScore();
+    }
+
+    public Integer getBagTiles() {
+        return bag.getNumLetters();
     }
 }

@@ -93,6 +93,7 @@ public class PresentationCtrl {
         actTurn();
         ArrayList<String> letters = domainCtrl.getRackLetters(matchId, turn);
         matchViewCtrl.updateRack(letters);
+        matchViewCtrl.setBagTiles(domainCtrl.getBagTiles(matchId));
     }
 
     public void skipTurn() {
@@ -101,10 +102,15 @@ public class PresentationCtrl {
         startTurn();
     }
 
-    public void submitTurn(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end, ArrayList<String> word, Set<Pair<Integer, Integer>> jokers) {
+    public void submitTurn(ArrayList<Pair<Integer, Integer>> coord_ini, ArrayList<Pair<Integer, Integer>> coord_end, ArrayList<String> word, Set<Pair<Integer, Integer>> jokers) {
         
         boolean valid = false;
-        if(word.size() == 1) valid = domainCtrl.playsMatch(matchId, word.get(0), coord_ini.first(), coord_ini.second(), coord_end.first(), coord_end.second(), jokers);
+        if(word.size() == 1) valid = domainCtrl.playsMatch(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), jokers);
+        else{
+             Pair<Boolean, String> VandW = domainCtrl.playsMatch2(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), word.get(1), coord_ini.get(1).first(), coord_ini.get(1).second(), coord_end.get(1).first(), coord_end.get(1).second(), jokers);
+            valid = VandW.first();
+            word.set(0, VandW.second());
+        }
         
         
         if(!valid){
@@ -113,7 +119,7 @@ public class PresentationCtrl {
             
         }
         else{
-            showSuccessDialog(word + " is valid, successful move.");
+            showSuccessDialog(word.get(0) + " is valid, successful move.");
             int score = domainCtrl.getPlayerScore(matchId, turn);
             matchViewCtrl.actPlayerScore(turn, score);
             matchViewCtrl.lockTilesPlaced();
@@ -129,6 +135,13 @@ public class PresentationCtrl {
         ArrayList<String> letters = domainCtrl.getRackLetters(matchId, turn);
         matchViewCtrl.updateRack(letters);
         
+    }
+
+    public void exchangeLetters(String letters){
+        domainCtrl.modifyRack(matchId, letters);
+        ArrayList<String> actletters = domainCtrl.getRackLetters(matchId, turn);
+        matchViewCtrl.updateRack(actletters);
+
     }
 
     public void startTurn(){
@@ -153,6 +166,7 @@ public class PresentationCtrl {
 
     }
 
+  
   
 
     public boolean profInSystem(String username) {

@@ -58,12 +58,14 @@ public class MatchView extends JPanel {
     }
 
     public void submitTurn() {
-        Pair<Integer,Integer> coord_ini, coord_end;
-        coord_ini = new Pair<>(0,0);
-        coord_end = new Pair<>(0,0);
-        ArrayList<String> word = boardPanel.computeWord(coord_ini, coord_end);
+        ArrayList<Pair<Integer,Integer>> coords_ini, coords_end;
+        coords_ini = new ArrayList<>();
+        coords_end = new ArrayList<>();
+        coords_ini.add(new Pair<>(0,0));
+        coords_ini.add(new Pair<>(0,0));
+        ArrayList<String> words = boardPanel.computeWord(coords_ini, coords_end);
         Set<Pair<Integer, Integer>> jokers = boardPanel.getJokersPos();
-        matchViewCtrl.submitTurn(coord_ini, coord_end, word, jokers);
+        matchViewCtrl.submitTurn(coords_ini, coords_end, words, jokers);
 
 
     }
@@ -90,6 +92,14 @@ public class MatchView extends JPanel {
 
     public void lockTilesPlaced() {
         boardPanel.lockTilesPlaced();
+    }
+
+    public void exchangeLetters(String letters) {
+        matchViewCtrl.exchangeLetters(letters);
+    }
+
+    public void setBagTiles(int numTiles) {
+        gameInfoPanel.setBagTiles(numTiles);
     }
 
     

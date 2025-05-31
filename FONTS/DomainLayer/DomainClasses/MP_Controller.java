@@ -197,6 +197,24 @@ public class MP_Controller
         return valid;
     }
 
+    public Pair<Boolean, String> humanTurn2(String id, String word1, int startX1, int startY1, int endX1, int endY1, String word2, int startX2, int startY2, int endX2, int endY2, Set<Pair<Integer, Integer>> JokerPos) throws IllegalArgumentException, IllegalStateException
+    {
+        if(existMatch(id))
+        {
+            Match match = matches.get(id);
+            if(!match.isPaused())   return match.humanTurn2(word1, startX1, startY1, endX1, endY1, word2, startX2, startY2, endX2, endY2, JokerPos);
+            else
+            {
+                throw new IllegalStateException("Match with ID: " + id + " is paused.");
+            }
+        }
+        else
+        {
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
+        }
+    }
+
+
     public void modifyRack(String id, String old_letters)
     {
         if(existMatch(id))
@@ -342,5 +360,13 @@ public class MP_Controller
         } else {
             throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
         }
+    }
+
+    public int getBagTiles(String matchId)  {
+        
+            Match match = matches.get(matchId);
+            return match.getBagTiles();
+        
+        
     }
 }

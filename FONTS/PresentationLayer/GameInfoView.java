@@ -94,4 +94,11 @@ public class GameInfoView extends JPanel {
         scorePanel.repaint();
     }
 
+    public void setBagTiles(int tiles) {
+        JLabel bagLabel = (JLabel) bagPanel.getComponent(0);
+        bagLabel.setText("Tiles left in the bag: " + tiles);
+        bagPanel.revalidate();
+        bagPanel.repaint();
+    }
+
 }

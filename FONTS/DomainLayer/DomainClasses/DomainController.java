@@ -169,7 +169,12 @@ public class DomainController {
         return this.matchController.humanTurn(matchId, word, posStartX, posStartY, posEndX, posEndY, jokers);
     }
 
-    public void shuffleRack(String matchId) {
+    public Pair<Boolean, String> playsMatch2(String matchId, String word1, int coordX_ini1, int coordX_end1, int coordY_ini1, int coordY_end1, String word2, int coordX_ini2, int coordX_end2, int coordY_ini2, int coordY_end2  ,Set<Pair<Integer, Integer>> jokers) {
+
+        return this.matchController.humanTurn2(matchId, word1, coordX_ini1, coordY_ini1, coordX_end1, coordY_end1, word2, coordX_ini2, coordY_ini2, coordX_end2, coordY_end2, jokers);
+    }
+
+    public void shuffleRack(String matchId) { 
         this.matchController.shuffleRack(matchId);
     }
 
@@ -296,6 +301,10 @@ public class DomainController {
 
       public int getPlayerScore(String matchId, int turn) {
         return this.matchController.getPlayerScore(matchId, turn);
+      }
+
+      public Integer getBagTiles(String matchId) {
+        return this.matchController.getBagTiles(matchId);
       }
 
       
