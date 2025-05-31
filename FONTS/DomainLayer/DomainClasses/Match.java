@@ -395,7 +395,7 @@ public class Match
         setTurn(turn+1);
     }
 
-    public boolean humanTurn(String word, int startX, int startY, int endX, int endY) throws IllegalArgumentException, IllegalStateException
+    public boolean humanTurn(String word, int startX, int startY, int endX, int endY, Set<Pair<Integer, Integer>> JokerPos) throws IllegalArgumentException, IllegalStateException
     {
         int score = 0;
         //Dictionary dictionary = this.dictionary;
@@ -426,10 +426,15 @@ public class Match
                 {
                     if(board.isEmpty(startY + j,startX))
                     {
-                        Letter letter = player_rack.getLetter(symbol); //Get the letter from the rack
-                        if(letter.getSymbol().equals("#")) //If the letter is a joker, we need to set the symbol to the one we are placing
+                        Letter letter;
+                        if(JokerPos.contains(new Pair<>(startY + j, startX))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
+                            letter = player_rack.getLetter("#");
                             letter.setSymbol(symbol);
+                        }
+                        else
+                        {
+                            letter = player_rack.getLetter(symbol); //Get the letter from the rack
                         }
                         int BonusScore = board.placeLetter(startY + j, startX, letter.getSymbol(),letter.getValue());
                         score += BonusScore;
@@ -448,10 +453,15 @@ public class Match
                 {
                     if(board.isEmpty(startY,startX + j))
                     {
-                        Letter letter = player_rack.getLetter(symbol); //Get the letter from the rack
-                        if(letter.getSymbol().equals("#")) //If the letter is a joker, we need to set the symbol to the one we are placing
+                        Letter letter;
+                        if(JokerPos.contains(new Pair<>(startY, startX + j))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
+                            letter = player_rack.getLetter("#");
                             letter.setSymbol(symbol);
+                        }
+                        else
+                        {
+                            letter = player_rack.getLetter(symbol); //Get the letter from the rack
                         }
                         int BonusScore = board.placeLetter(startY, startX + j, letter.getSymbol(),letter.getValue());
                         score += BonusScore;
