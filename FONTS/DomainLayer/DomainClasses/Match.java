@@ -33,11 +33,10 @@ public class Match
         }
     }
 
-    private int skipCount = 0;
+    private int skipCount;
     private String id;
     private int turn; // 0 for player1, 1 for player2
     private int score;
-    private boolean paused = true;
     private int size;
     private Map<String,Player> players = new LinkedHashMap<>();
     private List<Player> playerList = new ArrayList<>(); //Access by index without looping through all players
@@ -210,7 +209,9 @@ public class Match
     {
         this.setId(id);
         this.setSize(size);
+        this.setScore(0);
         this.setTurn(0);
+        this.setSkipCount(0);
         this.setDictionaryName(dictionary_name);
     }
 
@@ -227,6 +228,11 @@ public class Match
     public Board getBoard() 
     {
         return board;
+    }
+
+    public void setSkipCount(int skipCount) 
+    {
+        this.skipCount = skipCount;
     }
 
     public void addSkipCount()
@@ -324,7 +330,6 @@ public class Match
         System.out.println("Match ID: " + id);
         System.out.println("Turn: " + turn);
         System.out.println("Score: " + score);
-        System.out.println("Paused: " + paused);
         System.out.println("Size: " + size);
         displayPlayers();
     }
@@ -367,21 +372,6 @@ public class Match
     public int getScore() 
     {
         return this.score;
-    }
-
-    public void startMatch() 
-    {
-        this.paused = false;
-    }
-    
-    public boolean isPaused() 
-    {
-        return this.paused;
-    }
-
-    public void setPaused(boolean paused)
-    {
-        this.paused = paused;
     }
 
     public void setFinished() 
