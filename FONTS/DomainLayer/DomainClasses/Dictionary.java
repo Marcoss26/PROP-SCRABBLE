@@ -5,7 +5,7 @@ import java.io.*;
 
 /**
  * Dictionary.java
- * Author: Iván Alcubierre
+ * Author: Ziheng Zhang
  * Esta clase representa un diccionario.
  * Se encarga de gestionar la creación, eliminación y acceso a las palabras del diccionario.
  */

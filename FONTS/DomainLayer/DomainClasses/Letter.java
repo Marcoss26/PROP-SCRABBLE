@@ -1,5 +1,4 @@
 package DomainLayer.DomainClasses;
-import java.util.*;
 
 
 public class Letter

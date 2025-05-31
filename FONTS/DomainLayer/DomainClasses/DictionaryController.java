@@ -4,7 +4,7 @@ import java.util.*;
 
 /** 
  * DictionaryController.java
- * Author: Iván Alcubierre
+ * Author: Ziheng Zhang
  * Esta clase es el controlador de los diccionarios.
  * Se encarga de gestionar la creación, eliminación y acceso a los diccionarios.
  * También permite añadir palabras a los diccionarios desde archivos de texto.

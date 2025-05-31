@@ -4,7 +4,7 @@ import java.io.*;
 
 /**
  * Dawg.java
- * @author: Iván Alcubierre
+ * @author: Ziheng Zhang
  * Esta clase representa un DAWG (Directed Acyclic Word Graph).
  * Se encarga de gestionar la creación, eliminación y acceso a las palabras del DAWG.
  */
@@ -13,7 +13,7 @@ public class Dawg
 
     /**
      * clase Node
-     * @author: Iván Alcubierre
+     * @author: Ziheng Zhang
      * Esta clase representa un nodo del DAWG.
      * Se encarga de gestionar la creación, eliminación y acceso a los nodos del DAWG.
      */
@@ -250,6 +250,7 @@ public class Dawg
             }
         }
         replace_or_register(root,oldword,0);
+        reader.close();
         System.out.println("words added to the DAWG");
     }
 
