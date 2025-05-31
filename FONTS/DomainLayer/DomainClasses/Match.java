@@ -35,8 +35,8 @@ public class Match
 
     private int skipCount = 0;
     private String id;
-    private int turn = 0; // 0 for player1, 1 for player2
-    private int score = 0;
+    private int turn; // 0 for player1, 1 for player2
+    private int score;
     private boolean paused = true;
     private int size;
     private Map<String,Player> players = new LinkedHashMap<>();
@@ -353,6 +353,17 @@ public class Match
         this.turn = turn%this.size;
     }
 
+
+    public void addScore(int score) 
+    {
+        this.score += score;
+    }
+
+    public void setScore(int score) 
+    {
+        this.score = score;
+    }
+
     public int getScore() 
     {
         return this.score;
@@ -508,6 +519,7 @@ public class Match
             }
             System.out.println("Score for this play: " + score);
             player.addScore(score * wholeWordBonusFactor); //Add the score to the player
+            addScore(score* wholeWordBonusFactor); //Add the score to the match
             setTurn(turn + 1);
             return true;
         }
@@ -659,12 +671,14 @@ public class Match
             if(score1*wholeWordBonusFactor1 > score2*wholeWordBonusFactor2)
             {
                 player.addScore(score1 * wholeWordBonusFactor1); //Add the score to the player
+                addScore(score1 * wholeWordBonusFactor1); //Add the score to the match
                 setTurn(turn + 1);
                 return new Pair<>(true, word1);
             }
             else
             {
                 player.addScore(score2 * wholeWordBonusFactor2); //Add the score to the player
+                addScore(score2 * wholeWordBonusFactor2); //Add the score to the match
                 setTurn(turn + 1);
                 return new Pair<>(true, word2);
             }
@@ -753,6 +767,7 @@ public class Match
                     j++;
                 }
                 player.addScore(score * wholeWordBonusFactor);
+                addScore(score * wholeWordBonusFactor); //Add the score to the match
                 setTurn(turn + 1);
                 return new Pair<>(words, new Integer[]{startX, startY, endX, endY});
             }
