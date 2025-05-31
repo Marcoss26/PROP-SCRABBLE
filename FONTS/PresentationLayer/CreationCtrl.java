@@ -29,6 +29,7 @@ public class CreationCtrl {
         if (instance == null) {
             instance = new CreationCtrl();
        }
+
         return instance;
     }
 
@@ -40,11 +41,13 @@ public class CreationCtrl {
     }
     
     public LoginView createLoginView(){
+        pc = PresentationCtrl.getInstance();
         loginView = new LoginView();
         return loginView;
     }
 
     public ProfileView createProfileView(String username, int totalGamesPlayed, int totalGamesWon, float winRate){
+        pc = PresentationCtrl.getInstance();
         profileView = new ProfileView(username, totalGamesPlayed, totalGamesWon, winRate);
         return profileView;
     }

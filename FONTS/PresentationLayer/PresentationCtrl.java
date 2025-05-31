@@ -102,9 +102,12 @@ public class PresentationCtrl {
         startTurn();
     }
 
-    public void submitTurn(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end, String word) {
+    public void submitTurn(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end, ArrayList<String> word) {
         
-        boolean valid = domainCtrl.playsMatch(matchId, word, coord_ini.first(), coord_ini.second(), coord_end.first(), coord_end.second());
+        boolean valid = false;
+        if(word.size() == 1) valid = domainCtrl.playsMatch(matchId, word.get(0), coord_ini.first(), coord_ini.second(), coord_end.first(), coord_end.second());
+        
+        
         if(!valid){
             //si no es valido, muestro un mensaje de error
             showErrorDialog("Invalid move. Please try again.");

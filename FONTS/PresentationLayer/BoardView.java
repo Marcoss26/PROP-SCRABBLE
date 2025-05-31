@@ -168,6 +168,12 @@ public class BoardView extends JPanel {
                             if(sTile != null){
                             cell.PlaceTile(sTile);
                             tilesPlaced.add(new Pair<>(cell.getColumn(), cell.getRow()));
+                            if(sTile.getSymbol() == "#"){
+                                String inp = JOptionPane.showInputDialog(null, "Joker selection", "Type letter that you want: ", JOptionPane.PLAIN_MESSAGE );
+                                sTile.updateLabel(inp, 0);
+                            }
+
+
                             rackPanel.removeSelectedTile();
                             
                             }
@@ -182,6 +188,9 @@ public class BoardView extends JPanel {
                             System.out.println("tile picked");
                             cell.removeTile();
                             tilesPlaced.remove(new Pair<>(cell.getColumn(), cell.getRow()));
+                            if(tile.getValue() == 0) {
+                                tile.updateLabel("#", 0);
+                            }
                             rackPanel.addTile(tile);
                             rackPanel.setSelectedTile(tile);
                             rackPanel.addListener(tile);
@@ -226,8 +235,8 @@ public class BoardView extends JPanel {
     // para que el algoritmo compruebe si la palabra es válida o no.
     // coord_ini.columna = first(), coord_ini.fila = second()
     // coord_end.columna = first(), coord_end.fila = second()
-    public String computeWord(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end) {
-        
+    public ArrayList<String> computeWord(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end) {
+        ArrayList<String> res = new ArrayList<>();
         boolean vertical = false; 
         String word = "";
         coord_ini.setFirst(tilesPlaced.iterator().next().first());
@@ -236,8 +245,9 @@ public class BoardView extends JPanel {
         coord_end.setSecond(tilesPlaced.iterator().next().second()); 
         System.out.println("Coordenadas iniciales: " + coord_ini.first() + ' ' + coord_ini.second() + ", Coordenadas finales: " + coord_end.first() + ' ' + coord_end.second());
         BoardCell cell = getBoardCell(coord_ini.second(), coord_ini.first());
-        if(tilesPlaced.size() > 1){ 
         word = cell.getTilePlaced().getSymbol(); // se empieza a formar la palabta a partir de la primera ficha que has puesto
+
+        if(tilesPlaced.size() > 1){ 
         vertical = computeDir();  // se calcula la direccion de la palabra, true si es vertical, false horizontal 
             if(vertical){
                 //Si es vertical, recorremos las filas del tablero para obtener los simbolos de cada ficha y en total, la palabra
@@ -277,29 +287,49 @@ public class BoardView extends JPanel {
 
             
              }
+             
+             res.add(word);
         }   
-/*
+
         else{
             // Si solo se hac colocado una ficha, tengo que extender la posicion actual hacia arriba, abajo, izquierda y derecha
+            String word2 = word; // palabra formada con la primera ficha colocada
             // ARRIBA
-            String verticalWord = "";
-            while(!cell.isEmpty() && coord_ini.second() >= 0) {
-                word = cell.getTilePlaced().getSymbol() + word; 
-                coord_ini.setSecond(coord_ini.second() - 1);
-                cell = getBoardCell(coord_ini.second(), coord_ini.first()); // obtenemos la nueva celda
-            }
-            // ABAJO es lo mismo per usando coord_end
-            while(!cell.isEmpty() && coord_end.second() < size) {
-                word += cell.getTilePlaced().getSymbol();
+            while((coord_ini.second() - 1 >= 0) && !nextCellisEmpty(coord_ini.second() - 1, coord_ini.first())) {
+                    coord_ini.setSecond(coord_ini.second() - 1);
+                    cell = getBoardCell(coord_ini.second(), coord_ini.first()); // obtenemos la nueva celda
+                    word2 = cell.getTilePlaced().getSymbol() + word2; 
+                }
+            // ABAJO
+            while((coord_end.second() + 1 < size) && !nextCellisEmpty(coord_end.second() + 1, coord_end.first())) {
                 coord_end.setSecond(coord_end.second() + 1);
                 cell = getBoardCell(coord_end.second(), coord_end.first()); // obtenemos la nueva celda
+                word2 += cell.getTilePlaced().getSymbol();
             }
 
-        }*/
+            res.add(word2);
+
+            // IZQUIERDA
+            while((coord_ini.first() - 1 >= 0) && !nextCellisEmpty(coord_ini.second(), coord_ini.first() - 1)) {
+                    coord_ini.setFirst(coord_ini.first() - 1);
+                    cell = getBoardCell(coord_ini.second(), coord_ini.first()); // obtenemos la nueva celda
+                    word = cell.getTilePlaced().getSymbol() + word; 
+                }
+
+            // DERECHA 
+            while((coord_end.first() + 1 < size) && !nextCellisEmpty(coord_end.second(), coord_end.first() + 1)) {
+                coord_end.setFirst(coord_end.first() + 1);
+                cell = getBoardCell(coord_end.second(), coord_end.first()); // obtenemos la nueva celda
+                word += cell.getTilePlaced().getSymbol();
+            }
+
+            res.add(word);   
+
+        }
         System.out.println("Coordenadas iniciales: " + coord_ini.first() + ' ' + coord_ini.second() + ", Coordenadas finales: " + coord_end.first() + ' ' + coord_end.second());
 
         System.out.println("Palabra formada: " + word);
-        return word;
+        return res;
 
     }
 

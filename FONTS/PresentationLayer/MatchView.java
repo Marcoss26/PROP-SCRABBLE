@@ -60,7 +60,7 @@ public class MatchView extends JPanel {
         Pair<Integer,Integer> coord_ini, coord_end;
         coord_ini = new Pair<>(0,0);
         coord_end = new Pair<>(0,0);
-        String word = boardPanel.computeWord(coord_ini, coord_end);
+        ArrayList<String> word = boardPanel.computeWord(coord_ini, coord_end);
         matchViewCtrl.submitTurn(coord_ini, coord_end, word);
 
 

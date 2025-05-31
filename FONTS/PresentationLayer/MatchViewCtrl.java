@@ -37,7 +37,7 @@ public class MatchViewCtrl {
         pc.skipTurn();
     }
 
-    public void submitTurn(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end, String word) {
+    public void submitTurn(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end, ArrayList<String> word) {
         pc.submitTurn(coord_ini, coord_end, word);
     }
 
