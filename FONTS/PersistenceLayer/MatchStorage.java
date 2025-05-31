@@ -131,7 +131,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                 JSONObject playerObject = (JSONObject) playerObj;
                 String playerId = (String) playerObject.get("id");
                 String name = (String) playerObject.get("name");
-                long score = (long) playerObject.get("score");
+                long playerScore = (long) playerObject.get("score");
                 String type = (String) playerObject.get("type");
 
                 Player player;
@@ -141,7 +141,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                 } else {
                     player = new IA(playerId, name);
                 }
-                player.setScore((int) score);
+                player.setScore((int) playerScore);
 
                 // Load rack
                 JSONArray rackArray = (JSONArray) playerObject.get("rack");
