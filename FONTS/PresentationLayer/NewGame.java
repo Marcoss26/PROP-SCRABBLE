@@ -206,10 +206,19 @@ public class NewGame extends JPanel {
     }
 
     /**
-     * Obtiene el número de jugadores humanos.
-     * @return El número de jugadores humanos seleccionados.
+     * Obtiene el número de jugadores.
+     * @return El número de jugadores seleccionados.
      */
     public Integer getTotalPlayers() {
         return numHumPlayers + numAIPlayers;
+    }
+
+    static public void main(String[] args) {
+        JFrame frame = new JFrame("New Game");
+        NewGame newGamePanel = new NewGame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(newGamePanel);
+        frame.setSize(800, 600);
+        frame.setVisible(true);
     }
 }
