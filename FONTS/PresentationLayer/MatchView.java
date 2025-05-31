@@ -1,5 +1,6 @@
 package PresentationLayer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.*;
 import java.awt.*;
 
@@ -103,5 +104,21 @@ public class MatchView extends JPanel {
 
         frame.setVisible(true);
     }*/ 
+
+public static void main(String[] args) {
+    JFrame frame = new JFrame("Match Example");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+    frame.setSize(screenSize.width, screenSize.height);
+
+    ArrayList<String> rackl = new ArrayList<>(Arrays.asList("A", "1", "B", "3", "C", "3", "D", "2", "E", "1", "F", "4", "G", "2"));
+    ArrayList<String> players = new ArrayList<>(Arrays.asList("Player 1", "Player 2", "Player 3"));
+
+    MatchView matchView = new MatchView(15, 3, players, rackl);
+    frame.add(matchView);
+
+    frame.setVisible(true);
+}
 }
 

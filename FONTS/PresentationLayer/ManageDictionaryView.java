@@ -177,4 +177,13 @@ public class ManageDictionaryView extends JPanel {
      * @return El botón de retorno.
      */
     public JButton getReturnButton() { return returnButton; }
+
+    static public void main(String[] args) {
+        JFrame frame = new JFrame("Manage Dictionary View");
+        ManageDictionaryView view = new ManageDictionaryView();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(view);
+        frame.setSize(800, 600);
+        frame.setVisible(true);
+    }
 }
