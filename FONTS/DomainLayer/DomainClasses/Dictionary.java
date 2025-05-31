@@ -53,14 +53,14 @@ public class Dictionary
     }
 
     /**
-     * Devuelve el idioma del diccionario.
+     * Devuelve el nombre del diccionario.
      * pre: True
-     * post: devuelve el idioma del diccionario
-     * @return El idioma del diccionario, por ejemplo, "es" para español, "en" para inglés, "ca" para catalán.
+     * post: devuelve el nombre del diccionario
+     * @return El nombre del diccionario, por ejemplo, "es" para español, "en" para inglés, "ca" para catalán.
      */
-    public String getLanguage()
+    public String getName()
     {
-        return dawg.getLanguage();
+        return name;
     }
 
     /**

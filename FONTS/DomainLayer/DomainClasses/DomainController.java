@@ -172,8 +172,8 @@ public class DomainController {
      * Places some letters on the board for a given match.
      * @param matchId The ID of the match to play.
      */
-    public void playsMatch(String matchId, String word, int posStartX, int posStartY, int posEndX, int posEndY) {
-        this.matchController.humanTurn(matchId, word, posStartX, posStartY, posEndX, posEndY);
+    public void playsMatch(String matchId, String word, int posStartX, int posStartY, int posEndX, int posEndY, Set<Pair<Integer, Integer>> JokerPos) {
+        this.matchController.humanTurn(matchId, word, posStartX, posStartY, posEndX, posEndY, JokerPos);
     }
 
     public void shuffleRack(String matchId) {
@@ -184,7 +184,7 @@ public class DomainController {
         this.matchController.modifyRack(matchId, letters);
     }
 
-    public void saveMatches(String matchId) {
+    public void saveMatches() {
         this.persistenceController.saveMatches(this.matchController.getUnfinishedMatches());
     }
 

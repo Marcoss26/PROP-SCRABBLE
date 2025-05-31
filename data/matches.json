@@ -1,0 +1,491 @@
+[
+    {
+        "dictionary":DomainLayer.DomainClasses.Dictionary@177ede17,
+        "size": 2,
+        "players": [
+            {
+                "score": 0,
+                "rack": [
+                    {
+                        "symbol": "K",
+                        "value": 5
+                    },
+                    {
+                        "symbol": "F",
+                        "value": 4
+                    },
+                    {
+                        "symbol": "B",
+                        "value": 3
+                    },
+                    {
+                        "symbol": "L",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "N",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "U",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "T",
+                        "value": 1
+                    }
+                ],
+                "name": "ziheng",
+                "id": "ziheng5d090b76-792e-4757-991d-873bd6aa39ec",
+                "type": "Human"
+            },
+            {
+                "score": 0,
+                "rack": [
+                    {
+                        "symbol": "F",
+                        "value": 4
+                    },
+                    {
+                        "symbol": "P",
+                        "value": 3
+                    },
+                    {
+                        "symbol": "U",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "R",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "B",
+                        "value": 3
+                    },
+                    {
+                        "symbol": "C",
+                        "value": 3
+                    },
+                    {
+                        "symbol": "U",
+                        "value": 1
+                    }
+                ],
+                "name": "IA0",
+                "id": "5d090b76-792e-4757-991d-873bd6aa39ecBOT0",
+                "type": "AI"
+            }
+        ],
+        "bag": [
+            {
+                "symbol": "R",
+                "count": 2,
+                "value": 1
+            },
+            {
+                "symbol": "E",
+                "count": 9,
+                "value": 1
+            },
+            {
+                "symbol": "I",
+                "count": 8,
+                "value": 1
+            },
+            {
+                "symbol": "N",
+                "count": 3,
+                "value": 1
+            },
+            {
+                "symbol": "W",
+                "count": 1,
+                "value": 4
+            },
+            {
+                "symbol": "O",
+                "count": 8,
+                "value": 1
+            },
+            {
+                "symbol": "C",
+                "count": 1,
+                "value": 3
+            },
+            {
+                "symbol": "S",
+                "count": 3,
+                "value": 1
+            },
+            {
+                "symbol": "G",
+                "count": 2,
+                "value": 2
+            },
+            {
+                "symbol": "D",
+                "count": 3,
+                "value": 2
+            },
+            {
+                "symbol": "V",
+                "count": 1,
+                "value": 4
+            },
+            {
+                "symbol": "T",
+                "count": 4,
+                "value": 1
+            },
+            {
+                "symbol": "M",
+                "count": 1,
+                "value": 3
+            },
+            {
+                "symbol": "H",
+                "count": 1,
+                "value": 4
+            },
+            {
+                "symbol": "A",
+                "count": 9,
+                "value": 1
+            },
+            {
+                "symbol": "L",
+                "count": 2,
+                "value": 1
+            }
+        ],
+        "id": "5d090b76-792e-4757-991d-873bd6aa39ec",
+        "current_turn": 0,
+        "board": []
+    },
+    {
+        "dictionary":DomainLayer.DomainClasses.Dictionary@177ede17,
+        "size": 2,
+        "players": [
+            {
+                "score": 0,
+                "rack": [
+                    {
+                        "symbol": "H",
+                        "value": 4
+                    },
+                    {
+                        "symbol": "S",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "T",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "V",
+                        "value": 4
+                    },
+                    {
+                        "symbol": "R",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "Y",
+                        "value": 4
+                    },
+                    {
+                        "symbol": "N",
+                        "value": 1
+                    }
+                ],
+                "name": "ziheng",
+                "id": "ziheng4c2010d8-da1e-4a95-8374-11bf0ddb1eb9",
+                "type": "Human"
+            },
+            {
+                "score": 0,
+                "rack": [
+                    {
+                        "symbol": "E",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "W",
+                        "value": 4
+                    },
+                    {
+                        "symbol": "E",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "M",
+                        "value": 3
+                    },
+                    {
+                        "symbol": "I",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "L",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "R",
+                        "value": 1
+                    }
+                ],
+                "name": "IA0",
+                "id": "4c2010d8-da1e-4a95-8374-11bf0ddb1eb9BOT0",
+                "type": "AI"
+            }
+        ],
+        "bag": [
+            {
+                "symbol": "R",
+                "count": 2,
+                "value": 1
+            },
+            {
+                "symbol": "E",
+                "count": 9,
+                "value": 1
+            },
+            {
+                "symbol": "I",
+                "count": 8,
+                "value": 1
+            },
+            {
+                "symbol": "N",
+                "count": 3,
+                "value": 1
+            },
+            {
+                "symbol": "W",
+                "count": 1,
+                "value": 4
+            },
+            {
+                "symbol": "O",
+                "count": 8,
+                "value": 1
+            },
+            {
+                "symbol": "C",
+                "count": 1,
+                "value": 3
+            },
+            {
+                "symbol": "S",
+                "count": 3,
+                "value": 1
+            },
+            {
+                "symbol": "G",
+                "count": 2,
+                "value": 2
+            },
+            {
+                "symbol": "D",
+                "count": 3,
+                "value": 2
+            },
+            {
+                "symbol": "V",
+                "count": 1,
+                "value": 4
+            },
+            {
+                "symbol": "T",
+                "count": 4,
+                "value": 1
+            },
+            {
+                "symbol": "M",
+                "count": 1,
+                "value": 3
+            },
+            {
+                "symbol": "H",
+                "count": 1,
+                "value": 4
+            },
+            {
+                "symbol": "A",
+                "count": 9,
+                "value": 1
+            },
+            {
+                "symbol": "L",
+                "count": 2,
+                "value": 1
+            }
+        ],
+        "id": "4c2010d8-da1e-4a95-8374-11bf0ddb1eb9",
+        "current_turn": 0,
+        "board": []
+    },
+    {
+        "dictionary":DomainLayer.DomainClasses.Dictionary@177ede17,
+        "size": 2,
+        "players": [
+            {
+                "score": 0,
+                "rack": [
+                    {
+                        "symbol": "J",
+                        "value": 8
+                    },
+                    {
+                        "symbol": "X",
+                        "value": 8
+                    },
+                    {
+                        "symbol": "P",
+                        "value": 3
+                    },
+                    {
+                        "symbol": "G",
+                        "value": 2
+                    },
+                    {
+                        "symbol": "Y",
+                        "value": 4
+                    },
+                    {
+                        "symbol": "Z",
+                        "value": 10
+                    },
+                    {
+                        "symbol": "#",
+                        "value": 0
+                    }
+                ],
+                "name": "ziheng",
+                "id": "ziheng7870236c-c712-46f5-8b05-73be48e10493",
+                "type": "Human"
+            },
+            {
+                "score": 0,
+                "rack": [
+                    {
+                        "symbol": "D",
+                        "value": 2
+                    },
+                    {
+                        "symbol": "E",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "U",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "#",
+                        "value": 0
+                    },
+                    {
+                        "symbol": "R",
+                        "value": 1
+                    },
+                    {
+                        "symbol": "Q",
+                        "value": 10
+                    },
+                    {
+                        "symbol": "N",
+                        "value": 1
+                    }
+                ],
+                "name": "IA0",
+                "id": "7870236c-c712-46f5-8b05-73be48e10493BOT0",
+                "type": "AI"
+            }
+        ],
+        "bag": [
+            {
+                "symbol": "R",
+                "count": 2,
+                "value": 1
+            },
+            {
+                "symbol": "E",
+                "count": 9,
+                "value": 1
+            },
+            {
+                "symbol": "I",
+                "count": 8,
+                "value": 1
+            },
+            {
+                "symbol": "N",
+                "count": 3,
+                "value": 1
+            },
+            {
+                "symbol": "W",
+                "count": 1,
+                "value": 4
+            },
+            {
+                "symbol": "O",
+                "count": 8,
+                "value": 1
+            },
+            {
+                "symbol": "C",
+                "count": 1,
+                "value": 3
+            },
+            {
+                "symbol": "S",
+                "count": 3,
+                "value": 1
+            },
+            {
+                "symbol": "G",
+                "count": 2,
+                "value": 2
+            },
+            {
+                "symbol": "D",
+                "count": 3,
+                "value": 2
+            },
+            {
+                "symbol": "V",
+                "count": 1,
+                "value": 4
+            },
+            {
+                "symbol": "T",
+                "count": 4,
+                "value": 1
+            },
+            {
+                "symbol": "M",
+                "count": 1,
+                "value": 3
+            },
+            {
+                "symbol": "H",
+                "count": 1,
+                "value": 4
+            },
+            {
+                "symbol": "A",
+                "count": 9,
+                "value": 1
+            },
+            {
+                "symbol": "L",
+                "count": 2,
+                "value": 1
+            }
+        ],
+        "id": "7870236c-c712-46f5-8b05-73be48e10493",
+        "current_turn": 0,
+        "board": []
+    }
+]

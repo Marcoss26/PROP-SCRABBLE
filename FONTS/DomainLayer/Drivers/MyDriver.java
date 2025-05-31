@@ -50,9 +50,9 @@ public class MyDriver
         //Profile profile2 = new Profile("ziheng2","1");
         profiles.add(profile);
         //profiles.add(profile2);
-        String matchId = matchController.createMatch(2, profiles, dictionary, 7, letters, totalLettersInTheBag);
+        /*String matchId = matchController.createMatch(2, profiles, dictionary, 7, letters, totalLettersInTheBag);
         String matchId2 = matchController.createMatch(2, profiles, dictionary2, 7, letters, totalLettersInTheBag);
-        String matchId3 = matchController.createMatch(2, profiles, dictionary3, 7, letters, totalLettersInTheBag);
+        String matchId3 = matchController.createMatch(2, profiles, dictionary3, 7, letters, totalLettersInTheBag);*/
         while(true)
         {
             System.out.println("Choose what to do:");
