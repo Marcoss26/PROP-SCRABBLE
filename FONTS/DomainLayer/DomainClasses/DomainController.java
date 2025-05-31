@@ -210,26 +210,6 @@ public class DomainController {
         
     }
 
-    public void removeDictionary(String dictionaryName) {
-        this.dictionaryController.removeDictionary(dictionaryName);
-    }
-
-    /*public void addWordToDictionary(String dictionaryName, String word) {
-        this.dictionaryController.addWordToDictionary(dictionaryName, word);
-    }
-
-    public void removeWordFromDictionary(String dictionaryName, String word) {
-        this.dictionaryController.removeWordFromDictionary(dictionaryName, word);
-    }*/
-
-    public String getDictionaryLanguage(String dictionaryName) {
-        try {
-            return this.dictionaryController.getDictionaryLanguage(dictionaryName);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        return null;
-    }
 
     public Map<String, Dictionary> getDictionaries() {
         return this.dictionaryController.getDictionaries();

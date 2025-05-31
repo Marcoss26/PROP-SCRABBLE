@@ -11,10 +11,7 @@ public class IA extends Player
         this.name = name; //Set the name of the player to IA + i
     }
 
-    public void addScore(int score)
-    {
-        this.score += score; //Add the score to the player's score
-    }
+
     
     public boolean isHuman()
     {

@@ -33,15 +33,16 @@ public class Match
         }
     }
 
+    private int skipCount = 0;
     private String id;
     private int turn = 0; // 0 for player1, 1 for player2
     private int score = 0;
-    private boolean finished = false;
     private boolean paused = true;
     private int size;
     private Map<String,Player> players = new LinkedHashMap<>();
     private List<Player> playerList = new ArrayList<>(); //Access by index without looping through all players
     private Dictionary dictionary;
+    private String dictionary_name;
     private Bag bag;
     private Board board;
 
@@ -205,11 +206,12 @@ public class Match
         }
     }
 
-    public Match(String id, int size) 
+    public Match(String id, int size, String dictionary_name)
     {
         this.setId(id);
         this.setSize(size);
         this.setTurn(0);
+        this.setDictionaryName(dictionary_name);
     }
 
     public void printBoard()
@@ -227,6 +229,16 @@ public class Match
         return board;
     }
 
+    public void addSkipCount()
+    {
+        this.skipCount++;
+    }
+
+    public int getSkipCount()
+    {
+        return this.skipCount;
+    }
+
     public Dictionary getDictionary() 
     {
         return dictionary;
@@ -240,6 +252,11 @@ public class Match
     public void setBoard(Board board) 
     {
         this.board = board;
+    }
+
+    public void setDictionaryName(String dictionary_name) 
+    {
+        this.dictionary_name = dictionary_name;
     }
 
     public Map<String, Player> getPlayers() 
@@ -260,6 +277,11 @@ public class Match
     public int getSize() 
     {
         return size;
+    }
+
+    public String getDictionaryName() 
+    {
+        return dictionary_name;
     }
 
     public void setPlayer(Player player)
@@ -294,23 +316,6 @@ public class Match
         {
             entry.getValue().displayPlayer(); 
         }
-    }
-
-    public String decideWinner()
-    {
-        int maxScore = 0;
-        String winnerId = null;
-        for (Map.Entry<String, Player> entry : players.entrySet()) 
-        {
-            String key = entry.getKey();
-            Player value = entry.getValue();
-            if (value.getScore() > maxScore)
-            {
-                maxScore = value.getScore();
-                winnerId = key;
-            }
-        }
-        return winnerId;
     }
 
 
@@ -368,17 +373,39 @@ public class Match
         this.paused = paused;
     }
 
-    public String setFinished() 
+    public void setFinished() 
     {
-        String winner = decideWinner();
-        Player player = players.get(winner);
-        String winnerName = player.getName();
-        if(player instanceof Human) 
+        int maxScore = -1;
+        boolean tie = false;
+        String winnerId = null;
+        for(Map.Entry<String, Player> entry : players.entrySet())
         {
-            Human human = (Human) player; // Cast the player to Human
-            human.getProfile().incrementWins(); // Increment the number of games won in the profile
+            Player player = entry.getValue();
+            int score = player.getScore();
+            if(score == maxScore)   tie = true;
+            else if(score > maxScore)
+            {
+                winnerId = player.getID();
+                maxScore = score;
+                tie = false;
+            }
+            if(player instanceof Human)
+            {
+                Human human = (Human) player;
+                human.getProfile().incrementGamePlayed(); //Increment the number of games played in the profile
+                human.getProfile().incrementDictionaryUsage(dictionary_name); //Increment the dictionary usage in the profile
+                human.addScoreToProfile(score);
+            }
         }
-        return winnerName;
+        if(!tie)
+        {
+            Player winner = players.get(winnerId);
+            if(winner instanceof Human)
+            {
+                Human human = (Human) winner;
+                human.getProfile().incrementWins(); //Increment the number of wins in the profile
+            }
+        }
     }
 
 
@@ -488,7 +515,7 @@ public class Match
         return false;
     }
 
-    /*public boolean humanTurn2(String word1, int startX1, int startY1, int endX1, int endY1, String word2, int startX2, int startY2, int endX2, int endY2) throws IllegalArgumentException, IllegalStateException
+    public Pair<Boolean, String> humanTurn2(String word1, int startX1, int startY1, int endX1, int endY1, String word2, int startX2, int startY2, int endX2, int endY2, Set<Pair<Integer, Integer>> JokerPos) throws IllegalArgumentException, IllegalStateException
     {
         PlayableWord playableWord1 = new PlayableWord(word1, startX1, startY1, endX1, endY1);
         PlayableWord playableWord2 = new PlayableWord(word2, startX2, startY2, endX2, endY2);
@@ -501,9 +528,149 @@ public class Match
         {
             int score1 = 0;
             int score2 = 0;
-            
+            int wholeWordBonusFactor1 = 1;
+            int wholeWordBonusFactor2 = 1;
+            int i1 = 0;
+            int j1 = 0;
+            int i2 = 0;
+            int j2 = 0;
+            while(i1 < word1.length())
+            {
+                String symbol = dawg.getSpecialCharacter(word1, i1);
+                if(symbol == null)  symbol = String.valueOf(word1.charAt(i1));
+                if(startX1 == endX1)
+                {
+                    if(board.isEmpty(startY1 + j1,startX1))
+                    {
+                        Letter letter;
+                        if(JokerPos.contains(new Pair<>(startX1, startY1 + j1))) //If the position is a joker, we need to set the symbol to the one we are placing
+                        {
+                            letter = player_rack.getLetter("#");
+                            letter.setSymbol(symbol);
+                        }
+                        else
+                        {
+                            letter = player_rack.getLetter(symbol); //Get the letter from the rack
+                        }
+                        int BonusScore = board.placeLetter(startY1 + j1, startX1, letter.getSymbol(),letter.getValue());
+                        score1 += BonusScore;
+                        wholeWordBonusFactor1 *= board.getWordBonus(startY1 + j1, startX1);
+                        Letter letter2 = bag.extractLetter();
+                        player_rack.addLetter(letter2);
+                    }
+                    else
+                    {
+                        int value = board.getBox(startY1 + j1, startX1).getValue();
+                        score1 += value; //If the box is not empty, we add the value of the letter in the box to the score
+                        wholeWordBonusFactor1 *= board.getWordBonus(startY1 + j1, startX1);
+                    }
+                }
+                else
+                {
+                    if(board.isEmpty(startY1,startX1 + j1))
+                    {
+                        Letter letter;
+                        if(JokerPos.contains(new Pair<>(startY1, startX1 + j1))) //If the position is a joker, we need to set the symbol to the one we are placing
+                        {
+                            letter = player_rack.getLetter("#");
+                            letter.setSymbol(symbol);
+                        }
+                        else
+                        {
+                            letter = player_rack.getLetter(symbol); //Get the letter from the rack
+                        }
+                        int BonusScore = board.placeLetter(startY1, startX1 + j1, letter.getSymbol(),letter.getValue());
+                        score1 += BonusScore;
+                        wholeWordBonusFactor1 *= board.getWordBonus(startY1, startX1 + j1);
+                        Letter letter2 = bag.extractLetter();
+                        player_rack.addLetter(letter2);
+                    }
+                    else
+                    {
+                        int value = board.getBox(startY1, startX1 + j1).getValue();
+                        score1 += value;
+                        wholeWordBonusFactor1 *= board.getWordBonus(startY1, startX1 + j1);
+                    }
+                }
+                i1+=symbol.length();
+                j1++;
+            }
+            while(i2 < word2.length())
+            {
+                String symbol = dawg.getSpecialCharacter(word2, i2);
+                if(symbol == null)  symbol = String.valueOf(word2.charAt(i2));
+                if(startX2 == endX2)
+                {
+                    if(board.isEmpty(startY2 + j2,startX2))
+                    {
+                        Letter letter;
+                        if(JokerPos.contains(new Pair<>(startX2, startY2 + j2))) //If the position is a joker, we need to set the symbol to the one we are placing
+                        {
+                            letter = player_rack.getLetter("#");
+                            letter.setSymbol(symbol);
+                        }
+                        else
+                        {
+                            letter = player_rack.getLetter(symbol); //Get the letter from the rack
+                        }
+                        int BonusScore = board.placeLetter(startY2 + j2, startX2, letter.getSymbol(),letter.getValue());
+                        score2 += BonusScore;
+                        wholeWordBonusFactor2 *= board.getWordBonus(startY2 + j2, startX2);
+                        Letter letter2 = bag.extractLetter();
+                        player_rack.addLetter(letter2);
+                    }
+                    else
+                    {
+                        int value = board.getBox(startY2 + j2, startX2).getValue();
+                        score2 += value; //If the box is not empty, we add the value of the letter in the box to the score
+                        wholeWordBonusFactor2 *= board.getWordBonus(startY2 + j2, startX2);
+                    }
+                }
+                else
+                {
+                    if(board.isEmpty(startY2,startX2 + j2))
+                    {
+                        Letter letter;
+                        if(JokerPos.contains(new Pair<>(startY2, startX2 + j2))) //If the position is a joker, we need to set the symbol to the one we are placing
+                        {
+                            letter = player_rack.getLetter("#");
+                            letter.setSymbol(symbol);
+                        }
+                        else
+                        {
+                            letter = player_rack.getLetter(symbol); //Get the letter from the rack
+                        }
+                        int BonusScore = board.placeLetter(startY2, startX2 + j2, letter.getSymbol(),letter.getValue());
+                        score2 += BonusScore;
+                        wholeWordBonusFactor2 *= board.getWordBonus(startY2, startX2 + j2);
+                        Letter letter2 = bag.extractLetter();
+                        player_rack.addLetter(letter2);
+                    }
+                    else
+                    {
+                        int value = board.getBox(startY2, startX2 + j2).getValue();
+                        score2 += value;
+                        wholeWordBonusFactor2 *= board.getWordBonus(startY2, startX2 + j2);
+                    }
+                }
+                i2+=symbol.length();
+                j2++;
+            }
+            if(score1*wholeWordBonusFactor1 > score2*wholeWordBonusFactor2)
+            {
+                player.addScore(score1 * wholeWordBonusFactor1); //Add the score to the player
+                setTurn(turn + 1);
+                return new Pair<>(true, word1);
+            }
+            else
+            {
+                player.addScore(score2 * wholeWordBonusFactor2); //Add the score to the player
+                setTurn(turn + 1);
+                return new Pair<>(true, word2);
+            }
         }
-    }*/
+        return new Pair<>(false, "");
+    }
 
     public Pair <String, Integer[]> aiTurn()
     {
@@ -598,6 +765,7 @@ public class Match
                 }
                 oldLetters += player_rack.getLetterSymbol(random - 1);
                 player.modifyRack(oldLetters);
+                setTurn(turn + 1);
             }
             return new Pair<>("", new Integer[]{});
         }

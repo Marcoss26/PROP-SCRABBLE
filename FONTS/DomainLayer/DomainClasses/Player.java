@@ -77,7 +77,10 @@ public abstract class Player
         this.score = score;
     }
 
-    public abstract void addScore(int score);
+    public void addScore(int score)
+    {
+        this.score += score;
+    }
 
     public int getScore()
     {

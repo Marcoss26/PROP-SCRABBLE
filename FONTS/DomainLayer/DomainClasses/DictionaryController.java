@@ -65,23 +65,6 @@ public class DictionaryController {
     }
 
     /**
-     * Elimina un diccionario del controlador.
-     * pre: dictionaryName es el nombre del diccionario que se va a eliminar
-     * post: elimina el diccionario con el nombre especificado o lanza una excepción si no existe
-     * @param dictionaryName El nombre del diccionario que se va a eliminar.
-     * @throws IllegalArgumentException Si el diccionario no existe.
-     */
-    public void removeDictionary(String dictionaryName) {
-
-        if (!dictionaryExists(dictionaryName)) {
-            throw new IllegalArgumentException("El diccionario con el nombre '" + dictionaryName + "' no existe.");
-        }
-
-        // Elimina el diccionario del mapa
-        dictionaries.remove(dictionaryName);
-    }
-
-    /**
      * Obtiene un diccionario del controlador.
      * pre: dictionaryName es el nombre del diccionario que se va a buscar
      * post: devuelve el diccionario con el nombre especificado o lanza una excepción si no existe
@@ -106,27 +89,6 @@ public class DictionaryController {
      */
     public Map<String, Dictionary> getDictionaries() {
         return dictionaries;
-    }
-    
-    /**
-     * Obtiene el idioma de un diccionario.
-     * pre: dictionaryName es el nombre del diccionario que se va a buscar
-     * post: devuelve el idioma del diccionario con el nombre especificado o lanza una excepción si no existe
-     * @param dictionaryName El nombre del diccionario que se va a buscar.
-     * @return El idioma del diccionario.
-     * @throws IllegalArgumentException Si el diccionario no existe.
-     */
-    public String getDictionaryLanguage(String dictionaryName) {
-        // Verifica si el diccionario existe
-        if (!dictionaryExists(dictionaryName)) {
-            throw new IllegalArgumentException("El diccionario con el nombre '" + dictionaryName + "' no existe.");
-        }
-
-        // Obtén el diccionario
-        Dictionary dictionary = getDictionary(dictionaryName);
-
-        // Devuelve el idioma del diccionario
-        return dictionary.getLanguage();
     }
 
     /**

@@ -60,10 +60,11 @@ public class MP_Controller
             {
                 id = UUID.randomUUID().toString(); //Generating a new ID for the match
             }
-            Match match = new Match(id,size);
+            String dictionary_name = dictionary.getName();
+            Match match = new Match(id,size, dictionary_name);
             matches.put(id, match);
             createBagForMatch(match,letters,bag_size);
-            createPlayersForMatch(match,profiles,dictionary.getLanguage());
+            createPlayersForMatch(match,profiles,dictionary_name);
             createDictionaryForMatch(match,dictionary);
             createBoardForMatch(match,board_size);
             match.setPaused(false);
@@ -263,15 +264,14 @@ public class MP_Controller
         }
     }
 
-    public String finishMatch(String id)  throws IllegalArgumentException
+    public void finishMatch(String id)  throws IllegalArgumentException
     {
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            String winner = match.setFinished();
+            match.setFinished();
             matches.remove(id);
             System.out.println("Match with ID: " + id + " finished.");
-            return winner;
         }
         else
         {
