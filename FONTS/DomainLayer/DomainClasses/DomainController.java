@@ -184,7 +184,7 @@ public class DomainController {
         this.matchController.modifyRack(matchId, letters);
     }
 
-    public void existMatch(String matchId) {
+    public void exitMatch(String matchId) {
         this.persistenceController.saveMatches(this.matchController.getUnfinishedMatches());
         this.matchController.finishMatch(matchId);
     }

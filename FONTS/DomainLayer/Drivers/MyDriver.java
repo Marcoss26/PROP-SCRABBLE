@@ -8,6 +8,7 @@ public class MyDriver
     static public Scanner scanner = new Scanner(System.in,"UTF-8");
     public static void main(String[] args) throws IOException 
     {
+        DomainController domainController = DomainController.getInstance();
         MP_Controller matchController = MP_Controller.getInstance();
         Map<Letter, Integer> letters = new HashMap<>();
         int totalLettersInTheBag = 0;
@@ -52,7 +53,42 @@ public class MyDriver
         String matchId = matchController.createMatch(2, profiles, dictionary, 7, letters, totalLettersInTheBag);
         String matchId2 = matchController.createMatch(2, profiles, dictionary2, 7, letters, totalLettersInTheBag);
         String matchId3 = matchController.createMatch(2, profiles, dictionary3, 7, letters, totalLettersInTheBag);
-        boolean human = true;
+        while(true)
+        {
+            System.out.println("Choose what to do:");
+            System.out.println("1. Create new match");
+            System.out.println("2. Load existing match");
+            System.out.println("3. Exit");
+            int option = MyDriver.scanner.nextInt();
+            MyDriver.scanner.nextLine(); // Consume the newline character left by nextInt()
+            switch(option)
+            {
+                case 1:
+                System.out.println("Enter board size:");
+                int boardSize = MyDriver.scanner.nextInt();
+                MyDriver.scanner.nextLine(); // Consume the newline character left by nextInt()
+                matchController.createMatch(2,profiles,dictionary,boardSize, letters, totalLettersInTheBag);
+                break;
+                
+                case 2:
+                domainController.loadMatches();
+                Map<String, Match> matches = matchController.getUnfinishedMatches();
+                for(Map.Entry<String, Match> entry : matches.entrySet()) 
+                {
+                    Match match = entry.getValue();
+                    match.displayMatch();        
+                }
+                System.out.println("Enter the match ID to load:");
+                String matchIdToLoad = MyDriver.scanner.nextLine();
+                matchController.print(matchIdToLoad);
+                break;
+
+                case 3:
+                System.out.println("Save matches");
+                domainController.saveMatches();
+            }
+        }
+        /*boolean human = true;
         // Menú de prueba
         while (true) {
             matchController.print(matchId);
@@ -103,6 +139,6 @@ public class MyDriver
                 matchController.printCrossChecks(x, y, matchId);
                     break;
             }
-        }
+        }*/
     }
 }

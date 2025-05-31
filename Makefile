@@ -2,6 +2,7 @@
 SRC_DIR = FONTS
 BIN_DIR = EXE
 DOMAIN_CLASSES = $(SRC_DIR)/DomainLayer/DomainClasses
+PERSISTENCE_CLASSES = $(SRC_DIR)/PersistenceLayer
 DRIVERS = $(SRC_DIR)/DomainLayer/Drivers
 LIB_DIR = $(SRC_DIR)/lib
 DRIVERS_DIR = DomainLayer/Drivers
@@ -29,7 +30,10 @@ DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/ProfileController.java \
 					$(DOMAIN_CLASSES)/Dawg.java \
 					$(DOMAIN_CLASSES)/Ranking.java \
-					$(UTILS)/Pair.java
+					$(UTILS)/Pair.java \
+					$(PERSISTENCE_CLASSES)/PersistenceController.java \
+					$(PERSISTENCE_CLASSES)/MatchStorage.java \
+					$(PERSISTENCE_CLASSES)/ProfileStorage.java
 
 
 
@@ -83,6 +87,10 @@ MY_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/ProfileController.java \
 					$(DOMAIN_CLASSES)/Dawg.java \
 					$(DOMAIN_CLASSES)/Ranking.java \
+					$(DOMAIN_CLASSES)/DomainController.java \
+					$(PERSISTENCE_CLASSES)/PersistenceController.java \
+					$(PERSISTENCE_CLASSES)/MatchStorage.java \
+					$(PERSISTENCE_CLASSES)/ProfileStorage.java \
 					$(UTILS)/Pair.java
 
 LIBRARIES = $(LIB_DIR)/json-simple-1.1.1.jar
@@ -134,7 +142,7 @@ DawgDriver: $(DAWG_DRIVER_CLASSES_SRC) $(DAWG_DRIVER_SRC)
 	$(JAVAC) $(JFLAGS) $(DAWG_DRIVER_CLASSES_SRC) $(DAWG_DRIVER_SRC)
 
 MyDriver: $(MY_DRIVER_CLASSES_SRC) $(MY_DRIVER_SRC)
-	$(JAVAC) $(JFLAGS) $(MY_DRIVER_CLASSES_SRC) $(MY_DRIVER_SRC)
+	$(JAVAC) -cp ${LIBRARIES} $(JFLAGS) $(MY_DRIVER_CLASSES_SRC) $(MY_DRIVER_SRC)
 
 # Compilar solo las clases de DomainClasses
 DomainClasses: $(BIN_DIR) $(DOMAIN_CLASSES_SRC)
@@ -185,12 +193,18 @@ run-DawgDriver: DawgDriver
 	java -cp $(BIN_DIR) $(DRIVERS_DIR)/DawgDriver
 
 run-MyDriver: MyDriver
-	java -cp $(BIN_DIR) $(DRIVERS_DIR)/MyDriver
+	java -cp "$(BIN_DIR);${LIBRARIES}" $(DRIVERS_DIR)/MyDriver
+	
+	
+	
 
 run-gui: MainMenuView
 	java -cp $(BIN_DIR) PresentationLayer.MainMenuView
 
 # Borrar los archivos compilados
+
+#java -cp "EXE;FONTS/lib/json-simple-1.1.1.jar" DomainLayer.Drivers.MyDriver
+#java -cp "EXE;FONTS/lib/json-simple-1.1.1.jar" $(DRIVERS_DIR)/MyDriver
 
 clean:
 	rm -rf $(BIN_DIR)/*.class
