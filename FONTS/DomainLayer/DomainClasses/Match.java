@@ -319,7 +319,6 @@ public class Match
         System.out.println("Match ID: " + id);
         System.out.println("Turn: " + turn);
         System.out.println("Score: " + score);
-        System.out.println("Finished: " + finished);
         System.out.println("Paused: " + paused);
         System.out.println("Size: " + size);
         displayPlayers();
@@ -369,23 +368,17 @@ public class Match
         this.paused = paused;
     }
 
-    public boolean isFinished() 
-    {
-        return this.finished;
-    }
-
     public String setFinished() 
     {
-        this.finished = true;
         String winner = decideWinner();
         Player player = players.get(winner);
+        String winnerName = player.getName();
         if(player instanceof Human) 
         {
             Human human = (Human) player; // Cast the player to Human
             human.getProfile().incrementWins(); // Increment the number of games won in the profile
-            return winner;
         }
-        return "";
+        return winnerName;
     }
 
 
@@ -408,7 +401,7 @@ public class Match
         //Dictionary dictionary = this.dictionary;
         //Board board = this.board;
         Dawg dawg = dictionary.getDawg();
-        board.computeCrossChecks(dictionary.getCharacters(),dictionary.getDawg());
+        board.computeCrossChecks(dictionary.getCharacters(), dawg);
         Player player = playerList.get(turn);
         Rack player_rack = player.getRack();
         List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, dictionary);
@@ -485,6 +478,23 @@ public class Match
         return false;
     }
 
+    /*public boolean humanTurn2(String word1, int startX1, int startY1, int endX1, int endY1, String word2, int startX2, int startY2, int endX2, int endY2) throws IllegalArgumentException, IllegalStateException
+    {
+        PlayableWord playableWord1 = new PlayableWord(word1, startX1, startY1, endX1, endY1);
+        PlayableWord playableWord2 = new PlayableWord(word2, startX2, startY2, endX2, endY2);
+        Player player = playerList.get(turn);
+        Dawg dawg = dictionary.getDawg();
+        board.computeCrossChecks(dictionary.getCharacters(), dawg);
+        Rack player_rack = player.getRack();
+        List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, dictionary);
+        if(PlayAbleWords.contains(playableWord1) && PlayAbleWords.contains(playableWord2))
+        {
+            int score1 = 0;
+            int score2 = 0;
+            
+        }
+    }*/
+
     public Pair <String, Integer[]> aiTurn()
     {
         Player player = playerList.get(turn);
@@ -496,7 +506,7 @@ public class Match
         {
             Dawg dawg = dictionary.getDawg();
             Rack player_rack = player.getRack();
-            board.computeCrossChecks(dictionary.getCharacters(),dictionary.getDawg());
+            board.computeCrossChecks(dictionary.getCharacters(), dawg);
             List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, dictionary);
             if(PlayAbleWords.size() % 2 != 0)
             {

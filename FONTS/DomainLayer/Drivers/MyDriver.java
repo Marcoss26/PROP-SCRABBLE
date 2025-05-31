@@ -42,12 +42,16 @@ public class MyDriver
             }
         }
         DomainLayer.DomainClasses.Dictionary dictionary = new DomainLayer.DomainClasses.Dictionary("en","en");
+        DomainLayer.DomainClasses.Dictionary dictionary2 = new DomainLayer.DomainClasses.Dictionary("es","es");
+        DomainLayer.DomainClasses.Dictionary dictionary3 = new DomainLayer.DomainClasses.Dictionary("ca","ca");
         Set<Profile> profiles = new HashSet<>();
         Profile profile = new Profile("ziheng","1");
         //Profile profile2 = new Profile("ziheng2","1");
         profiles.add(profile);
         //profiles.add(profile2);
         String matchId = matchController.createMatch(2, profiles, dictionary, 7, letters, totalLettersInTheBag);
+        String matchId2 = matchController.createMatch(2, profiles, dictionary2, 7, letters, totalLettersInTheBag);
+        String matchId3 = matchController.createMatch(2, profiles, dictionary3, 7, letters, totalLettersInTheBag);
         boolean human = true;
         // Menú de prueba
         while (true) {
