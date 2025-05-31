@@ -82,6 +82,10 @@ public class MatchView extends JPanel {
         rackPanel.updateRack(letters);
     }
 
+    public void shuffleRack() {
+        matchViewCtrl.shuffleRack();
+    }
+
     
 }
 

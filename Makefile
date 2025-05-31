@@ -2,15 +2,22 @@
 SRC_DIR = FONTS
 BIN_DIR = EXE
 DOMAIN_CLASSES = $(SRC_DIR)/DomainLayer/DomainClasses
+MAIN = $(SRC_DIR)/Main.java
+PRESENTATION_CLASSES = $(SRC_DIR)/PresentationLayer/PresentationClasses
 DRIVERS = $(SRC_DIR)/DomainLayer/Drivers
 LIB_DIR = $(SRC_DIR)/lib
 DRIVERS_DIR = DomainLayer/Drivers
+UTILS = $(SRC_DIR)/Utils
 
 # Compiler and flags
 JAVAC = javac
 JFLAGS = -d $(BIN_DIR)
 
 # Source files
+MAIN_CLASSES_SRC =	$(DOMAIN_CLASSES)/*.java \
+					$(PRESENTATION_CLASSES)/*.java \
+					$(UTILS)/*.java \
+
 DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/Letter.java \
 					$(DOMAIN_CLASSES)/Rack.java \
@@ -27,7 +34,10 @@ DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/Profile.java \
 					$(DOMAIN_CLASSES)/ProfileController.java \
 					$(DOMAIN_CLASSES)/Dawg.java \
-					$(DOMAIN_CLASSES)/Ranking.java 
+					$(DOMAIN_CLASSES)/Ranking.java \
+					$(UTILS)/Pair.java
+
+
 
 # Driver classes source files
 DICTIONARY_CONTROLLER_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/DictionaryController.java \
@@ -79,6 +89,7 @@ MY_DRIVER_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/ProfileController.java \
 					$(DOMAIN_CLASSES)/Dawg.java \
 					$(DOMAIN_CLASSES)/Ranking.java \
+					$(UTILS)/Pair.java
 
 LIBRARIES = $(LIB_DIR)/json-simple-1.1.1.jar
 
@@ -99,6 +110,9 @@ MY_DRIVER_SRC = $(DRIVERS)/MyDriver.java
 # Targets
 # Compilar todos los drivers
 all: BagDriver RackDriver DictionaryControllerDriver ProfileControllerDriver BoardBoxDriver RankingDriver PlayerDriver
+
+Main: $(MAIN_CLASSES_SRC) $(MAIN)
+	$(JAVAC) -cp ${LIBRARIES} $(JFLAGS) $(MAIN_CLASSES_SRC) $(MAIN)
 
 MainDriver: $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java
 	$(JAVAC) -cp ${LIBRARIES} $(JFLAGS) $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java 
@@ -135,6 +149,34 @@ MyDriver: $(MY_DRIVER_CLASSES_SRC) $(MY_DRIVER_SRC)
 DomainClasses: $(BIN_DIR) $(DOMAIN_CLASSES_SRC)
 	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC)
 
+MainProgram:
+    javac -d EXE FONTS/Main.java \
+    FONTS/PresentationLayer/PresentationCtrl.java \
+    FONTS/PresentationLayer/MainMenuView.java \
+    FONTS/PresentationLayer/LoginView.java \
+    FONTS/PresentationLayer/NewGame.java \
+    FONTS/PresentationLayer/LoadGame.java \
+    FONTS/PresentationLayer/ManageDictionaryView.java \
+    FONTS/PresentationLayer/RankingView.java \
+    FONTS/PresentationLayer/CreationCtrl.java \
+    FONTS/DomainLayer/DomainClasses/*.java \
+    FONTS/Utils/Pair.java \
+    FONTS/PresentationLayer/MatchViewCtrl.java \
+    FONTS/PresentationLayer/MatchView.java \
+    FONTS/PresentationLayer/RackView.java \
+    FONTS/PresentationLayer/TileView.java \
+    FONTS/PresentationLayer/BoardView.java \
+    FONTS/PresentationLayer/BoardCell.java \
+    FONTS/PresentationLayer/GameInfoView.java \
+    FONTS/PresentationLayer/ProfileView.java
+
+# Compilar solo las clases de PresentationClasses
+PresentationClasses: $(BIN_DIR) $(PRESENTATION_CLASSES)/*.java
+	$(JAVAC) $(JFLAGS) $(PRESENTATION_CLASSES)/*.java
+
+
+run-Main: Main
+	java -cp $(BIN_DIR) $(MAIN)
 
 run-main: MainDriver
 	java -cp $(BIN_DIR) $(DOMAIN_CLASSES)/Driver
@@ -162,6 +204,9 @@ run-DawgDriver: DawgDriver
 
 run-MyDriver: MyDriver
 	java -cp $(BIN_DIR) $(DRIVERS_DIR)/MyDriver
+
+run-MainProgram: MainProgram
+	java -cp EXE Main
 
 # Borrar los archivos compilados
 

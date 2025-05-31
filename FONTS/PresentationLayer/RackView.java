@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 //import java.util.List;
 import java.util.ArrayList;
+import java.util.*;
 
 
 public class RackView extends JPanel {
@@ -18,6 +19,7 @@ public class RackView extends JPanel {
     private Image rackBackground;
     private JPanel rackPanel;
     private TileView selectedTile;
+    private Set<String> selectedTiles = new HashSet<>();
 
     @Override
             protected void paintComponent(Graphics g) {
@@ -79,11 +81,13 @@ public class RackView extends JPanel {
             }
         });
 
+        
+
         shuffleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Lógica para barajar las fichas
-                System.out.println("Shuffle button clicked");
+                matchView.shuffleRack();
                 // Aquí puedes implementar la lógica de barajar las fichas
             }
         });

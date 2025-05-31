@@ -119,6 +119,15 @@ public class PresentationCtrl {
         }
     }
 
+    public void shuffleRack() {
+        domainCtrl.shuffleRack(matchId);
+        matchViewCtrl.cleanTilesplaced();
+        matchViewCtrl.cleanRack();
+        ArrayList<String> letters = domainCtrl.getRackLetters(matchId, turn);
+        matchViewCtrl.updateRack(letters);
+        
+    }
+
     public void startTurn(){
 
         if(domainCtrl.isGameFinished(matchId)){

@@ -55,4 +55,8 @@ public class MatchViewCtrl {
     public void updateRack(ArrayList<String> letters) {
         matchView.updateRack(letters);
     }
+
+    public void shuffleRack() {
+        pc.shuffleRack();
+    }
 }
