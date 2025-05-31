@@ -10,11 +10,31 @@ import java.util.*;
 
 import DomainLayer.DomainClasses.*;
 
+/**
+ * Storage is a generic interface for saving and loading data.
+ * It defines methods for saving and loading data of type T.
+ * @param <T> The type of data to be saved and loaded.
+ * @author Kai Knox
+ */
 interface Storage<T> {
+    /**
+     * Saves the data of type T to a persistent storage.
+     * @param data The data to be saved.
+     */
     void save(T data);
+
+    /**
+     * Loads the data of type T from a persistent storage.
+     * @return The loaded data of type T.
+     */
     T load();
 }
 
+/**
+ * JsonUtils is a utility class for saving and loading JSON data to and from files.
+ * It provides methods to initialize the data directory, save JSON objects, and load JSON objects.
+ * @author Kai Knox
+ */
 class JsonUtils {
     // Save a JSONArray to a file
     private static final String DATA_PATH = "./data";
@@ -55,7 +75,12 @@ class JsonUtils {
 }
 
 
-
+/**
+ * PersistenceController is a singleton class that manages the persistence of profiles and matches.
+ * It uses ProfileStorage and MatchStorage to save and load data from JSON files.
+ * It also caches the loaded data to avoid unnecessary file I/O operations.
+ * @author Kai Knox
+ */
 public class PersistenceController {
     private static PersistenceController instance = null;
     private final ProfileStorage profileStorage = new ProfileStorage();

@@ -6,7 +6,11 @@ import java.util.*;
 
 import DomainLayer.DomainClasses.*;
 
-
+/**
+ * ProfileStorage is a class responsible for saving and loading profile data.
+ * It implements the Storage interface to provide methods for saving and loading profiles.
+ * @author Kai Knox
+ */
 public class ProfileStorage implements Storage<Map<String, Profile>> {
     public void save(Map<String, Profile> profiles) {
         JSONArray profilesArray = new JSONArray();

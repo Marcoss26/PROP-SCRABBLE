@@ -6,7 +6,11 @@ import java.util.*;
 
 import DomainLayer.DomainClasses.*;
 
-
+/**
+ * MatchStorage is a class responsible for saving and loading match data.
+ * It implements the Storage interface to provide methods for saving and loading matches.
+ * @author Kai Knox
+ */
 public class MatchStorage implements Storage<Map<String, Match>> {
     private final ProfileController profileController = ProfileController.getInstance();
 

@@ -11,18 +11,6 @@ import Utils.Pair;
  * It allows adding, removing, and retrieving profiles, as well as checking if a profile exists.
  * @author Kai Knox
  */
-
- /**
-  * ------------------------
-  TODO
-    ------------------------
-    * - Creaete a new match (numbPlayers, profiles, dicctionary, bolsa, tamaño)
-    * - Continue a match (id)
-    * - See list of matches to continue: id[]
-
-    * - Create dictionary (lang, name)
-    * - 
-  */
 public class DomainController {
     /**
      * ProfileController instance to manage user profiles.
