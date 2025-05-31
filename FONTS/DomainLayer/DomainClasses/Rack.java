@@ -147,6 +147,7 @@ public class Rack {
         for (String symbol : symbols2) {
             for (int i = 0; i < letters.size(); i++) {
                 if (letters.get(i).getSymbol().equals(symbol)) {
+                    bag.addLetter(letters.get(i));
                     letters.remove(i);
                     letters.add(bag.extractLetter());
                     break;
