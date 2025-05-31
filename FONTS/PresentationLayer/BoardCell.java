@@ -25,6 +25,11 @@ public class BoardCell extends JPanel {
         this.add(this.label, BorderLayout.CENTER);
     }
 
+    public void setCol(String colour) {
+        this.backColour = colour;
+        this.setBackground(Color.decode(colour));
+    }
+
     public void setCoords(int row, int column) {
         this.row = row;
         this.column = column;

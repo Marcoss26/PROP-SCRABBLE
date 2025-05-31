@@ -86,6 +86,10 @@ public class MatchView extends JPanel {
         matchViewCtrl.shuffleRack();
     }
 
+    public void lockTilesPlaced() {
+        boardPanel.lockTilesPlaced();
+    }
+
     
 }
 

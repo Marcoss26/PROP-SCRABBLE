@@ -59,4 +59,8 @@ public class MatchViewCtrl {
     public void shuffleRack() {
         pc.shuffleRack();
     }
+
+    public void lockTilesPlaced() {
+        matchView.lockTilesPlaced();
+    }
 }

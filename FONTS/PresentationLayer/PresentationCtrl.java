@@ -114,6 +114,7 @@ public class PresentationCtrl {
             showSuccessDialog(word + " is valid, successful move.");
             int score = domainCtrl.getPlayerScore(matchId, turn);
             matchViewCtrl.actPlayerScore(turn, score);
+            matchViewCtrl.lockTilesPlaced();
             passTurn();
             startTurn();
         }

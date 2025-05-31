@@ -12,7 +12,7 @@ import java.util.*;
 public class BoardView extends JPanel {
     private JFrame frame;
     private ImageIcon centericon;
-    private Set<Pair<Integer, Integer>> tilesPlaced;
+    private Set<Pair<Integer, Integer>> tilesPlaced; // column = first(), row = second()
     private int size;
 
     public BoardView(int size, RackView rackPanel) {
@@ -319,6 +319,14 @@ public class BoardView extends JPanel {
 
     public void cleanTilesPlaced() {
         tilesPlaced.clear();
+    }
+
+    public void lockTilesPlaced() {
+        for(Pair<Integer, Integer> pos : tilesPlaced) {
+            BoardCell cell = getBoardCell(pos.second(), pos.first());
+            cell.removeMouseListener(cell.getMouseListeners()[0]);
+        }
+        
     }
 
 }
