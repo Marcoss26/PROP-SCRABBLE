@@ -130,4 +130,18 @@ public class LoadGame extends JPanel {
     public JButton getReturnButton() {
         return returnButton;
     }
+
+    static public void main(String[] args) {
+        JFrame frame = new JFrame("Load Game Example");
+        LoadGame loadGamePanel = new LoadGame();
+
+        loadGamePanel.addSavedGame("Partida 1 - 12/06/2025");
+        loadGamePanel.addSavedGame("Partida 2 - 13/06/2025");
+
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(loadGamePanel);
+        frame.setSize(800, 600);
+        frame.setVisible(true);
+    }
 }
