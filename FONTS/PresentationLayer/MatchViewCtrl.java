@@ -37,8 +37,8 @@ public class MatchViewCtrl {
         pc.skipTurn();
     }
 
-    public void submitTurn(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end, ArrayList<String> word) {
-        pc.submitTurn(coord_ini, coord_end, word);
+    public void submitTurn(Pair<Integer, Integer> coord_ini, Pair<Integer, Integer> coord_end, ArrayList<String> word, Set<Pair<Integer, Integer>> jokers) {
+        pc.submitTurn(coord_ini, coord_end, word, jokers);
     }
 
     public void actPlayerScore(int turn, int score){

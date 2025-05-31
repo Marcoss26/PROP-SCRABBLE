@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import Utils.Pair;
 import java.awt.*;
+import java.util.Set;
 
 public class MatchView extends JPanel {
     private BoardView boardPanel;
@@ -61,7 +62,8 @@ public class MatchView extends JPanel {
         coord_ini = new Pair<>(0,0);
         coord_end = new Pair<>(0,0);
         ArrayList<String> word = boardPanel.computeWord(coord_ini, coord_end);
-        matchViewCtrl.submitTurn(coord_ini, coord_end, word);
+        Set<Pair<Integer, Integer>> jokers = boardPanel.getJokersPos();
+        matchViewCtrl.submitTurn(coord_ini, coord_end, word, jokers);
 
 
     }

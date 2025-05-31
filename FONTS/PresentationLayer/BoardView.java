@@ -13,6 +13,7 @@ public class BoardView extends JPanel {
     private JFrame frame;
     private ImageIcon centericon;
     private Set<Pair<Integer, Integer>> tilesPlaced; // column = first(), row = second()
+    private Set<Pair<Integer, Integer>> jokerPos; // column = first(), row = second()
     private int size;
 
     public BoardView(int size, RackView rackPanel) {
@@ -21,6 +22,7 @@ public class BoardView extends JPanel {
 
         this.setLayout(new BorderLayout());
         tilesPlaced = new LinkedHashSet<>();
+        jokerPos = new LinkedHashSet<>();
         this.size = size;
 
         initializeBoard(size, rackPanel);
@@ -169,6 +171,7 @@ public class BoardView extends JPanel {
                             cell.PlaceTile(sTile);
                             tilesPlaced.add(new Pair<>(cell.getColumn(), cell.getRow()));
                             if(sTile.getSymbol() == "#"){
+                                jokerPos.add(new Pair<>(cell.getColumn(), cell.getRow()));
                                 String inp = JOptionPane.showInputDialog(null, "Joker selection", "Type letter that you want: ", JOptionPane.PLAIN_MESSAGE );
                                 sTile.updateLabel(inp, 0);
                             }
@@ -189,6 +192,7 @@ public class BoardView extends JPanel {
                             cell.removeTile();
                             tilesPlaced.remove(new Pair<>(cell.getColumn(), cell.getRow()));
                             if(tile.getValue() == 0) {
+                                jokerPos.remove(new Pair<>(cell.getColumn(), cell.getRow()));
                                 tile.updateLabel("#", 0);
                             }
                             rackPanel.addTile(tile);
@@ -357,6 +361,10 @@ public class BoardView extends JPanel {
             cell.removeMouseListener(cell.getMouseListeners()[0]);
         }
         
+    }
+
+    public Set<Pair<Integer, Integer>> getJokersPos() {
+        return jokerPos;
     }
 
 }
