@@ -180,11 +180,10 @@ public class MP_Controller
 
     public boolean humanTurn(String id ,String word, int startX, int startY, int endX, int endY, Set<Pair<Integer, Integer>> JokerPos) throws IllegalArgumentException, IllegalStateException
     {
-        boolean valid = false;
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            if(!match.isPaused())   valid = match.humanTurn(word, startX, startY, endX, endY, JokerPos);
+            if(!match.isPaused())   return match.humanTurn(word, startX, startY, endX, endY, JokerPos);
             else
             {
                 throw new IllegalStateException("Match with ID: " + id + " is paused.");
@@ -194,10 +193,26 @@ public class MP_Controller
         {
             throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
         }
-        return valid;
     }
 
-    public Pair<String, Integer[]> aiTurn(String id) throws IllegalArgumentException, IllegalStateException
+    public Pair<Boolean, String> humanTurn2(String id, String word1, int startX1, int startY1, int endX1, int endY1, String word2, int startX2, int startY2, int endX2, int endY2, Set<Pair<Integer, Integer>> JokerPos) throws IllegalArgumentException, IllegalStateException
+    {
+        if(existMatch(id))
+        {
+            Match match = matches.get(id);
+            if(!match.isPaused())   return match.humanTurn2(word1, startX1, startY1, endX1, endY1, word2, startX2, startY2, endX2, endY2, JokerPos);
+            else
+            {
+                throw new IllegalStateException("Match with ID: " + id + " is paused.");
+            }
+        }
+        else
+        {
+            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
+        }
+    }
+
+    public Pair<ArrayList<String>, Integer[]> aiTurn(String id) throws IllegalArgumentException, IllegalStateException
     {
         if (existMatch(id))
         {
