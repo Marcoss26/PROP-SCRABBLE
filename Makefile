@@ -140,6 +140,24 @@ MyDriver: $(MY_DRIVER_CLASSES_SRC) $(MY_DRIVER_SRC)
 DomainClasses: $(BIN_DIR) $(DOMAIN_CLASSES_SRC)
 	$(JAVAC) $(JFLAGS) $(DOMAIN_CLASSES_SRC)
 
+MainMenuView: $(DOMAIN_CLASSES_SRC) \
+	$(SRC_DIR)/PresentationLayer/MainMenuView.java \
+	$(SRC_DIR)/PresentationLayer/PresentationCtrl.java \
+	$(SRC_DIR)/PresentationLayer/LoginView.java \
+	$(SRC_DIR)/PresentationLayer/NewGame.java \
+	$(SRC_DIR)/PresentationLayer/LoadGame.java \
+	$(SRC_DIR)/PresentationLayer/ManageDictionaryView.java \
+	$(SRC_DIR)/PresentationLayer/RankingView.java \
+	$(SRC_DIR)/PresentationLayer/CreationCtrl.java \
+	$(SRC_DIR)/PresentationLayer/MatchViewCtrl.java \
+	$(SRC_DIR)/PresentationLayer/MatchView.java \
+	$(SRC_DIR)/PresentationLayer/RackView.java \
+	$(SRC_DIR)/PresentationLayer/TileView.java \
+	$(SRC_DIR)/PresentationLayer/BoardView.java \
+	$(SRC_DIR)/PresentationLayer/BoardCell.java \
+	$(SRC_DIR)/PresentationLayer/GameInfoView.java \
+	$(SRC_DIR)/PresentationLayer/ProfileView.java
+	$(JAVAC) $(JFLAGS) $^
 
 
 run-main: MainDriver
@@ -168,6 +186,9 @@ run-DawgDriver: DawgDriver
 
 run-MyDriver: MyDriver
 	java -cp $(BIN_DIR) $(DRIVERS_DIR)/MyDriver
+
+run-gui: MainMenuView
+	java -cp $(BIN_DIR) PresentationLayer.MainMenuView
 
 # Borrar los archivos compilados
 
