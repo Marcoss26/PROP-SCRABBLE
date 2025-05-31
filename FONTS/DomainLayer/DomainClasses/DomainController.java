@@ -94,7 +94,7 @@ public class DomainController {
         Dictionary dictionary = dictionaryController.getDictionary(dictionaryName);
         Set<Profile> profiles = new HashSet<>();
         for(Pair<String,String> profileId : profilesIds){
-            Profile profile = this.profileController.getProfile(profileId.first(), profileId.second());
+            Profile profile = this.profileController.getProfile(profileId.first());
             profiles.add(profile);
         }
 
@@ -173,7 +173,7 @@ public class DomainController {
      * @param matchId The ID of the match to play.
      */
     public void playsMatch(String matchId, String word, int posStartX, int posStartY, int posEndX, int posEndY) {
-        this.matchController.playsMatch(matchId, word, posStartX, posStartY, posEndX, posEndY);
+        this.matchController.humanTurn(matchId, word, posStartX, posStartY, posEndX, posEndY);
     }
 
     public void shuffleRack(String matchId) {
@@ -182,6 +182,11 @@ public class DomainController {
 
     public void modifyRack(String matchId, String letters) {
         this.matchController.modifyRack(matchId, letters);
+    }
+
+    public void existMatch(String matchId) {
+        this.persistenceController.saveMatches(this.matchController.getUnfinishedMatches());
+        this.matchController.finishMatch(matchId);
     }
 
     public void printMatch(String matchId) {
@@ -277,7 +282,7 @@ public class DomainController {
       }
 
       public ArrayList<String> getProfileStats(String username, String password) {
-        Profile profile = this.profileController.getProfile(username, password);
+        Profile profile = this.profileController.getProfile(username);
         if (profile != null) {
             ArrayList<String> stats = new ArrayList<>();
             int gp = profile.getGamesPlayed();
