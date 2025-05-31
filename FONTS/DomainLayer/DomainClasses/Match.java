@@ -427,7 +427,7 @@ public class Match
                     if(board.isEmpty(startY + j,startX))
                     {
                         Letter letter;
-                        if(JokerPos.contains(new Pair<>(startY + j, startX))) //If the position is a joker, we need to set the symbol to the one we are placing
+                        if(JokerPos.contains(new Pair<>(startX, startY + j))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
                             letter = player_rack.getLetter("#");
                             letter.setSymbol(symbol);
@@ -444,7 +444,7 @@ public class Match
                     }
                     else
                     {
-                        int value = board.getBox(startY + j, startX).getValue();
+                        int value = board.getBox(startX, startY + j).getValue();
                         score += value; //If the box is not empty, we add the value of the letter in the box to the score
                         wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
                     }
