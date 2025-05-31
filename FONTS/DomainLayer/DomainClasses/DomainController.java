@@ -144,14 +144,6 @@ public class DomainController {
     }
 
     /**
-     * Continues a created match.
-     * @param id The ID of the existing match to continue.
-     */
-    public void continueMatch(String id) {
-        this.matchController.continueMatch(id);
-    }
-
-    /**
      * Retrieves the current turn player for a given match.
      * @param matchId The ID of the match get the turn from.
      * @return The player whose turn it is.

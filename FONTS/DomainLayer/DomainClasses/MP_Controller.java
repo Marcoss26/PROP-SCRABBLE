@@ -67,7 +67,6 @@ public class MP_Controller
             createPlayersForMatch(match,profiles,dictionary_name);
             createDictionaryForMatch(match,dictionary);
             createBoardForMatch(match,board_size);
-            match.setPaused(false);
             System.out.println("Match created with ID: " + match.getId());
             return id;
     }
@@ -82,7 +81,7 @@ public class MP_Controller
         match.setBag(new Bag(letters, bag_size));
     }
 
-    private void createDictionaryForMatch(Match match, Dictionary dictionary)
+    public void createDictionaryForMatch(Match match, Dictionary dictionary)
     {
         match.setDictionary(dictionary);
     }
@@ -160,20 +159,6 @@ public class MP_Controller
         }
     }
 
-    
-    
-    public void startMatch(String id) throws IllegalArgumentException
-    {
-        if (existMatch(id))
-        {
-            Match match = matches.get(id);
-            match.startMatch();
-        }
-        else
-        {
-            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
-        }
-    }
 
 
 
@@ -183,11 +168,7 @@ public class MP_Controller
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            if(!match.isPaused())   return match.humanTurn(word, startX, startY, endX, endY, JokerPos);
-            else
-            {
-                throw new IllegalStateException("Match with ID: " + id + " is paused.");
-            }
+            return match.humanTurn(word, startX, startY, endX, endY, JokerPos);
         }
         else
         {
@@ -200,11 +181,7 @@ public class MP_Controller
         if(existMatch(id))
         {
             Match match = matches.get(id);
-            if(!match.isPaused())   return match.humanTurn2(word1, startX1, startY1, endX1, endY1, word2, startX2, startY2, endX2, endY2, JokerPos);
-            else
-            {
-                throw new IllegalStateException("Match with ID: " + id + " is paused.");
-            }
+            return match.humanTurn2(word1, startX1, startY1, endX1, endY1, word2, startX2, startY2, endX2, endY2, JokerPos);
         }
         else
         {
@@ -217,11 +194,7 @@ public class MP_Controller
         if (existMatch(id))
         {
             Match match = matches.get(id);
-            if(!match.isPaused())   return match.aiTurn();
-            else
-            {
-                throw new IllegalStateException("Match with ID: " + id + " is paused.");
-            }
+            return match.aiTurn();
         }
         else
         {
@@ -265,20 +238,6 @@ public class MP_Controller
         return matchIDs;
     }
 
-    public void pauseMatch(String id) throws IllegalArgumentException
-    {
-        if (existMatch(id))
-        {
-            Match match = matches.get(id);
-            match.setPaused(true);
-            System.out.println("Match with ID: " + id + " paused.");
-        }
-        else
-        {
-            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
-        }
-    }
-
     public void finishMatch(String id)  throws IllegalArgumentException
     {
         if (existMatch(id))
@@ -297,20 +256,6 @@ public class MP_Controller
     public Map<String,Match> getUnfinishedMatches()
     {
         return matches;
-    }
-
-    public void continueMatch(String id) throws IllegalArgumentException
-    {
-        if (existMatch(id))
-        {
-            Match match = matches.get(id);
-            match.setPaused(false);
-            System.out.println("Match with ID: " + id + " continued.");
-        }
-        else
-        {
-            throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
-        }
     }
 
     public Player whoseTurn(String id) throws IllegalArgumentException
