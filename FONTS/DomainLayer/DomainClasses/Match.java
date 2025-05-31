@@ -672,7 +672,7 @@ public class Match
         return new Pair<>(false, "");
     }
 
-    public Pair <String, Integer[]> aiTurn()
+    public Pair <ArrayList<String>, Integer[]> aiTurn()
     {
         Player player = playerList.get(turn);
         if(player.isHuman())
@@ -685,6 +685,7 @@ public class Match
             Rack player_rack = player.getRack();
             board.computeCrossChecks(dictionary.getCharacters(), dawg);
             List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, dictionary);
+            ArrayList<String> words = new ArrayList<>();
             if(PlayAbleWords.size() % 2 != 0)
             {
                 System.out.println("AI is placing a word on the board.");
@@ -747,12 +748,13 @@ public class Match
                             wholeWordBonusFactor *= board.getWordBonus(startY, startX + j);
                         }
                     }
+                    words.add(symbol);
                     i+=symbol.length();
                     j++;
                 }
                 player.addScore(score * wholeWordBonusFactor);
                 setTurn(turn + 1);
-                return new Pair<>(word, new Integer[]{startX, startY, endX, endY});
+                return new Pair<>(words, new Integer[]{startX, startY, endX, endY});
             }
             else
             {
@@ -767,7 +769,7 @@ public class Match
                 player.modifyRack(oldLetters);
                 setTurn(turn + 1);
             }
-            return new Pair<>("", new Integer[]{});
+            return new Pair<>(new ArrayList<>(), new Integer[]{});
         }
     }
 }
