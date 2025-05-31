@@ -166,18 +166,25 @@ public class BoardView extends JPanel {
                         System.out.println("clicked in cell");
                         if(cell.isEmpty() ){
                             TileView sTile = rackPanel.getSelectedTile();
-                            sTile.removeMouseListener(sTile.getMouseListeners()[0]);
                             if(sTile != null){
-                            cell.PlaceTile(sTile);
-                            tilesPlaced.add(new Pair<>(cell.getColumn(), cell.getRow()));
-                            if(sTile.getSymbol() == "#"){
-                                jokerPos.add(new Pair<>(cell.getColumn(), cell.getRow()));
-                                String inp = JOptionPane.showInputDialog(null, "Joker selection", "Type letter that you want: ", JOptionPane.PLAIN_MESSAGE );
-                                sTile.updateLabel(inp, 0);
-                            }
+                                if(sTile.getSymbol() == "#"){
+                                    
+                                    String inp = JOptionPane.showInputDialog(null, "Joker selection", "Type letter that you want: ", JOptionPane.PLAIN_MESSAGE );
+                                    if(inp == null || inp.length() > 1) {
+                                        sTile = null;
+                                        return;
+                                    }
+                                    inp = inp.toUpperCase();
+                                    sTile.updateLabel(inp, 0);
+                                    jokerPos.add(new Pair<>(cell.getColumn(), cell.getRow()));
+                                }
+                                sTile.removeMouseListener(sTile.getMouseListeners()[0]);
+                                cell.PlaceTile(sTile);
+                                tilesPlaced.add(new Pair<>(cell.getColumn(), cell.getRow()));
+                                
 
 
-                            rackPanel.removeSelectedTile();
+                                rackPanel.removeSelectedTile();
                             
                             }
                              

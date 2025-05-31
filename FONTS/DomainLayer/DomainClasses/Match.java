@@ -2,6 +2,7 @@ package DomainLayer.DomainClasses;
 import java.util.*;
 
 import DomainLayer.DomainClasses.Dawg.Node;
+import Utils.Pair;
 
 
 public class Match
@@ -412,126 +413,100 @@ public class Match
         setTurn(turn+1);
     }
 
-    public boolean playsMatch(String word, int startX, int startY, int endX, int endY) throws IllegalArgumentException, IllegalStateException
+    public boolean humanTurn(String word, int startX, int startY, int endX, int endY, Set<Pair<Integer, Integer>> JokerPos) throws IllegalArgumentException, IllegalStateException
     {
-        boolean validPlay = false;
         int score = 0;
-        boolean nextRound = false;
-        Dictionary dictionary = this.dictionary;
-        Board board = this.board;
+        //Dictionary dictionary = this.dictionary;
+        //Board board = this.board;
         Dawg dawg = dictionary.getDawg();
-        board.computeCrossChecks(dictionary.getCharacters(),dictionary.getDawg());
-        List<Player> list_players = this.playerList;
-        int turn = this.turn;
-        Player player = list_players.get(turn);
+        board.computeCrossChecks(dictionary.getCharacters(), dawg);
+        Player player = playerList.get(turn);
         Rack player_rack = player.getRack();
-        Bag bag = this.bag;
         List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, dictionary);
-        
-        if(player.isHuman())
+        PlayableWord My_playableword = new PlayableWord(word, startX, startY, endX, endY);
+        System.out.println("All playable words: ");
+        for (PlayableWord playableWord : PlayAbleWords)
         {
-            PlayableWord My_playableword = new PlayableWord(word, startX, startY, endX, endY);
-            System.out.println("All playable words: ");
-            for (PlayableWord playableWord : PlayAbleWords)
+            System.out.println(playableWord.toString());
+        }
+        System.out.println("My playable word: " + My_playableword.toString());
+        if (PlayAbleWords.contains(My_playableword))
+        {
+            System.out.println("Valid play, placing letters on the board.");
+            int i = 0;
+            int j = 0;
+            int wholeWordBonusFactor = 1;
+            while(i < word.length())
             {
-                System.out.println(playableWord.toString());
-            }
-            System.out.println("My playable word: " + My_playableword.toString());
-            if (PlayAbleWords.contains(My_playableword))
-            {
-                validPlay = true;
-                System.out.println("Valid play, placing letters on the board.");
-                int i = 0;
-                int j = 0;
-                int wholeWordBonusFactor = 1;
-                while(i < word.length())
+                String symbol = dawg.getSpecialCharacter(word, i);
+                if(symbol == null)  symbol = String.valueOf(word.charAt(i));
+                if(startX == endX)
                 {
-                    boolean hasIndirectWords = false;
-                    String symbol = dawg.getSpecialCharacter(word, i);
-                    if(symbol == null)  symbol = String.valueOf(word.charAt(i));
-                    if(startX == endX)
+                    if(board.isEmpty(startY + j,startX))
                     {
-                        if(board.isEmpty(startY + j,startX))
+                        Letter letter;
+                        if(JokerPos.contains(new Pair<>( startX, startY + j))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
-                            for(int k = startX + 1; k < board.getSize() && !board.isEmpty(startY + j, k); k++)   //Los dos fors son para palabras que se crean indirectamente cuando coloco mis fichas
-                            {
-                                hasIndirectWords = true;
-                                score += board.getBox(startY + j, k).getValue();
-                                wholeWordBonusFactor *= board.getWordBonus(startY + j, k);
-                            }
-                            for(int k = startX - 1; k >= 0 && !board.isEmpty(startY + j, k); k--)
-                            {
-                                hasIndirectWords = true;
-                                score += board.getBox(startY + j, k).getValue();
-                                wholeWordBonusFactor *= board.getWordBonus(startY + j, k);
-                            }
-                            Letter letter = player_rack.getLetter(symbol); //Get the letter from the rack
-                            if(letter.getSymbol().equals("#")) //If the letter is a joker, we need to set the symbol to the one we are placing
-                            {
-                                letter.setSymbol(symbol);
-                            }
-                            int BonusScore = board.placeLetter(startY + j, startX, letter.getSymbol(),letter.getValue());
-                            score += BonusScore;
-                            if(hasIndirectWords)    score+=BonusScore;
-                            wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
-                            Letter letter2 = bag.extractLetter();
-                            player_rack.addLetter(letter2);
+                            letter = player_rack.getLetter("#");
+                            letter.setSymbol(symbol);
                         }
                         else
                         {
-                            int value = board.getBox(startY + j, startX).getValue();
-                            score += value; //If the box is not empty, we add the value of the letter in the box to the score
-                            wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
+                            letter = player_rack.getLetter(symbol); //Get the letter from the rack
                         }
+                        int BonusScore = board.placeLetter(startY + j, startX, letter.getSymbol(),letter.getValue());
+                        score += BonusScore;
+                        wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
+                        Letter letter2 = bag.extractLetter();
+                        player_rack.addLetter(letter2);
                     }
                     else
                     {
-                        if(board.isEmpty(startY,startX + j))
+                        int value = board.getBox(startY + j, startX).getValue();
+                        score += value; //If the box is not empty, we add the value of the letter in the box to the score
+                        wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
+                    }
+                }
+                else
+                {
+                    if(board.isEmpty(startY,startX + j))
+                    {
+                        Letter letter;
+                        if(JokerPos.contains(new Pair<>(startX + j, startY))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
-                            for(int k = startY; k < board.getSize() && !board.isEmpty(k, startX + j); k++)
-                            {
-                                score += board.getBox(k, startX + j).getValue();
-                                wholeWordBonusFactor *= board.getWordBonus(k, startX + j);
-                            }
-                            for(int k = startY - 1; k >= 0 && !board.isEmpty(k, startX + j); k--)
-                            {
-                                score += board.getBox(k, startX + j).getValue();
-                                wholeWordBonusFactor *= board.getWordBonus(k, startX + j);
-                            }
-                            Letter letter = player_rack.getLetter(symbol); //Get the letter from the rack
-                            if(letter.getSymbol().equals("#")) //If the letter is a joker, we need to set the symbol to the one we are placing
-                            {
-                                letter.setSymbol(symbol);
-                            }
-                            int BonusScore = board.placeLetter(startY, startX + j, letter.getSymbol(),letter.getValue());
-                            score += BonusScore;
-                            wholeWordBonusFactor *= board.getWordBonus(startY, startX + j);
-                            Letter letter2 = bag.extractLetter();
-                            player_rack.addLetter(letter2);
+                            letter = player_rack.getLetter("#");
+                            letter.setSymbol(symbol);
                         }
                         else
                         {
-                            int value = board.getBox(startY, startX + j).getValue();
-                            score += value;
-                            wholeWordBonusFactor *= board.getWordBonus(startY, startX + j);
+                            letter = player_rack.getLetter(symbol); //Get the letter from the rack
                         }
+                        int BonusScore = board.placeLetter(startY, startX + j, letter.getSymbol(),letter.getValue());
+                        score += BonusScore;
+                        wholeWordBonusFactor *= board.getWordBonus(startY, startX + j);
+                        Letter letter2 = bag.extractLetter();
+                        player_rack.addLetter(letter2);
                     }
-                    i+=symbol.length();
-                    j++;
+                    else
+                    {
+                        int value = board.getBox(startY, startX + j).getValue();
+                        score += value;
+                        wholeWordBonusFactor *= board.getWordBonus(startY, startX + j);
+                    }
                 }
-                System.out.println("Score for this play: " + score);
-                player.addScore(score * wholeWordBonusFactor); //Add the score to the player
-                setTurn(turn + 1); //Set the turn to the next player
+                i+=symbol.length();
+                j++;
             }
-            else    validPlay = false;
-            player_rack.print(); //Print the rack of the player
+            System.out.println("Score for this play: " + score);
+            player.addScore(score * wholeWordBonusFactor); //Add the score to the player
+            setTurn(turn + 1);
+            return true;
         }
-        else
-        {
-                
-        }
-        return validPlay;
+        player_rack.print(); //Print the rack of the player
+        return false;
     }
+
+
 
     public int getPlayerScore(int turn){
         return playerList.get(turn).getScore();

@@ -165,8 +165,8 @@ public class DomainController {
      * Places some letters on the board for a given match.
      * @param matchId The ID of the match to play.
      */
-    public boolean playsMatch(String matchId, String word, int posStartX, int posStartY, int posEndX, int posEndY) {
-        return this.matchController.playsMatch(matchId, word, posStartX, posStartY, posEndX, posEndY);
+    public boolean playsMatch(String matchId, String word, int posStartX, int posStartY, int posEndX, int posEndY, Set<Pair<Integer, Integer>> jokers) {
+        return this.matchController.humanTurn(matchId, word, posStartX, posStartY, posEndX, posEndY, jokers);
     }
 
     public void shuffleRack(String matchId) {
