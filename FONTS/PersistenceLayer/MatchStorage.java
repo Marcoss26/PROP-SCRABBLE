@@ -24,6 +24,8 @@ public class MatchStorage implements Storage<Map<String, Match>> {
             matchObject.put("dictionary", matchValue.getDictionaryName());
             matchObject.put("size", matchValue.getSize());
             matchObject.put("current_turn", matchValue.getTurn());
+            matchObject.put("score", matchValue.getScore());
+            matchObject.put("skipCount", matchValue.getSkipCount());
 
             // Save bag
             JSONArray bagArray = new JSONArray();
@@ -100,8 +102,13 @@ public class MatchStorage implements Storage<Map<String, Match>> {
             String dictionary = (String) matchObject.get("dictionary");
             int size = (int) matchObject.get("size");
             int currentTurn = (int) matchObject.get("current_turn");
-
+            int score = (int) (long) matchObject.get("score");
+            int skipCount = (int) (long) matchObject.get("skipCount");
             Match match = new Match(id, size, dictionary);
+
+            match.setScore(score);
+            match.setSkipCount(skipCount);
+
 
             // Load bag
             Map<Letter, Integer> bagMap = new HashMap<>();
