@@ -24,12 +24,14 @@ public class RankingView extends JPanel {
     private DefaultTableModel tableModel;
     private JTable rankingTable;
     private JButton returnButton;
+    private CtrlRankingView ctrlRankingView;
 
     /**
      * Constructor de la clase RankingView.
      * Inicializa el panel con un diseño y componentes para mostrar el ranking de jugadores.
      */
     public RankingView() {
+        ctrlRankingView = CtrlRankingView.getInstance();
         setLayout(new BorderLayout());
         setBackground(Color.decode("#F5F6FA")); // Fondo gris claro
 
@@ -105,6 +107,7 @@ public class RankingView extends JPanel {
         // Acción para el botón RETURN
         returnButton.addActionListener(e -> {
             //PresentationCtrl.getInstance().showView("MainMenuView");
+            ctrlRankingView.showView("MainMenuView");
         });
 
         add(bottomPanel, BorderLayout.SOUTH);
