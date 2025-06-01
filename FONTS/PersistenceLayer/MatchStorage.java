@@ -71,7 +71,6 @@ public class MatchStorage implements Storage<Map<String, Match>> {
             for (int i = 0; i < board.getSize(); i++) {
                 for (int j = 0; j < board.getSize(); j++) {
                     Box box = board.getBox(i, j);
-                    if (box != null && !box.isEmpty()) {
                     JSONObject boxObject = new JSONObject();
                     boxObject.put("x", box.getRow());
                     boxObject.put("y", box.getColumn());
@@ -86,7 +85,6 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                     crosscheckHArray.addAll(box.getCrossCheck(1));
                     boxObject.put("crosscheck_h", crosscheckHArray);
                     boardArray.add(boxObject);
-                    }
                 }
             }
             matchObject.put("board", boardArray);
