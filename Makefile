@@ -13,6 +13,10 @@ JAVAC = javac
 JFLAGS = -d $(BIN_DIR)
 
 # Source files
+MAIN_CLASSES_SRC =	$(DOMAIN_CLASSES)/*.java \
+					$(PRESENTATION_CLASSES)/*.java \
+					$(UTILS)/*.java \
+
 DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/Letter.java \
 					$(DOMAIN_CLASSES)/Rack.java \
@@ -113,6 +117,9 @@ MY_DRIVER_SRC = $(DRIVERS)/MyDriver.java
 # Compilar todos los drivers
 all: BagDriver RackDriver DictionaryControllerDriver ProfileControllerDriver BoardBoxDriver RankingDriver PlayerDriver
 
+Main: $(MAIN_CLASSES_SRC) $(MAIN)
+	$(JAVAC) -cp ${LIBRARIES} $(JFLAGS) $(MAIN_CLASSES_SRC) $(MAIN)
+
 MainDriver: $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java
 	$(JAVAC) -cp ${LIBRARIES} $(JFLAGS) $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java 
 
@@ -200,6 +207,9 @@ run-MyDriver: MyDriver
 
 run-gui: MainMenuView
 	java -cp $(BIN_DIR) PresentationLayer.MainMenuView
+
+run-MainProgram: MainProgram
+	java -cp EXE Main
 
 # Borrar los archivos compilados
 

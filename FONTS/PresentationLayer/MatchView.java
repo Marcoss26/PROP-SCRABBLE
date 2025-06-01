@@ -2,7 +2,10 @@ package PresentationLayer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
+
+import Utils.Pair;
 import java.awt.*;
+import java.util.Set;
 
 /**
  * MatchView representa la vista del juego Scrabble, mostrando el tablero, la bandeja de fichas
@@ -23,6 +26,8 @@ public class MatchView extends JPanel {
     private RackView rackPanel;
     private JPanel BoardAndRack;
     private GameInfoView gameInfoPanel;
+    private MatchViewCtrl matchViewCtrl;
+    
 
     /**
      * Constructor de la clase MatchView.
@@ -36,7 +41,7 @@ public class MatchView extends JPanel {
     public MatchView(int boardSize, int numPlayers, ArrayList<String> players, ArrayList<String> letters) {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.decode("#332F2C"));
-        
+        matchViewCtrl = MatchViewCtrl.getInstance();
 
         initializeRack(letters);
         initializeBoard(boardSize);
@@ -47,6 +52,8 @@ public class MatchView extends JPanel {
         //this.add(rackPanel, BorderLayout.SOUTH);
         this.add(gameInfoPanel, BorderLayout.EAST);
     }
+    
+  
 
     /**
      * Combina el panel del tablero y la bandeja de fichas en un solo panel.
@@ -75,7 +82,7 @@ public class MatchView extends JPanel {
      * @param letters Lista de letras que se mostrarán en la bandeja de fichas.
      */
     private void initializeRack(ArrayList<String> letters) {
-        rackPanel = new RackView(letters);
+        rackPanel = new RackView(letters, this);
     }
 
     /**
@@ -88,37 +95,55 @@ public class MatchView extends JPanel {
         gameInfoPanel = new GameInfoView(numPlayers, players);
     }
 
-    /**
-     * Método principal para probar la vista del juego.
-     * Crea un JFrame y muestra la vista del juego con un ejemplo de datos.
-     */
-    /*public static void main(String[] args) {
-        JFrame frame = new JFrame("Match Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public void skipTurn() {
+        matchViewCtrl.skipTurn();
+    }
 
-        frame.setSize(screenSize.width, screenSize.height);
-        List<String> rackl = List.of("A", "1", "B", "3", "C", "3", "D", "2", "E", "1", "F", "4", "G", "2");
-        MatchView matchView = new MatchView(15, 3, List.of("Player 1", "Player 2", "Player 3"), rackl);
-        frame.add(matchView);
+    public void submitTurn() {
+        ArrayList<Pair<Integer,Integer>> coords_ini, coords_end;
+        coords_ini = new ArrayList<>();
+        coords_end = new ArrayList<>();
+        coords_ini.add(new Pair<>(0,0));
+        coords_ini.add(new Pair<>(0,0));
+        ArrayList<String> words = boardPanel.computeWord(coords_ini, coords_end);
+        Set<Pair<Integer, Integer>> jokers = boardPanel.getJokersPos();
+        matchViewCtrl.submitTurn(coords_ini, coords_end, words, jokers);
 
-        frame.setVisible(true);
-    }*/ 
 
-public static void main(String[] args) {
-    JFrame frame = new JFrame("Match Example");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    }
+    public void actPlayerScore(int turn, int score) {
 
-    frame.setSize(screenSize.width, screenSize.height);
+        gameInfoPanel.actPlayerScore(turn, score);
+    }
 
-    ArrayList<String> rackl = new ArrayList<>(Arrays.asList("A", "1", "B", "3", "C", "3", "D", "2", "E", "1", "F", "4", "G", "2"));
-    ArrayList<String> players = new ArrayList<>(Arrays.asList("Player 1", "Player 2", "Player 3"));
+    public void cleanTilesPlaced() {
+        boardPanel.cleanTilesPlaced();
+    }
 
-    MatchView matchView = new MatchView(15, 3, players, rackl);
-    frame.add(matchView);
+    public void cleanRack() {
+        rackPanel.cleanRack();
+    }
 
-    frame.setVisible(true);
-}
+    public void updateRack(ArrayList<String> letters) {
+        rackPanel.updateRack(letters);
+    }
+
+    public void shuffleRack() {
+        matchViewCtrl.shuffleRack();
+    }
+
+    public void lockTilesPlaced() {
+        boardPanel.lockTilesPlaced();
+    }
+
+    public void exchangeLetters(String letters) {
+        matchViewCtrl.exchangeLetters(letters);
+    }
+
+    public void setBagTiles(int numTiles) {
+        gameInfoPanel.setBagTiles(numTiles);
+    }
+
+    
 }
 

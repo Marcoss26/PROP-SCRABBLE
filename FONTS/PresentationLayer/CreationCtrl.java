@@ -57,6 +57,7 @@ public class CreationCtrl {
         if (instance == null) {
             instance = new CreationCtrl();
        }
+
         return instance;
     }
 
@@ -80,6 +81,7 @@ public class CreationCtrl {
      * @return La vista de inicio de sesión creada.
      */
     public LoginView createLoginView(){
+        pc = PresentationCtrl.getInstance();
         loginView = new LoginView();
         return loginView;
     }
@@ -95,6 +97,7 @@ public class CreationCtrl {
      * @return La vista de perfil creada.
      */
     public ProfileView createProfileView(String username, int totalGamesPlayed, int totalGamesWon, float winRate){
+        pc = PresentationCtrl.getInstance();
         profileView = new ProfileView(username, totalGamesPlayed, totalGamesWon, winRate);
         return profileView;
     }
@@ -189,8 +192,7 @@ public class CreationCtrl {
         humanPlayers = numPlayers;
         loginIndex = 0;
         playersId = new HashSet<>();
-        loginMode = LoginMode.ADD_PLAYER;
-        showView("LoginView");
+        pc.showLoginView("ADD_PLAYER");
 
     }
     
@@ -218,8 +220,6 @@ public class CreationCtrl {
     public void showNextLoginView(){
         if(loginIndex < humanPlayers){
             cleanLoginView();
-            
-            pc = PresentationCtrl.getInstance();
             pc.refresh();
             
         }
@@ -227,7 +227,8 @@ public class CreationCtrl {
             
             pc.refresh();
             pc.createNewMatch();
-            showView("MatchView"); //de momento pongo newgame, pero lo tengo que cambiar por matchView
+            showView("MatchView"); 
+            pc.startTurn();
         }
 
     }
@@ -292,7 +293,6 @@ public class CreationCtrl {
      * @param password Contraseña del jugador que se va a crear.
      */
     public void createProfile(String playerId, String password) {
-        pc = PresentationCtrl.getInstance();
 
         if(pc.profInSystem(playerId)) {
             //JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -307,6 +307,10 @@ public class CreationCtrl {
         // Por ejemplo, guardar el perfil en una base de datos o en memoria
         System.out.println("Creating profile for player: " + playerId);
         // Puedes añadir más lógica aquí si es necesario
+    }
+
+    public void skipTurn(){
+        pc.skipTurn();
     }
 
 

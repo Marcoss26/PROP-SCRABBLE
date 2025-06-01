@@ -39,7 +39,8 @@ public class PresentationCtrl {
     private CreationCtrl cc;
     private DomainController domainCtrl;
     private MatchViewCtrl matchViewCtrl;
-    int turn;
+    private int turn;
+    private String matchId;
 
     
 
@@ -83,7 +84,7 @@ public class PresentationCtrl {
         String dictionary = cc.getDictionary();
         System.out.println(dictionary);
         Set<Pair<String,String>> playersId = cc.getPlayersId();
-        String matchId = null;
+        matchId = null;
 
         try {
             matchId = domainCtrl.newMatch(totalPlayers, playersId, dictionary, boardSize);
@@ -109,6 +110,96 @@ public class PresentationCtrl {
 
 
     }
+
+    private void actTurn() {
+        ++turn;
+        if(turn >= cc.getTotalPlayers()){
+            turn = 0; //vuelvo al primer jugador
+        }
+        
+    }
+
+    private void passTurn() {
+        matchViewCtrl.cleanTilesplaced();
+        matchViewCtrl.cleanRack();
+        actTurn();
+        ArrayList<String> letters = domainCtrl.getRackLetters(matchId, turn);
+        matchViewCtrl.updateRack(letters);
+        matchViewCtrl.setBagTiles(domainCtrl.getBagTiles(matchId));
+    }
+
+    public void skipTurn() {
+        
+        passTurn();
+        startTurn();
+    }
+
+    public void submitTurn(ArrayList<Pair<Integer, Integer>> coord_ini, ArrayList<Pair<Integer, Integer>> coord_end, ArrayList<String> word, Set<Pair<Integer, Integer>> jokers) {
+        
+        boolean valid = false;
+        if(word.size() == 1) valid = domainCtrl.playsMatch(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), jokers);
+        else{
+             Pair<Boolean, String> VandW = domainCtrl.playsMatch2(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), word.get(1), coord_ini.get(1).first(), coord_ini.get(1).second(), coord_end.get(1).first(), coord_end.get(1).second(), jokers);
+            valid = VandW.first();
+            word.set(0, VandW.second());
+        }
+        
+        
+        if(!valid){
+            //si no es valido, muestro un mensaje de error
+            showErrorDialog("Invalid move. Please try again.");
+            
+        }
+        else{
+            showSuccessDialog(word.get(0) + " is valid, successful move.");
+            int score = domainCtrl.getPlayerScore(matchId, turn);
+            matchViewCtrl.actPlayerScore(turn, score);
+            matchViewCtrl.lockTilesPlaced();
+            passTurn();
+            startTurn();
+        }
+    }
+
+    public void shuffleRack() {
+        domainCtrl.shuffleRack(matchId);
+        matchViewCtrl.cleanTilesplaced();
+        matchViewCtrl.cleanRack();
+        ArrayList<String> letters = domainCtrl.getRackLetters(matchId, turn);
+        matchViewCtrl.updateRack(letters);
+        
+    }
+
+    public void exchangeLetters(String letters){
+        domainCtrl.modifyRack(matchId, letters);
+        ArrayList<String> actletters = domainCtrl.getRackLetters(matchId, turn);
+        matchViewCtrl.updateRack(actletters);
+
+    }
+
+    public void startTurn(){
+
+        if(domainCtrl.isGameFinished(matchId)){
+            //si el juego ha terminado, muestro la vista de ranking
+            showView("EndGameView");
+            return;
+        }
+
+        if (domainCtrl.isHumanTurn(matchId, turn)) {
+            //Aqui no se hace nada, porque estoy esperando la accion del humano, que se registrará cuando le de a cierto boton
+        }
+        else{
+           /* ArrayList<String> playData = domainCtrl.AIplayTurn(matchId, turn);
+            matchViewCtrl.actBoardView(playData);
+            actTurn();
+            startTurn();*/
+
+
+        }
+
+    }
+
+  
+  
 
     /**
      * Comprueba si un perfil existe en el sistema.
@@ -197,8 +288,8 @@ public class PresentationCtrl {
             //si no es matchview, vuelvo a las medidas originales
             mainFrame.setSize(new Dimension(1060, 650));
        }
-       mainFrame.revalidate();
-       mainFrame.repaint();
+       refresh();
+       
    }
 
     /**
@@ -284,7 +375,7 @@ public class PresentationCtrl {
             
             case "MatchView":
                 visiblePanel = createdViews.get("MatchView");
-
+                break;
             case "ProfileView":
                 //esta vista es un poco diferente, porque la tengo que actualizar, cada vez que la muestro necesito actualizarla con los valores actuales
                 
@@ -297,6 +388,14 @@ public class PresentationCtrl {
                 return;
         }
    }
+
+   public void showErrorDialog(String message) {
+        JOptionPane.showMessageDialog(mainFrame, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showSuccessDialog(String message) {
+        JOptionPane.showMessageDialog(mainFrame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
 
 }
 

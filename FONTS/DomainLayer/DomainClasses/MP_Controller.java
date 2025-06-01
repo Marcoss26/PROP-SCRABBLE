@@ -1,5 +1,8 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
+
+import Utils.Pair;
+
 import java.io.*;
 import Utils.Pair;
 
@@ -98,8 +101,8 @@ public class MP_Controller
             letters.add(new Letter("A",1));
             letters.add(new Letter("M",2));
             letters.add(new Letter("T",1));
-            if(j == 0)  letters.add(new Letter("I",1));
-            else    letters.add(new Letter("E",2));
+            //if(j == 0)  letters.add(new Letter("I",1));
+            letters.add(new Letter("E",2));
             letters.add(new Letter("R",1));
             letters.add(new Letter("#",0));*/
             String human_id = profile.getUsername(); //Get the ID of the profile
@@ -200,6 +203,7 @@ public class MP_Controller
         {
             throw new IllegalArgumentException("Match with ID: " + id + " does not exist.");
         }
+        
     }
 
     public void modifyRack(String id, String old_letters)
@@ -300,5 +304,31 @@ public class MP_Controller
         } else {
             throw new IllegalArgumentException("Match with ID: " + matchid + " does not exist.");
         }
+    }
+
+    public boolean isGameFinished(String id){
+        if(!existMatch(id)) return true;
+        return false;
+    }
+
+    public boolean isHumanTurn(String matchId, int turn){
+        return matches.get(matchId).isHumanTurn(turn);
+    }
+
+    public int getPlayerScore(String matchId, int turn) throws IllegalArgumentException {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            return match.getPlayerScore(turn);
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
+        }
+    }
+
+    public int getBagTiles(String matchId)  {
+        
+            Match match = matches.get(matchId);
+            return match.getBagTiles();
+        
+        
     }
 }

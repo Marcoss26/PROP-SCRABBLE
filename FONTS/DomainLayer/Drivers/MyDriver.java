@@ -15,7 +15,7 @@ public class MyDriver
         int totalLettersInTheBag = 0;
         boolean validFile = false;
         while(!validFile) {
-            String file = "letrasENG.txt";
+            String file = "letrasCAT.txt";
             File filePath = new File("data/Letters/" + file);
     
             if (!filePath.exists()) {

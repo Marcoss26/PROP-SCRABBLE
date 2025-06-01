@@ -2,6 +2,7 @@ package PresentationLayer;
 //import javax.swing.*;
 //import java.awt.*;
 import java.util.*;
+import Utils.Pair;
 
 /**
  * MatchViewCtrl es el controlador de la vista del juego Scrabble.
@@ -12,6 +13,7 @@ import java.util.*;
 public class MatchViewCtrl {
     private static MatchViewCtrl instance;
     private MatchView matchView;
+    private PresentationCtrl pc;
 
     /**
      * Constructor privado para implementar el patrón Singleton.
@@ -42,6 +44,8 @@ public class MatchViewCtrl {
      * @return La instancia creada de MatchView.
      */
     public MatchView createMatchView(Integer boardSize, Integer totalPlayers, ArrayList<String> players, ArrayList<String> letters) {
+         pc = PresentationCtrl.getInstance();
+
         matchView = new MatchView(boardSize, totalPlayers, players, letters);
         return matchView;
     }
@@ -53,5 +57,43 @@ public class MatchViewCtrl {
     public MatchView getMatchView() {
         return matchView;
     }
-    
+
+    public void skipTurn(){
+        pc.skipTurn();
+    }
+
+    public void submitTurn(ArrayList<Pair<Integer, Integer>> coord_ini, ArrayList<Pair<Integer, Integer>> coord_end, ArrayList<String> word, Set<Pair<Integer, Integer>> jokers) {
+        pc.submitTurn(coord_ini, coord_end, word, jokers);
+    }
+
+    public void actPlayerScore(int turn, int score){
+        matchView.actPlayerScore(turn, score);
+    }
+    public void cleanTilesplaced() {
+        matchView.cleanTilesPlaced();
+    }
+
+    public void cleanRack() {
+        matchView.cleanRack();
+    }
+
+    public void updateRack(ArrayList<String> letters) {
+        matchView.updateRack(letters);
+    }
+
+    public void shuffleRack() {
+        pc.shuffleRack();
+    }
+
+    public void lockTilesPlaced() {
+        matchView.lockTilesPlaced();
+    }
+
+    public void exchangeLetters(String letters) {
+        pc.exchangeLetters(letters);
+    }
+
+    public void setBagTiles(Integer numTiles) {
+        matchView.setBagTiles(numTiles);
+    }
 }

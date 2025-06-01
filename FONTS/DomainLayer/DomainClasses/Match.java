@@ -2,6 +2,7 @@ package DomainLayer.DomainClasses;
 import java.util.*;
 import Utils.Pair;
 import DomainLayer.DomainClasses.Dawg.Node;
+import Utils.Pair;
 
 
 public class Match
@@ -306,6 +307,8 @@ public class Match
         return players.get(id);
     }
 
+    //funciones capa de presentacion
+
     public ArrayList<String> getPlayersname(){
         ArrayList<String> names = new ArrayList<>();
        
@@ -314,6 +317,12 @@ public class Match
             names.add(player.getName());
         }
         return names;
+    }
+
+    public boolean isHumanTurn(int turn){
+       
+        Player player = playerList.get(turn);
+        return player.isHuman();
     }
 
     public void displayPlayers()
@@ -416,10 +425,7 @@ public class Match
         player.displayPlayer();
         player.modifyRack(old_letters);
         player.printRack();
-        System.out.println("Racked replaced, enter to continue...");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
-        System.out.println("Continuing...");
+        
         setTurn(turn+1);
     }
 

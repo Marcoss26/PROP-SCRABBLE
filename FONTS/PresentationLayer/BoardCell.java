@@ -48,6 +48,11 @@ public class BoardCell extends JPanel {
         this.add(this.label, BorderLayout.CENTER);
     }
 
+    public void setCol(String colour) {
+        this.backColour = colour;
+        this.setBackground(Color.decode(colour));
+    }
+
     /**
      * Establece las coordenadas de la casilla.
      * @param row La fila de la casilla.
@@ -72,6 +77,14 @@ public class BoardCell extends JPanel {
      */
     public int getColumn() {
         return column;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
     }
 
     /**

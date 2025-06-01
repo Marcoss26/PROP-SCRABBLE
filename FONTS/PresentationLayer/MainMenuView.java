@@ -29,6 +29,8 @@ public class MainMenuView extends JPanel {
     private JButton exitBtn;
     private JPanel menuPanel;
     private JPanel optionsPanel;
+    private PresentationCtrl pc;
+
 
     /**
      * Constructor de la clase MainMenuView.
@@ -110,7 +112,7 @@ public class MainMenuView extends JPanel {
         add(menuPanel, gbc);
 
         // Listeners de los botones
-        PresentationCtrl pc = PresentationCtrl.getInstance();
+        pc = PresentationCtrl.getInstance();
         manageProfilesBtn.addActionListener(e -> pc.showLoginView("authentication") /*pc.showView("LoginView")*/);
         newGameBtn.addActionListener(e -> pc.showView("NewGame"));
         continueGameBtn.addActionListener(e -> pc.showView("LoadGame"));
