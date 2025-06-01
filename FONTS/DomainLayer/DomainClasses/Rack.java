@@ -28,9 +28,9 @@ public class Rack {
      * @param bag La bolsa de letras de la que se extraen las letras para el rack
      */
 
-    public Rack(Bag bag) {
+    public Rack(Bag bag, boolean fill) {
         this.bag = bag;
-        this.letters = bag.extractSetOfLetters(NUM_LETTERS);
+        if (fill) this.letters = bag.extractSetOfLetters(NUM_LETTERS);
     }
 
     /**

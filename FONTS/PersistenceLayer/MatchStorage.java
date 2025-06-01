@@ -150,7 +150,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
 
                 // Load rack
                 JSONArray rackArray = (JSONArray) playerObject.get("rack");
-                Rack rack = new Rack(bag);
+                Rack rack = new Rack(bag, false);
                 for (Object rackObj : rackArray) {
                     JSONObject tileObject = (JSONObject) rackObj;
                     String symbol = (String) tileObject.get("symbol");
