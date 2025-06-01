@@ -76,8 +76,14 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                     boxObject.put("y", box.getColumn());
                     boxObject.put("symbol", box.getSymbol());
                     boxObject.put("value", box.getValue());
-                    boxObject.put("crosscheck_v", box.getCrossCheck(0));
-                    boxObject.put("crosscheck_h", box.getCrossCheck(1));
+                    
+                    JSONArray crosscheckVArray = new JSONArray();
+                    crosscheckVArray.addAll(box.getCrossCheck(0));
+                    boxObject.put("crosscheck_v", crosscheckVArray);
+
+                    JSONArray crosscheckHArray = new JSONArray();
+                    crosscheckHArray.addAll(box.getCrossCheck(1));
+                    boxObject.put("crosscheck_h", crosscheckHArray);
                     boardArray.add(boxObject);
                     }
                 }
@@ -93,22 +99,21 @@ public class MatchStorage implements Storage<Map<String, Match>> {
     
     public Map<String, Match> load() {
         Map<String, Match> matches = new HashMap<>();
-        JSONArray matchesArray = (JSONArray) JsonUtils.load( "/matches.json");
+        JSONArray matchesArray = (JSONArray) JsonUtils.load("/matches.json");
 
         for (Object obj : matchesArray) {
             JSONObject matchObject = (JSONObject) obj;
 
             String id = (String) matchObject.get("id");
             String dictionary = (String) matchObject.get("dictionary");
-            int size = (int) matchObject.get("size");
-            int currentTurn = (int) matchObject.get("current_turn");
-            int score = (int) (long) matchObject.get("score");
-            int skipCount = (int) (long) matchObject.get("skipCount");
+            int size = ((Long) matchObject.get("size")).intValue();
+            int currentTurn = ((Long) matchObject.get("current_turn")).intValue();
+            int score = ((Long) matchObject.get("score")).intValue();
+            int skipCount = ((Long) matchObject.get("skipCount")).intValue();
             Match match = new Match(id, size, dictionary);
 
             match.setScore(score);
             match.setSkipCount(skipCount);
-
 
             // Load bag
             Map<Letter, Integer> bagMap = new HashMap<>();
@@ -117,10 +122,10 @@ public class MatchStorage implements Storage<Map<String, Match>> {
             for (Object bagObj : bagArray) {
                 JSONObject tileObject = (JSONObject) bagObj;
                 String symbol = (String) tileObject.get("symbol");
-                long value = (long) tileObject.get("value");
-                long count = (long) tileObject.get("count");
-                Letter letter = new Letter(symbol, (int) value);
-                bagMap.put(letter, (int) count);
+                int value = ((Long) tileObject.get("value")).intValue();
+                int count = ((Long) tileObject.get("count")).intValue();
+                Letter letter = new Letter(symbol, value);
+                bagMap.put(letter, count);
                 totalLetters += count;
             }
             Bag bag = new Bag(bagMap, totalLetters);
@@ -131,7 +136,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                 JSONObject playerObject = (JSONObject) playerObj;
                 String playerId = (String) playerObject.get("id");
                 String name = (String) playerObject.get("name");
-                long playerScore = (long) playerObject.get("score");
+                int playerScore = ((Long) playerObject.get("score")).intValue();
                 String type = (String) playerObject.get("type");
 
                 Player player;
@@ -141,7 +146,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                 } else {
                     player = new IA(playerId, name);
                 }
-                player.setScore((int) playerScore);
+                player.setScore(playerScore);
 
                 // Load rack
                 JSONArray rackArray = (JSONArray) playerObject.get("rack");
@@ -149,8 +154,8 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                 for (Object rackObj : rackArray) {
                     JSONObject tileObject = (JSONObject) rackObj;
                     String symbol = (String) tileObject.get("symbol");
-                    long value = (long) tileObject.get("value");
-                    rack.addLetter(new Letter(symbol, (int) value));
+                    int value = ((Long) tileObject.get("value")).intValue();
+                    rack.addLetter(new Letter(symbol, value));
                 }
 
                 player.setRack(rack);
@@ -158,19 +163,18 @@ public class MatchStorage implements Storage<Map<String, Match>> {
             }
             match.setTurn(currentTurn);
 
-
             // Load board
             Board board = new Board(size);
             JSONArray boardArray = (JSONArray) matchObject.get("board");
             for (Object boardObj : boardArray) {
                 JSONObject boxObject = (JSONObject) boardObj;
-                int x = (int) (long) boxObject.get("x");
-                int y = (int) (long) boxObject.get("y");
+                int x = ((Long) boxObject.get("x")).intValue();
+                int y = ((Long) boxObject.get("y")).intValue();
                 String symbol = (String) boxObject.get("symbol");
-                long value = (long) boxObject.get("value");
+                int value = ((Long) boxObject.get("value")).intValue();
 
                 if (symbol != null && !symbol.isEmpty()) {
-                    board.placeLetter(x, y, symbol, (int) value);
+                    board.placeLetter(x, y, symbol, value);
                 }
             }
 
