@@ -130,6 +130,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
             }
             Bag bag = new Bag(bagMap, totalLetters);
 
+            match.setBag(bag);
             // Load players
             JSONArray playersArray = (JSONArray) matchObject.get("players");
             for (Object playerObj : playersArray) {
