@@ -3,6 +3,7 @@ SRC_DIR = FONTS
 BIN_DIR = EXE
 DOMAIN_CLASSES = $(SRC_DIR)/DomainLayer/DomainClasses
 PERSISTENCE_CLASSES = $(SRC_DIR)/PersistenceLayer
+PRESENTATION_CLASSES = $(SRC_DIR)/PresentationLayer
 DRIVERS = $(SRC_DIR)/DomainLayer/Drivers
 LIB_DIR = $(SRC_DIR)/lib
 DRIVERS_DIR = DomainLayer/Drivers
@@ -15,7 +16,8 @@ JFLAGS = -d $(BIN_DIR)
 # Source files
 MAIN_CLASSES_SRC =	$(DOMAIN_CLASSES)/*.java \
 					$(PRESENTATION_CLASSES)/*.java \
-					$(UTILS)/*.java \
+					$(PERSISTENCE_CLASSES)/*.java \
+					$(UTILS)/*.java
 
 DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/Letter.java \
@@ -117,9 +119,6 @@ MY_DRIVER_SRC = $(DRIVERS)/MyDriver.java
 # Compilar todos los drivers
 all: BagDriver RackDriver DictionaryControllerDriver ProfileControllerDriver BoardBoxDriver RankingDriver PlayerDriver
 
-Main: $(MAIN_CLASSES_SRC) $(MAIN)
-	$(JAVAC) -cp ${LIBRARIES} $(JFLAGS) $(MAIN_CLASSES_SRC) $(MAIN)
-
 MainDriver: $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java
 	$(JAVAC) -cp ${LIBRARIES} $(JFLAGS) $(DOMAIN_CLASSES_SRC) $(DOMAIN_CLASSES)/Driver.java 
 
@@ -150,6 +149,9 @@ DawgDriver: $(DAWG_DRIVER_CLASSES_SRC) $(DAWG_DRIVER_SRC)
 
 MyDriver: $(MY_DRIVER_CLASSES_SRC) $(MY_DRIVER_SRC)
 	$(JAVAC) -cp ${LIBRARIES} $(JFLAGS) $(MY_DRIVER_CLASSES_SRC) $(MY_DRIVER_SRC)
+
+Main: $(MAIN_CLASSES_SRC)
+	$(JAVAC) -cp ${LIBRARIES} $(JFLAGS) $(MAIN_CLASSES_SRC)
 
 # Compilar solo las clases de DomainClasses
 DomainClasses: $(BIN_DIR) $(DOMAIN_CLASSES_SRC)
@@ -202,16 +204,14 @@ run-DawgDriver: DawgDriver
 run-MyDriver: MyDriver
 	java -cp "$(BIN_DIR);${LIBRARIES}" $(DRIVERS_DIR)/MyDriver
 
-
-	
+run-Presentation: 
+	java -cp "$(BIN_DIR);${LIBRARIES}" Main
 	
 	
 
 run-gui: MainMenuView
 	java -cp $(BIN_DIR) PresentationLayer.MainMenuView
 
-run-MainProgram: MainProgram
-	java -cp EXE Main
 
 # Borrar los archivos compilados
 
@@ -221,4 +221,5 @@ run-MainProgram: MainProgram
 clean:
 	rm -rf $(BIN_DIR)/*.class
 
-	
+
+
