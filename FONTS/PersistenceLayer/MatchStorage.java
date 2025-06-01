@@ -72,8 +72,8 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                 for (int j = 0; j < board.getSize(); j++) {
                     Box box = board.getBox(i, j);
                     JSONObject boxObject = new JSONObject();
-                    boxObject.put("x", box.getRow());
-                    boxObject.put("y", box.getColumn());
+                    boxObject.put("x", box.getColumn());
+                    boxObject.put("y",  box.getRow());
                     boxObject.put("symbol", box.getSymbol());
                     boxObject.put("value", box.getValue());
                     
@@ -172,6 +172,21 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                 int y = ((Long) boxObject.get("y")).intValue();
                 String symbol = (String) boxObject.get("symbol");
                 int value = ((Long) boxObject.get("value")).intValue();
+
+
+                Box box = board.getBox(y, x);
+                JSONArray crosscheckVArray = (JSONArray) boxObject.get("crosscheck_v");
+                JSONArray crosscheckHArray = (JSONArray) boxObject.get("crosscheck_h");
+                Set<String> crosscheckV = new HashSet<>();
+                for (Object vObj : crosscheckVArray) {
+                    crosscheckV.add((String) vObj);
+                }
+                Set<String> crosscheckH = new HashSet<>();
+                for (Object hObj : crosscheckHArray) {
+                    crosscheckH.add((String) hObj);
+                }
+                box.setCrossCheck(crosscheckH, crosscheckV);
+
 
                 if (symbol != null && !symbol.isEmpty()) {
                     board.placeLetter(x, y, symbol, value);
