@@ -179,7 +179,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                     board.placeLetter(x, y, symbol, value);
                 }
             }
-
+            match.setBoard(board);
             matches.put(id, match);
         }
 
