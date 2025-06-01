@@ -171,9 +171,9 @@ public class PresentationCtrl {
 
     public void exchangeLetters(String letters){
         domainCtrl.modifyRack(matchId, letters);
-        ArrayList<String> actletters = domainCtrl.getRackLetters(matchId, turn);
-        matchViewCtrl.updateRack(actletters);
-
+        
+        passTurn();
+        startTurn();
     }
 
     public void startTurn(){

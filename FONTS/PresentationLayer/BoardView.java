@@ -9,31 +9,13 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.*;
 
-/**
- * BoardView representa la vista del tablero de juego.
- * Contiene las casillas del tablero y gestiona la interacción con ellas.
- * @author Marcos Arroyo
- */
 public class BoardView extends JPanel {
-
-    /**
-     * Atributos de la clase BoardView.
-     * @param frame La ventana principal que contiene el tablero.
-     * @param boardpanel El panel que representa el tablero.
-     * @param centericon El icono que se muestra en el centro del tablero.
-     */
     private JFrame frame;
     private ImageIcon centericon;
     private Set<Pair<Integer, Integer>> tilesPlaced; // column = first(), row = second()
     private Set<Pair<Integer, Integer>> jokerPos; // column = first(), row = second()
     private int size;
 
-    /**
-     * Constructor de la clase BoardView.
-     * Inicializa el tablero con un tamaño específico y un panel de rack.
-     * @param size El tamaño del tablero (número de filas y columnas).
-     * @param rackPanel El panel de rack donde se muestran las fichas del jugador.
-     */
     public BoardView(int size, RackView rackPanel) {
         // Crear una ventana
 
@@ -48,13 +30,6 @@ public class BoardView extends JPanel {
 
     }
 
-    /**
-     * Inicializa el tablero con las casillas y sus configuraciones.
-     * Dependiendo del tamaño del tablero, se establecen diferentes casillas especiales
-     * (letras dobles, triples, palabras dobles y triples).
-     * @param size El tamaño del tablero (número de filas y columnas).
-     * @param rackPanel El panel de rack donde se muestran las fichas del jugador.
-     */
     private void initializeBoard(int size, RackView rackPanel) {
         this.setLayout(new GridLayout(size, size));
         this.setBackground(Color.white);
@@ -345,10 +320,13 @@ public class BoardView extends JPanel {
                 word2 += cell.getTilePlaced().getSymbol();
             }
 
-            res.add(word2); //Primera palabra formada con la primera ficha colocada
-            coords_ini.add(firstPos); // Añadimos la primera posición de las fichas colocadas a las coordenadas iniciales
-            coords_end.add(firstPos); // Añadimos la primera posición de las fichas colocadas a las coordenadas finales
-
+            if(word2.length() > 1) { // Si la palabra formada es mayor que 1, entonces se añade a la lista de palabras formadas
+                res.add(word2); // Segunda palabra formada con la primera ficha colocada
+            }
+            else {
+                coords_ini.remove(1); // Si la palabra formada es menor o igual a 1, entonces no se añade a la lista de palabras formadas
+                coords_end.remove(1);
+            }
 
             // IZQUIERDA
             while((coords_ini.get(1).first() - 1 >= 0) && !nextCellisEmpty(coords_ini.get(1).second(), coords_ini.get(1).first() - 1)) {

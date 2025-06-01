@@ -1,7 +1,7 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
 
-import PersistenceLayer.PersistenceController;
+//import PersistenceLayer.PersistenceController;
 
 import java.io.*;
 import Utils.Pair;
@@ -23,7 +23,7 @@ public class DomainController {
     private MP_Controller matchController;
     private Ranking ranking;
     private DictionaryController dictionaryController;
-    private PersistenceController persistenceController;
+    //private PersistenceController persistenceController;
     private static DomainController c;
 
     private DomainController() {
@@ -31,7 +31,7 @@ public class DomainController {
         this.matchController = MP_Controller.getInstance();
         this.ranking = Ranking.getInstance();
         this.dictionaryController = DictionaryController.getInstance();
-        this.persistenceController = PersistenceController.getInstance();
+        //this.persistenceController = PersistenceController.getInstance();
     }
 
     /**
@@ -48,11 +48,11 @@ public class DomainController {
     ------------------------------------------------------------------------*/
     public void addProfile(String username, String password) {
         this.profileController.addProfile(username, password);
-        persistenceController.saveProfiles(this.profileController.getProfiles());
+        //persistenceController.saveProfiles(this.profileController.getProfiles());
     }
     public void removeProfile(String username) {
         this.profileController.removeProfile(username);
-        persistenceController.saveProfiles(this.profileController.getProfiles());
+        //persistenceController.saveProfiles(this.profileController.getProfiles());
     }
     public Profile getProfile(String username) {
         return this.profileController.getProfile(username);
@@ -65,15 +65,16 @@ public class DomainController {
     }
     public void updateProfile(String username, String oldPwd, String newPwd, boolean isPublic) {
         this.profileController.updateProfile(username, oldPwd, newPwd, isPublic);
-        persistenceController.saveProfiles(this.profileController.getProfiles());
+        //persistenceController.saveProfiles(this.profileController.getProfiles());
     }
+    /*
     public void loadProfiles() {
         Map<String, Profile> profiles = persistenceController.loadProfiles();
         for (Map.Entry<String, Profile> entry : profiles.entrySet()) {
             this.profileController.addProfile(entry.getValue());
         }
     }
-
+*/
     /* ---------------------------------------------------------------------
                             MATCH FUNCTIONALITY
     ------------------------------------------------------------------------*/
@@ -182,9 +183,9 @@ public class DomainController {
         this.matchController.modifyRack(matchId, letters);
     }
 
-    public void saveMatches() {
+    /*public void saveMatches() {
         this.persistenceController.saveMatches(this.matchController.getUnfinishedMatches());
-    }
+    }*/
 
     public void printMatch(String matchId) {
         this.matchController.print(matchId);
@@ -212,11 +213,12 @@ public class DomainController {
     public Map<String, Dictionary> getDictionaries() {
         return this.dictionaryController.getDictionaries();
     }
-
+/*
     public void loadMatches() {
         Map<String, Match> matches = persistenceController.loadMatches();
         matchController.loadMatchesFromJSON(matches);
     }
+        */
     /* 
      * ---------------------------------------------------------------------
                             RANKING FUNCTIONALITY

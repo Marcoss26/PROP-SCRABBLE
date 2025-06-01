@@ -105,6 +105,8 @@ public class MatchView extends JPanel {
         coords_end = new ArrayList<>();
         coords_ini.add(new Pair<>(0,0));
         coords_ini.add(new Pair<>(0,0));
+        coords_end.add(new Pair<>(0,0));
+        coords_end.add(new Pair<>(0,0));
         ArrayList<String> words = boardPanel.computeWord(coords_ini, coords_end);
         Set<Pair<Integer, Integer>> jokers = boardPanel.getJokersPos();
         matchViewCtrl.submitTurn(coords_ini, coords_end, words, jokers);
