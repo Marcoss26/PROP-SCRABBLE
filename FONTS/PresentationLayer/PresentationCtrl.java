@@ -243,7 +243,7 @@ public class PresentationCtrl {
      * @return true si las credenciales son correctas, false en caso contrario.
      */
     public boolean checkPassword(String username, String password) {
-        return domainCtrl.checkPassword(username, password);
+        return domainCtrl.authenticateProfile(username, password);
     }
 
     /**
