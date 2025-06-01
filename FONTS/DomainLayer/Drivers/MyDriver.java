@@ -2,6 +2,7 @@ package DomainLayer.Drivers;
 import DomainLayer.DomainClasses.*;
 import java.io.*;
 import java.util.*;
+import Utils.Pair;
 
 public class MyDriver 
 {
@@ -15,7 +16,7 @@ public class MyDriver
         int totalLettersInTheBag = 0;
         boolean validFile = false;
         while(!validFile) {
-            String file = "letrasCAT.txt";
+            String file = "letrasENG.txt";
             File filePath = new File("data/Letters/" + file);
     
             if (!filePath.exists()) {
@@ -59,7 +60,8 @@ public class MyDriver
             System.out.println("Choose what to do:");
             System.out.println("1. Create new match");
             System.out.println("2. Load existing matches");
-            System.out.println("3. Exit");
+            System.out.println("3. Save matches");
+            System.out.println("4. Play a match");
             int option = MyDriver.scanner.nextInt();
             MyDriver.scanner.nextLine(); // Consume the newline character left by nextInt()
             switch(option)
@@ -82,26 +84,27 @@ public class MyDriver
                     matchController.createDictionaryForMatch(match, dictionaryController.getDictionary(match.getDictionaryName()));
                     match.displayMatch();        
                 }
-                System.out.println("Enter the match ID to load:");
-                String matchIdToLoad = MyDriver.scanner.nextLine();
-                matchController.print(matchIdToLoad);
                 break;
 
                 case 3:
-                System.out.println("Save matches");
+                System.out.println("Matches saved");
                 domainController.saveMatches();
-            }
-        // Menú de prueba
+                //System.exit(0);
+                break;
+        // MenÃº de prueba
                 case 4:
-                while (true) {
+                boolean playing = true;
+                System.out.println("Enter the match ID to play:");
+                String matchId = MyDriver.scanner.nextLine();
+                while (playing) {
                     matchController.print(matchId);
                     System.out.println("Choose what you want to do: ");
                     System.out.println("1. Place a word");
                     System.out.println("2. Replace letters in the rack");
-                    System.out.println("3. Check crosschecks");
-                    int option = MyDriver.scanner.nextInt();
+                    System.out.println("3. Exit");
+                    int option2 = MyDriver.scanner.nextInt();
                     MyDriver.scanner.nextLine(); // Consume the newline character left by nextInt()
-                    switch (option) {
+                    switch (option2) {
                         case 1:
                             System.out.println("Enter a word: ");
                             String word = MyDriver.scanner.nextLine();
@@ -111,7 +114,7 @@ public class MyDriver
                             System.out.println("Enter the end position (x,y): ");
                             int posEndX = MyDriver.scanner.nextInt();
                             int posEndY = MyDriver.scanner.nextInt();
-                            matchController.humanTurn(matchId,word,posStartX,posStartY,posEndX,posEndY);
+                            matchController.humanTurn(matchId,word,posStartX,posStartY,posEndX,posEndY,new HashSet<Pair<Integer, Integer>>());
                             System.out.println("Enter to continue:");
                             String input = MyDriver.scanner.nextLine();
                             if (input.equals("\n")) {
@@ -125,13 +128,11 @@ public class MyDriver
                             matchController.modifyRack(matchId, lettersToReplace);
                             break;
                         case 3:
-                            System.out.println("Check the crosschecks for a square:");
-                            System.out.println("Enter the coordinates (x,y): ");
-                            int x = MyDriver.scanner.nextInt();
-                            int y = MyDriver.scanner.nextInt();
-                            matchController.printCrossChecks(x, y, matchId);
+                            playing = false;
                             break;
                     }
                 }
+            }
+        }
     }
 }
