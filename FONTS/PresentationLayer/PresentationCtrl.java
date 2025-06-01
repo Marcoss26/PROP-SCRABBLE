@@ -70,6 +70,9 @@ public class PresentationCtrl {
      */
     public void initializeCD(){
         domainCtrl = DomainController.getInstance();
+        domainCtrl.createDictionary("es", "es", "es");
+        domainCtrl.createDictionary("en", "en", "en");
+        domainCtrl.createDictionary("ca", "ca", "ca");
     }
    
     /**

@@ -1,7 +1,7 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
 
-//import PersistenceLayer.PersistenceController;
+import PersistenceLayer.PersistenceController;
 
 import java.io.*;
 import Utils.Pair;
@@ -23,7 +23,7 @@ public class DomainController {
     private MP_Controller matchController;
     private Ranking ranking;
     private DictionaryController dictionaryController;
-    //private PersistenceController persistenceController;
+    private PersistenceController persistenceController;
     private static DomainController c;
 
     private DomainController() {
@@ -67,14 +67,14 @@ public class DomainController {
         this.profileController.updateProfile(username, oldPwd, newPwd, isPublic);
         //persistenceController.saveProfiles(this.profileController.getProfiles());
     }
-    /*
+   /* 
     public void loadProfiles() {
         Map<String, Profile> profiles = persistenceController.loadProfiles();
         for (Map.Entry<String, Profile> entry : profiles.entrySet()) {
             this.profileController.addProfile(entry.getValue());
         }
-    }
-*/
+    }*/
+
     /* ---------------------------------------------------------------------
                             MATCH FUNCTIONALITY
     ------------------------------------------------------------------------*/
@@ -91,7 +91,7 @@ public class DomainController {
     public String newMatch(int totalPlayers, Set<Pair<String,String>> profilesIds, String dictionaryName, int boardSize) throws IOException {
         
         //Para inicializar una partida necesito: el numero de jugadores, los perfiles creados de estos, el diccionario creado, el tamaño del tablero, la bolsa en un mapa y su tamaño.
-        createDictionary(dictionaryName, dictionaryName, dictionaryName);
+        //createDictionary(dictionaryName, dictionaryName, dictionaryName);
         Dictionary dictionary = dictionaryController.getDictionary(dictionaryName);
         Set<Profile> profiles = new HashSet<>();
         for(Pair<String,String> profileId : profilesIds){
@@ -183,7 +183,7 @@ public class DomainController {
         this.matchController.modifyRack(matchId, letters);
     }
 
-    /*public void saveMatches() {
+   /* public void saveMatches() {
         this.persistenceController.saveMatches(this.matchController.getUnfinishedMatches());
     }*/
 
@@ -213,12 +213,12 @@ public class DomainController {
     public Map<String, Dictionary> getDictionaries() {
         return this.dictionaryController.getDictionaries();
     }
-/*
-    public void loadMatches() {
+
+   /* public void loadMatches() {
         Map<String, Match> matches = persistenceController.loadMatches();
         matchController.loadMatchesFromJSON(matches);
-    }
-        */
+    }*/
+        
     /* 
      * ---------------------------------------------------------------------
                             RANKING FUNCTIONALITY

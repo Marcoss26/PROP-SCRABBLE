@@ -167,10 +167,11 @@ public class BoardView extends JPanel {
                         if(cell.isEmpty() ){
                             TileView sTile = rackPanel.getSelectedTile();
                             if(sTile != null){
-                                if(sTile.getSymbol() == "#"){
-                                    
+                                System.out.println("simbolo de la ficha puesta es:" + sTile.getSymbol());
+                                if(sTile.getSymbol().equals("#")){
+                                    System.out.println("soy un comodin");
                                     String inp = JOptionPane.showInputDialog(null, "Joker selection", "Type letter that you want: ", JOptionPane.PLAIN_MESSAGE );
-                                    if(inp == null || inp.length() > 1) {
+                                    if(inp == null || inp.length() > 1 || inp.isEmpty()) {
                                         sTile = null;
                                         return;
                                     }
