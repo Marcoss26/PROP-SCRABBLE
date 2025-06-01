@@ -31,7 +31,7 @@ public class DomainController {
         this.matchController = MP_Controller.getInstance();
         this.ranking = Ranking.getInstance();
         this.dictionaryController = DictionaryController.getInstance();
-        //this.persistenceController = PersistenceController.getInstance();
+        this.persistenceController = PersistenceController.getInstance();
     }
 
     /**
@@ -48,11 +48,11 @@ public class DomainController {
     ------------------------------------------------------------------------*/
     public void addProfile(String username, String password) {
         this.profileController.addProfile(username, password);
-        //persistenceController.saveProfiles(this.profileController.getProfiles());
+        persistenceController.saveProfiles(this.profileController.getProfiles());
     }
     public void removeProfile(String username) {
         this.profileController.removeProfile(username);
-        //persistenceController.saveProfiles(this.profileController.getProfiles());
+        persistenceController.saveProfiles(this.profileController.getProfiles());
     }
     public Profile getProfile(String username) {
         return this.profileController.getProfile(username);
@@ -65,15 +65,15 @@ public class DomainController {
     }
     public void updateProfile(String username, String oldPwd, String newPwd, boolean isPublic) {
         this.profileController.updateProfile(username, oldPwd, newPwd, isPublic);
-        //persistenceController.saveProfiles(this.profileController.getProfiles());
+        persistenceController.saveProfiles(this.profileController.getProfiles());
     }
-   /* 
+   
     public void loadProfiles() {
         Map<String, Profile> profiles = persistenceController.loadProfiles();
         for (Map.Entry<String, Profile> entry : profiles.entrySet()) {
             this.profileController.addProfile(entry.getValue());
         }
-    }*/
+    }
 
     /* ---------------------------------------------------------------------
                             MATCH FUNCTIONALITY
