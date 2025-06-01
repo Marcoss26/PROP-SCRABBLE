@@ -189,7 +189,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
 
 
                 if (symbol != null && !symbol.isEmpty()) {
-                    board.placeLetter(x, y, symbol, value);
+                    board.placeLetter(y, x, symbol, value);
                 }
             }
             match.setBoard(board);
