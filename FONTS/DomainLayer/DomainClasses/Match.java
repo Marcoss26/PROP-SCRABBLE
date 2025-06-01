@@ -2,7 +2,6 @@ package DomainLayer.DomainClasses;
 import java.util.*;
 import Utils.Pair;
 import DomainLayer.DomainClasses.Dawg.Node;
-import Utils.Pair;
 
 
 public class Match
@@ -783,4 +782,13 @@ public class Match
             return new Pair<>(new ArrayList<>(), new Integer[]{});
         }
     }
+
+     public int getPlayerScore(int turn){
+        return playerList.get(turn).getScore();
+    }
+
+    public Integer getBagTiles() {
+        return bag.getNumLetters();
+    }
+
 }

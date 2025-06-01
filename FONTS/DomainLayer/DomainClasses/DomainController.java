@@ -258,6 +258,13 @@ public class DomainController {
         return this.profileController.profileExists(username);
       }
 
+
+      public boolean checkPassword(String username, String password) {
+        
+        return this.profileController.getProfile(username) != null;
+      }
+
+
       public ArrayList<String> getProfileStats(String username, String password) {
         Profile profile = this.profileController.getProfile(username);
         if (profile != null) {
