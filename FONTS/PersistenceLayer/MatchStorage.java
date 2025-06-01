@@ -23,6 +23,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
             matchObject.put("id", matchValue.getId());
             matchObject.put("dictionary", matchValue.getDictionaryName());
             matchObject.put("size", matchValue.getSize());
+            matchObject.put("boardSize", matchValue.getBoard().getSize());
             matchObject.put("current_turn", matchValue.getTurn());
             matchObject.put("score", matchValue.getScore());
             matchObject.put("skipCount", matchValue.getSkipCount());
@@ -107,6 +108,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
             String id = (String) matchObject.get("id");
             String dictionary = (String) matchObject.get("dictionary");
             int size = ((Long) matchObject.get("size")).intValue();
+            int boardSize = ((Long) matchObject.get("boardSize")).intValue();
             int currentTurn = ((Long) matchObject.get("current_turn")).intValue();
             int score = ((Long) matchObject.get("score")).intValue();
             int skipCount = ((Long) matchObject.get("skipCount")).intValue();
@@ -164,7 +166,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
             match.setTurn(currentTurn);
 
             // Load board
-            Board board = new Board(size);
+            Board board = new Board(boardSize);
             JSONArray boardArray = (JSONArray) matchObject.get("board");
             for (Object boardObj : boardArray) {
                 JSONObject boxObject = (JSONObject) boardObj;
