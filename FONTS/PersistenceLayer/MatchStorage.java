@@ -142,7 +142,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
                 Player player;
                 if (type.equals("Human")) {
                     Profile profile = profileController.getProfile(name);
-                    player = new Human(playerId, profile, dictionary);
+                    player = new Human(playerId, profile);
                 } else {
                     player = new IA(playerId, name);
                 }
