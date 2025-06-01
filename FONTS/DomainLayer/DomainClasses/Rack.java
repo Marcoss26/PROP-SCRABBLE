@@ -53,11 +53,30 @@ public class Rack {
      * @param letter
      */
 
-    public void addLetter(Letter letter) {
+     public void addLetter(Letter letter) {
         if (letters.size() >= NUM_LETTERS) {
             throw new IllegalStateException("Rack is full");
         }
         letters.add(letter);
+    }
+
+        /**
+     * Añade multiples letra al rack
+     * Pre: el rack no debe estar llena
+     * Post: Las letras se añaden al rack
+     * @param letters
+     */
+
+     public void addLetters(List<Letter> letters) {
+        if (letters.size() >= NUM_LETTERS) {
+            throw new IllegalStateException("Rack is full");
+        }
+        if (this.letters.size() + letters.size() > NUM_LETTERS) {
+            throw new IllegalStateException("Adding these letters would exceed the rack's capacity");
+        }
+        for (Letter letter : letters) {
+            this.letters.add(letter);
+        }
     }
 
     /**
