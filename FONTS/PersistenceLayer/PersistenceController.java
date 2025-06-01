@@ -63,10 +63,10 @@ class JsonUtils {
     // Load a JSONArray from a file
     public static Object load(String filePath) {
         JSONParser parser = new JSONParser();
-        try (FileReader reader = new FileReader(filePath)) {
+        try (FileReader reader = new FileReader(DATA_PATH + filePath)) {
             return (Object) parser.parse(reader);
         } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + filePath);
+            System.out.println("File not found: " + DATA_PATH + filePath);
         } catch (IOException | ParseException e) {
             System.err.println("Error loading JSON from file: " + e.getMessage());
         }
