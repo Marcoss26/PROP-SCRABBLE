@@ -46,14 +46,9 @@ public class TileView extends JPanel {
         return symbol;
     }
 
-    /**
-     * Metodo principal para probar la clase TileView.
-     * Crea un JFrame y agrega una instancia de TileView con un símbolo y valor específicos.
-     * Este método se utiliza para verificar que la ficha se muestre correctamente en una ventana.
-     * @param args
-     */
+  
 
-     
+
     public int getValue() {
         return value;
     }
