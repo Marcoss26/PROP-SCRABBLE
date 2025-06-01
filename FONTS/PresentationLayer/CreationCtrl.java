@@ -279,7 +279,11 @@ public class CreationCtrl {
             }
             else{
                 //si el jugador ya existe en el sistema, lo añado a la lista de jugadores
-                playersId.add(new Pair<>(playerId, password));
+                if(!playersId.contains(new Pair<>(playerId, password))) playersId.add(new Pair<>(playerId, password));
+                else{
+                    loginView.showError("Player already logged in.");
+                    return;
+                }
                 loginIndex++;
                 showNextLoginView();
             }

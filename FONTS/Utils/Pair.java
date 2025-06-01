@@ -33,7 +33,7 @@ public class Pair<F,S> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pair<?,?> pair = (Pair<?,?>) o;
-        return First == pair.First && Second == pair.Second;
+        return Objects.equals(First, pair.First) && Objects.equals(Second, pair.Second);
     }
 
     @Override
