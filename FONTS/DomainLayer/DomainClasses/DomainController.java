@@ -299,5 +299,13 @@ public class DomainController {
         return this.matchController.getBagTiles(matchId);
       }
 
+      public void setTurn(String matchId) {
+        this.matchController.setTurn(matchId);
+      }
+
+      public String endMatch(String matchId) {
+        return this.matchController.setFinished(matchId);
+      }
+
       
 }

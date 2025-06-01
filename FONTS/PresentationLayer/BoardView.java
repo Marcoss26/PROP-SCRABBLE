@@ -397,4 +397,24 @@ public class BoardView extends JPanel {
         return jokerPos;
     }
 
+    public void returnTilesToRack(RackView rackPanel) {
+    for (Pair<Integer, Integer> pos : new ArrayList<>(tilesPlaced)) {
+        BoardCell cell = getBoardCell(pos.second(), pos.first());
+        TileView tile = cell.getTilePlaced();
+        if (tile != null) {
+            cell.removeTile();
+            // Si es comodín, restáurale el símbolo
+            if (tile.getValue() == 0) {
+                tile.updateLabel("#", 0);
+                jokerPos.remove(new Pair<>(cell.getColumn(), cell.getRow()));
+            }
+            rackPanel.addTile(tile);
+            rackPanel.setSelectedTile(tile);
+            rackPanel.addListener(tile);
+        }
+    }
+    tilesPlaced.clear();
+    jokerPos.clear();
+}
+
 }

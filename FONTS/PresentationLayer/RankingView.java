@@ -103,7 +103,7 @@ public class RankingView extends JPanel {
 
         // Acción para el botón RETURN
         returnButton.addActionListener(e -> {
-            PresentationCtrl.getInstance().showView("MainMenuView");
+            //PresentationCtrl.getInstance().showView("MainMenuView");
         });
 
         add(bottomPanel, BorderLayout.SOUTH);
@@ -118,7 +118,7 @@ public class RankingView extends JPanel {
      * @param ppg Puntos por juego del jugador.
      * @param preferredDictionary Diccionario preferido del jugador.
      */
-    public void addUserToRanking(String profileID, int wins, String winRate, int totalGames, double ppg, String preferredDictionary) {
+    public void addUserToRanking(String profileID, String wins, String winRate, String totalGames, String ppg, String preferredDictionary) {
         int rank = tableModel.getRowCount() + 1; // El rango es el número de filas + 1
         tableModel.addRow(new Object[]{rank, profileID, wins, winRate, totalGames, ppg, preferredDictionary});
     }
@@ -158,8 +158,8 @@ public class RankingView extends JPanel {
         frame.setVisible(true);
 
         // Caso base: agregar usuarios de ejemplo
-        rankingView.addUserToRanking("Player1", 20, "55%", 52, 69.9, "English");
-        rankingView.addUserToRanking("Player2", 18, "50%", 48, 65.3, "Spanish");
-        rankingView.addUserToRanking("Player3", 15, "45%", 40, 60.1, "Catalan");
+        rankingView.addUserToRanking("Player1", "20", "55%", "52", "69.9", "English");
+        rankingView.addUserToRanking("Player2", "18", "50%", "48", "65.3", "Spanish");
+        rankingView.addUserToRanking("Player3", "10", "Private", "Private", "Private", "Private");
     }
 }

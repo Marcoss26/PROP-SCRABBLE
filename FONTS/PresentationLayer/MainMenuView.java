@@ -24,7 +24,7 @@ public class MainMenuView extends JPanel {
     private JButton newGameBtn;
     private JButton continueGameBtn;
     private JButton manageProfilesBtn;
-    private JButton manageDictionariesBtn;
+    //private JButton manageDictionariesBtn;
     private JButton rankingBtn;
     private JButton exitBtn;
     private JPanel menuPanel;
@@ -71,13 +71,13 @@ public class MainMenuView extends JPanel {
         newGameBtn = new JButton("New game");
         continueGameBtn = new JButton("Continue game");
         manageProfilesBtn = new JButton("Manage profiles");
-        manageDictionariesBtn = new JButton("Manage dictionaries");
+        //manageDictionariesBtn = new JButton("Manage dictionaries");
         rankingBtn = new JButton("Ranking");
         exitBtn = new JButton("Exit");
 
         Color salmon = Color.decode("#F7BBA9");
 
-        JButton[] buttons = {newGameBtn, continueGameBtn, manageProfilesBtn, manageDictionariesBtn, rankingBtn, exitBtn};
+        JButton[] buttons = {newGameBtn, continueGameBtn, manageProfilesBtn, rankingBtn, exitBtn};
         for (JButton btn : buttons) {
             btn.setFont(new Font("Dubai Medium", Font.PLAIN, 22));
             btn.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -116,7 +116,7 @@ public class MainMenuView extends JPanel {
         manageProfilesBtn.addActionListener(e -> pc.showLoginView("authentication") /*pc.showView("LoginView")*/);
         newGameBtn.addActionListener(e -> pc.showView("NewGame"));
         continueGameBtn.addActionListener(e -> pc.showView("LoadGame"));
-        manageDictionariesBtn.addActionListener(e -> pc.showView("ManageDictionaryView"));
+        //manageDictionariesBtn.addActionListener(e -> pc.showView("ManageDictionaryView"));
         rankingBtn.addActionListener(e -> pc.showView("RankingView"));
         exitBtn.addActionListener(e -> System.exit(0));
     }
@@ -174,7 +174,7 @@ public class MainMenuView extends JPanel {
      * Obtiene el botón para gestionar diccionarios.
      * @return El botón para gestionar diccionarios.
      */
-    public JButton getManageDictionariesBtn() { return manageDictionariesBtn; }
+    //public JButton getManageDictionariesBtn() { return manageDictionariesBtn; }
 
     /**
      * Obtiene el botón para ver el ranking de jugadores.

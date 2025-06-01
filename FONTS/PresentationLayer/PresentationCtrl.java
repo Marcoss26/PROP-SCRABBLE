@@ -6,8 +6,9 @@ import DomainLayer.DomainClasses.DomainController;
 import Utils.Pair;
 
 import java.awt.*;
+//import java.awt.List;
 import java.util.*;
-import java.util.ArrayList;
+
 
 /**
  * PresentationCtrl es el controlador principal de la capa de presentación.
@@ -41,6 +42,7 @@ public class PresentationCtrl {
     private MatchViewCtrl matchViewCtrl;
     private int turn;
     private String matchId;
+    private int skipCount;
 
     
 
@@ -110,6 +112,7 @@ public class PresentationCtrl {
         matchViewCtrl = MatchViewCtrl.getInstance();
         JPanel pan = matchViewCtrl.createMatchView(boardSize, totalPlayers, players, letters);
         createdViews.put("MatchView", pan );
+        skipCount = 0; //reinicio el contador de skips
 
 
     }
@@ -132,14 +135,32 @@ public class PresentationCtrl {
     }
 
     public void skipTurn() {
-        
+
+        skipCount++;
+        if(skipCount >= cc.getTotalPlayers()*2){
+            //si se han saltado todos los turnos, el juego termina
+            showSuccessDialog("All players have skipped their turns. The game is over.");
+            String winner = domainCtrl.endMatch(matchId);
+            showEndView("EndGame", winner);
+            return;
+        }
         passTurn();
+        domainCtrl.setTurn(matchId);
         startTurn();
     }
 
     public void submitTurn(ArrayList<Pair<Integer, Integer>> coord_ini, ArrayList<Pair<Integer, Integer>> coord_end, ArrayList<String> word, Set<Pair<Integer, Integer>> jokers) {
         
+        int nBagTiles = domainCtrl.getBagTiles(matchId);
+        int nRackTiles = domainCtrl.getRackLetters(matchId, turn).size();
+        if(nBagTiles <= 0 && nRackTiles <= 0){
+            showSuccessDialog("The game is over, no more tiles left in the bag and rack of a player.");
+            String winner = domainCtrl.endMatch(matchId);
+            showEndView("EndGame", winner);
+            return;
+        }
         boolean valid = false;
+        skipCount = 0; //reinicio el contador de skips al hacer un movimiento
         if(word.size() == 1) valid = domainCtrl.playsMatch(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), jokers);
         else{
              Pair<Boolean, String> VandW = domainCtrl.playsMatch2(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), word.get(1), coord_ini.get(1).first(), coord_ini.get(1).second(), coord_end.get(1).first(), coord_end.get(1).second(), jokers);
@@ -173,6 +194,7 @@ public class PresentationCtrl {
     }
 
     public void exchangeLetters(String letters){
+        skipCount = 0; //reinicio el contador de skips al hacer un intercambio
         domainCtrl.modifyRack(matchId, letters);
         
         passTurn();
@@ -279,7 +301,7 @@ public class PresentationCtrl {
     public void showView(String viewName) {
        changeView(viewName);
        mainFrame.add(visiblePanel);
-       if(viewName.equals("MatchView") && mainFrame.getWidth() <= 1060 ){
+       if((viewName.equals("MatchView") || viewName.equals("EndGame")) && mainFrame.getWidth() <= 1060 ){
             //cojo las medidad maximas de la pantalla
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             //y las pongo como tamaño del frame
@@ -294,6 +316,26 @@ public class PresentationCtrl {
        refresh();
        
    }
+
+   public void showEndView(String viewName, String winner) {
+        //este metodo es para mostrar la vista de final de partida, que es un poco especial
+        //porque tiene que coger los datos del dominio y mostrarlos en la vista
+        
+            ArrayList<String> players = domainCtrl.getMatchplayers(matchId); //nombre de los jugadores de la 
+            ArrayList<Pair<String, Integer>> scoresList = new ArrayList<>();
+
+            for(int i = 0; i <= turn; ++i){
+                
+                scoresList.add(new Pair<>(players.get(i), domainCtrl.getPlayerScore(matchId, i)));
+                
+            }
+            
+            JPanel endGamePanel = cc.createEndGameView(winner, scoresList);//new EndGame(winner, scoresList);
+            createdViews.put("EndGame", endGamePanel);
+            
+        
+        showView("EndGame");
+    }
 
     /**
      * Muestra la vista del menú principal.
@@ -383,6 +425,11 @@ public class PresentationCtrl {
                 //esta vista es un poco diferente, porque la tengo que actualizar, cada vez que la muestro necesito actualizarla con los valores actuales
                 
                     visiblePanel = createdViews.get("ProfileView");
+                
+                break;
+            case "EndGame":
+               
+                    visiblePanel = createdViews.get("EndGame");
                 
                 break;
 

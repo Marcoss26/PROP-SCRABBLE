@@ -330,4 +330,22 @@ public class MP_Controller
         
         
     }
+
+    public void setTurn(String matchId) throws IllegalArgumentException {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            match.setTurn(match.getTurn() + 1);
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
+        }
+    }
+
+    public String setFinished(String matchId) throws IllegalArgumentException {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            return match.setFinished();
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
+        }
+    }
 }

@@ -69,19 +69,19 @@ public class RackView extends JPanel {
         
 
         JButton shuffleButton = new JButton("Shuffle");
-        shuffleButton.setPreferredSize(new Dimension(80, 25));
+        shuffleButton.setPreferredSize(new Dimension(105, 25));
         shuffleButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
 
         JButton exchangeButton = new JButton("Exchange");
-        exchangeButton.setPreferredSize(new Dimension(95, 25));
+        exchangeButton.setPreferredSize(new Dimension(105, 25));
         exchangeButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
 
         JButton submitButton = new JButton("Submit");
-        submitButton.setPreferredSize(new Dimension(80, 25));
+        submitButton.setPreferredSize(new Dimension(105, 25));
         submitButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
 
         JButton skipButton = new JButton("Skip");
-        skipButton.setPreferredSize(new Dimension(80, 25));
+        skipButton.setPreferredSize(new Dimension(105, 25));
         skipButton.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
 
         skipButton.addActionListener(new ActionListener() {

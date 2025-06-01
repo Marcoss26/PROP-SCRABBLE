@@ -96,6 +96,7 @@ public class MatchView extends JPanel {
     }
 
     public void skipTurn() {
+        boardPanel.returnTilesToRack(rackPanel);
         matchViewCtrl.skipTurn();
     }
 

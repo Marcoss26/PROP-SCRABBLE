@@ -32,6 +32,7 @@ public class CreationCtrl {
     private NewGame newGameView;
     private LoginView loginView;
     private ProfileView profileView;
+    private EndGame endGameView;
     private PresentationCtrl pc;
     private Integer humanPlayers;
     private Integer loginIndex;
@@ -44,7 +45,7 @@ public class CreationCtrl {
      * Inicializa los atributos necesarios.
      */
     private CreationCtrl(){
-
+        pc = PresentationCtrl.getInstance();
     }
 
     /**
@@ -68,7 +69,7 @@ public class CreationCtrl {
      * @return La vista de nueva partida creada.
      */
     public NewGame createNewGameView(){
-        pc = PresentationCtrl.getInstance();
+        //pc = PresentationCtrl.getInstance();
 
         newGameView = new NewGame();
         return newGameView;
@@ -81,7 +82,7 @@ public class CreationCtrl {
      * @return La vista de inicio de sesión creada.
      */
     public LoginView createLoginView(){
-        pc = PresentationCtrl.getInstance();
+        //pc = PresentationCtrl.getInstance();
         loginView = new LoginView();
         return loginView;
     }
@@ -97,9 +98,15 @@ public class CreationCtrl {
      * @return La vista de perfil creada.
      */
     public ProfileView createProfileView(String username, int totalGamesPlayed, int totalGamesWon, float winRate){
-        pc = PresentationCtrl.getInstance();
+        //pc = PresentationCtrl.getInstance();
         profileView = new ProfileView(username, totalGamesPlayed, totalGamesWon, winRate);
         return profileView;
+    }
+
+    public EndGame createEndGameView(String winner, List<Pair<String, Integer>> scores){
+        //pc = PresentationCtrl.getInstance();
+        endGameView = new EndGame(winner, scores);
+        return endGameView;
     }
 
     /**
