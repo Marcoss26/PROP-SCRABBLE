@@ -70,7 +70,7 @@ public class Profile {
      */
     public boolean authenticate(String password) {
         String hashedInput = PasswordUtils.hashPassword(password);
-        return hashedInput.equals(hashedInput);
+        return hashedInput.equals(this.password);
     }
 
     /**
