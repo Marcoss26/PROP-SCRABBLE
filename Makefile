@@ -17,7 +17,8 @@ JFLAGS = -d $(BIN_DIR)
 MAIN_CLASSES_SRC =	$(DOMAIN_CLASSES)/*.java \
 					$(PRESENTATION_CLASSES)/*.java \
 					$(PERSISTENCE_CLASSES)/*.java \
-					$(UTILS)/*.java
+					$(UTILS)/*.java \
+					$(SRC_DIR)/Main.java
 
 DOMAIN_CLASSES_SRC = $(DOMAIN_CLASSES)/Bag.java \
 					$(DOMAIN_CLASSES)/Letter.java \
@@ -204,7 +205,7 @@ run-DawgDriver: DawgDriver
 run-MyDriver: MyDriver
 	java -cp "$(BIN_DIR);${LIBRARIES}" $(DRIVERS_DIR)/MyDriver
 
-run-Presentation: 
+run-Presentation: Main
 	java -cp "$(BIN_DIR);${LIBRARIES}" Main
 	
 	
