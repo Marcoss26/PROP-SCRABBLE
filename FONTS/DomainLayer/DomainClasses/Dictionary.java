@@ -86,17 +86,6 @@ public class Dictionary
     }
 
     /**
-     * Elimina una palabra del diccionario.
-     * pre: word es la palabra a eliminar del diccionario
-     * post: elimina la palabra del diccionario
-     * @param word La palabra que se desea eliminar del diccionario.
-     */
-    public void removeWord(String word)
-    {
-        dawg.removeWord(word);
-    }
-
-    /**
      * Comprueba si una palabra existe en el diccionario.
      * pre: word es la palabra a comprobar
      * post: devuelve true si la palabra existe en el diccionario, false en caso contrario
@@ -106,17 +95,5 @@ public class Dictionary
     public boolean existsWord(String word)
     {
         return dawg.existsWord(word);
-    }
-
-    /**
-     * Comprueba si un prefijo existe en el diccionario.
-     * pre: prefix es el prefijo a comprobar
-     * post: devuelve true si el prefijo existe en el diccionario, false en caso contrario
-     * @param prefix El prefijo que se desea comprobar.
-     * @return true si el prefijo existe en el diccionario, false en caso contrario.
-     */
-    public boolean isPrefix(String prefix)
-    {
-        return dawg.isPrefix(prefix);
     }
 }
