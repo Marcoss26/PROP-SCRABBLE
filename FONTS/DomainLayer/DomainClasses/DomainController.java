@@ -31,7 +31,7 @@ public class DomainController {
         this.matchController = MP_Controller.getInstance();
         this.ranking = Ranking.getInstance();
         this.dictionaryController = DictionaryController.getInstance();
-        this.persistenceController = PersistenceController.getInstance();
+        //this.persistenceController = PersistenceController.getInstance();
     }
 
     /**
@@ -48,11 +48,11 @@ public class DomainController {
     ------------------------------------------------------------------------*/
     public void addProfile(String username, String password) {
         this.profileController.addProfile(username, password);
-        persistenceController.saveProfiles(this.profileController.getProfiles());
+        //persistenceController.saveProfiles(this.profileController.getProfiles());
     }
     public void removeProfile(String username) {
         this.profileController.removeProfile(username);
-        persistenceController.saveProfiles(this.profileController.getProfiles());
+        //persistenceController.saveProfiles(this.profileController.getProfiles());
     }
     public Profile getProfile(String username) {
         return this.profileController.getProfile(username);
@@ -65,14 +65,15 @@ public class DomainController {
     }
     public void updateProfile(String username, String oldPwd, String newPwd, boolean isPublic) {
         this.profileController.updateProfile(username, oldPwd, newPwd, isPublic);
-        persistenceController.saveProfiles(this.profileController.getProfiles());
+        //persistenceController.saveProfiles(this.profileController.getProfiles());
     }
+   /* 
     public void loadProfiles() {
         Map<String, Profile> profiles = persistenceController.loadProfiles();
         for (Map.Entry<String, Profile> entry : profiles.entrySet()) {
             this.profileController.addProfile(entry.getValue());
         }
-    }
+    }*/
 
     /* ---------------------------------------------------------------------
                             MATCH FUNCTIONALITY
@@ -90,7 +91,7 @@ public class DomainController {
     public String newMatch(int totalPlayers, Set<Pair<String,String>> profilesIds, String dictionaryName, int boardSize) throws IOException {
         
         //Para inicializar una partida necesito: el numero de jugadores, los perfiles creados de estos, el diccionario creado, el tamaño del tablero, la bolsa en un mapa y su tamaño.
-        createDictionary(dictionaryName, dictionaryName, dictionaryName);
+        //createDictionary(dictionaryName, dictionaryName, dictionaryName);
         Dictionary dictionary = dictionaryController.getDictionary(dictionaryName);
         Set<Profile> profiles = new HashSet<>();
         for(Pair<String,String> profileId : profilesIds){
@@ -182,9 +183,9 @@ public class DomainController {
         this.matchController.modifyRack(matchId, letters);
     }
 
-    public void saveMatches() {
+   /* public void saveMatches() {
         this.persistenceController.saveMatches(this.matchController.getUnfinishedMatches());
-    }
+    }*/
 
     public void printMatch(String matchId) {
         this.matchController.print(matchId);
@@ -213,10 +214,11 @@ public class DomainController {
         return this.dictionaryController.getDictionaries();
     }
 
-    public void loadMatches() {
+   /* public void loadMatches() {
         Map<String, Match> matches = persistenceController.loadMatches();
         matchController.loadMatchesFromJSON(matches);
-    }
+    }*/
+        
     /* 
      * ---------------------------------------------------------------------
                             RANKING FUNCTIONALITY
@@ -228,6 +230,10 @@ public class DomainController {
 
      public void displayRanking() {
         this.ranking.displayRanking();
+     }
+
+     public ArrayList<ArrayList<String>> getRankingInfo() {
+        return this.ranking.getRankingInfo();
      }
 
 
@@ -295,6 +301,14 @@ public class DomainController {
 
       public Integer getBagTiles(String matchId) {
         return this.matchController.getBagTiles(matchId);
+      }
+
+      public void setTurn(String matchId) {
+        this.matchController.setTurn(matchId);
+      }
+
+      public String endMatch(String matchId) {
+        return this.matchController.setFinished(matchId);
       }
 
       

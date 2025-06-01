@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.List;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import Utils.Pair;
 
 /**
  * EndGame representa la pantalla final del juego, mostrando al ganador y una tabla de puntuaciones.
@@ -29,7 +30,7 @@ public class EndGame extends JPanel {
      * @param winnerName Nombre del jugador ganador.
      * @param scores Lista de puntuaciones de los jugadores, donde cada entrada es un array con el nombre del jugador y su puntuación.
      */
-    public EndGame(String winnerName, List<String[]> scores) {
+    public EndGame(String winnerName, List<Pair<String, Integer>> scores) {
         setLayout(new BorderLayout(10, 10));
         Color fondoColor = Color.decode("#F5F6FA");
         Color botonColor = Color.decode("#F7BBA9");
@@ -61,7 +62,11 @@ public class EndGame extends JPanel {
 
         // Tabla de puntuaciones
         String[] columnNames = {"Player", "Score"};
-        String[][] data = scores.toArray(new String[0][]);
+        String[][] data = new String[scores.size()][2];
+        for (int i = 0; i < scores.size(); i++) {
+        data[i][0] = scores.get(i).first(); // nombre del jugador
+        data[i][1] = String.valueOf(scores.get(i).second()); // puntuación como string
+        }
         scoresTable = new JTable(data, columnNames);
         scoresTable.setFont(new Font("Dubai Medium", Font.PLAIN, 20));
         scoresTable.setRowHeight(32);
@@ -118,29 +123,5 @@ public class EndGame extends JPanel {
      */
     public JTable getScoresTable() { return scoresTable; }
 
-    /**
-     * Método main para probar la clase EndGame de forma independiente.
-     * Crea un JFrame y añade una instancia de EndGame con datos de ejemplo.
-     * @param args Argumentos de línea de comandos (no se utilizan).
-     */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("End Game");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(700, 500);
-            frame.setResizable(false);
-
-            // Ejemplo de datos
-            List<String[]> scores = List.of(
-                new String[]{"Player 1", "120"},
-                new String[]{"Player 2", "95"},
-                new String[]{"Player 3", "80"}
-            );
-
-            EndGame endGamePanel = new EndGame("Player 1", scores);
-            frame.add(endGamePanel);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
-    }
+  
 }

@@ -382,7 +382,7 @@ public class Match
         return this.score;
     }
 
-    public void setFinished() 
+    public String setFinished() 
     {
         int maxScore = -1;
         boolean tie = false;
@@ -414,7 +414,9 @@ public class Match
                 Human human = (Human) winner;
                 human.getProfile().incrementWins(); //Increment the number of wins in the profile
             }
+            return winner.getName();
         }
+        return "";
     }
 
 
