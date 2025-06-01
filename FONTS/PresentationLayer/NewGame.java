@@ -46,6 +46,11 @@ public class NewGame extends JPanel {
         
         cc = CreationCtrl.getInstance();
         pc = PresentationCtrl.getInstance();
+        //inicializar variables
+        numHumPlayers = 1; // Valor por defecto
+        numAIPlayers = 0; // Valor por defecto
+        boardSize = 7; // Valor por defecto
+        dictionary = "English"; // Valor por defecto (inglés)
         // Configurar el panel principal
         setLayout(new BorderLayout(10, 10));
         Color fondoColor = new Color(245, 246, 250);
