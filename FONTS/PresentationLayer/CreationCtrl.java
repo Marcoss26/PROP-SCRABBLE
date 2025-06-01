@@ -197,6 +197,7 @@ public class CreationCtrl {
      */
     public void loginSeq(Integer numPlayers){
         humanPlayers = numPlayers;
+        System.out.println("Number of human players: " + humanPlayers);
         loginIndex = 0;
         playersId = new HashSet<>();
         pc.showLoginView("ADD_PLAYER");
@@ -279,7 +280,11 @@ public class CreationCtrl {
             }
             else{
                 //si el jugador ya existe en el sistema, lo añado a la lista de jugadores
-                playersId.add(new Pair<>(playerId, password));
+                if(!playersId.contains(new Pair<>(playerId, password))) playersId.add(new Pair<>(playerId, password));
+                else{
+                    loginView.showError("Player already logged in.");
+                    return;
+                }
                 loginIndex++;
                 showNextLoginView();
             }
