@@ -7,7 +7,7 @@ public class Human extends Player
         super();
     }
 
-    public Human(String id,Profile profile, String language)
+    public Human(String id,Profile profile)
     {
         super(id); //Call the constructor of the Player class
         this.profile = profile; //Set the profile of the player

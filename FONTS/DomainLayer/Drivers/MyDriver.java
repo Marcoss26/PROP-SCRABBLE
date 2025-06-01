@@ -48,8 +48,11 @@ public class MyDriver
         dictionaryController.addDictionary("es", "es");
         dictionaryController.addDictionary("ca", "ca");
         Set<Profile> profiles = new HashSet<>();
-        Profile profile = new Profile("ziheng","1");
-        Profile profile2 = new Profile("ziheng2","1");
+        //domainController.addProfile("ziheng","1");
+        //domainController.addProfile("kai","1");
+        domainController.loadProfiles();
+        Profile profile = domainController.getProfile("ziheng");
+        Profile profile2 = domainController.getProfile("kai");
         profiles.add(profile);
         profiles.add(profile2);
         /*String matchId = matchController.createMatch(2, profiles, dictionary, 7, letters, totalLettersInTheBag);

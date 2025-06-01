@@ -105,15 +105,15 @@ public class MP_Controller
             letters.add(new Letter("R",1));
             letters.add(new Letter("#",0));*/
             String human_id = profile.getUsername(); //Get the ID of the profile
-            Player player = new Human(human_id+match_id,profile,language);    //Creating a new human player with this profile
-            player.setRack(new Rack(match.getBag())); //Creating a new rack for the player
+            Player player = new Human(human_id+match_id,profile);    //Creating a new human player with this profile
+            player.setRack(new Rack(match.getBag(), true)); //Creating a new rack for the player
             match.setPlayer(player);  //Adding the human player to the match
         }
         for (int i = 0; i < match_size - profile_size; i++)
         {
             String bot_id = match_id+"BOT"+i; //Creating a bot ID
             Player player = new IA(bot_id, "IA" + i); //Creating a new AI player
-            player.setRack(new Rack(match.getBag())); //Creating a new rack for the AI player
+            player.setRack(new Rack(match.getBag(), true)); //Creating a new rack for the AI player
             match.setPlayer(player);    //Adding the AI player to the match
         }
     }
