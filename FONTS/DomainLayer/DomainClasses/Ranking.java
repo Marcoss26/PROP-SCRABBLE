@@ -115,6 +115,36 @@ public class Ranking {
 
     }
 
+    public ArrayList<ArrayList<String>> getRankingInfo() {
+        ArrayList<ArrayList<String>> rankInfo = new ArrayList<>();
+        for (Map.Entry<Integer, Set<String>> entry : ranking.entrySet()) {
+            int wins = entry.getKey();
+            Set<String> players = entry.getValue();
+            for (String player : players) {
+                Profile profile = profiles.get(player);
+                if (profile != null) {
+                    ArrayList<String> playerInfo = new ArrayList<>();
+                    playerInfo.add(player);
+                    playerInfo.add(String.valueOf(wins));
+                    if(profile.isPublic()){
+                    playerInfo.add(String.valueOf(computeWR(profile.getWins(), profile.getGamesPlayed())));
+                    playerInfo.add(String.valueOf(profile.getGamesPlayed()));
+                    playerInfo.add(String.valueOf(profile.getScore() / profile.getGamesPlayed()));
+                    playerInfo.add(computePD(profile.getDictionaryUsage()));
+                    }
+                    else {
+                        playerInfo.add("Private");
+                        playerInfo.add("Private");
+                        playerInfo.add("Private");
+                        playerInfo.add("Private");
+                    }
+                    rankInfo.add(playerInfo);
+                }
+            }
+        }
+        return rankInfo;
+    }
+
     /**
      * Muestra el ranking de los jugadores
      * Pre: existe un ranking

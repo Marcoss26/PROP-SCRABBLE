@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
+import java.util.ArrayList;
 
 /**
  * RankingView representa la vista del ranking de jugadores.
@@ -118,9 +119,15 @@ public class RankingView extends JPanel {
      * @param ppg Puntos por juego del jugador.
      * @param preferredDictionary Diccionario preferido del jugador.
      */
-    public void addUserToRanking(String profileID, String wins, String winRate, String totalGames, String ppg, String preferredDictionary) {
-        int rank = tableModel.getRowCount() + 1; // El rango es el número de filas + 1
+    public void addUserToRanking(Integer rank, String profileID, String wins, String winRate, String totalGames, String ppg, String preferredDictionary) {
+        //int rank = tableModel.getRowCount() + 1; // El rango es el número de filas + 1
+        
         tableModel.addRow(new Object[]{rank, profileID, wins, winRate, totalGames, ppg, preferredDictionary});
+
+    }
+
+    public void cleanRanking() {
+        tableModel.setRowCount(0); // Limpia la tabla eliminando todas las filas
     }
 
     /**
@@ -146,7 +153,7 @@ public class RankingView extends JPanel {
      * Crea una ventana y muestra el ranking con algunos usuarios de ejemplo.
      * @param args Argumentos de línea de comandos (no se utilizan).
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         JFrame frame = new JFrame("Ranking View");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200, 800);
@@ -161,5 +168,5 @@ public class RankingView extends JPanel {
         rankingView.addUserToRanking("Player1", "20", "55%", "52", "69.9", "English");
         rankingView.addUserToRanking("Player2", "18", "50%", "48", "65.3", "Spanish");
         rankingView.addUserToRanking("Player3", "10", "Private", "Private", "Private", "Private");
-    }
+    }*/
 }

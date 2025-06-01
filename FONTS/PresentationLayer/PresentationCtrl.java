@@ -40,6 +40,7 @@ public class PresentationCtrl {
     private CreationCtrl cc;
     private DomainController domainCtrl;
     private MatchViewCtrl matchViewCtrl;
+    private CtrlRankingView ctrlRankingView;
     private int turn;
     private String matchId;
     private int skipCount;
@@ -51,7 +52,7 @@ public class PresentationCtrl {
      * Evita la creación de instancias adicionales de PresentationCtrl.
      */
     private PresentationCtrl() {
-
+        ctrlRankingView = CtrlRankingView.getInstance();
     }
 
     /**
@@ -415,7 +416,9 @@ public class PresentationCtrl {
                     createdViews.put("RankingView", visiblePanel);
                 } else {
                     visiblePanel = createdViews.get("RankingView");
+                    ctrlRankingView.cleanRanking(); // Limpio el ranking antes de mostrarlo
                 }
+                ctrlRankingView.setRankingData(domainCtrl.getRankingInfo());
                 break;
             
             case "MatchView":

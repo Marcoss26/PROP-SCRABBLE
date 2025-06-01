@@ -232,6 +232,10 @@ public class DomainController {
         this.ranking.displayRanking();
      }
 
+     public ArrayList<ArrayList<String>> getRankingInfo() {
+        return this.ranking.getRankingInfo();
+     }
+
 
      /*
       * ---------------------------------------------------------------------
