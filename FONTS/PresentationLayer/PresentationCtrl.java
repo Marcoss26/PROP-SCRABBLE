@@ -412,7 +412,7 @@ public class PresentationCtrl {
 
             case "RankingView":
                 if (!createdViews.containsKey("RankingView")) {
-                    visiblePanel = new RankingView(); // Crear la vista si no existe
+                    visiblePanel = ctrlRankingView.createRankingView(); // Crear la vista si no existe
                     createdViews.put("RankingView", visiblePanel);
                 } else {
                     visiblePanel = createdViews.get("RankingView");

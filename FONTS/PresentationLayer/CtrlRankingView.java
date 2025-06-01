@@ -24,7 +24,6 @@ public class CtrlRankingView {
      * Evita la creación de instancias adicionales de CtrlRankingView.
      */
     private CtrlRankingView() {
-        pc = PresentationCtrl.getInstance();
     }
 
     /**
@@ -47,6 +46,7 @@ public class CtrlRankingView {
      * @return La instancia creada de RankingView.
      */
     public RankingView createRankingView() {
+        pc = PresentationCtrl.getInstance();
         rankingView = new RankingView();
         return rankingView;
     }
@@ -77,5 +77,9 @@ public class CtrlRankingView {
      */
     public RankingView getRankingView() {
         return rankingView;
+    }
+
+    public void showView(String viewName) {
+        pc.showView(viewName);
     }
 }
