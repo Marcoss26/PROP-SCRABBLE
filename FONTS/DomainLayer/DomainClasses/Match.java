@@ -477,7 +477,7 @@ public class Match
                     }
                     else
                     {
-                        int value = board.getBox(startX, startY + j).getValue();
+                        int value = board.getBox(startY + j, startX).getValue();
                         score += value; //If the box is not empty, we add the value of the letter in the box to the score
                         wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
                     }

@@ -237,7 +237,7 @@ public class Dawg
     private void addWords() throws IOException
     {   
         // Añadir palabras al DAWG
-        System.out.println("he llegado a addWords");
+        //System.out.println("he llegado a addWords");
         String filePath = "data/dictionaries/" + language + ".txt";
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String word;
@@ -251,7 +251,7 @@ public class Dawg
         }
         replace_or_register(root,oldword,0);
         reader.close();
-        System.out.println("words added to the DAWG");
+        //System.out.println("words added to the DAWG");
     }
 
     /**
