@@ -91,7 +91,7 @@ public class MyDriver
                 domainController.saveMatches();
                 //System.exit(0);
                 break;
-        // MenÃº de prueba
+        // Menú de prueba
                 case 4:
                 boolean playing = true;
                 System.out.println("Enter the match ID to play:");

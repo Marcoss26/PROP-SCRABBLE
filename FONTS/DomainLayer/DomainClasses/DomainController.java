@@ -182,10 +182,14 @@ public class DomainController {
     public void modifyRack(String matchId, String letters) {
         this.matchController.modifyRack(matchId, letters);
     }
-
-   /* public void saveMatches() {
+    
+    public void loadMatches() {
+        Map<String, Match> matches = persistenceController.loadMatches();
+        matchController.loadMatchesFromJSON(matches);
+    }
+    public void saveMatches() {
         this.persistenceController.saveMatches(this.matchController.getUnfinishedMatches());
-    }*/
+    }
 
     public void printMatch(String matchId) {
         this.matchController.print(matchId);
@@ -214,10 +218,6 @@ public class DomainController {
         return this.dictionaryController.getDictionaries();
     }
 
-   /* public void loadMatches() {
-        Map<String, Match> matches = persistenceController.loadMatches();
-        matchController.loadMatchesFromJSON(matches);
-    }*/
         
     /* 
      * ---------------------------------------------------------------------
