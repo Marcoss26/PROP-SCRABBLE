@@ -30,6 +30,7 @@ public class ProfileView extends JPanel {
     private JButton changePasswordBtn;
     private JButton returnBtn;
     private JCheckBox publicProfileSwitch; // Añade este atributo
+    private CreationCtrl cc;
 
     /**
      * Constructor de la clase ProfileView.
@@ -41,7 +42,7 @@ public class ProfileView extends JPanel {
      */
     public ProfileView(String profileName, int totalGamesPlayed, int totalGamesWon, double winRate) {
         setLayout(new BorderLayout());
-
+        cc = CreationCtrl.getInstance();
         // Panel de fondo personalizado
         JPanel backgroundPanel = new JPanel() {
             @Override
@@ -115,6 +116,11 @@ public class ProfileView extends JPanel {
         publicProfileSwitch.setFont(new Font("Dubai Medium", Font.PLAIN, 20));
         publicProfileSwitch.setSelected(true); // Por defecto público
         publicProfileSwitch.setOpaque(false);
+
+        publicProfileSwitch.addItemListener(e -> {
+            boolean isPublic = publicProfileSwitch.isSelected();
+            cc.setPrivacity(isPublic, profileName);
+        }); 
 
         JLabel privateLabel = new JLabel(" (uncheck for private)");
         privateLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
@@ -268,11 +274,12 @@ public class ProfileView extends JPanel {
      * @param totalGamesWon Total de juegos ganados.
      * @param winRate Tasa de victorias del perfil.
      */
-    public void setProfileFields(String profileName, int totalGamesPlayed, int totalGamesWon, double winRate) {
+    public void setProfileFields(String profileName, int totalGamesPlayed, int totalGamesWon, double winRate, boolean isPublic) {
         profileNameLabel.setText("Profile Name: " + profileName);
         totalGamesPlayedLabel.setText("Total Games Played: " + totalGamesPlayed);
         totalGamesWonLabel.setText("Total Games Won: " + totalGamesWon);
         winRateLabel.setText("Win Rate: " + winRate + "%");
+        publicProfileSwitch.setSelected(isPublic); // Actualiza el estado del switch
     } 
 
     /**

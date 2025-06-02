@@ -125,8 +125,8 @@ public class CreationCtrl {
      * @param totalGamesWon Total de partidas ganadas por el jugador.
      * @param winRate Tasa de victorias del jugador.
      */
-    public void setProfileFields(String username, int totalGamesPlayed, int totalGamesWon, float winRate){
-        profileView.setProfileFields(username, totalGamesPlayed, totalGamesWon, winRate);
+    public void setProfileFields(String username, int totalGamesPlayed, int totalGamesWon, float winRate, boolean isPublic) {
+        profileView.setProfileFields(username, totalGamesPlayed, totalGamesWon, winRate, isPublic);
         
     }
 
@@ -337,6 +337,10 @@ public class CreationCtrl {
 
     public void loadGame(String gameName) {
         pc.loadGame(gameName);
+    }
+
+    public void setPrivacity(boolean isPublic, String profName) {
+        pc.setPrivacity(isPublic, profName);
     }
 
     

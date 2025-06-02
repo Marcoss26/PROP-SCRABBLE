@@ -67,6 +67,7 @@ public class DomainController {
         this.profileController.updateProfile(username, oldPwd, newPwd, isPublic);
         persistenceController.saveProfiles(this.profileController.getProfiles());
     }
+
    
     public void loadProfiles() {
         Map<String, Profile> profiles = persistenceController.loadProfiles();
@@ -293,10 +294,12 @@ public class DomainController {
             int gp = profile.getGamesPlayed();
             int wins = profile.getWins();
             float winRate = gp > 0 ? (float) wins / gp * 100 : 0; 
+            String isPublic = profile.isPublic() ? "Yes" : "No";
             stats.add(username);
             stats.add(String.valueOf(gp));
             stats.add(String.valueOf(wins));
             stats.add(String.format("%.2f", winRate));
+            stats.add(isPublic);
             return stats;
         }
         return null;
