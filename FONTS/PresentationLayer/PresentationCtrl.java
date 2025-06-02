@@ -249,6 +249,9 @@ public class PresentationCtrl {
             showView("EndGameView");
             return;
         }
+        ArrayList<String> players = domainCtrl.getMatchplayers(matchId);
+
+        showSuccessDialog("Turn of " + players.get(turn) + " has started.");
 
         if (domainCtrl.isHumanTurn(matchId, turn)) {
             //Aqui no se hace nada, porque estoy esperando la accion del humano, que se registrará cuando le de a cierto boton
@@ -256,6 +259,7 @@ public class PresentationCtrl {
         else{
             //La IA juega su turno y devuelve la palabra que ha puesto en un array de string para identificar las fichas que ha usado
             //y un array de enteros que indica las coordenadas de inicio y fin de la palabra
+
             Pair<ArrayList<String>, Integer[]> playData = domainCtrl.AIplayTurn(matchId);
             if(playData.first().size() != 0){
                 
