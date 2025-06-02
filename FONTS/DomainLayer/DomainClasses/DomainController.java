@@ -315,5 +315,9 @@ public class DomainController {
         return this.matchController.aiTurn(matchId);
       }
 
+      public void addSkipCount(String matchId) {
+        this.matchController.addSkipCount(matchId);
+      }
+
       
 }

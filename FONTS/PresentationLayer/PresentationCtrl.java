@@ -147,6 +147,7 @@ public class PresentationCtrl {
         }
         passTurn();
         domainCtrl.setTurn(matchId);
+        domainCtrl.addSkipCount(matchId);
         startTurn();
     }
 
@@ -222,9 +223,36 @@ public class PresentationCtrl {
             //La IA juega su turno y devuelve la palabra que ha puesto en un array de string para identificar las fichas que ha usado
             //y un array de enteros que indica las coordenadas de inicio y fin de la palabra
             Pair<ArrayList<String>, Integer[]> playData = domainCtrl.AIplayTurn(matchId);
-            matchViewCtrl.actBoardView(playData.first(), playData.second());
-            passTurn();
-            startTurn();
+            if(playData.first().size() != 0){
+                
+                if(playData.first().get(0).equals("skip")){
+                    showSuccessDialog("The AI has skipped its turn.");
+                    skipCount++;
+                        if(skipCount >= cc.getTotalPlayers()*2){
+                            //si se han saltado todos los turnos, el juego termina
+                            showSuccessDialog("All players have skipped their turns. The game is over.");
+                            String winner = domainCtrl.endMatch(matchId);
+                            showEndView("EndGame", winner);
+                            return;
+                        }
+                        passTurn();
+                        startTurn();
+                }
+                else if(playData.first().get(0).equals("change")){
+                    showSuccessDialog("The AI has exchanged letters.");
+                    passTurn();
+                    startTurn();
+                }
+                else{
+                    showSuccessDialog("The AI has played ");
+                    matchViewCtrl.actBoardView(playData.first(), playData.second());
+                    int score = domainCtrl.getPlayerScore(matchId, turn);
+                    matchViewCtrl.actPlayerScore(turn, score);
+                    passTurn();
+                    startTurn();
+                }
+            }
+            
 
 
         }

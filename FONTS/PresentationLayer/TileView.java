@@ -46,7 +46,12 @@ public class TileView extends JPanel {
         return symbol;
     }
 
-  
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+        label.setText("<html><center>" + symbol + "<sup>" + value + "</sup></center></html>");
+        this.revalidate();
+        this.repaint();
+    }
 
 
     public int getValue() {

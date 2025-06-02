@@ -494,7 +494,7 @@ public class Match
                     if(board.isEmpty(startY,startX + j))
                     {
                         Letter letter;
-                        if(JokerPos.contains(new Pair<>(startY, startX + j))) //If the position is a joker, we need to set the symbol to the one we are placing
+                        if(JokerPos.contains(new Pair<>( startX + j ,startY))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
                             letter = player_rack.getLetter("#");
                             letter.setSymbol(symbol);
@@ -597,7 +597,7 @@ public class Match
                     if(board.isEmpty(startY1,startX1 + j1))
                     {
                         Letter letter;
-                        if(JokerPos.contains(new Pair<>(startY1, startX1 + j1))) //If the position is a joker, we need to set the symbol to the one we are placing
+                        if(JokerPos.contains(new Pair<>( startX1 + j1, startY1))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
                             letter = player_rack.getLetter("#");
                             letter.setSymbol(symbol);
@@ -670,7 +670,7 @@ public class Match
                     if(board.isEmpty(startY2,startX2 + j2))
                     {
                         Letter letter;
-                        if(JokerPos.contains(new Pair<>(startY2, startX2 + j2))) //If the position is a joker, we need to set the symbol to the one we are placing
+                        if(JokerPos.contains(new Pair<>( startX2 + j2, startY2))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
                             letter = player_rack.getLetter("#");
                             letter.setSymbol(symbol);
@@ -731,8 +731,10 @@ public class Match
             Rack player_rack = player.getRack();
             board.computeCrossChecks(dictionary.getCharacters(), dawg);
             List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, dictionary);
+            System.out.println("AI is calculating playable words." + PlayAbleWords.size());
             ArrayList<String> words = new ArrayList<>();
-            if(PlayAbleWords.size() % 2 != 0)
+            int random1 = (int) (Math.random() * 10);
+            if(random1 < 5 && PlayAbleWords.size() > 0) // 50% chance to play a word
             {
                 System.out.println("AI is placing a word on the board.");
                 int score = 0;
@@ -819,15 +821,17 @@ public class Match
             else
             {
                 int random = (int) (Math.random() * 7);
-                if(random >= bag.getNumLetters())
+                System.out.println(random + "BagTiles: " + bag.getNumLetters());
+                if(random < 3 && random <= bag.getNumLetters())
                 {
                     String oldLetters = "";
-                    for(int i = 0; i < random - 1; ++i)
+                    for(int i = 0; i < random ; ++i)
                     {
                         String letter = player_rack.getLetterSymbol(i);
                         oldLetters += letter + "_";
                     }
-                    oldLetters += player_rack.getLetterSymbol(random - 1);
+                    
+                    oldLetters += player_rack.getLetterSymbol(random );
                     player.modifyRack(oldLetters);
                     setTurn(turn + 1);
                     ArrayList<String> decision = new ArrayList<>();

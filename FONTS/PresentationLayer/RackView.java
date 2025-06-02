@@ -283,6 +283,7 @@ public class RackView extends JPanel {
     }   
 
     public TileView removeTile(String symbol){
+        TileView tileCand = null;
         for (Component comp : rackPanel.getComponents()) {
             if (comp instanceof TileView) {
                 TileView tile = (TileView) comp;
@@ -292,8 +293,12 @@ public class RackView extends JPanel {
                     
                     return tile; // Sale después de eliminar la primera coincidencia
                 }
+                if(tile.getSymbol().equals("#")){
+                    tileCand = tile; // Guarda el comodín si lo encuentra
+                    tileCand.setSymbol(symbol); // Actualiza el símbolo del comodín
+                }
             }
         }  
-        return null;     
+        return tileCand; // Si no se encuentra la ficha con el símbolo especificado
     }
 }

@@ -443,22 +443,27 @@ public class BoardView extends JPanel {
         
         
         for(int i = 0; i < word.size(); ++i) {
-            TileView tile = rackPanel.removeTile(word.get(i)); // Elimina la ficha del rack
-            rackPanel.refreshRack(); //Refresca el rack para que se vea en la interfaz que esa ficha se ha quitado del rack
+           
             BoardCell cell = getBoardCell(coordY, coordX);
-            cell.PlaceTile(tile);
-            //si la celda tiene algun mouste listener, lo elimino para que no se pueda quitar la ficha del tablero
-            if(cell.getMouseListeners().length > 0) {
-                cell.removeMouseListener(cell.getMouseListeners()[0]);
-            }
-            if(tile.getMouseListeners().length > 0) {
-                tile.removeMouseListener(tile.getMouseListeners()[0]); // Elimina el mouse listener de la ficha para que no se pueda quitar del tablero
+            if(cell.isEmpty()){
+                TileView tile = rackPanel.removeTile(word.get(i)); // Elimina la ficha del rack
+                rackPanel.refreshRack(); //Refresca el rack para que se vea en la interfaz que esa ficha se ha quitado del rack
+                
+                cell.PlaceTile(tile);
+                //si la celda tiene algun mouste listener, lo elimino para que no se pueda quitar la ficha del tablero
+                if(cell.getMouseListeners().length > 0) {
+                    cell.removeMouseListener(cell.getMouseListeners()[0]);
+                }
+                if(tile.getMouseListeners().length > 0) {
+                    tile.removeMouseListener(tile.getMouseListeners()[0]); // Elimina el mouse listener de la ficha para que no se pueda quitar del tablero
+                }
+                
             }
             if(vertical) {
-                coordY++; // Si es vertical, incrementamos la fila
-            } else {
-                coordX++; // Si es horizontal, incrementamos la columna
-            }
+                    coordY++; // Si es vertical, incrementamos la fila
+                } else {
+                    coordX++; // Si es horizontal, incrementamos la columna
+                }
         }   
 
       

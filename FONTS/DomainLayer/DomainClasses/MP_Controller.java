@@ -348,4 +348,13 @@ public class MP_Controller
             throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
         }
     }
+
+    public void addSkipCount(String matchId) throws IllegalArgumentException {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            match.addSkipCount();
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
+        }
+    }
 }
