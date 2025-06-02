@@ -261,4 +261,39 @@ public class RackView extends JPanel {
         rackPanel.revalidate();
         rackPanel.repaint();
     }
+
+    public TileView getTile(int index) {
+        if(index < 0 || index >= rackPanel.getComponentCount()) {
+            return null; // Índice fuera de rango
+        }
+        return (TileView) rackPanel.getComponent(index);
+    }
+
+    public Integer getRackSize() {
+        return rackPanel.getComponentCount();
+    }
+
+    public Boolean containLetter(String letter) {
+        return this.letters.contains(letter);
+    }
+
+    public void refreshRack() {
+        rackPanel.revalidate();
+        rackPanel.repaint();
+    }   
+
+    public TileView removeTile(String symbol){
+        for (Component comp : rackPanel.getComponents()) {
+            if (comp instanceof TileView) {
+                TileView tile = (TileView) comp;
+                if (tile.getSymbol().equals(symbol)) {
+                    rackPanel.remove(tile);
+                    this.letters.remove(symbol); // Opcional: también lo quitas de la lista de letras
+                    
+                    return tile; // Sale después de eliminar la primera coincidencia
+                }
+            }
+        }  
+        return null;     
+    }
 }

@@ -147,6 +147,10 @@ public class MatchView extends JPanel {
         gameInfoPanel.setBagTiles(numTiles);
     }
 
+    public void actBoardView(ArrayList<String> word, Integer[] coords) {
+        boardPanel.actBoardView(word, coords, rackPanel);
+    }
+
     
 }
 

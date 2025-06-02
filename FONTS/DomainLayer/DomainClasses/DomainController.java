@@ -311,5 +311,9 @@ public class DomainController {
         return this.matchController.setFinished(matchId);
       }
 
+      public Pair<ArrayList<String>, Integer[]> AIplayTurn(String matchId){
+        return this.matchController.aiTurn(matchId);
+      }
+
       
 }

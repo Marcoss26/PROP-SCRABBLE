@@ -162,7 +162,12 @@ public class PresentationCtrl {
         }
         boolean valid = false;
         skipCount = 0; //reinicio el contador de skips al hacer un movimiento
-        if(word.size() == 1) valid = domainCtrl.playsMatch(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), jokers);
+        if(word.size() == 0){
+            //si no hay palabra, no se puede hacer un movimiento
+            showErrorDialog("Invalid move. Please try again.");
+            return;
+        }
+        else if(word.size() == 1) valid = domainCtrl.playsMatch(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), jokers);
         else{
              Pair<Boolean, String> VandW = domainCtrl.playsMatch2(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), word.get(1), coord_ini.get(1).first(), coord_ini.get(1).second(), coord_end.get(1).first(), coord_end.get(1).second(), jokers);
             valid = VandW.first();
@@ -214,10 +219,12 @@ public class PresentationCtrl {
             //Aqui no se hace nada, porque estoy esperando la accion del humano, que se registrará cuando le de a cierto boton
         }
         else{
-           /* ArrayList<String> playData = domainCtrl.AIplayTurn(matchId, turn);
-            matchViewCtrl.actBoardView(playData);
-            actTurn();
-            startTurn();*/
+            //La IA juega su turno y devuelve la palabra que ha puesto en un array de string para identificar las fichas que ha usado
+            //y un array de enteros que indica las coordenadas de inicio y fin de la palabra
+            Pair<ArrayList<String>, Integer[]> playData = domainCtrl.AIplayTurn(matchId);
+            matchViewCtrl.actBoardView(playData.first(), playData.second());
+            passTurn();
+            startTurn();
 
 
         }
