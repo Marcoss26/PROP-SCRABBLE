@@ -88,7 +88,7 @@ public class GameInfoView extends JPanel {
         exit.addActionListener(e -> {
             // Action to perform when the exit button is clicked
             int result = JOptionPane.showConfirmDialog(
-            this,
+            null,
             "If u exit without saving before, your match will be lost, are you sure?",
             "Confirmar salida",
             JOptionPane.YES_NO_OPTION,
@@ -109,7 +109,7 @@ public class GameInfoView extends JPanel {
         save.addActionListener(e -> {
             // Action to perform when the save button is clicked
             int result = JOptionPane.showConfirmDialog(
-            this,
+            null,
             "Are you sure you want to save and exit?",
             "Confirmar guardado y salida",
             JOptionPane.YES_NO_OPTION,

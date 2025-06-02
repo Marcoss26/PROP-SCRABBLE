@@ -142,6 +142,12 @@ public class PresentationCtrl {
 
     }
 
+    public void setPrivacity(boolean privacity, String profileName){
+        //este metodo se llama desde la vista de perfil para cambiar la privacidad del perfil
+        domainCtrl.updateProfile(profileName, null, null, privacity);
+        
+    }
+
     private void actTurn() {
         ++turn;
         if(turn >= totPlay){
@@ -174,6 +180,8 @@ public class PresentationCtrl {
         domainCtrl.addSkipCount(matchId);
         startTurn();
     }
+    
+
 
     public void submitTurn(ArrayList<Pair<Integer, Integer>> coord_ini, ArrayList<Pair<Integer, Integer>> coord_end, ArrayList<String> word, Set<Pair<Integer, Integer>> jokers) {
         
@@ -227,8 +235,9 @@ public class PresentationCtrl {
     public void exchangeLetters(String letters){
         skipCount = 0; //reinicio el contador de skips al hacer un intercambio
         domainCtrl.modifyRack(matchId, letters);
-        
+
         passTurn();
+        
         startTurn();
     }
 
@@ -264,6 +273,7 @@ public class PresentationCtrl {
                 }
                 else if(playData.first().get(0).equals("change")){
                     showSuccessDialog("The AI has exchanged letters.");
+                    skipCount = 0;
                     passTurn();
                     startTurn();
                 }
@@ -460,7 +470,9 @@ public class PresentationCtrl {
 
         //lo que hara esta funcion es coger del dominio los datos del perfil, setear la vista con estos datos y entonces mostrarla por pantalla 
         ArrayList<String> stats = domainCtrl.getProfileStats(username, password);
-        cc.setProfileFields(username, Integer.parseInt(stats.get(1)), Integer.parseInt(stats.get(2)), Float.parseFloat(stats.get(3).replace(',', '.')));
+        boolean isPublic = true;
+        if(stats.get(4).equals("No")) isPublic = false;
+        cc.setProfileFields(username, Integer.parseInt(stats.get(1)), Integer.parseInt(stats.get(2)), Float.parseFloat(stats.get(3).replace(',', '.')), isPublic);
         showView("ProfileView");
    }
 

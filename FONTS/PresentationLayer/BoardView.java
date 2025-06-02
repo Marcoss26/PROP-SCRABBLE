@@ -236,6 +236,11 @@ public class BoardView extends JPanel {
         return null; // Si no se encuentra la celda, devuelve null
     }
 
+    public Integer getNumTilesPlaced() {
+        // Devuelve el conjunto de coordenadas de las fichas colocadas
+        return tilesPlaced.size();
+    }
+
     private boolean nextCellisEmpty(int row, int column) {
         // Comprueba si la siguiente celda en la dirección especificada está vacía
         BoardCell nextCell = getBoardCell(row, column);
@@ -386,6 +391,7 @@ public class BoardView extends JPanel {
 
     public void cleanTilesPlaced() {
         tilesPlaced.clear();
+       
     }
 
     public void lockTilesPlaced() {

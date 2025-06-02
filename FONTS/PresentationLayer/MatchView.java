@@ -121,6 +121,7 @@ public class MatchView extends JPanel {
 
     public void cleanTilesPlaced() {
         boardPanel.cleanTilesPlaced();
+        
     }
 
     public void cleanRack() {
@@ -132,6 +133,10 @@ public class MatchView extends JPanel {
     }
 
     public void shuffleRack() {
+        if(boardPanel.getNumTilesPlaced() > 0){
+            JOptionPane.showMessageDialog(this, "You cannot shuffle letters while tiles are placed on the board.", "Shuffle Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         matchViewCtrl.shuffleRack();
     }
 
@@ -140,6 +145,10 @@ public class MatchView extends JPanel {
     }
 
     public void exchangeLetters(String letters) {
+        if(boardPanel.getNumTilesPlaced() > 0){
+            JOptionPane.showMessageDialog(this, "You cannot exchange letters while tiles are placed on the board.", "Exchange Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         matchViewCtrl.exchangeLetters(letters);
     }
 

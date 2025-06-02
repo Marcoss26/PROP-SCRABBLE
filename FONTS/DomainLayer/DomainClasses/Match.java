@@ -760,6 +760,8 @@ public class Match
         {
             Dawg dawg = dictionary.getDawg();
             Rack player_rack = player.getRack();
+            System.out.println("Rack logico de la IA antes de la jugada: ");
+            player_rack.print(); 
             board.computeCrossChecks(dictionary.getCharacters(), dawg);
             List<PlayableWord> PlayAbleWords = calculatePlayableWords(board, player_rack, dictionary);
             System.out.println("AI is calculating playable words." + PlayAbleWords.size());
@@ -837,8 +839,11 @@ public class Match
                     j++;
                 }
                 player.addScore(score * wholeWordBonusFactor);
+                System.err.println("Rack logico despues de la jugada: ");
+                player_rack.print(); //Print the rack after the play
                 addScore(score * wholeWordBonusFactor); //Add the score to the match
                 setTurn(turn + 1);
+                
                 return new Pair<>(words, new Integer[]{startX, startY, endX, endY});
             }
             else
@@ -871,6 +876,7 @@ public class Match
                 }
             }
         }
+        
     }
 
      public int getPlayerScore(int turn){

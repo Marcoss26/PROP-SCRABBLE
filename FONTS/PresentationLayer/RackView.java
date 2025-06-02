@@ -284,9 +284,12 @@ public class RackView extends JPanel {
 
     public TileView removeTile(String symbol){
         TileView tileCand = null;
+        System.out.println("Rack fisico antes de la jugada: " + symbol);
         for (Component comp : rackPanel.getComponents()) {
+            System.out.println("Symbol: " + ((TileView) comp).getSymbol());
             if (comp instanceof TileView) {
                 TileView tile = (TileView) comp;
+                
                 if (tile.getSymbol().equals(symbol)) {
                     rackPanel.remove(tile);
                     this.letters.remove(symbol); // Opcional: también lo quitas de la lista de letras
@@ -294,11 +297,14 @@ public class RackView extends JPanel {
                     return tile; // Sale después de eliminar la primera coincidencia
                 }
                 if(tile.getSymbol().equals("#")){
+                    
                     tileCand = tile; // Guarda el comodín si lo encuentra
                     tileCand.setSymbol(symbol); // Actualiza el símbolo del comodín
                 }
             }
         }  
+        rackPanel.remove(tileCand); // Elimina el comodín de la bandeja
+        //this.letters.remove("#"); // Elimina el comodín de la lista de letras
         return tileCand; // Si no se encuentra la ficha con el símbolo especificado
     }
 }
