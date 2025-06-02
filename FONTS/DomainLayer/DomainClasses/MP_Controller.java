@@ -304,15 +304,6 @@ public class MP_Controller
         }
     }
 
-    public List<squareDTO> getBoardInfo(String matchId) throws IllegalArgumentException {
-        if(existMatch(matchId)) {
-            Match match = matches.get(matchId);
-            return match.getSquareInfo();
-        } else {
-            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
-        }
-    }
-
     public boolean isGameFinished(String id){
         if(!existMatch(id)) return true;
         return false;
@@ -338,6 +329,17 @@ public class MP_Controller
         
         
     }
+
+    public Pair<Set<Pair<Integer, Integer>>, Set<Pair<String, Integer>>> BoardInfo(String matchId)
+    {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            return match.BoardInfo();
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
+        }
+    }
+
 
     public void setTurn(String matchId) throws IllegalArgumentException {
         if(existMatch(matchId)) {
