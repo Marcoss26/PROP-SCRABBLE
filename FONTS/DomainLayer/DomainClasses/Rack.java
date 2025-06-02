@@ -108,7 +108,7 @@ public class Rack {
         int blank_i = -1;
         for (int i = 0; i < letters.size(); i++) {
             if (letters.get(i).getSymbol().equals(symbol)) {
-                System.out.println("Found letter " + symbol + " at index " + i);
+                //System.out.println("Found letter " + symbol + " at index " + i);
                 Letter letter = letters.remove(i); // Remove the letter from the list
                 return letter;
             }
