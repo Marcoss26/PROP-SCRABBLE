@@ -369,7 +369,7 @@ public class Board
             if (box instanceof Box.DoubleLetter) multiplier = 2;
             else if (box instanceof Box.TripleLetter) multiplier = 3;
             System.out.println("Placing letter: " + letter + " at position: [" + column + "," + row + "] with value: " + value + " and multiplier: " + multiplier);
-            this.board[row][column].setLetter(letter, value*multiplier);
+            this.board[row][column].setLetter(letter, value);
 
             return value*multiplier;
         }

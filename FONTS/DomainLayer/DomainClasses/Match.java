@@ -420,14 +420,13 @@ public class Match
     }
 
 
-    public void modifyRack(String old_letters)
+    public void modifyRack(String old_letters) throws IllegalArgumentException
     {
         Player player = playerList.get(turn);
         player.displayPlayer();
         player.modifyRack(old_letters);
         player.printRack();
-        
-        setTurn(turn+1);
+        setTurn(turn + 1);
     }
 
     public boolean humanTurn(String word, int startX, int startY, int endX, int endY, Set<Pair<Integer, Integer>> JokerPos) throws IllegalArgumentException, IllegalStateException
@@ -474,14 +473,20 @@ public class Match
                         int BonusScore = board.placeLetter(startY + j, startX, letter.getSymbol(),letter.getValue());
                         score += BonusScore;
                         wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
-                        Letter letter2 = bag.extractLetter();
-                        player_rack.addLetter(letter2);
+                        try
+                        {
+                            Letter letter2 = bag.extractLetter();
+                            player_rack.addLetter(letter2);
+                        }
+                        catch (IllegalStateException e)
+                        {
+                            System.out.println("No more letters in the bag.");
+                        }
                     }
                     else
                     {
                         int value = board.getBox(startY + j, startX).getValue();
                         score += value; //If the box is not empty, we add the value of the letter in the box to the score
-                        wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
                     }
                 }
                 else
@@ -501,8 +506,15 @@ public class Match
                         int BonusScore = board.placeLetter(startY, startX + j, letter.getSymbol(),letter.getValue());
                         score += BonusScore;
                         wholeWordBonusFactor *= board.getWordBonus(startY, startX + j);
-                        Letter letter2 = bag.extractLetter();
-                        player_rack.addLetter(letter2);
+                        try
+                        {
+                            Letter letter2 = bag.extractLetter();
+                            player_rack.addLetter(letter2);
+                        }
+                        catch (IllegalStateException e)
+                        {
+                            System.out.println("No more letters in the bag.");
+                        }
                     }
                     else
                     {
@@ -564,14 +576,20 @@ public class Match
                         int BonusScore = board.placeLetter(startY1 + j1, startX1, letter.getSymbol(),letter.getValue());
                         score1 += BonusScore;
                         wholeWordBonusFactor1 *= board.getWordBonus(startY1 + j1, startX1);
-                        Letter letter2 = bag.extractLetter();
-                        player_rack.addLetter(letter2);
+                        try
+                        {
+                            Letter letter2 = bag.extractLetter();
+                            player_rack.addLetter(letter2);
+                        }
+                        catch (IllegalStateException e)
+                        {
+                            System.out.println("No more letters in the bag.");
+                        }
                     }
                     else
                     {
                         int value = board.getBox(startY1 + j1, startX1).getValue();
                         score1 += value; //If the box is not empty, we add the value of the letter in the box to the score
-                        wholeWordBonusFactor1 *= board.getWordBonus(startY1 + j1, startX1);
                     }
                 }
                 else
@@ -591,14 +609,20 @@ public class Match
                         int BonusScore = board.placeLetter(startY1, startX1 + j1, letter.getSymbol(),letter.getValue());
                         score1 += BonusScore;
                         wholeWordBonusFactor1 *= board.getWordBonus(startY1, startX1 + j1);
-                        Letter letter2 = bag.extractLetter();
-                        player_rack.addLetter(letter2);
+                        try
+                        {
+                            Letter letter2 = bag.extractLetter();
+                            player_rack.addLetter(letter2);
+                        }
+                        catch (IllegalStateException e)
+                        {
+                            System.out.println("No more letters in the bag.");
+                        }
                     }
                     else
                     {
                         int value = board.getBox(startY1, startX1 + j1).getValue();
                         score1 += value;
-                        wholeWordBonusFactor1 *= board.getWordBonus(startY1, startX1 + j1);
                     }
                 }
                 i1+=symbol.length();
@@ -625,14 +649,20 @@ public class Match
                         int BonusScore = board.placeLetter(startY2 + j2, startX2, letter.getSymbol(),letter.getValue());
                         score2 += BonusScore;
                         wholeWordBonusFactor2 *= board.getWordBonus(startY2 + j2, startX2);
-                        Letter letter2 = bag.extractLetter();
-                        player_rack.addLetter(letter2);
+                        try
+                        {
+                            Letter letter2 = bag.extractLetter();
+                            player_rack.addLetter(letter2);
+                        }
+                        catch (IllegalStateException e)
+                        {
+                            System.out.println("No more letters in the bag.");
+                        }
                     }
                     else
                     {
                         int value = board.getBox(startY2 + j2, startX2).getValue();
                         score2 += value; //If the box is not empty, we add the value of the letter in the box to the score
-                        wholeWordBonusFactor2 *= board.getWordBonus(startY2 + j2, startX2);
                     }
                 }
                 else
@@ -652,14 +682,19 @@ public class Match
                         int BonusScore = board.placeLetter(startY2, startX2 + j2, letter.getSymbol(),letter.getValue());
                         score2 += BonusScore;
                         wholeWordBonusFactor2 *= board.getWordBonus(startY2, startX2 + j2);
-                        Letter letter2 = bag.extractLetter();
-                        player_rack.addLetter(letter2);
+                        try{
+                            Letter letter2 = bag.extractLetter();
+                            player_rack.addLetter(letter2);
+                        }
+                        catch (IllegalStateException e)
+                        {
+                            System.out.println("No more letters in the bag.");
+                        }
                     }
                     else
                     {
                         int value = board.getBox(startY2, startX2 + j2).getValue();
                         score2 += value;
-                        wholeWordBonusFactor2 *= board.getWordBonus(startY2, startX2 + j2);
                     }
                 }
                 i2+=symbol.length();
@@ -727,14 +762,20 @@ public class Match
                             int bonusScore = board.placeLetter(startY + j, startX, letter.getSymbol(),letter.getValue());
                             score += bonusScore;
                             wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
-                            Letter letter2 = bag.extractLetter();
-                            player_rack.addLetter(letter2);
+                            try
+                            {
+                                Letter letter2 = bag.extractLetter();
+                                player_rack.addLetter(letter2);
+                            }
+                            catch (IllegalStateException e)
+                            {
+                                System.out.println("No more letters in the bag.");
+                            }
                         }
                         else
                         {
                             int value = board.getBox(startY + j, startX).getValue();
                             score += value; //If the box is not empty, we add the value of the letter in the box to the score
-                            wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
                         }
                     }
                     else
@@ -749,8 +790,15 @@ public class Match
                             int bonusScore = board.placeLetter(startY, startX + j, letter.getSymbol(),letter.getValue());
                             score += bonusScore;
                             wholeWordBonusFactor *= board.getWordBonus(startY, startX + j);
-                            Letter letter2 = bag.extractLetter();
-                            player_rack.addLetter(letter2);
+                            try
+                            {
+                                Letter letter2 = bag.extractLetter();
+                                player_rack.addLetter(letter2);
+                            }
+                            catch (IllegalStateException e)
+                            {
+                                System.out.println("No more letters in the bag.");
+                            }
                         }
                         else
                         {
@@ -771,17 +819,30 @@ public class Match
             else
             {
                 int random = (int) (Math.random() * 7);
-                String oldLetters = "";
-                for(int i = 0; i < random - 1; ++i)
+                if(random >= bag.getNumLetters())
                 {
-                    String letter = player_rack.getLetterSymbol(i);
-                    oldLetters += letter + "_";
+                    String oldLetters = "";
+                    for(int i = 0; i < random - 1; ++i)
+                    {
+                        String letter = player_rack.getLetterSymbol(i);
+                        oldLetters += letter + "_";
+                    }
+                    oldLetters += player_rack.getLetterSymbol(random - 1);
+                    player.modifyRack(oldLetters);
+                    setTurn(turn + 1);
+                    ArrayList<String> decision = new ArrayList<>();
+                    decision.add("change");
+                    return new Pair<>(decision, new Integer[]{});
                 }
-                oldLetters += player_rack.getLetterSymbol(random - 1);
-                player.modifyRack(oldLetters);
-                setTurn(turn + 1);
+                else 
+                {
+                    addSkipCount();
+                    setTurn(turn + 1);
+                    ArrayList<String> decision = new ArrayList<>();
+                    decision.add("skip");
+                    return new Pair<>(decision, new Integer[]{});
+                }
             }
-            return new Pair<>(new ArrayList<>(), new Integer[]{});
         }
     }
 

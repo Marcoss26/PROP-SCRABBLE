@@ -148,6 +148,19 @@ public class Bag
         return extractedLetters; // Devolvemos el conjunto de letras extraídas
     }
 
+
+    public List<Letter> extractLetterforRack(int lettersTochange){
+        if(lettersTochange > totalLetters) { // Comprobamos si hay suficientes letras en la bolsa
+            return extractSetOfLetters(totalLetters); // Extraemos todas las letras disponibles
+        }
+        else{
+            return extractSetOfLetters(lettersTochange); // Extraemos el número de letras especificado
+        }
+    }
+
+
+
+
     /**
      * Cambia las letras del rack por un conjunto de letras de la bolsa.
      * Pre: letters es una lista de letras que el jugador quiere cambiar.

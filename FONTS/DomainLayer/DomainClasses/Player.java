@@ -37,7 +37,7 @@ public abstract class Player
         rack.shuffle();
     }
 
-    public void modifyRack(String old_letters)
+    public void modifyRack(String old_letters) throws IllegalArgumentException
     {
         rack.replaceLetters(old_letters);
     }
