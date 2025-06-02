@@ -194,8 +194,13 @@ public class DomainController {
     
     public void loadMatches() {
         Map<String, Match> matches = persistenceController.loadMatches();
+        for (Map.Entry<String, Match> entry : matches.entrySet()) {
+            Dictionary dictionary = this.dictionaryController.getDictionary(entry.getValue().getDictionaryName());
+            this.matchController.createDictionaryForMatch(entry.getValue(), dictionary);
+        }
         matchController.loadMatchesFromJSON(matches);
     }
+    
     public void saveMatches() {
         this.persistenceController.saveMatches(this.matchController.getUnfinishedMatches());
     }
