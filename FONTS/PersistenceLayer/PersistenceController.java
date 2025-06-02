@@ -25,9 +25,10 @@ interface Storage<T> {
 
     /**
      * Loads the data of type T from a persistent storage.
+     * @param params Optional parameters for loading the data.
      * @return The loaded data of type T.
      */
-    T load();
+    T load(Object... params);
 }
 
 /**
@@ -127,7 +128,7 @@ public class PersistenceController {
         if (cache.containsKey("matches")) {
             return (Map<String, Match>) cache.get("matches");
         } else {
-            Map<String, Match> matches = matchStorage.load();
+            Map<String, Match> matches = matchStorage.load(cache.get("profiles"));
             cache.put("matches", matches); // Cache the loaded matches
             return matches;
         }
