@@ -1,6 +1,6 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
-
+import Utils.squareDTO;
 import PersistenceLayer.PersistenceController;
 
 import java.io.*;
@@ -155,6 +155,10 @@ public class DomainController {
      */
     public Player getPlayerTurn(String matchId) {
         return this.matchController.whoseTurn(matchId);
+    }
+
+    public List<squareDTO> getBoardInfo(String matchId) {
+        return this.matchController.getBoardInfo(matchId);
     }
 
     /**

@@ -2,7 +2,7 @@ package DomainLayer.DomainClasses;
 import java.util.*;
 
 import Utils.Pair;
-
+import Utils.squareDTO;
 import java.io.*;
 
 public class MP_Controller
@@ -302,6 +302,15 @@ public class MP_Controller
             return player.getInfoLetters();
         } else {
             throw new IllegalArgumentException("Match with ID: " + matchid + " does not exist.");
+        }
+    }
+
+    public List<squareDTO> getBoardInfo(String matchId) throws IllegalArgumentException {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            return match.getSquareInfo();
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
         }
     }
 

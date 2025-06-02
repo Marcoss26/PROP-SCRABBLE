@@ -1,6 +1,7 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
 import Utils.Pair;
+import Utils.squareDTO;
 
 
 /**
@@ -463,6 +464,18 @@ public class Board
             //throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
             return null;
         }
+    }
+
+    public squareDTO DTO(int row, int column)
+    {
+        if (this.board == null) {
+            throw new IllegalStateException("El tablero no ha sido inicializado.");
+        }
+        if (row < 0 || row >= size || column < 0 || column >= size) {
+            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
+        }
+        // Si las coordenadas son válidas, devuelve la letra de la casilla correspondiente
+        return new squareDTO(row, column, board[row][column].getSymbol(), board[row][column].getValue());
     }
     
 
