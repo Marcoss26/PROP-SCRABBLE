@@ -88,7 +88,7 @@ public class NewGame extends JPanel {
         playersLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         playerPanel.add(playersLabel);
 
-        JComboBox<String> playersDropdown = new JComboBox<>(new String[]{"1", "2", "3", "4"});
+        JComboBox<String> playersDropdown = new JComboBox<>(new String[]{"1", "2", "3", "4", "5"});
         playerPanel.add(playersDropdown);
 
         JLabel aiLabel = new JLabel("How many AI players do you want?");
