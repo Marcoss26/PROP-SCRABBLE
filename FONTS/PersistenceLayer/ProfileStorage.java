@@ -12,12 +12,6 @@ import DomainLayer.DomainClasses.*;
  * @author Kai Knox
  */
 public class ProfileStorage implements Storage<Map<String, Profile>> {
-
-    @Override
-    public Map<String, Profile> load(Object... args) {
-        return load();
-    }
-    
     public void save(Map<String, Profile> profiles) {
         JSONArray profilesArray = new JSONArray();
 

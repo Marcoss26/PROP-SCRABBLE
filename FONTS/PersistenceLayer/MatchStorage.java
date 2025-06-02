@@ -12,6 +12,7 @@ import DomainLayer.DomainClasses.*;
  * @author Kai Knox
  */
 public class MatchStorage implements Storage<Map<String, Match>> {
+    private final ProfileController profileController = ProfileController.getInstance();
 
     public void save(Map<String, Match> matches) {
         JSONArray matchesArray = new JSONArray();
@@ -95,9 +96,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
     }
 
     
-    public Map<String, Match> load(Object... profiles) {
-        Map<String, Profile> loadedProfiles = (Map<String, Profile>) profiles[0];
-
+    public Map<String, Match> load() {
         Map<String, Match> matches = new HashMap<>();
         JSONArray matchesArray = (JSONArray) JsonUtils.load("/matches.json");
 
@@ -143,7 +142,7 @@ public class MatchStorage implements Storage<Map<String, Match>> {
 
                 Player player;
                 if (type.equals("Human")) {
-                    Profile profile = loadedProfiles.get(name);
+                    Profile profile = profileController.getProfile(name);
                     player = new Human(playerId, profile);
                 } else {
                     player = new IA(playerId, name);
