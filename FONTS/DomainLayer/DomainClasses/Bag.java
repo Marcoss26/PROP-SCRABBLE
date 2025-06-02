@@ -91,6 +91,17 @@ public class Bag
        
     }
 
+    public List<Letter> extractLetterforRack(int lettersTochange){
+        List<Letter> extractedLetters = new ArrayList<>();
+        if(lettersTochange > totalLetters) { // Comprobamos si hay suficientes letras en la bolsa
+            extractedLetters = extractSetOfLetters(totalLetters); // Extraemos todas las letras disponibles
+        }
+        else{
+            extractedLetters = extractSetOfLetters(lettersTochange); // Extraemos el número de letras especificado
+        }
+        return extractedLetters;
+    }
+
     /**
      * Añade una letra al conjunto de letras de la bolsa.
      * Pre: letter es la letra que se va a añadir a la bolsa.

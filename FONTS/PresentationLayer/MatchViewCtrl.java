@@ -96,4 +96,8 @@ public class MatchViewCtrl {
     public void setBagTiles(Integer numTiles) {
         matchView.setBagTiles(numTiles);
     }
+
+    public void actBoardView(ArrayList<String> word, Integer[] coords){
+        matchView.actBoardView(word, coords);
+    }
 }
