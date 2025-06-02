@@ -161,8 +161,13 @@ public class Rack {
       * @param symbols Un String que contiene los símbolos de las letras a sustituir, separados por guiones bajos
       */
 
-    public void replaceLetters(String symbols) {
+    public void replaceLetters(String symbols) throws IllegalArgumentException {
         String[] symbols2 = symbols.split("_");
+
+        if (bag.getNumLetters() < symbols2.length) {
+            throw new IllegalArgumentException("Cannot replace all letters in the rack with the same number of letters in the bag");
+        }
+
         for (String symbol : symbols2) {
             for (int i = 0; i < letters.size(); i++) {
                 if (letters.get(i).getSymbol().equals(symbol)) {
