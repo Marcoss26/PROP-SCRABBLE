@@ -50,7 +50,7 @@ public class Profile {
      * @param new_pw The new password.
      */
     public void changePassword(String old_pw, String new_pw) {
-        if (old_pw.equals(this.password)) {
+        if (this.authenticate(old_pw)) {
             this.password = new_pw;
         }
     }
