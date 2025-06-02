@@ -280,6 +280,7 @@ public class ProfileView extends JPanel {
      * Crea un JFrame y añade una instancia de ProfileView con datos de ejemplo.
      * @param args Argumentos de línea de comandos (no se utilizan).
      */
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Profile View");
