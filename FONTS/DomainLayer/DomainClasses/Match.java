@@ -446,6 +446,8 @@ public class Match
             System.out.println(playableWord.toString());
         }
         System.out.println("My playable word: " + My_playableword.toString());
+        System.out.println("Rack of the current player:");
+        player_rack.print();
         if (PlayAbleWords.contains(My_playableword))
         {
             System.out.println("Valid play, placing letters on the board.");
@@ -463,12 +465,20 @@ public class Match
                         Letter letter;
                         if(JokerPos.contains(new Pair<>(startX, startY + j))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
+                            System.out.println("Player rack before using joker: ");
+                            player_rack.print();
                             letter = player_rack.getLetter("#");
                             letter.setSymbol(symbol);
+                            System.out.println("Player rack after using joker: ");
+                            player_rack.print();
                         }
                         else
                         {
+                            System.out.println("Player rack before using letter: " + symbol);
+                            player_rack.print();
                             letter = player_rack.getLetter(symbol); //Get the letter from the rack
+                            System.out.println("Player rack after using letter: " + symbol);
+                            player_rack.print();
                         }
                         int BonusScore = board.placeLetter(startY + j, startX, letter.getSymbol(),letter.getValue());
                         score += BonusScore;
@@ -532,7 +542,6 @@ public class Match
             setTurn(turn + 1);
             return true;
         }
-        player_rack.print(); //Print the rack of the player
         return false;
     }
 

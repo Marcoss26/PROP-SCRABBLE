@@ -131,9 +131,13 @@ public class DomainController {
                         String symbol = parts[0];
                         int quantity = Integer.parseInt(parts[1]);
                         totalLettersInTheBag += quantity;
-                        int value = Integer.parseInt(parts[2]);
-                        Letter letter = new Letter(symbol, value);
-                        letters.put(letter, quantity);
+                        if(quantity > 0)
+                        {
+                            System.out.println("Loading letters: " + line);
+                            int value = Integer.parseInt(parts[2]);
+                            Letter letter = new Letter(symbol, value);
+                            letters.put(letter, quantity);
+                        }
                     }
                 }
             } catch (IOException e) {
