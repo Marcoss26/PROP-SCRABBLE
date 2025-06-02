@@ -205,8 +205,11 @@ run-DawgDriver: DawgDriver
 run-MyDriver: MyDriver
 	java -cp "$(BIN_DIR);${LIBRARIES}" $(DRIVERS_DIR)/MyDriver
 
-run-Presentation: Main
+run-Presentation-Windows: Main
 	java -cp "$(BIN_DIR);${LIBRARIES}" Main
+
+run-Presentation-LinMac: Main
+	java -cp "$(BIN_DIR):${LIBRARIES}" Main
 	
 	
 

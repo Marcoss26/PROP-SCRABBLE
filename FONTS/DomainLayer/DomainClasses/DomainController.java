@@ -240,7 +240,7 @@ public class DomainController {
      ------------------------------------------------------------------------
      */
      public void updateRanking(String idWinner) {
-        //this.ranking.updateRanking(this.profileController.getProfileToUpdateRanking(idWinner));
+        this.ranking.updateRanking(this.profileController.getProfile(idWinner));
      }
 
      public void displayRanking() {
@@ -325,7 +325,9 @@ public class DomainController {
       }
 
       public String endMatch(String matchId) {
-        return this.matchController.setFinished(matchId);
+        String winner = this.matchController.setFinished(matchId);
+        updateRanking(winner);
+        return winner;
       }
 
       public Pair<ArrayList<String>, Integer[]> AIplayTurn(String matchId){
