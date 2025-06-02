@@ -40,11 +40,12 @@ public class ProfileStorage implements Storage<Map<String, Profile>> {
             long wins = (long) profileObject.get("wins");
             long score = (long) profileObject.get("score");
 
-            Profile profile = new Profile(username, password);
+            Profile profile = new Profile(username, "");
             profile.setGamesPlayed((int) gamesPlayed);
             profile.setWins((int) wins);
             profile.addScore((int) score);
-
+            profile.setPassword(password);
+            
             profiles.put(username, profile);
         }
 

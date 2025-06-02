@@ -40,7 +40,7 @@ public class Profile {
      * Sets the password for the profile.
      * @param password The password to be set.
      */
-    private void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
