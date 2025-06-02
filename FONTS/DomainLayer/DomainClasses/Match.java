@@ -468,7 +468,7 @@ public class Match
                             System.out.println("Player rack before using joker: ");
                             player_rack.print();
                             letter = player_rack.getLetter("#");
-                            letter.setSymbol(symbol);
+                            //letter.setSymbol(symbol);
                             System.out.println("Player rack after using joker: ");
                             player_rack.print();
                         }
@@ -480,7 +480,7 @@ public class Match
                             System.out.println("Player rack after using letter: " + symbol);
                             player_rack.print();
                         }
-                        int BonusScore = board.placeLetter(startY + j, startX, letter.getSymbol(),letter.getValue());
+                        int BonusScore = board.placeLetter(startY + j, startX, symbol,letter.getValue());
                         score += BonusScore;
                         wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
                         try
@@ -507,13 +507,13 @@ public class Match
                         if(JokerPos.contains(new Pair<>( startX + j ,startY))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
                             letter = player_rack.getLetter("#");
-                            letter.setSymbol(symbol);
+                            //letter.setSymbol(symbol);
                         }
                         else
                         {
                             letter = player_rack.getLetter(symbol); //Get the letter from the rack
                         }
-                        int BonusScore = board.placeLetter(startY, startX + j, letter.getSymbol(),letter.getValue());
+                        int BonusScore = board.placeLetter(startY, startX + j, symbol,letter.getValue());
                         score += BonusScore;
                         wholeWordBonusFactor *= board.getWordBonus(startY, startX + j);
                         try
@@ -576,13 +576,13 @@ public class Match
                         if(JokerPos.contains(new Pair<>(startX1, startY1 + j1))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
                             letter = player_rack.getLetter("#");
-                            letter.setSymbol(symbol);
+                            //letter.setSymbol(symbol);
                         }
                         else
                         {
                             letter = player_rack.getLetter(symbol); //Get the letter from the rack
                         }
-                        int BonusScore = board.placeLetter(startY1 + j1, startX1, letter.getSymbol(),letter.getValue());
+                        int BonusScore = board.placeLetter(startY1 + j1, startX1, symbol,letter.getValue());
                         score1 += BonusScore;
                         wholeWordBonusFactor1 *= board.getWordBonus(startY1 + j1, startX1);
                         try
@@ -609,13 +609,13 @@ public class Match
                         if(JokerPos.contains(new Pair<>( startX1 + j1, startY1))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
                             letter = player_rack.getLetter("#");
-                            letter.setSymbol(symbol);
+                            //letter.setSymbol(symbol);
                         }
                         else
                         {
                             letter = player_rack.getLetter(symbol); //Get the letter from the rack
                         }
-                        int BonusScore = board.placeLetter(startY1, startX1 + j1, letter.getSymbol(),letter.getValue());
+                        int BonusScore = board.placeLetter(startY1, startX1 + j1, symbol,letter.getValue());
                         score1 += BonusScore;
                         wholeWordBonusFactor1 *= board.getWordBonus(startY1, startX1 + j1);
                         try
@@ -649,13 +649,13 @@ public class Match
                         if(JokerPos.contains(new Pair<>(startX2, startY2 + j2))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
                             letter = player_rack.getLetter("#");
-                            letter.setSymbol(symbol);
+                            //letter.setSymbol(symbol);
                         }
                         else
                         {
                             letter = player_rack.getLetter(symbol); //Get the letter from the rack
                         }
-                        int BonusScore = board.placeLetter(startY2 + j2, startX2, letter.getSymbol(),letter.getValue());
+                        int BonusScore = board.placeLetter(startY2 + j2, startX2, symbol,letter.getValue());
                         score2 += BonusScore;
                         wholeWordBonusFactor2 *= board.getWordBonus(startY2 + j2, startX2);
                         try
@@ -682,13 +682,13 @@ public class Match
                         if(JokerPos.contains(new Pair<>( startX2 + j2, startY2))) //If the position is a joker, we need to set the symbol to the one we are placing
                         {
                             letter = player_rack.getLetter("#");
-                            letter.setSymbol(symbol);
+                            //letter.setSymbol(symbol);
                         }
                         else
                         {
                             letter = player_rack.getLetter(symbol); //Get the letter from the rack
                         }
-                        int BonusScore = board.placeLetter(startY2, startX2 + j2, letter.getSymbol(),letter.getValue());
+                        int BonusScore = board.placeLetter(startY2, startX2 + j2, symbol,letter.getValue());
                         score2 += BonusScore;
                         wholeWordBonusFactor2 *= board.getWordBonus(startY2, startX2 + j2);
                         try{
@@ -768,9 +768,9 @@ public class Match
                             Letter letter = player_rack.getLetter(symbol); //Get the letter from the rack
                             if(letter.getSymbol().equals("#")) //If the letter is a joker, we need to set the symbol to the one we are placing
                             {
-                                letter.setSymbol(symbol);
+                                //letter.setSymbol(symbol);
                             }
-                            int bonusScore = board.placeLetter(startY + j, startX, letter.getSymbol(),letter.getValue());
+                            int bonusScore = board.placeLetter(startY + j, startX, symbol,letter.getValue());
                             score += bonusScore;
                             wholeWordBonusFactor *= board.getWordBonus(startY + j, startX);
                             try
@@ -796,9 +796,9 @@ public class Match
                             Letter letter = player_rack.getLetter(symbol); //Get the letter from the rack
                             if(letter.getSymbol().equals("#")) //If the letter is a joker, we need to set the symbol to the one we are placing
                             {
-                                letter.setSymbol(symbol);
+                                //letter.setSymbol(symbol);
                             }
-                            int bonusScore = board.placeLetter(startY, startX + j, letter.getSymbol(),letter.getValue());
+                            int bonusScore = board.placeLetter(startY, startX + j, symbol,letter.getValue());
                             score += bonusScore;
                             wholeWordBonusFactor *= board.getWordBonus(startY, startX + j);
                             try

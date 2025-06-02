@@ -16,7 +16,7 @@ public class BoardView extends JPanel {
     private Set<Pair<Integer, Integer>> jokerPos; // column = first(), row = second()
     private int size;
 
-    public BoardView(int size, RackView rackPanel) {
+    public BoardView(int size, RackView rackPanel, Set<String> specialChars) {
         // Crear una ventana
 
 
@@ -25,12 +25,12 @@ public class BoardView extends JPanel {
         jokerPos = new LinkedHashSet<>();
         this.size = size;
 
-        initializeBoard(size, rackPanel);
+        initializeBoard(size, rackPanel, specialChars);
 
 
     }
 
-    private void initializeBoard(int size, RackView rackPanel) {
+    private void initializeBoard(int size, RackView rackPanel, Set<String> specialChars) {
         this.setLayout(new GridLayout(size, size));
         this.setBackground(Color.white);
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -171,7 +171,7 @@ public class BoardView extends JPanel {
                                 if(sTile.getSymbol().equals("#")){
                                     System.out.println("soy un comodin");
                                     String inp = JOptionPane.showInputDialog(null, "Joker selection", "Type letter that you want: ", JOptionPane.PLAIN_MESSAGE );
-                                    if(inp == null || inp.length() > 1 || inp.isEmpty()) {
+                                    if(inp == null || !specialChars.contains(inp) || inp.isEmpty()) {
                                         sTile = null;
                                         return;
                                     }

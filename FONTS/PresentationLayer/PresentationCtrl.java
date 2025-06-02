@@ -44,6 +44,7 @@ public class PresentationCtrl {
     private int turn;
     private String matchId;
     private int skipCount;
+    private Set<String> specialChars;
 
     
 
@@ -77,6 +78,21 @@ public class PresentationCtrl {
         domainCtrl.createDictionary("en", "en", "en");
         domainCtrl.createDictionary("ca", "ca", "ca");
     }
+
+    private void setSpecialChars(String dictionary) {
+        if(dictionary.equals("es")){
+            specialChars.add("CH");
+            specialChars.add("LL");
+            specialChars.add("RR");
+            specialChars.add("Ñ");
+        }
+        else if(dictionary.equals("ca")){
+            specialChars.add("NY");
+            specialChars.add("L·L");
+            specialChars.add("Ç");
+        }
+        //en no tiene caracteres especiales
+    }
    
     /**
      * Crea un nuevo juego y muestra la vista de creación de juego.
@@ -85,9 +101,14 @@ public class PresentationCtrl {
      */
     public void createNewMatch(){
         //int numHumPlayers = cc.getHumanPlayers();
+        specialChars = new HashSet<>();
+        for (char c = 'A'; c <= 'Z'; c++) {
+            specialChars.add(String.valueOf(c));
+        }
         int totalPlayers = cc.getTotalPlayers();
         int boardSize = cc.getBoardSize();
-        String dictionary = cc.getDictionary();
+        String dictionary = cc.getDictionary(); //es, en o ca
+        setSpecialChars(dictionary);
         System.out.println(dictionary);
         Set<Pair<String,String>> playersId = cc.getPlayersId();
         matchId = null;
@@ -111,7 +132,7 @@ public class PresentationCtrl {
             letters = domainCtrl.getRackLetters(matchId, turn);
         }
         matchViewCtrl = MatchViewCtrl.getInstance();
-        JPanel pan = matchViewCtrl.createMatchView(boardSize, totalPlayers, players, letters);
+        JPanel pan = matchViewCtrl.createMatchView(boardSize, totalPlayers, players, letters, specialChars);
         createdViews.put("MatchView", pan );
         skipCount = 0; //reinicio el contador de skips
 
