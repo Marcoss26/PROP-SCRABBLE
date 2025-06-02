@@ -135,7 +135,8 @@ public class PresentationCtrl {
         }
         totPlay = players.size();
         matchViewCtrl = MatchViewCtrl.getInstance();
-        JPanel pan = matchViewCtrl.createMatchView(boardSize, totalPlayers, players, letters, specialChars);
+        
+        JPanel pan = matchViewCtrl.createMatchView(boardSize, totalPlayers, players, letters, specialChars, null, null,  false);
         createdViews.put("MatchView", pan );
         skipCount = 0; //reinicio el contador de skips
 
@@ -397,6 +398,7 @@ public class PresentationCtrl {
         
         if(createdViews.containsKey("MatchView")) createdViews.remove("MatchView");
         totPlay = players.size();
+        Pair<Pair<Integer, Integer>, Pair<String, Integer>> boardData = domainCtrl.boardInfo(matchId);
         JPanel pan = matchViewCtrl.createMatchView(domainCtrl.getBoardSize(matchId), totPlay, players, letters, specialChars);
         createdViews.put("MatchView", pan );
 

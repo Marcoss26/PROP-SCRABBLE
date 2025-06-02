@@ -15,6 +15,7 @@ public class Board
     private Box[][] board;
     private int size;
     private boolean isEmpty = true;
+    
 
     /**
      * Constructor de la clase Board.
@@ -126,6 +127,7 @@ public class Board
     public int getSize() {
         return this.size;
     }
+
 
     /**
      * Imprime los crosschecks del tablero, esta función es auxiliar, no es necesaria para el funcionamiento del juego.
