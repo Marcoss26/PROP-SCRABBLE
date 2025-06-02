@@ -364,15 +364,7 @@ public class BoardView extends JPanel {
 
 
         }
-        System.out.println("Coordenadas iniciales: " + coords_ini.get(0).first() + ' ' + coords_ini.get(0).second() + ", Coordenadas finales: " + coords_end.get(0).first() + ' ' + coords_end.get(0).second());
-        if(coords_ini.size() > 1) {
-            System.out.println("Coordenadas iniciales: " + coords_ini.get(1).first() + ' ' + coords_ini.get(1).second() + ", Coordenadas finales: " + coords_end.get(1).first() + ' ' + coords_end.get(1).second());
-        }
-        else {
-            System.out.println("No hay segunda palabra formada");
-        }
-
-        System.out.println("Palabra formada: " + word);
+       
         return res;
 
     }
