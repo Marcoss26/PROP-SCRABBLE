@@ -29,6 +29,7 @@ public class ProfileView extends JPanel {
     private JButton deleteProfileBtn;
     private JButton changePasswordBtn;
     private JButton returnBtn;
+    private JCheckBox publicProfileSwitch; // Añade este atributo
 
     /**
      * Constructor de la clase ProfileView.
@@ -109,6 +110,26 @@ public class ProfileView extends JPanel {
         totalGamesWonLabel = new JLabel("Total Games Won: " + totalGamesWon);
         winRateLabel = new JLabel("Win Rate: " + winRate + "%");
 
+        // Switch público/privado
+        publicProfileSwitch = new JCheckBox("Public profile");
+        publicProfileSwitch.setFont(new Font("Dubai Medium", Font.PLAIN, 20));
+        publicProfileSwitch.setSelected(true); // Por defecto público
+        publicProfileSwitch.setOpaque(false);
+
+        JLabel privateLabel = new JLabel(" (uncheck for private)");
+        privateLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 16));
+        privateLabel.setForeground(Color.decode("#807777"));
+
+        JPanel switchPanel = new JPanel();
+        switchPanel.setLayout(new BoxLayout(switchPanel, BoxLayout.X_AXIS));
+        switchPanel.setOpaque(false);
+        switchPanel.add(publicProfileSwitch);
+        switchPanel.add(privateLabel);
+
+        // Alineación y margen igual que los labels
+        switchPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        switchPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 8, 0));
+
         JLabel[] infoLabels = {profileNameLabel, totalGamesPlayedLabel, totalGamesWonLabel, winRateLabel};
         for (JLabel label : infoLabels) {
             label.setFont(new Font("Dubai Medium", Font.PLAIN, 22));
@@ -117,6 +138,7 @@ public class ProfileView extends JPanel {
             label.setBorder(BorderFactory.createEmptyBorder(8, 0, 8, 0));
             infoPanel.add(label);
         }
+        infoPanel.add(switchPanel);
 
         // Botones en la parte inferior izquierda
         JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -230,6 +252,14 @@ public class ProfileView extends JPanel {
      * @return El botón de retorno.
      */
     public JButton getReturnBtn() { return returnBtn; }
+
+    /**
+     * Devuelve si el perfil es público.
+     * @return true si es público, false si es privado.
+     */
+    public boolean isProfilePublic() {
+        return publicProfileSwitch.isSelected();
+    }
 
     /**
      * Actualiza los campos del perfil con la información proporcionada.
