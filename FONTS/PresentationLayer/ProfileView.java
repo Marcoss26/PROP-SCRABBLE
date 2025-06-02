@@ -179,9 +179,9 @@ public class ProfileView extends JPanel {
             BorderFactory.createEmptyBorder(8, 16, 8, 16)
         ));
 
-        bottomLeftPanel.add(deleteProfileBtn);
-        bottomLeftPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        bottomLeftPanel.add(changePasswordBtn);
+        //bottomLeftPanel.add(deleteProfileBtn);
+        //bottomLeftPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        //bottomLeftPanel.add(changePasswordBtn);
 
         // Botón "Return" en la esquina inferior derecha
         JPanel returnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));

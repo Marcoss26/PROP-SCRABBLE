@@ -186,14 +186,7 @@ public class PresentationCtrl {
 
     public void submitTurn(ArrayList<Pair<Integer, Integer>> coord_ini, ArrayList<Pair<Integer, Integer>> coord_end, ArrayList<String> word, Set<Pair<Integer, Integer>> jokers) {
         
-        int nBagTiles = domainCtrl.getBagTiles(matchId);
-        int nRackTiles = domainCtrl.getRackLetters(matchId, turn).size();
-        if(nBagTiles <= 0 && nRackTiles <= 0){
-            showSuccessDialog("The game is over, no more tiles left in the bag and rack of a player.");
-            String winner = domainCtrl.endMatch(matchId);
-            showEndView("EndGame", winner);
-            return;
-        }
+        
         boolean valid = false;
         skipCount = 0; //reinicio el contador de skips al hacer un movimiento
         if(word.size() == 0){
@@ -201,12 +194,8 @@ public class PresentationCtrl {
             showErrorDialog("Invalid move. Please try again.");
             return;
         }
-        else if(word.size() == 1) valid = domainCtrl.playsMatch(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), jokers);
-        else{
-             Pair<Boolean, String> VandW = domainCtrl.playsMatch2(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), word.get(1), coord_ini.get(1).first(), coord_ini.get(1).second(), coord_end.get(1).first(), coord_end.get(1).second(), jokers);
-            valid = VandW.first();
-            word.set(0, VandW.second());
-        }
+        else if(word.size() == 1 || word.size() == 2) valid = domainCtrl.playsMatch(matchId, word.get(0), coord_ini.get(0).first(), coord_ini.get(0).second(), coord_end.get(0).first(), coord_end.get(0).second(), jokers);
+       
         
         
         if(!valid){
@@ -219,6 +208,14 @@ public class PresentationCtrl {
             int score = domainCtrl.getPlayerScore(matchId, turn);
             matchViewCtrl.actPlayerScore(turn, score);
             matchViewCtrl.lockTilesPlaced();
+            int nBagTiles = domainCtrl.getBagTiles(matchId);
+            int nRackTiles = domainCtrl.getRackLetters(matchId, turn).size();
+            if(nBagTiles <= 0 && nRackTiles <= 0){
+                showSuccessDialog("The game is over, no more tiles left in the bag and rack of a player.");
+                String winner = domainCtrl.endMatch(matchId);
+                showEndView("EndGame", winner);
+                return;
+            }
             passTurn();
             startTurn();
         }
@@ -287,6 +284,14 @@ public class PresentationCtrl {
                     matchViewCtrl.actBoardView(playData.first(), playData.second());
                     int score = domainCtrl.getPlayerScore(matchId, turn);
                     matchViewCtrl.actPlayerScore(turn, score);
+                    int nBagTiles = domainCtrl.getBagTiles(matchId);
+                    int nRackTiles = domainCtrl.getRackLetters(matchId, turn).size();
+                    if(nBagTiles <= 0 && nRackTiles <= 0){
+                        showSuccessDialog("The game is over, no more tiles left in the bag and rack of a player.");
+                        String winner = domainCtrl.endMatch(matchId);
+                        showEndView("EndGame", winner);
+                        return;
+                    }
                     passTurn();
                     startTurn();
                 }
