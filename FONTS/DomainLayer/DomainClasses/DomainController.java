@@ -157,10 +157,6 @@ public class DomainController {
         return this.matchController.whoseTurn(matchId);
     }
 
-    public List<squareDTO> getBoardInfo(String matchId) {
-        return this.matchController.getBoardInfo(matchId);
-    }
-
     /**
      * Retrieves the list of unfinished matches.
      * @return A list of unfinished match IDs.
@@ -356,5 +352,8 @@ public class DomainController {
         return this.matchController.getDictionaryName(matchId);
       }
 
+      public Pair<Set<Pair<Integer, Integer>>, Set<Pair<String, Integer>>> BoardInfo(String matchId) {
+        return this.matchController.BoardInfo(matchId);
+      }
       
 }

@@ -137,23 +137,6 @@ public class Match
         }
     }
 
-
-    public List<squareDTO> getSquareInfo()
-    {
-        List<squareDTO> squareInfo = new ArrayList<>();
-        for (int i = 0; i < board.getSize(); i++)
-        {
-            for (int j = 0; j < board.getSize(); j++)
-            {
-                if(!board.isEmpty(i,j))
-                {
-                    squareInfo.add(board.DTO(i,j));
-                }
-            }
-        }
-        return squareInfo;
-    }
-
     
     // Extender palabra hacia la derecha
     private void extendRight(String PartialWord, Node node, Box square, Rack rack, Board board,List<PlayableWord> playableWords,int horizontal, int vertical, Dawg dawg, int i, int j) 
@@ -880,6 +863,11 @@ public class Match
 
      public int getPlayerScore(int turn){
         return playerList.get(turn).getScore();
+    }
+
+    public Pair<Set<Pair<Integer, Integer>>, Set<Pair<String, Integer>>> BoardInfo()
+    {
+        return board.BoardInfo();
     }
 
     public Integer getBagTiles() {

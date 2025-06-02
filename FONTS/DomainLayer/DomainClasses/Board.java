@@ -309,6 +309,23 @@ public class Board
         this.size = size;
     }
 
+
+    public Pair<Set<Pair<Integer, Integer>>, Set<Pair<String, Integer>>> BoardInfo()
+    {
+        Set<Pair<Integer, Integer>> positions = new HashSet<>();
+        Set<Pair<String, Integer>> letters = new HashSet<>();
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                if (this.board[i][j].getSymbol() != null) {
+                    positions.add(new Pair<>(i, j));
+                    letters.add(new Pair<>(this.board[i][j].getSymbol(), this.board[i][j].getValue()));
+                }
+            }
+        }
+        return new Pair<>(positions, letters);
+    }
+
+
     /**
      * Verifica si una posición del tablero tiene una ficha
      * Pre: ya existe un tablero
@@ -466,19 +483,6 @@ public class Board
             return null;
         }
     }
-
-    public squareDTO DTO(int row, int column)
-    {
-        if (this.board == null) {
-            throw new IllegalStateException("El tablero no ha sido inicializado.");
-        }
-        if (row < 0 || row >= size || column < 0 || column >= size) {
-            throw new IllegalArgumentException("Coordenadas fuera de los límites del tablero.");
-        }
-        // Si las coordenadas son válidas, devuelve la letra de la casilla correspondiente
-        return new squareDTO(row, column, board[row][column].getSymbol(), board[row][column].getValue());
-    }
-    
 
 
     /**
