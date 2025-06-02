@@ -264,6 +264,7 @@ public class PresentationCtrl {
                 }
                 else if(playData.first().get(0).equals("change")){
                     showSuccessDialog("The AI has exchanged letters.");
+                    skipCount = 0;
                     passTurn();
                     startTurn();
                 }
