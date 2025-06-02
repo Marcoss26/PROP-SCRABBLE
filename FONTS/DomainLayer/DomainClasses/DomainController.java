@@ -1,6 +1,5 @@
 package DomainLayer.DomainClasses;
 import java.util.*;
-import Utils.squareDTO;
 import PersistenceLayer.PersistenceController;
 
 import java.io.*;
