@@ -169,6 +169,9 @@ public class ProfileView extends JPanel {
             BorderFactory.createLineBorder(Color.BLACK, 1),
             BorderFactory.createEmptyBorder(8, 16, 8, 16)
         ));
+        returnBtn.addActionListener(e -> {
+            PresentationCtrl.getInstance().showView("MainMenuView");
+        });
         returnPanel.add(returnBtn);
 
         // Añadir los paneles de botones al panel inferior
