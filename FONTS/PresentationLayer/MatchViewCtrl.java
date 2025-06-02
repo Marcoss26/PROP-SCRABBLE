@@ -100,4 +100,12 @@ public class MatchViewCtrl {
     public void actBoardView(ArrayList<String> word, Integer[] coords){
         matchView.actBoardView(word, coords);
     }
+
+    public void showView(String viewName) {
+        pc.showView(viewName);
+    }
+
+    public void deleteMatch() {
+        pc.deleteMatch();
+    }
 }

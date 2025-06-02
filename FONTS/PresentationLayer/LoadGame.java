@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+//import java.awt.event.ActionListener;
+import java.util.Set;
+import java.util.*;
 
 /**
  * LoadGame representa la vista para cargar un juego guardado.
@@ -28,6 +31,8 @@ public class LoadGame extends JPanel {
     private JPanel listPanel;
     private JPanel centerPanel;
     private JButton returnButton;
+    private Map<String, String> savedGamesMap;
+    private CreationCtrl cc;
 
     /**
      * Constructor de la clase LoadGame.
@@ -36,6 +41,8 @@ public class LoadGame extends JPanel {
      */
     public LoadGame() {
         // Configurar el panel principal
+        cc = CreationCtrl.getInstance();
+        savedGamesMap = new HashMap<>();
         setLayout(new BorderLayout(0, 0));
         Color fondoColor = new Color(245, 246, 250);
         Color botonColor = new Color(247, 187, 169);
@@ -91,13 +98,30 @@ public class LoadGame extends JPanel {
         returnButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22));
         returnButton.setBackground(botonColor);
         returnButton.setFocusPainted(false);
+
+        JButton loadButton = new JButton("LOAD");
+        loadButton.setFont(new Font("Dubai Medium", Font.PLAIN, 22));
+        loadButton.setBackground(botonColor);
+        loadButton.setFocusPainted(false);
+      
         bottomPanel.setBackground(fondoColor);
         bottomPanel.setBorder(new EmptyBorder(8, 8, 8, 8));
         bottomPanel.add(returnButton);
+        bottomPanel.add(loadButton);
 
         // Acción para el botón RETURN
         returnButton.addActionListener(e -> {
             PresentationCtrl.getInstance().showView("MainMenuView");
+        });
+
+        loadButton.addActionListener(e -> {
+            String selectedGame = savedGamesMap.get(savedGamesList.getSelectedValue());
+            if (selectedGame != null && !selectedGame.equals("No saved games")) {
+                // Aquí se puede implementar la lógica para cargar el juego seleccionado
+                cc.loadGame(selectedGame);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a valid saved game.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         add(bottomPanel, BorderLayout.SOUTH);
@@ -129,6 +153,21 @@ public class LoadGame extends JPanel {
      */
     public JButton getReturnButton() {
         return returnButton;
+    }
+
+    public void setSavedGames(Set<String> savedGames) {
+        savedGamesListModel.clear();
+        if (savedGames.isEmpty()) {
+            savedGamesListModel.addElement("No saved games");
+        } else {
+            int i = 1;
+            for (String game : savedGames) {
+                savedGamesMap.put("Match " + i, game);
+                savedGamesListModel.addElement("Match " + i);
+                i++;
+            }
+        }
+
     }
 
     static public void main(String[] args) {

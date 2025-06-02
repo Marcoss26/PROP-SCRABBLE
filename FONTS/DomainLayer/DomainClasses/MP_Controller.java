@@ -357,4 +357,40 @@ public class MP_Controller
             throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
         }
     }
+
+    public int getSkipCount(String matchId) {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            return match.getSkipCount();
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
+        }
+      }
+
+      public int getMatchTurn(String matchId) {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            return match.getTurn();
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
+        }
+      }
+
+      public int getBoardSize(String matchId) {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            return match.getBoard().getSize();
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
+        }
+      }
+
+      public String getDictionaryName(String matchId) {
+        if(existMatch(matchId)) {
+            Match match = matches.get(matchId);
+            return match.getDictionaryName();
+        } else {
+            throw new IllegalArgumentException("Match with ID: " + matchId + " does not exist.");
+        }
+      }
 }

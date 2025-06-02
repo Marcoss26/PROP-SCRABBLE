@@ -92,7 +92,7 @@ public class MatchView extends JPanel {
      * @param players Lista de nombres de los jugadores.
      */
     private void initializeGameInfo(int numPlayers, ArrayList<String> players) {
-        gameInfoPanel = new GameInfoView(numPlayers, players);
+        gameInfoPanel = new GameInfoView(numPlayers, players, this);
     }
 
     public void skipTurn() {
@@ -149,6 +149,13 @@ public class MatchView extends JPanel {
 
     public void actBoardView(ArrayList<String> word, Integer[] coords) {
         boardPanel.actBoardView(word, coords, rackPanel);
+    }
+    public void showView(String viewName) {
+        matchViewCtrl.showView(viewName);
+    }
+
+    public void deleteMatch() {
+        matchViewCtrl.deleteMatch();
     }
 
     

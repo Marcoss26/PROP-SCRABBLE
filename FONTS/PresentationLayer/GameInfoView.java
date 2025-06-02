@@ -24,6 +24,7 @@ public class GameInfoView extends JPanel {
     private JPanel historyPanel;
     private JPanel buttPanel;
     private DefaultListModel<String> historyModel;
+    private MatchView matchView;
 
     /**
      * Constructor de la clase GameInfoView.
@@ -32,7 +33,8 @@ public class GameInfoView extends JPanel {
      * @param numPlayers Número de jugadores en el juego.
      * @param players Lista de nombres de los jugadores.
      */
-    public GameInfoView(Integer numPlayers, List<String> players) {
+    public GameInfoView(Integer numPlayers, List<String> players, MatchView matchView) {
+        this.matchView = matchView;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setPreferredSize(new Dimension(200,600));
         this.setBackground(Color.decode("#D7D7D7"));
@@ -82,10 +84,43 @@ public class GameInfoView extends JPanel {
         exit.setPreferredSize(new Dimension(60, 20));
         exit.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
         exit.setBounds(10, 10, 80, 30);
-        JButton save = new JButton("Save");
-        save.setPreferredSize(new Dimension(100, 50));
+
+        exit.addActionListener(e -> {
+            // Action to perform when the exit button is clicked
+            int result = JOptionPane.showConfirmDialog(
+            this,
+            "If u exit without saving before, your match will be lost, are you sure?",
+            "Confirmar salida",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+             );
+
+            if (result == JOptionPane.YES_OPTION) {
+                matchView.showView("MainMenuView");
+                matchView.deleteMatch();
+            }
+        });
+
+        JButton save = new JButton("Save&Exit");
+        save.setPreferredSize(new Dimension(200, 50));
         save.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
         save.setBounds(100, 10, 80, 30);
+
+        save.addActionListener(e -> {
+            // Action to perform when the save button is clicked
+            int result = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to save and exit?",
+            "Confirmar guardado y salida",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+             );
+
+            if (result == JOptionPane.YES_OPTION) {
+                matchView.showView("MainMenuView");
+            }
+        });
+
         buttPanel.add(exit);
         buttPanel.add(save);
 

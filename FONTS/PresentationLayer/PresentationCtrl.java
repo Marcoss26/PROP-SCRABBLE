@@ -45,6 +45,7 @@ public class PresentationCtrl {
     private String matchId;
     private int skipCount;
     private Set<String> specialChars;
+    private int totPlay;
 
     
 
@@ -77,6 +78,8 @@ public class PresentationCtrl {
         domainCtrl.createDictionary("es", "es", "es");
         domainCtrl.createDictionary("en", "en", "en");
         domainCtrl.createDictionary("ca", "ca", "ca");
+        domainCtrl.loadProfiles();
+        domainCtrl.loadMatches();
     }
 
     private void setSpecialChars(String dictionary) {
@@ -101,7 +104,6 @@ public class PresentationCtrl {
      */
     public void createNewMatch(){
         //int numHumPlayers = cc.getHumanPlayers();
-        specialChars = new HashSet<>();
         for (char c = 'A'; c <= 'Z'; c++) {
             specialChars.add(String.valueOf(c));
         }
@@ -131,6 +133,7 @@ public class PresentationCtrl {
             players = domainCtrl.getMatchplayers(matchId);
             letters = domainCtrl.getRackLetters(matchId, turn);
         }
+        totPlay = players.size();
         matchViewCtrl = MatchViewCtrl.getInstance();
         JPanel pan = matchViewCtrl.createMatchView(boardSize, totalPlayers, players, letters, specialChars);
         createdViews.put("MatchView", pan );
@@ -141,7 +144,7 @@ public class PresentationCtrl {
 
     private void actTurn() {
         ++turn;
-        if(turn >= cc.getTotalPlayers()){
+        if(turn >= totPlay){
             turn = 0; //vuelvo al primer jugador
         }
         
@@ -159,7 +162,7 @@ public class PresentationCtrl {
     public void skipTurn() {
 
         skipCount++;
-        if(skipCount >= cc.getTotalPlayers()*2){
+        if(skipCount >= totPlay*2){
             //si se han saltado todos los turnos, el juego termina
             showSuccessDialog("All players have skipped their turns. The game is over.");
             String winner = domainCtrl.endMatch(matchId);
@@ -322,8 +325,19 @@ public class PresentationCtrl {
         //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         mainFrame.setSize(new Dimension(1060, 650));
         mainFrame.setLocation(200, 100);
+        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                // Al cerrar la ventana, se guardan los perfiles y partidas
+                domainCtrl.saveMatches();
+                System.exit(0); // Cierra la aplicación
+            }
+        });
 
         cc = CreationCtrl.getInstance();
+        matchViewCtrl = MatchViewCtrl.getInstance();
+        specialChars = new HashSet<>();
+
         initializeCD();
 
         //crear ProfileView generica y meterla en el mapa de vistas
@@ -348,6 +362,36 @@ public class PresentationCtrl {
     public void refresh(){
         mainFrame.revalidate();
         mainFrame.repaint();
+    }
+
+    public void deleteMatch(){
+        domainCtrl.endMatch(matchId);
+        matchId = null;
+    }
+
+    public void loadGame(String matchId){
+        if(specialChars.size() > 0) specialChars.clear();
+        specialChars = new HashSet<>();
+        for (char c = 'A'; c <= 'Z'; c++) {
+            specialChars.add(String.valueOf(c));
+        }
+
+        this.matchId = matchId;
+        turn = domainCtrl.getMatchTurn(matchId);
+        skipCount = domainCtrl.getSkipCount(matchId);
+        setSpecialChars(domainCtrl.getDictionaryName(matchId));
+        //specialChars = domainCtrl.getSpecialChars(matchId);
+        
+        ArrayList<String> players = domainCtrl.getMatchplayers(matchId);
+        ArrayList<String> letters = domainCtrl.getRackLetters(matchId, turn);
+        
+        if(createdViews.containsKey("MatchView")) createdViews.remove("MatchView");
+        totPlay = players.size();
+        JPanel pan = matchViewCtrl.createMatchView(domainCtrl.getBoardSize(matchId), totPlay, players, letters, specialChars);
+        createdViews.put("MatchView", pan );
+
+        showView("MatchView");
+        startTurn();
     }
 
     /**
@@ -450,12 +494,14 @@ public class PresentationCtrl {
                 }
                 break;
             case "LoadGame":
+                Set<String> matchIds = domainCtrl.getUnfinishedMatchsIds();
                 if (!createdViews.containsKey("LoadGame")) {
-                    visiblePanel = new LoadGame(); // Crear la vista LoadGame si no existe
+                    visiblePanel = cc.createLoadGameView(); // Crear la vista LoadGame si no existe
                     createdViews.put("LoadGame", visiblePanel);
                 } else {
                     visiblePanel = createdViews.get("LoadGame");
                 }
+                cc.actLoadGameView(matchIds); // Actualizar la vista con los IDs de partidas no finalizadas
                 break;
             case "ManageDictionaryView":
                 if (!createdViews.containsKey("ManageDictionaryView")) {

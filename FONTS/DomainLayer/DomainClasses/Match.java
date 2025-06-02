@@ -143,8 +143,6 @@ public class Match
         Box nextSquare = board.getBox(square.getRow() + vertical, square.getColumn() + horizontal);
         if(square.getSymbol() == null)
         {
-            System.out.println("Current square: " + square.getColumn() + " " + square.getRow());
-            System.out.println("Partial word: " + PartialWord);
             if(node != null && node.isFinal())
             {
                 int PWlength = dawg.getWordLength(PartialWord);

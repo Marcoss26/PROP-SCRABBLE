@@ -165,6 +165,11 @@ public class DomainController {
         return this.matchController.getUnfinishedMatches();
     }
 
+    public Set<String> getUnfinishedMatchsIds() {
+        return this.matchController.getUnfinishedMatches().keySet();
+    }
+
+
     /**
      * Places some letters on the board for a given match.
      * @param matchId The ID of the match to play.
@@ -211,6 +216,7 @@ public class DomainController {
     public void createDictionary(String dictionaryName, String language, String fileName) {
         try{
             this.dictionaryController.addDictionary(dictionaryName, language);
+            System.out.println("Dictionary " + dictionaryName + " created successfully.");
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -321,6 +327,22 @@ public class DomainController {
 
       public void addSkipCount(String matchId) {
         this.matchController.addSkipCount(matchId);
+      }
+
+      public int getSkipCount(String matchId) {
+        return this.matchController.getSkipCount(matchId);
+      }
+
+      public int getMatchTurn(String matchId) {
+        return this.matchController.getMatchTurn(matchId);
+      }
+
+      public int getBoardSize(String matchId) {
+        return this.matchController.getBoardSize(matchId);
+      }
+
+      public String getDictionaryName(String matchId) {
+        return this.matchController.getDictionaryName(matchId);
       }
 
       

@@ -56,6 +56,7 @@ public class DictionaryController {
         try
         {
             Dictionary dictionary = new Dictionary(dictionaryName, language);
+            System.out.println("Diccionario creado: " + dictionaryName + " con idioma: " + language);
             dictionaries.put(dictionaryName, dictionary);
         }
         catch (IOException e)

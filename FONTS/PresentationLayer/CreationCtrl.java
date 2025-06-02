@@ -32,6 +32,7 @@ public class CreationCtrl {
     private NewGame newGameView;
     private LoginView loginView;
     private ProfileView profileView;
+    private LoadGame loadGameView;
     private EndGame endGameView;
     private PresentationCtrl pc;
     private Integer humanPlayers;
@@ -107,6 +108,12 @@ public class CreationCtrl {
         //pc = PresentationCtrl.getInstance();
         endGameView = new EndGame(winner, scores);
         return endGameView;
+    }
+
+    public LoadGame createLoadGameView(){
+        //pc = PresentationCtrl.getInstance();
+        loadGameView = new LoadGame();
+        return loadGameView;
     }
 
     /**
@@ -323,6 +330,17 @@ public class CreationCtrl {
     public void skipTurn(){
         pc.skipTurn();
     }
+
+    public void actLoadGameView(Set<String> savedGames) {
+        loadGameView.setSavedGames(savedGames);
+    }
+
+    public void loadGame(String gameName) {
+        pc.loadGame(gameName);
+    }
+
+    
+
 
 
     
