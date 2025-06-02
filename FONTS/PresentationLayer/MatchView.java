@@ -38,13 +38,13 @@ public class MatchView extends JPanel {
      * @param players Lista de nombres de los jugadores.
      * @param letters Lista de letras disponibles en la bandeja de fichas del jugador.
      */
-    public MatchView(int boardSize, int numPlayers, ArrayList<String> players, ArrayList<String> letters, Set<String> specialChars) {
+    public MatchView(int boardSize, int numPlayers, ArrayList<String> players, ArrayList<String> letters, Set<String> specialChars, Set<Pair<Integer, Integer>> coords, Set<Pair<String,Integer>> values, Boolean load) {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.decode("#332F2C"));
         matchViewCtrl = MatchViewCtrl.getInstance();
 
         initializeRack(letters);
-        initializeBoard(boardSize, specialChars);
+        initializeBoard(boardSize, specialChars, coords, values, load);
         CombinePanels();
         initializeGameInfo(numPlayers, players);
 
@@ -71,8 +71,8 @@ public class MatchView extends JPanel {
      * Inicializa el panel del tablero de juego con el tamaño especificado.
      * @param size Tamaño del tablero (número de filas/columnas).
      */
-    private void initializeBoard(int size, Set<String> specialChars) {
-        boardPanel = new BoardView(size, rackPanel, specialChars);
+    private void initializeBoard(int size, Set<String> specialChars, Set<Pair<Integer, Integer>> coords, Set<Pair<String,Integer>> values, Boolean load) {
+        boardPanel = new BoardView(size, rackPanel, specialChars, coords, values, load);
         rackPanel.revalidate();
         rackPanel.repaint();
     }

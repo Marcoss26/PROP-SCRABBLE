@@ -312,8 +312,8 @@ public class Board
 
     public Pair<Set<Pair<Integer, Integer>>, Set<Pair<String, Integer>>> BoardInfo()
     {
-        Set<Pair<Integer, Integer>> positions = new HashSet<>();
-        Set<Pair<String, Integer>> letters = new HashSet<>();
+        Set<Pair<Integer, Integer>> positions = new LinkedHashSet<>();
+        Set<Pair<String, Integer>> letters = new LinkedHashSet<>();
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
                 if (this.board[i][j].getSymbol() != null) {

@@ -43,10 +43,10 @@ public class MatchViewCtrl {
      * @param letters Lista de letras disponibles en la bandeja de fichas del jugador.
      * @return La instancia creada de MatchView.
      */
-    public MatchView createMatchView(Integer boardSize, Integer totalPlayers, ArrayList<String> players, ArrayList<String> letters, Set<String> specialChars) {
+    public MatchView createMatchView(Integer boardSize, Integer totalPlayers, ArrayList<String> players, ArrayList<String> letters, Set<String> specialChars, Set<Pair<Integer, Integer>> coords, Set<Pair<String,Integer>> values, Boolean load) {
          pc = PresentationCtrl.getInstance();
 
-        matchView = new MatchView(boardSize, totalPlayers, players, letters, specialChars);
+        matchView = new MatchView(boardSize, totalPlayers, players, letters, specialChars, coords, values, load);
         return matchView;
     }
 

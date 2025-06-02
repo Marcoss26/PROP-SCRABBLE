@@ -398,9 +398,16 @@ public class PresentationCtrl {
         
         if(createdViews.containsKey("MatchView")) createdViews.remove("MatchView");
         totPlay = players.size();
-        Pair<Pair<Integer, Integer>, Pair<String, Integer>> boardData = domainCtrl.boardInfo(matchId);
-        JPanel pan = matchViewCtrl.createMatchView(domainCtrl.getBoardSize(matchId), totPlay, players, letters, specialChars);
+        Pair<Set<Pair<Integer, Integer>>, Set<Pair<String, Integer>>> boardData = domainCtrl.BoardInfo(matchId);
+        JPanel pan = matchViewCtrl.createMatchView(domainCtrl.getBoardSize(matchId), totPlay, players, letters, specialChars, boardData.first(), boardData.second(), true);
         createdViews.put("MatchView", pan );
+        for(int i = 0; i < totPlay; ++i){
+            int score = domainCtrl.getPlayerScore(matchId, i);
+            matchViewCtrl.actPlayerScore(i, score);
+        }
+        matchViewCtrl.setBagTiles(domainCtrl.getBagTiles(matchId));
+
+        
 
         showView("MatchView");
         startTurn();

@@ -16,7 +16,7 @@ public class BoardView extends JPanel {
     private Set<Pair<Integer, Integer>> jokerPos; // column = first(), row = second()
     private int size;
 
-    public BoardView(int size, RackView rackPanel, Set<String> specialChars, Boolean load) {
+    public BoardView(int size, RackView rackPanel, Set<String> specialChars, Set<Pair<Integer, Integer>> coords, Set<Pair<String, Integer>> values , Boolean load) {
         // Crear una ventana
 
 
@@ -26,7 +26,7 @@ public class BoardView extends JPanel {
         this.size = size;
 
         if(!load) initializeBoard(size, rackPanel, specialChars);
-        else initializeBoardLoad(size, rackPanel, specialChars);
+        else initializeBoardLoad(size, rackPanel, specialChars, coords, values);
 
 
     }
@@ -227,7 +227,7 @@ public class BoardView extends JPanel {
 
     }
 
-    private void initializeBoardLoad(int size, RackView rackPanel, Set<String> specialChars) {
+    private void initializeBoardLoad(int size, RackView rackPanel, Set<String> specialChars, Set<Pair<Integer, Integer>> coords, Set<Pair<String, Integer>> values) {
         this.setLayout(new GridLayout(size, size));
         this.setBackground(Color.white);
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -301,6 +301,9 @@ public class BoardView extends JPanel {
         else {
             sizeWords = 15;
         }
+
+        int indiceFichas = 0;
+        ArrayList<Pair<String, Integer>> valuesList = new ArrayList<>(values);
         // Agregar casillas al tablero
         for (int i = 0; i < size ; ++i) {
             for(int j = 0 ; j < size ; ++j) {
@@ -412,6 +415,19 @@ public class BoardView extends JPanel {
 
                 });
                 
+                if(coords.contains(new Pair<>(i,j))){
+                    TileView tileToAdd = new TileView(valuesList.get(indiceFichas).first(), valuesList.get(indiceFichas).second());
+                    cell.PlaceTile(tileToAdd);
+                    if(tileToAdd.getMouseListeners().length > 0 ) tileToAdd.removeMouseListener(tileToAdd.getMouseListeners()[0]);
+                    cell.removeMouseListener(cell.getMouseListeners()[0]);
+
+
+                    ++indiceFichas;
+                }
+
+
+
+
                 this.add(cell);
             }
         }
