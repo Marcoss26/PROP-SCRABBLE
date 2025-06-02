@@ -95,7 +95,7 @@ public class NewGame extends JPanel {
         aiLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 22)); // Tamaño de fuente ajustado a 22
         playerPanel.add(aiLabel);
 
-        JComboBox<String> aiDropdown = new JComboBox<>(new String[]{"0", "1", "2", "3", "4"});
+        JComboBox<String> aiDropdown = new JComboBox<>(new String[]{"0", "1", "2", "3"});
         playerPanel.add(aiDropdown);
 
         JLabel boardSizeLabel = new JLabel("What board size?");
@@ -179,6 +179,10 @@ public class NewGame extends JPanel {
 
         startButton.addActionListener(e -> {
             // Aquí puedes añadir la lógica para iniciar el juego
+            if (numAIPlayers+numHumPlayers > 4) {
+                JOptionPane.showMessageDialog(this, "Maximum 4 players allowed", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             cc.loginSeq(numHumPlayers);
         });
 
