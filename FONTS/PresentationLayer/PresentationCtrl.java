@@ -227,8 +227,9 @@ public class PresentationCtrl {
     public void exchangeLetters(String letters){
         skipCount = 0; //reinicio el contador de skips al hacer un intercambio
         domainCtrl.modifyRack(matchId, letters);
-        
+
         passTurn();
+        
         startTurn();
     }
 
