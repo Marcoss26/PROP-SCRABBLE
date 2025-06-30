@@ -4,9 +4,6 @@ pero desde la carpeta subgrup-prop41.5 el siguiente comando:
                             - make run-Presentation-Windows (WINDOWS)
                             - make run-Presentation-LinMac (LINUX Y MAC)
 
-Dentro de la carpeta DOCS encontrarás el diagrama de clases, el manual de usuario y los juegos de prueba. La descripcion del diagrama no hemos sido 
-capaces de actualizarla por tiempo, por eso te hemos puesto en el diagrama marcadas las funciones añadidas respecto a la segunda entrega, para que puedas
-ver cuales hemos añadido.
 
 En la carpeta EXE tienes los ejecutables creados.
 
